@@ -44,6 +44,12 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener {
 	private static SeekBar mMinFreqScalingBar;
 	private static TextView mMinFreqScalingText;
 
+	private static SeekBar mMaxScreenOffFreqScalingBar;
+	private static TextView mMaxScreenOffFreqScalingText;
+
+	private static SeekBar mMinScreenOnFreqScalingBar;
+	private static TextView mMinScreenOnFreqScalingText;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -60,8 +66,9 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener {
 	public static void setLayout() {
 		layout.removeAllViews();
 
+		// Current Freq
 		mCurFreqLayout = new LinearLayout(context);
-		mCurFreqLayout.setPadding(0, (int) (MainActivity.mHeight / 10.8), 0, 0);
+		mCurFreqLayout.setPadding(0, (int) (MainActivity.mHeight / 15), 0, 0);
 		mCurFreqLayout.setOrientation(LinearLayout.VERTICAL);
 		if (Utils.exist(CPUHelper.FREQUENCY_SCALING.replace("present", "0")))
 			layout.addView(mCurFreqLayout);
@@ -81,9 +88,10 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener {
 		}
 		setCurFreq();
 
+		// Create a layout for scaling
 		mFreqScalingLayout = new LinearLayout(context);
 		mFreqScalingLayout.setPaddingRelative(0,
-				(int) (MainActivity.mHeight / 9), 0, 0);
+				(int) (MainActivity.mHeight / 10), 0, 0);
 		mFreqScalingLayout.setOrientation(LinearLayout.VERTICAL);
 		if (Utils.exist(CPUHelper.MIN_SCREEN_ON)
 				|| (Utils.exist(CPUHelper.MAX_SCREEN_OFF)
@@ -91,6 +99,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener {
 							.exist(CPUHelper.MAX_FREQ)))
 			layout.addView(mFreqScalingLayout);
 
+		// Create a list to store all freqs
 		mAvailableFreqList.clear();
 		for (int text : CPUHelper.getAvailableFreq())
 			mAvailableFreqList.add(String.valueOf(text));
@@ -103,10 +112,12 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener {
 						.getAvailableFreq()[i]));
 		}
 
+		// Max Cpu Scaling
 		TextView mMaxScalingText = new TextView(context);
 		LayoutHelper.setTextTitle(mMaxScalingText,
 				context.getString(R.string.maxfreq), context);
-		mFreqScalingLayout.addView(mMaxScalingText);
+		if (Utils.exist(CPUHelper.MAX_FREQ))
+			mFreqScalingLayout.addView(mMaxScalingText);
 
 		int mMax = mAvailableFreqList.indexOf(String.valueOf(CPUHelper
 				.getMaxFreq()));
@@ -126,10 +137,12 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener {
 		if (Utils.exist(CPUHelper.MAX_FREQ))
 			mFreqScalingLayout.addView(mMaxFreqScalingText);
 
+		// Min Cpu Scaling
 		TextView mMinScalingText = new TextView(context);
 		LayoutHelper.setTextTitle(mMinScalingText,
 				context.getString(R.string.minfreq), context);
-		mFreqScalingLayout.addView(mMinScalingText);
+		if (Utils.exist(CPUHelper.MIN_FREQ))
+			mFreqScalingLayout.addView(mMinScalingText);
 
 		int mMin = mAvailableFreqList.indexOf(String.valueOf(CPUHelper
 				.getMinFreq()));
@@ -148,6 +161,57 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener {
 						+ context.getString(R.string.mhz));
 		if (Utils.exist(CPUHelper.MIN_FREQ))
 			mFreqScalingLayout.addView(mMinFreqScalingText);
+
+		// Max Screen Off Cpu Scaling
+		TextView mMaxScreenOffFreqText = new TextView(context);
+		LayoutHelper.setTextTitle(mMaxScreenOffFreqText,
+				context.getString(R.string.maxscreenofffreq), context);
+		if (Utils.exist(CPUHelper.MAX_SCREEN_OFF))
+			mFreqScalingLayout.addView(mMaxScreenOffFreqText);
+
+		int mMaxScreenOff = mAvailableFreqList.indexOf(String.valueOf(CPUHelper
+				.getMaxScreenOffFreq()));
+
+		mMaxScreenOffFreqScalingBar = new SeekBar(context);
+		LayoutHelper.setSeekBar(mMaxScreenOffFreqScalingBar,
+				mAvailableFreqList.size() - 1, mMaxScreenOff);
+		mMaxScreenOffFreqScalingBar
+				.setOnSeekBarChangeListener(OnSeekBarChangeListener);
+		if (Utils.exist(CPUHelper.MAX_SCREEN_OFF))
+			mFreqScalingLayout.addView(mMaxScreenOffFreqScalingBar);
+
+		mMaxScreenOffFreqScalingText = new TextView(context);
+		LayoutHelper.setSeekBarText(mMaxScreenOffFreqScalingText,
+				String.valueOf(CPUHelper.getMaxScreenOffFreq() / 1000)
+						+ context.getString(R.string.mhz));
+		if (Utils.exist(CPUHelper.MAX_SCREEN_OFF))
+			mFreqScalingLayout.addView(mMaxScreenOffFreqScalingText);
+
+		// Min Screen On Cpu Scaling
+		TextView mMinScreenOnFreqText = new TextView(context);
+		LayoutHelper.setTextTitle(mMinScreenOnFreqText,
+				context.getString(R.string.minscreenonfreq), context);
+		if (Utils.exist(CPUHelper.MIN_SCREEN_ON))
+			mFreqScalingLayout.addView(mMinScreenOnFreqText);
+
+		int mMinScreenOn = mAvailableFreqList.indexOf(String.valueOf(CPUHelper
+				.getMinScreenOnFreq()));
+
+		mMinScreenOnFreqScalingBar = new SeekBar(context);
+		LayoutHelper.setSeekBar(mMinScreenOnFreqScalingBar,
+				mAvailableFreqList.size() - 1, mMinScreenOn);
+		mMinScreenOnFreqScalingBar
+				.setOnSeekBarChangeListener(OnSeekBarChangeListener);
+		if (Utils.exist(CPUHelper.MIN_SCREEN_ON))
+			mFreqScalingLayout.addView(mMinScreenOnFreqScalingBar);
+
+		mMinScreenOnFreqScalingText = new TextView(context);
+		LayoutHelper.setSeekBarText(
+				mMinScreenOnFreqScalingText,
+				String.valueOf(CPUHelper.getMinScreenOnFreq() / 1000)
+						+ context.getString(R.string.mhz));
+		if (Utils.exist(CPUHelper.MIN_SCREEN_ON))
+			mFreqScalingLayout.addView(mMinScreenOnFreqScalingText);
 	}
 
 	@Override
@@ -197,28 +261,49 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener {
 			boolean fromUser) {
 		MainActivity.showButtons(true);
 		MainActivity.CPUChange = true;
-		if (seekBar.equals(mMaxFreqScalingBar))
+		if (seekBar.equals(mMaxFreqScalingBar)) {
 			mMaxFreqScalingText
 					.setText(String.valueOf(Integer.parseInt(mAvailableFreqList
 							.get(progress)) / 1000) + "MHz");
-		if (seekBar.equals(mMinFreqScalingBar))
+			if (progress < mMinFreqScalingBar.getProgress())
+				mMinFreqScalingBar.setProgress(progress);
+		}
+		if (seekBar.equals(mMinFreqScalingBar)) {
 			mMinFreqScalingText
+					.setText(String.valueOf(Integer.parseInt(mAvailableFreqList
+							.get(progress)) / 1000) + "MHz");
+			if (progress > mMaxFreqScalingBar.getProgress())
+				mMaxFreqScalingBar.setProgress(progress);
+		}
+		if (seekBar.equals(mMaxScreenOffFreqScalingBar))
+			mMaxScreenOffFreqScalingText
+					.setText(String.valueOf(Integer.parseInt(mAvailableFreqList
+							.get(progress)) / 1000) + "MHz");
+		if (seekBar.equals(mMinScreenOnFreqScalingBar))
+			mMinScreenOnFreqScalingText
 					.setText(String.valueOf(Integer.parseInt(mAvailableFreqList
 							.get(progress)) / 1000) + "MHz");
 	}
 
 	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
-
 	}
 
 	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
-		if (seekBar.equals(mMaxFreqScalingBar))
+		if (seekBar.equals(mMaxFreqScalingBar)
+				|| (seekBar.equals(mMinFreqScalingBar))) {
 			Control.MAX_CPU_FREQ = mMaxFreqScalingText.getText().toString()
 					.replace(getString(R.string.mhz), "000");
-		if (seekBar.equals(mMinFreqScalingBar))
 			Control.MIN_CPU_FREQ = mMinFreqScalingText.getText().toString()
+					.replace(getString(R.string.mhz), "000");
+		} else if (seekBar.equals(mMaxScreenOffFreqScalingBar)) {
+			Control.MAX_CPU_SCREEN_OFF_FREQ = mMaxScreenOffFreqScalingText
+					.getText().toString()
+					.replace(getString(R.string.mhz), "000");
+		} else if (seekBar.equals(mMinScreenOnFreqScalingBar))
+			Control.MIN_CPU_SCREEN_ON_FREQ = mMinScreenOnFreqScalingText
+					.getText().toString()
 					.replace(getString(R.string.mhz), "000");
 	}
 }

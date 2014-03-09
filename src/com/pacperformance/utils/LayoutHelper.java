@@ -23,7 +23,7 @@ public class LayoutHelper {
 
 	public static void setTextTitle(TextView i, String text, Context context) {
 		i.setGravity(Gravity.CENTER);
-		i.setTextSize(20);
+		i.setTextSize((int) (MainActivity.mWidth / 42.35));
 		i.setTextColor(context.getResources().getColor(android.R.color.white));
 		i.setTypeface(null, Typeface.BOLD);
 		i.setText(text);

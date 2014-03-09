@@ -121,7 +121,7 @@ public class MainActivity extends FragmentActivity {
 		switch (item.getItemId()) {
 		case R.id.action_apply:
 			if (CPUChange) {
-				Control.setCPU();
+				Control.setCPU(getApplicationContext());
 				CPUChange = false;
 			}
 			showButtons(false);

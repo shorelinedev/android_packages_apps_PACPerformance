@@ -6,6 +6,7 @@
     <string name="norootaccess">You need Root Access!</string>
     <string name="nobusybox">You need Busybox!</string>
     <string name="mhz">MHz</string>
+    <string name="applysuccessfully">Apply Successfully</string>
 
     <!-- CPU -->
     <string name="cpu">CPU</string>
