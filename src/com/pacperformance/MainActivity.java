@@ -22,7 +22,7 @@ public class MainActivity extends FragmentActivity {
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
 				getSupportFragmentManager());
 
-		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager = (ViewPager) findViewById(R.id.viewPager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 
 	}
