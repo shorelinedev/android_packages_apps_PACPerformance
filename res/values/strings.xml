@@ -2,11 +2,19 @@
 <resources>
 
     <string name="app_name">PACPerformance</string>
+    <string name="noroot">You need Root!</string>
+    <string name="norootaccess">You need Root Access!</string>
+    <string name="nobusybox">You need Busybox!</string>
+    <string name="mhz">MHz</string>
 
     <!-- CPU -->
     <string name="cpu">CPU</string>
     <string name="currentfreq">Current Frequency</string>
     <string name="core">Core</string>
     <string name="offline">Offline</string>
+    <string name="maxfreq">CPU Maximum Frequency</string>
+    <string name="minfreq">CPU Minimum Frequencyeq</string>
+    <string name="maxscreenofffreq">CPU Maximum Frequency Screen Off</string>
+    <string name="minscreenonfreq">CPU Minimum Frequency Screen On</string>
 
 </resources>

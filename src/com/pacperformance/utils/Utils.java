@@ -5,7 +5,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import android.content.Context;
+import android.widget.Toast;
+
 public class Utils {
+
+	public static void toast(String text, Context context) {
+		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+	}
 
 	public static boolean exist(String file) {
 		return new File(file).exists();
