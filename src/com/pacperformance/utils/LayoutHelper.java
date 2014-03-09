@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.view.Gravity;
 import android.view.Surface;
 import android.view.WindowManager;
-import android.webkit.WebView.FindListener;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Spinner;

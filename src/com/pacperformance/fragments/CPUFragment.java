@@ -46,19 +46,19 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
 	private static List<String> mAvailableFreqList = new ArrayList<String>();
 	private static SeekBar mMaxFreqScalingBar;
-	public static TextView mMaxFreqScalingText;
+	private static TextView mMaxFreqScalingText;
 
 	private static SeekBar mMinFreqScalingBar;
-	public static TextView mMinFreqScalingText;
+	private static TextView mMinFreqScalingText;
 
 	private static SeekBar mMaxScreenOffFreqScalingBar;
-	public static TextView mMaxScreenOffFreqScalingText;
+	private static TextView mMaxScreenOffFreqScalingText;
 
 	private static SeekBar mMinScreenOnFreqScalingBar;
-	public static TextView mMinScreenOnFreqScalingText;
+	private static TextView mMinScreenOnFreqScalingText;
 
-	public static Spinner mGovernorSpinner;
-	public static String[] mAvailableGovernor;
+	private static Spinner mGovernorSpinner;
+	private static String[] mAvailableGovernor;
 	private static List<String> mAvailableGovernorList = new ArrayList<String>();
 
 	@Override
