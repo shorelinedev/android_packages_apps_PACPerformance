@@ -96,11 +96,14 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void setPerm() {
-		RootHelper.run("chmod 777 " + CPUHelper.MAX_FREQ);
-		RootHelper.run("chmod 777 " + CPUHelper.MIN_FREQ);
-		RootHelper.run("chmod 777 " + CPUHelper.MAX_SCREEN_OFF);
-		RootHelper.run("chmod 777 " + CPUHelper.MIN_SCREEN_ON);
-		RootHelper.run("chmod 777 " + CPUHelper.MIN_SCREEN_ON);
+		if (CPUHelper.getMaxFreq() != 0)
+			RootHelper.run("chmod 777 " + CPUHelper.MAX_FREQ);
+		if (CPUHelper.getMinFreq() != 0)
+			RootHelper.run("chmod 777 " + CPUHelper.MIN_FREQ);
+		if (CPUHelper.getMaxScreenOffFreq() != 0)
+			RootHelper.run("chmod 777 " + CPUHelper.MAX_SCREEN_OFF);
+		if (CPUHelper.getMinScreenOnFreq() != 0)
+			RootHelper.run("chmod 777 " + CPUHelper.MIN_SCREEN_ON);
 	}
 
 	@Override
