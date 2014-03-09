@@ -1534,7 +1534,7 @@ public final class RootToolsInternalMethods {
 	public void offerSuperUser(Activity activity) {
 		RootTools.log("Launching Market for SuperUser");
 		Intent i = new Intent(Intent.ACTION_VIEW,
-				Uri.parse("market://details?id=com.noshufou.android.su"));
+				Uri.parse("market://details?id=eu.chainfire.supersu"));
 		activity.startActivity(i);
 	}
 

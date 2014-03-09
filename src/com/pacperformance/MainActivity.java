@@ -43,11 +43,11 @@ public class MainActivity extends FragmentActivity {
 		} else if (!RootTools.isAccessGiven()) {
 			Utils.toast(getString(R.string.norootaccess),
 					getApplicationContext());
-			RootTools.offerSuperUser(getParent());
+			RootTools.offerSuperUser(this);
 			finish();
 		} else if (!RootTools.isBusyboxAvailable()) {
 			Utils.toast(getString(R.string.nobusybox), getApplicationContext());
-			RootTools.offerBusyBox(getParent());
+			RootTools.offerBusyBox(this);
 			finish();
 		} else {
 			RootTools.debugMode = true;

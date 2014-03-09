@@ -8,6 +8,7 @@ import com.pacperformance.MainActivity;
 import com.pacperformance.R;
 import com.pacperformance.utils.CPUHelper;
 import com.pacperformance.utils.Control;
+import com.pacperformance.utils.InformationDialog;
 import com.pacperformance.utils.LayoutHelper;
 import com.pacperformance.utils.Utils;
 
@@ -20,6 +21,7 @@ import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -31,12 +33,13 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
-		OnItemSelectedListener {
+		OnItemSelectedListener, OnClickListener {
 
 	private static Context context;
 	private static LinearLayout layout;
 	private static OnSeekBarChangeListener OnSeekBarChangeListener;
 	private static OnItemSelectedListener OnItemSelectedListener;
+	private static OnClickListener OnClickListener;
 
 	private static LinearLayout mCurFreqLayout;
 	private static CurCpuThread mCurCpuThread;
@@ -45,21 +48,27 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 	private static LinearLayout mFreqScalingLayout;
 
 	private static List<String> mAvailableFreqList = new ArrayList<String>();
+
 	private static SeekBar mMaxFreqScalingBar;
 	private static TextView mMaxFreqScalingText;
+	private static TextView mMaxScalingText;
 
 	private static SeekBar mMinFreqScalingBar;
 	private static TextView mMinFreqScalingText;
+	private static TextView mMinScalingText;
 
 	private static SeekBar mMaxScreenOffFreqScalingBar;
 	private static TextView mMaxScreenOffFreqScalingText;
+	private static TextView mMaxScreenOffFreqText;
 
 	private static SeekBar mMinScreenOnFreqScalingBar;
 	private static TextView mMinScreenOnFreqScalingText;
+	private static TextView mMinScreenOnFreqText;
 
 	private static Spinner mGovernorSpinner;
 	private static String[] mAvailableGovernor;
 	private static List<String> mAvailableGovernorList = new ArrayList<String>();
+	private static TextView mGovernorTitle;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +79,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
 		OnSeekBarChangeListener = this;
 		OnItemSelectedListener = this;
+		OnClickListener = this;
 
 		setLayout();
 		return rootView;
@@ -119,17 +129,18 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 		if (Integer.parseInt(mAvailableFreqList.get(0)) > Integer
 				.parseInt(mAvailableFreqList.get(mAvailableFreqList.size() - 1))) {
 			mAvailableFreqList.clear();
-			for (int i = CPUHelper.getAvailableFreq().length; i > 0; i--)
+			for (int i = CPUHelper.getAvailableFreq().length - 1; i >= 0; i--)
 				mAvailableFreqList.add(String.valueOf(CPUHelper
 						.getAvailableFreq()[i]));
 		}
 
 		// Max Cpu Scaling
-		TextView mMaxScalingText = new TextView(context);
+		mMaxScalingText = new TextView(context);
 		LayoutHelper.setTextTitle(mMaxScalingText,
 				context.getString(R.string.maxfreq), context);
 		if (Utils.exist(CPUHelper.MAX_FREQ))
 			mFreqScalingLayout.addView(mMaxScalingText);
+		mMaxScalingText.setOnClickListener(OnClickListener);
 
 		int mMax = mAvailableFreqList.indexOf(String.valueOf(CPUHelper
 				.getMaxFreq()));
@@ -150,11 +161,12 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 			mFreqScalingLayout.addView(mMaxFreqScalingText);
 
 		// Min Cpu Scaling
-		TextView mMinScalingText = new TextView(context);
+		mMinScalingText = new TextView(context);
 		LayoutHelper.setTextTitle(mMinScalingText,
 				context.getString(R.string.minfreq), context);
 		if (Utils.exist(CPUHelper.MIN_FREQ))
 			mFreqScalingLayout.addView(mMinScalingText);
+		mMinScalingText.setOnClickListener(OnClickListener);
 
 		int mMin = mAvailableFreqList.indexOf(String.valueOf(CPUHelper
 				.getMinFreq()));
@@ -175,11 +187,12 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 			mFreqScalingLayout.addView(mMinFreqScalingText);
 
 		// Max Screen Off Cpu Scaling
-		TextView mMaxScreenOffFreqText = new TextView(context);
+		mMaxScreenOffFreqText = new TextView(context);
 		LayoutHelper.setTextTitle(mMaxScreenOffFreqText,
 				context.getString(R.string.maxscreenofffreq), context);
 		if (Utils.exist(CPUHelper.MAX_SCREEN_OFF))
 			mFreqScalingLayout.addView(mMaxScreenOffFreqText);
+		mMaxScreenOffFreqText.setOnClickListener(OnClickListener);
 
 		int mMaxScreenOff = mAvailableFreqList.indexOf(String.valueOf(CPUHelper
 				.getMaxScreenOffFreq()));
@@ -200,11 +213,12 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 			mFreqScalingLayout.addView(mMaxScreenOffFreqScalingText);
 
 		// Min Screen On Cpu Scaling
-		TextView mMinScreenOnFreqText = new TextView(context);
+		mMinScreenOnFreqText = new TextView(context);
 		LayoutHelper.setTextTitle(mMinScreenOnFreqText,
 				context.getString(R.string.minscreenonfreq), context);
 		if (Utils.exist(CPUHelper.MIN_SCREEN_ON))
 			mFreqScalingLayout.addView(mMinScreenOnFreqText);
+		mMinScreenOnFreqText.setOnClickListener(OnClickListener);
 
 		int mMinScreenOn = mAvailableFreqList.indexOf(String.valueOf(CPUHelper
 				.getMinScreenOnFreq()));
@@ -234,10 +248,11 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 			layout.addView(mGovernorLayout);
 
 		// Governor
-		TextView mGovernorTitle = new TextView(context);
+		mGovernorTitle = new TextView(context);
 		LayoutHelper.setTextTitle(mGovernorTitle,
 				context.getString(R.string.cpugovernor), context);
 		mGovernorLayout.addView(mGovernorTitle);
+		mGovernorTitle.setOnClickListener(OnClickListener);
 
 		mAvailableGovernor = CPUHelper.getAvailableGovernor();
 		mAvailableGovernorList = Arrays.asList(mAvailableGovernor);
@@ -362,5 +377,26 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (v.equals(mMaxScalingText))
+			InformationDialog.showInfo(mMaxScalingText.getText().toString(),
+					context.getString(R.string.maxfreq_summary), context);
+		else if (v.equals(mMinScalingText))
+			InformationDialog.showInfo(mMinScalingText.getText().toString(),
+					context.getString(R.string.minfreq_summary), context);
+		else if (v.equals(mMaxScreenOffFreqText))
+			InformationDialog.showInfo(mMaxScreenOffFreqText.getText()
+					.toString(), context
+					.getString(R.string.maxscreenofffreq_summary), context);
+		else if (v.equals(mMinScreenOnFreqText))
+			InformationDialog.showInfo(mMinScalingText.getText().toString(),
+					context.getString(R.string.minscreenonfreq_summary),
+					context);
+		else if (v.equals(mGovernorTitle))
+			InformationDialog.showInfo(mGovernorTitle.getText().toString(),
+					context.getString(R.string.cpugovernor_summary), context);
 	}
 }
