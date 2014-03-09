@@ -8,6 +8,8 @@
     <string name="mhz">MHz</string>
     <string name="applysuccessfully">Apply Successfully</string>
     <string name="nicetrykanger">Nice try Kanger!</string>
+    <string name="setonboot">Set on boot</string>
+    <string name="newkernel">New Kernel detected. Your values will not get applied.</string>
 
     <!-- CPU -->
     <string name="cpu">CPU</string>
