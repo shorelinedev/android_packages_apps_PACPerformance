@@ -13,7 +13,7 @@
     <string name="core">Core</string>
     <string name="offline">Offline</string>
     <string name="maxfreq">CPU Maximum Frequency</string>
-    <string name="minfreq">CPU Minimum Frequencyeq</string>
+    <string name="minfreq">CPU Minimum Frequency</string>
     <string name="maxscreenofffreq">CPU Maximum Frequency Screen Off</string>
     <string name="minscreenonfreq">CPU Minimum Frequency Screen On</string>
 
