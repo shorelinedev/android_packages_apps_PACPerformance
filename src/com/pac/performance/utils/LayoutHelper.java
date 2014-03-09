@@ -6,11 +6,17 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.view.Gravity;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 public class LayoutHelper {
+
+	public static void setCheckBox(CheckBox i, boolean checked, String text) {
+		i.setText(text);
+		i.setChecked(checked);
+	}
 
 	public static void setSpinner(Spinner i, ArrayAdapter<String> adapter,
 			int selection) {

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,6 +12,24 @@ import android.content.Context;
 import android.widget.Toast;
 
 public class Utils {
+	
+	public static String listSplitblock(List<String> value) {
+		StringBuilder mValue = new StringBuilder();
+		for (String s : value) {
+			mValue.append(s);
+			mValue.append("\n");
+		}
+		return mValue.toString();
+	}
+
+	public static String listSplitline(List<String> value) {
+		StringBuilder mValue = new StringBuilder();
+		for (String s : value) {
+			mValue.append(s);
+			mValue.append("\t");
+		}
+		return mValue.toString();
+	}
 
 	public static String getFormattedKernelVersion() {
 		try {

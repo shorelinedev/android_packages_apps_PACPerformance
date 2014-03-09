@@ -10,6 +10,7 @@
     <string name="nicetrykanger">Nice try Kanger!</string>
     <string name="setonboot">Set on boot</string>
     <string name="newkernel">New Kernel detected. Your values will not get applied.</string>
+    <string name="ppbootedup">PACPerformance booted up</string>
 
     <!-- CPU -->
     <string name="cpu">CPU</string>

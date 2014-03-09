@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class CPUHelper {
 
-	public static String CPU_VOLTAGE = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
+	public static String CPU_VOLTAGE;
 	public static final String CUR_GOVERNOR = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
 	public static final String AVAILABLE_GOVERNOR = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors";
 	public static final String MIN_SCREEN_ON = "/sys/devices/system/cpu/cpu0/cpufreq/screen_on_min_freq";
@@ -12,6 +12,7 @@ public class CPUHelper {
 	public static final String MIN_FREQ = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
 	public static final String MAX_FREQ = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
 	public static final String AVAILABLE_FREQ = "/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state";
+	public static final String CORE_STAT = "/sys/devices/system/cpu/cpupresent/online";
 	public static final String FREQUENCY_SCALING = "/sys/devices/system/cpu/cpupresent/cpufreq/scaling_cur_freq";
 	public static final String CORE_VALUE = "/sys/devices/system/cpu/present";
 
@@ -88,6 +89,18 @@ public class CPUHelper {
 		return new Integer[] { 0 };
 	}
 
+	public static boolean getCoreOnline(int core) {
+		if (Utils.exist(CORE_STAT.replace("present", String.valueOf(core))))
+			try {
+				return Utils.readLine(
+						CORE_STAT.replace("present", String.valueOf(core)))
+						.equals("1");
+
+			} catch (IOException e) {
+			}
+		return true;
+	}
+
 	public static int getFreqScaling(int core) {
 		try {
 			return Utils.exist(FREQUENCY_SCALING.replace("present",
@@ -100,7 +113,7 @@ public class CPUHelper {
 		return 0;
 	}
 
-	public static int getCoreValue() {
+	public static int getCoreCount() {
 		if (Utils.exist(CORE_VALUE))
 			try {
 				return Integer
