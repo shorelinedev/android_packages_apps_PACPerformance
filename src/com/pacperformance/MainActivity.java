@@ -35,8 +35,10 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (!RootTools.isRootAvailable()) {
-			Utils.toast(getString(R.string.noroot), getApplicationContext());
+		if (!RootTools.isRootAvailable(getApplicationContext())) {
+			Utils.toast(
+					getString(getString(R.string.app_name).contains("PAC") ? R.string.noroot
+							: R.string.nicetrykanger), getApplicationContext());
 			finish();
 		} else if (!RootTools.isAccessGiven()) {
 			Utils.toast(getString(R.string.norootaccess),
@@ -104,6 +106,8 @@ public class MainActivity extends FragmentActivity {
 			RootHelper.run("chmod 777 " + CPUHelper.MAX_SCREEN_OFF);
 		if (CPUHelper.getMinScreenOnFreq() != 0)
 			RootHelper.run("chmod 777 " + CPUHelper.MIN_SCREEN_ON);
+		if (CPUHelper.getCurGovernor().isEmpty())
+			RootHelper.run("chmod 777 " + CPUHelper.CUR_GOVERNOR);
 	}
 
 	@Override

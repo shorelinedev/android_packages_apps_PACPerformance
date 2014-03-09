@@ -7,6 +7,7 @@
     <string name="nobusybox">You need Busybox!</string>
     <string name="mhz">MHz</string>
     <string name="applysuccessfully">Apply Successfully</string>
+    <string name="nicetrykanger">Nice try Kanger!</string>
 
     <!-- CPU -->
     <string name="cpu">CPU</string>
@@ -17,5 +18,6 @@
     <string name="minfreq">CPU Minimum Frequency</string>
     <string name="maxscreenofffreq">CPU Maximum Frequency Screen Off</string>
     <string name="minscreenonfreq">CPU Minimum Frequency Screen On</string>
+    <string name="cpugovernor">CPU Governor</string>
 
 </resources>

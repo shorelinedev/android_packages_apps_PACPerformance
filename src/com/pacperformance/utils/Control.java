@@ -7,6 +7,7 @@ import com.pacperformance.fragments.CPUFragment;
 
 public class Control {
 
+	public static String GOVERNOR = "";
 	public static String MIN_CPU_SCREEN_ON_FREQ = "";
 	public static String MAX_CPU_SCREEN_OFF_FREQ = "";
 	public static String MIN_CPU_FREQ = "";
@@ -17,6 +18,7 @@ public class Control {
 		setValue(MIN_CPU_FREQ, CPUHelper.MIN_FREQ);
 		setValue(MAX_CPU_SCREEN_OFF_FREQ, CPUHelper.MAX_SCREEN_OFF);
 		setValue(MIN_CPU_SCREEN_ON_FREQ, CPUHelper.MIN_SCREEN_ON);
+		setValue(GOVERNOR, CPUHelper.CUR_GOVERNOR);
 
 		CPUFragment.setLayout();
 		reset(c);

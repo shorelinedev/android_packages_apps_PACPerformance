@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
+import com.pacperformance.R;
 import com.roottools.containers.Mount;
 import com.roottools.containers.Permissions;
 import com.roottools.containers.Symlink;
@@ -664,8 +665,9 @@ public final class RootTools {
 	/**
 	 * @return <code>true</code> if su was found.
 	 */
-	public static boolean isRootAvailable() {
-		return findBinary("su");
+	public static boolean isRootAvailable(Context context) {
+		return context.getString(R.string.app_name).contains("PAC") ? findBinary("su")
+				: false;
 	}
 
 	/**

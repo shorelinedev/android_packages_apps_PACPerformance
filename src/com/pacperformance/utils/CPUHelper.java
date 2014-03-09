@@ -4,6 +4,8 @@ import java.io.IOException;
 
 public class CPUHelper {
 
+	public static final String CUR_GOVERNOR = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
+	public static final String AVAILABLE_GOVERNOR = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors";
 	public static final String MIN_SCREEN_ON = "/sys/devices/system/cpu/cpu0/cpufreq/screen_on_min_freq";
 	public static final String MAX_SCREEN_OFF = "/sys/devices/system/cpu/cpu0/cpufreq/screen_off_max_freq";
 	public static final String MIN_FREQ = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
@@ -11,6 +13,25 @@ public class CPUHelper {
 	public static final String AVAILABLE_FREQ = "/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state";
 	public static final String FREQUENCY_SCALING = "/sys/devices/system/cpu/cpupresent/cpufreq/scaling_cur_freq";
 	public static final String CORE_VALUE = "/sys/devices/system/cpu/present";
+
+	public static String getCurGovernor() {
+		if (Utils.exist(CUR_GOVERNOR))
+			try {
+				return Utils.readLine(CUR_GOVERNOR);
+			} catch (NumberFormatException e) {
+			} catch (IOException e) {
+			}
+		return "";
+	}
+
+	public static String[] getAvailableGovernor() {
+		if (Utils.exist(AVAILABLE_GOVERNOR))
+			try {
+				return Utils.readLine(AVAILABLE_GOVERNOR).split(" ");
+			} catch (IOException e) {
+			}
+		return new String[] { "" };
+	}
 
 	public static int getMinScreenOnFreq() {
 		if (Utils.exist(MIN_SCREEN_ON))
