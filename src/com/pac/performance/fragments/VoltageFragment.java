@@ -62,8 +62,7 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 	public static void setLayout() {
 		layout.removeAllViews();
 
-		if (Utils.exist(VoltageHelper.CPU_VOLTAGE))
-			mVoltagesMV = VoltageHelper.getVoltages();
+		mVoltagesMV = VoltageHelper.getVoltages();
 
 		mVoltageText = new TextView(context);
 		LayoutHelper.setTextTitle(mVoltageText,

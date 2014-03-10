@@ -76,6 +76,9 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 	private static List<String> mAvailableGovernorList = new ArrayList<String>();
 	private static TextView mGovernorTitle;
 
+	private static CheckBox mIntelliPlugBox;
+	private static CheckBox mIntelliPlugEcoModeBox;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
