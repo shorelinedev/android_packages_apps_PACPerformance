@@ -326,7 +326,8 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 				context.getString(R.string.intelliplugecomode));
 		mIntelliPlugEcoModeBox
 				.setOnCheckedChangeListener(OnCheckedChangeListener);
-		mIntelliPlugLayout.addView(mIntelliPlugEcoModeBox);
+		if (Utils.exist(CPUHelper.INTELLIPLUG))
+			mIntelliPlugLayout.addView(mIntelliPlugEcoModeBox);
 	}
 
 	@Override

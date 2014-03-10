@@ -42,4 +42,7 @@
     <string name="voltagecontrol_summary">Decreasing voltage will lower power consumption of the CPU. Increasing it on overclocked frequencies improves stability. Too low voltage may cause instabilities and freezes.</string>
     <string name="fauxvoltagecontrol">Faux Voltage Control</string>
 
+    <!-- Misc -->
+    <string name="misc">Misc</string>
+
 </resources>

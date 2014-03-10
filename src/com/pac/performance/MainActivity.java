@@ -1,6 +1,7 @@
 package com.pac.performance;
 
 import com.pac.performance.fragments.CPUFragment;
+import com.pac.performance.fragments.MiscFragment;
 import com.pac.performance.fragments.VoltageFragment;
 import com.pac.performance.utils.CPUHelper;
 import com.pac.performance.utils.Control;
@@ -90,6 +91,10 @@ public class MainActivity extends FragmentActivity {
 				if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
 						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
 					return new VoltageFragment();
+				else
+					return new MiscFragment();
+			case 2:
+				return new MiscFragment();
 			default:
 				return new CPUFragment();
 			}
@@ -98,7 +103,7 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public int getCount() {
 			return Utils.exist(VoltageHelper.CPU_VOLTAGE)
-					|| Utils.exist(VoltageHelper.FAUX_VOLTAGE) ? 2 : 1;
+					|| Utils.exist(VoltageHelper.FAUX_VOLTAGE) ? 3 : 2;
 		}
 
 		@Override
@@ -110,6 +115,10 @@ public class MainActivity extends FragmentActivity {
 				if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
 						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
 					return getString(R.string.voltage);
+				else
+					return getString(R.string.misc);
+			case 2:
+				return getString(R.string.misc);
 			}
 			return null;
 		}
