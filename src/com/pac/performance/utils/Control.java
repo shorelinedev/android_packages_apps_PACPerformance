@@ -22,7 +22,7 @@ public class Control {
 			{ CPUHelper.MAX_FREQ, CPUHelper.MIN_FREQ, CPUHelper.MAX_SCREEN_OFF,
 					CPUHelper.MIN_SCREEN_ON, CPUHelper.CUR_GOVERNOR,
 					CPUHelper.INTELLIPLUG, CPUHelper.INTELLIPLUG_ECO_MODE },
-			{ VoltageHelper.CPU_VOLTAGE } };
+			{ VoltageHelper.CPU_VOLTAGE, VoltageHelper.FAUX_VOLTAGE } };
 
 	public static void setCPU(Context c) {
 		context = c;

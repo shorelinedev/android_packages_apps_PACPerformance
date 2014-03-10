@@ -27,10 +27,10 @@
     <item
         android:id="@+id/action_apply"
         android:icon="@drawable/navigation_accept"
-        android:title="@android:string/ok"/>
+        android:title="@string/apply"/>
     <item
         android:id="@+id/action_cancel"
         android:icon="@drawable/navigation_cancel"
-        android:title="@android:string/cancel"/>
+        android:title="@string/cancel"/>
 
 </menu>

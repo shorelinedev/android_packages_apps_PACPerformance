@@ -43,6 +43,15 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 	private static Button[] mVoltMinusbuttons;
 	private static Button[] mVoltPlusButtons;
 
+	private static Integer[] mFauxVoltagesMV;
+
+	private static TextView mFauxVoltageText;
+
+	private static SeekBar[] mFauxVoltageBars;
+	private static TextView[] mFauxVoltageTexts;
+	private static Button[] mFauxVoltMinusbuttons;
+	private static Button[] mFauxVoltPlusButtons;
+
 	private static List<String> mVoltageList = new ArrayList<String>();
 
 	@Override
@@ -62,9 +71,9 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 	public static void setLayout() {
 		layout.removeAllViews();
 
+		// Generic Voltage Control
 		mVoltagesMV = VoltageHelper.getVoltages();
 
-		// Generic Voltage Control
 		mVoltageText = new TextView(context);
 		LayoutHelper.setTextTitle(mVoltageText,
 				context.getString(R.string.voltagecontrol), context);
@@ -124,15 +133,79 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 			mVoltPlusButton.setOnClickListener(OnClickListener);
 			mVoltageBarLayout.addView(mVoltPlusButton);
 		}
+
+		// Faux Voltage Control
+		mFauxVoltagesMV = VoltageHelper.getFauxVoltages();
+
+		mFauxVoltageText = new TextView(context);
+		LayoutHelper.setTextTitle(mFauxVoltageText,
+				context.getString(R.string.fauxvoltagecontrol), context);
+		mFauxVoltageText.setPadding(0, (int) (MainActivity.mHeight / 25), 0, 0);
+		mFauxVoltageText.setOnClickListener(OnClickListener);
+		if (Utils.exist(VoltageHelper.FAUX_VOLTAGE))
+			layout.addView(mFauxVoltageText);
+
+		mFauxVoltageBars = new SeekBar[mFauxVoltagesMV.length];
+		mFauxVoltageTexts = new TextView[mFauxVoltagesMV.length];
+		mFauxVoltMinusbuttons = new Button[mFauxVoltagesMV.length];
+		mFauxVoltPlusButtons = new Button[mFauxVoltagesMV.length];
+
+		for (int i = 0; i < mFauxVoltagesMV.length; i++) {
+
+			LinearLayout mFauxVoltageLayout = new LinearLayout(context);
+			mFauxVoltageLayout.setOrientation(LinearLayout.VERTICAL);
+			if (Utils.exist(VoltageHelper.FAUX_VOLTAGE))
+				layout.addView(mFauxVoltageLayout);
+
+			TextView mFauxVoltageFreq = new TextView(context);
+			LayoutHelper.setSubTitle(mFauxVoltageFreq,
+					String.valueOf(VoltageHelper.getFauxFreqVoltages()[i])
+							+ context.getString(R.string.mhz));
+			mFauxVoltageLayout.addView(mFauxVoltageFreq);
+
+			TextView mFauxVoltageText = new TextView(context);
+			LayoutHelper.setSeekBarText(
+					mFauxVoltageText,
+					String.valueOf(mFauxVoltagesMV[i])
+							+ context.getString(R.string.mv));
+			mFauxVoltageTexts[i] = mFauxVoltageText;
+			mFauxVoltageLayout.addView(mFauxVoltageText);
+
+			LinearLayout mFauxVoltageBarLayout = new LinearLayout(context);
+			mFauxVoltageLayout.addView(mFauxVoltageBarLayout);
+
+			LayoutParams lp = new LinearLayout.LayoutParams(0,
+					LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+
+			Button mFauxVoltMinusbutton = new Button(context);
+			mFauxVoltMinusbutton.setText("-");
+			mFauxVoltMinusbuttons[i] = mFauxVoltMinusbutton;
+			mFauxVoltMinusbutton.setOnClickListener(OnClickListener);
+			mFauxVoltageBarLayout.addView(mFauxVoltMinusbutton);
+
+			SeekBar mFauxVoltageBar = new SeekBar(context);
+			LayoutHelper.setNormalSeekBar(mFauxVoltageBar, 180,
+					(mFauxVoltagesMV[i] - 600) / 5);
+			mFauxVoltageBar.setLayoutParams(lp);
+			mFauxVoltageBar.setOnSeekBarChangeListener(OnSeekBarChangeListener);
+			mFauxVoltageBars[i] = mFauxVoltageBar;
+			mFauxVoltageBarLayout.addView(mFauxVoltageBar);
+
+			Button mFauxVoltPlusButton = new Button(context);
+			mFauxVoltPlusButton.setText("+");
+			mFauxVoltPlusButtons[i] = mFauxVoltPlusButton;
+			mFauxVoltPlusButton.setOnClickListener(OnClickListener);
+			mFauxVoltageBarLayout.addView(mFauxVoltPlusButton);
+		}
 	}
 
 	@Override
 	public void onClick(View v) {
-		if (v.equals(mVoltageText))
-			InformationDialog
-					.showInfo(mVoltageText.getText().toString(),
-							context.getString(R.string.voltagecontrol_summary),
-							context);
+		if (v.equals(mVoltageText) || v.equals(mFauxVoltageText))
+			InformationDialog.showInfo(v.equals(mVoltageText) ? mVoltageText
+					.getText().toString() : mFauxVoltageText.getText()
+					.toString(), context
+					.getString(R.string.voltagecontrol_summary), context);
 		for (int i = 0; i < mVoltagesMV.length; i++) {
 			if (v.equals(mVoltMinusbuttons[i])) {
 				mVoltageBars[i].setProgress(mVoltageBars[i].getProgress() - 1);
@@ -140,6 +213,16 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 			}
 			if (v.equals(mVoltPlusButtons[i])) {
 				mVoltageBars[i].setProgress(mVoltageBars[i].getProgress() + 1);
+				saveVoltages();
+			}
+			if (v.equals(mFauxVoltMinusbuttons[i])) {
+				mFauxVoltageBars[i].setProgress(mFauxVoltageBars[i]
+						.getProgress() - 1);
+				saveVoltages();
+			}
+			if (v.equals(mFauxVoltPlusButtons[i])) {
+				mFauxVoltageBars[i].setProgress(mFauxVoltageBars[i]
+						.getProgress() + 1);
 				saveVoltages();
 			}
 		}
@@ -159,6 +242,11 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 			mVoltageList.add(mVoltageTexts[i].getText().toString()
 					.replace(context.getString(R.string.mv), ""));
 		}
+
+		for (int i = 0; i < mFauxVoltagesMV.length; i++)
+			if (seekBar.equals(mFauxVoltageBars[i]))
+				mFauxVoltageTexts[i].setText(String.valueOf(progress * 5 + 600)
+						+ context.getString(R.string.mv));
 	}
 
 	@Override
@@ -167,7 +255,21 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
-		saveVoltages();
+		for (int i = 0; i < mFauxVoltagesMV.length; i++)
+			if (seekBar.equals(mFauxVoltageBars[i]))
+				Control.runVoltageGeneric(
+						String.valueOf(VoltageHelper.getFauxFreqVoltages()[i])
+								+ " "
+								+ mFauxVoltageTexts[i]
+										.getText()
+										.toString()
+										.replace(
+												context.getString(R.string.mv),
+												"000"),
+						VoltageHelper.FAUX_VOLTAGE);
+
+		if (Utils.exist(VoltageHelper.CPU_VOLTAGE))
+			saveVoltages();
 	}
 
 	private static void saveVoltages() {

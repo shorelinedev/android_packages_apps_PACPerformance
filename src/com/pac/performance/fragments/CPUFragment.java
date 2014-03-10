@@ -101,7 +101,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
 		// Current Freq
 		mCurFreqLayout = new LinearLayout(context);
-		mCurFreqLayout.setPadding(0, (int) (MainActivity.mHeight / 15), 0, 0);
+		mCurFreqLayout.setPadding(0, (int) (MainActivity.mHeight / 25), 0, 0);
 		mCurFreqLayout.setOrientation(LinearLayout.VERTICAL);
 		if (Utils.exist(CPUHelper.FREQUENCY_SCALING.replace("present", "0"))
 				&& Utils.exist(CPUHelper.CORE_VALUE))

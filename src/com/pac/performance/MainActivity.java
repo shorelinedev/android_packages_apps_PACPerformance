@@ -87,7 +87,8 @@ public class MainActivity extends FragmentActivity {
 			case 0:
 				return new CPUFragment();
 			case 1:
-				if (Utils.exist(VoltageHelper.CPU_VOLTAGE))
+				if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
+						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
 					return new VoltageFragment();
 			default:
 				return new CPUFragment();
@@ -96,7 +97,8 @@ public class MainActivity extends FragmentActivity {
 
 		@Override
 		public int getCount() {
-			return Utils.exist(VoltageHelper.CPU_VOLTAGE) ? 2 : 1;
+			return Utils.exist(VoltageHelper.CPU_VOLTAGE)
+					|| Utils.exist(VoltageHelper.FAUX_VOLTAGE) ? 2 : 1;
 		}
 
 		@Override
@@ -105,7 +107,8 @@ public class MainActivity extends FragmentActivity {
 			case 0:
 				return getString(R.string.cpu);
 			case 1:
-				if (Utils.exist(VoltageHelper.CPU_VOLTAGE))
+				if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
+						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
 					return getString(R.string.voltage);
 			}
 			return null;
