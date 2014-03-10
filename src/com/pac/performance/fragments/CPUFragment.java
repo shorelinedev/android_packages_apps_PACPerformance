@@ -53,7 +53,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
 	private static LinearLayout mFreqScalingLayout;
 
-	public static List<String> mAvailableFreqList = new ArrayList<String>();
+	private static List<String> mAvailableFreqList = new ArrayList<String>();
 
 	private static SeekBar mMaxFreqScalingBar;
 	private static TextView mMaxFreqScalingText;
