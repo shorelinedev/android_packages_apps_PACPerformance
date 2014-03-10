@@ -13,6 +13,12 @@ import android.widget.TextView;
 
 public class LayoutHelper {
 
+	public static void setSubTitle(TextView i, String text) {
+		i.setGravity(Gravity.CENTER);
+		i.setTextSize(18);
+		i.setText(text);
+	}
+
 	public static void setCheckBox(CheckBox i, boolean checked, String text) {
 		i.setText(text);
 		i.setChecked(checked);
@@ -28,6 +34,11 @@ public class LayoutHelper {
 	public static void setSeekBarText(TextView i, String text) {
 		i.setGravity(Gravity.CENTER);
 		i.setText(text);
+	}
+
+	public static void setNormalSeekBar(SeekBar i, int max, int progress) {
+		i.setMax(max);
+		i.setProgress(progress);
 	}
 
 	public static void setSeekBar(SeekBar i, int max, int progress) {

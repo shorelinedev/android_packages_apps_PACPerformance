@@ -1,0 +1,177 @@
+package com.pac.performance.fragments;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.pac.performance.MainActivity;
+import com.pac.performance.R;
+import com.pac.performance.utils.Control;
+import com.pac.performance.utils.InformationDialog;
+import com.pac.performance.utils.LayoutHelper;
+import com.pac.performance.utils.Utils;
+import com.pac.performance.utils.VoltageHelper;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
+
+public class VoltageFragment extends Fragment implements OnClickListener,
+		OnSeekBarChangeListener {
+
+	private static Context context;
+	private static LinearLayout layout;
+
+	private static OnClickListener OnClickListener;
+	private static OnSeekBarChangeListener OnSeekBarChangeListener;
+
+	private static Integer[] mVoltagesMV;
+
+	private static TextView mVoltageText;
+
+	private static SeekBar[] mVoltageBars;
+	private static TextView[] mVoltageTexts;
+	private static Button[] mVoltMinusbuttons;
+	private static Button[] mVoltPlusButtons;
+
+	private static List<String> mVoltageList = new ArrayList<String>();
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		context = getActivity();
+		View rootView = inflater.inflate(R.layout.generic, container, false);
+		layout = (LinearLayout) rootView.findViewById(R.id.layout);
+
+		OnClickListener = this;
+		OnSeekBarChangeListener = this;
+
+		setLayout();
+		return rootView;
+	}
+
+	public static void setLayout() {
+		layout.removeAllViews();
+
+		if (Utils.exist(VoltageHelper.CPU_VOLTAGE))
+			mVoltagesMV = VoltageHelper.getVoltages();
+
+		mVoltageText = new TextView(context);
+		LayoutHelper.setTextTitle(mVoltageText,
+				context.getString(R.string.voltagecontrol), context);
+		mVoltageText.setPadding(0, (int) (MainActivity.mHeight / 25), 0, 0);
+		mVoltageText.setOnClickListener(OnClickListener);
+		if (Utils.exist(VoltageHelper.CPU_VOLTAGE))
+			layout.addView(mVoltageText);
+
+		mVoltageBars = new SeekBar[mVoltagesMV.length];
+		mVoltageTexts = new TextView[mVoltagesMV.length];
+		mVoltMinusbuttons = new Button[mVoltagesMV.length];
+		mVoltPlusButtons = new Button[mVoltagesMV.length];
+		for (int i = 0; i < mVoltagesMV.length; i++) {
+
+			LinearLayout mVoltageLayout = new LinearLayout(context);
+			mVoltageLayout.setOrientation(LinearLayout.VERTICAL);
+			if (Utils.exist(VoltageHelper.CPU_VOLTAGE))
+				layout.addView(mVoltageLayout);
+
+			TextView mVoltageFreq = new TextView(context);
+			LayoutHelper.setSubTitle(mVoltageFreq,
+					String.valueOf(VoltageHelper.getFreqVoltages()[i])
+							+ context.getString(R.string.mhz));
+			mVoltageLayout.addView(mVoltageFreq);
+
+			TextView mVoltageText = new TextView(context);
+			LayoutHelper.setSeekBarText(
+					mVoltageText,
+					String.valueOf(mVoltagesMV[i])
+							+ context.getString(R.string.mv));
+			mVoltageTexts[i] = mVoltageText;
+			mVoltageLayout.addView(mVoltageText);
+
+			LinearLayout mVoltageBarLayout = new LinearLayout(context);
+			mVoltageLayout.addView(mVoltageBarLayout);
+
+			LayoutParams lp = new LinearLayout.LayoutParams(0,
+					LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+
+			Button mVoltMinusbutton = new Button(context);
+			mVoltMinusbutton.setText("-");
+			mVoltMinusbuttons[i] = mVoltMinusbutton;
+			mVoltMinusbutton.setOnClickListener(OnClickListener);
+			mVoltageBarLayout.addView(mVoltMinusbutton);
+
+			SeekBar mVoltageBar = new SeekBar(context);
+			LayoutHelper.setNormalSeekBar(mVoltageBar, 180,
+					(mVoltagesMV[i] - 600) / 5);
+			mVoltageBar.setLayoutParams(lp);
+			mVoltageBar.setOnSeekBarChangeListener(OnSeekBarChangeListener);
+			mVoltageBars[i] = mVoltageBar;
+			mVoltageBarLayout.addView(mVoltageBar);
+
+			Button mVoltPlusButton = new Button(context);
+			mVoltPlusButton.setText("+");
+			mVoltPlusButtons[i] = mVoltPlusButton;
+			mVoltPlusButton.setOnClickListener(OnClickListener);
+			mVoltageBarLayout.addView(mVoltPlusButton);
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (v.equals(mVoltageText))
+			InformationDialog
+					.showInfo(mVoltageText.getText().toString(),
+							context.getString(R.string.voltagecontrol_summary),
+							context);
+		for (int i = 0; i < mVoltagesMV.length; i++) {
+			if (v.equals(mVoltMinusbuttons[i])) {
+				mVoltageBars[i].setProgress(mVoltageBars[i].getProgress() - 1);
+				saveVoltages();
+			}
+			if (v.equals(mVoltPlusButtons[i])) {
+				mVoltageBars[i].setProgress(mVoltageBars[i].getProgress() + 1);
+				saveVoltages();
+			}
+		}
+	}
+
+	@Override
+	public void onProgressChanged(SeekBar seekBar, int progress,
+			boolean fromUser) {
+		MainActivity.showButtons(true);
+		MainActivity.VoltageChange = true;
+
+		mVoltageList.clear();
+		for (int i = 0; i < mVoltagesMV.length; i++) {
+			if (seekBar.equals(mVoltageBars[i]))
+				mVoltageTexts[i].setText(String.valueOf(progress * 5 + 600)
+						+ context.getString(R.string.mv));
+			mVoltageList.add(mVoltageTexts[i].getText().toString()
+					.replace(context.getString(R.string.mv), ""));
+		}
+	}
+
+	@Override
+	public void onStartTrackingTouch(SeekBar seekBar) {
+	}
+
+	@Override
+	public void onStopTrackingTouch(SeekBar seekBar) {
+		saveVoltages();
+	}
+
+	private static void saveVoltages() {
+		Control.runVoltageGeneric(Utils.listSplitline(mVoltageList),
+				VoltageHelper.CPU_VOLTAGE);
+	}
+}

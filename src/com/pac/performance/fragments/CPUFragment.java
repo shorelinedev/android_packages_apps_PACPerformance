@@ -53,7 +53,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
 	private static LinearLayout mFreqScalingLayout;
 
-	private static List<String> mAvailableFreqList = new ArrayList<String>();
+	public static List<String> mAvailableFreqList = new ArrayList<String>();
 
 	private static SeekBar mMaxFreqScalingBar;
 	private static TextView mMaxFreqScalingText;
@@ -348,6 +348,8 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 							.get(progress)) / 1000) + "MHz");
 			if (progress < mMinFreqScalingBar.getProgress())
 				mMinFreqScalingBar.setProgress(progress);
+			if (progress < mMinScreenOnFreqScalingBar.getProgress())
+				mMinScreenOnFreqScalingBar.setProgress(progress);
 		}
 		if (seekBar.equals(mMinFreqScalingBar)) {
 			mMinFreqScalingText
@@ -355,15 +357,23 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 							.get(progress)) / 1000) + "MHz");
 			if (progress > mMaxFreqScalingBar.getProgress())
 				mMaxFreqScalingBar.setProgress(progress);
+			if (progress > mMaxScreenOffFreqScalingBar.getProgress())
+				mMaxScreenOffFreqScalingBar.setProgress(progress);
 		}
-		if (seekBar.equals(mMaxScreenOffFreqScalingBar))
+		if (seekBar.equals(mMaxScreenOffFreqScalingBar)) {
 			mMaxScreenOffFreqScalingText
 					.setText(String.valueOf(Integer.parseInt(mAvailableFreqList
 							.get(progress)) / 1000) + "MHz");
-		if (seekBar.equals(mMinScreenOnFreqScalingBar))
+			if (progress < mMinFreqScalingBar.getProgress())
+				mMinFreqScalingBar.setProgress(progress);
+		}
+		if (seekBar.equals(mMinScreenOnFreqScalingBar)) {
 			mMinScreenOnFreqScalingText
 					.setText(String.valueOf(Integer.parseInt(mAvailableFreqList
 							.get(progress)) / 1000) + "MHz");
+			if (progress > mMaxFreqScalingBar.getProgress())
+				mMaxFreqScalingBar.setProgress(progress);
+		}
 	}
 
 	@Override
@@ -373,21 +383,22 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
 		if (seekBar.equals(mMaxFreqScalingBar)
-				|| (seekBar.equals(mMinFreqScalingBar))) {
-			Control.runGeneric(mMaxFreqScalingText.getText().toString()
+				|| (seekBar.equals(mMinFreqScalingBar))
+				|| seekBar.equals(mMaxScreenOffFreqScalingBar)
+				|| seekBar.equals(mMinScreenOnFreqScalingBar)) {
+			Control.runCPUGeneric(mMaxFreqScalingText.getText().toString()
 					.replace(getString(R.string.mhz), "000"),
 					CPUHelper.MAX_FREQ);
-			Control.runGeneric(mMinFreqScalingText.getText().toString()
+			Control.runCPUGeneric(mMinFreqScalingText.getText().toString()
 					.replace(getString(R.string.mhz), "000"),
 					CPUHelper.MIN_FREQ);
-		} else if (seekBar.equals(mMaxScreenOffFreqScalingBar)) {
-			Control.runGeneric(mMaxScreenOffFreqScalingText.getText()
+			Control.runCPUGeneric(mMaxScreenOffFreqScalingText.getText()
 					.toString().replace(getString(R.string.mhz), "000"),
 					CPUHelper.MAX_SCREEN_OFF);
-		} else if (seekBar.equals(mMinScreenOnFreqScalingBar))
-			Control.runGeneric(mMinScreenOnFreqScalingText.getText().toString()
-					.replace(getString(R.string.mhz), "000"),
+			Control.runCPUGeneric(mMinScreenOnFreqScalingText.getText()
+					.toString().replace(getString(R.string.mhz), "000"),
 					CPUHelper.MIN_SCREEN_ON);
+		}
 	}
 
 	@Override
@@ -398,7 +409,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 					.getCurGovernor())) {
 				MainActivity.showButtons(true);
 				MainActivity.CPUChange = true;
-				Control.runGeneric(mAvailableGovernorList.get(arg2),
+				Control.runCPUGeneric(mAvailableGovernorList.get(arg2),
 						CPUHelper.CUR_GOVERNOR);
 			}
 		}
@@ -435,7 +446,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 		MainActivity.CPUChange = true;
 		for (int i = 1; i < CPUHelper.getCoreCount(); i++)
 			if (buttonView.equals(mCoreControlBoxes[i]))
-				Control.runGeneric(
+				Control.runCPUGeneric(
 						isChecked ? "1" : "0",
 						CPUHelper.CORE_STAT.replace("present",
 								String.valueOf(i)));

@@ -1,10 +1,12 @@
 package com.pac.performance;
 
 import com.pac.performance.fragments.CPUFragment;
+import com.pac.performance.fragments.VoltageFragment;
 import com.pac.performance.utils.CPUHelper;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.RootHelper;
 import com.pac.performance.utils.Utils;
+import com.pac.performance.utils.VoltageHelper;
 import com.stericson.roottools.RootTools;
 
 import android.os.Bundle;
@@ -30,6 +32,7 @@ public class MainActivity extends FragmentActivity {
 	private static MenuItem setonboot;
 
 	public static boolean CPUChange = false;
+	public static boolean VoltageChange = false;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -54,8 +57,11 @@ public class MainActivity extends FragmentActivity {
 			Utils.saveString("kernelversion",
 					Utils.getFormattedKernelVersion(), getApplicationContext());
 			RootTools.debugMode = true;
+
 			setContentView(R.layout.activity_main);
+
 			setPerm();
+
 			Display display = this.getWindowManager().getDefaultDisplay();
 			mWidth = display.getWidth();
 			mHeight = display.getHeight();
@@ -80,6 +86,9 @@ public class MainActivity extends FragmentActivity {
 			switch (position) {
 			case 0:
 				return new CPUFragment();
+			case 1:
+				if (!VoltageHelper.CPU_VOLTAGE.isEmpty())
+					return new VoltageFragment();
 			default:
 				return new CPUFragment();
 			}
@@ -87,7 +96,7 @@ public class MainActivity extends FragmentActivity {
 
 		@Override
 		public int getCount() {
-			return 1;
+			return !VoltageHelper.CPU_VOLTAGE.isEmpty() ? 2 : 1;
 		}
 
 		@Override
@@ -95,22 +104,20 @@ public class MainActivity extends FragmentActivity {
 			switch (position) {
 			case 0:
 				return getString(R.string.cpu);
+			case 1:
+				if (!VoltageHelper.CPU_VOLTAGE.isEmpty())
+					return getString(R.string.voltage);
 			}
 			return null;
 		}
 	}
 
 	public void setPerm() {
-		if (CPUHelper.getMaxFreq() != 0)
-			RootHelper.run("chmod 777 " + CPUHelper.MAX_FREQ);
-		if (CPUHelper.getMinFreq() != 0)
-			RootHelper.run("chmod 777 " + CPUHelper.MIN_FREQ);
-		if (CPUHelper.getMaxScreenOffFreq() != 0)
-			RootHelper.run("chmod 777 " + CPUHelper.MAX_SCREEN_OFF);
-		if (CPUHelper.getMinScreenOnFreq() != 0)
-			RootHelper.run("chmod 777 " + CPUHelper.MIN_SCREEN_ON);
-		if (CPUHelper.getCurGovernor().isEmpty())
-			RootHelper.run("chmod 777 " + CPUHelper.CUR_GOVERNOR);
+		RootHelper.run("chmod 777 " + CPUHelper.MAX_FREQ);
+		RootHelper.run("chmod 777 " + CPUHelper.MIN_FREQ);
+		RootHelper.run("chmod 777 " + CPUHelper.MAX_SCREEN_OFF);
+		RootHelper.run("chmod 777 " + CPUHelper.MIN_SCREEN_ON);
+		RootHelper.run("chmod 777 " + CPUHelper.CUR_GOVERNOR);
 	}
 
 	@Override
@@ -136,11 +143,22 @@ public class MainActivity extends FragmentActivity {
 				Control.setCPU(getApplicationContext());
 				CPUChange = false;
 			}
+			if (VoltageChange) {
+				Control.setVoltage(getApplicationContext());
+				VoltageChange = false;
+			}
 			showButtons(false);
 			break;
 		case R.id.action_cancel:
-			if (CPUChange)
+			if (CPUChange) {
 				CPUFragment.setLayout();
+				CPUChange = false;
+			}
+			if (VoltageChange) {
+				VoltageFragment.setLayout();
+				VoltageChange = false;
+			}
+			Control.reset();
 			showButtons(false);
 			break;
 		case R.id.action_setonboot:
@@ -156,5 +174,4 @@ public class MainActivity extends FragmentActivity {
 		applyButton.setVisible(show);
 		cancelButton.setVisible(show);
 	}
-
 }

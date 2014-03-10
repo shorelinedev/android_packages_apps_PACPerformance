@@ -5,12 +5,15 @@
     <string name="noroot">You need Root!</string>
     <string name="norootaccess">You need Root Access!</string>
     <string name="nobusybox">You need Busybox!</string>
-    <string name="mhz">MHz</string>
     <string name="applysuccessfully">Apply Successfully</string>
     <string name="nicetrykanger">Nice try Kanger!</string>
     <string name="setonboot">Set on boot</string>
     <string name="newkernel">New Kernel detected. Your values will not get applied.</string>
     <string name="ppbootedup">PACPerformance booted up</string>
+
+    <!-- Units -->
+    <string name="mhz">MHz</string>
+    <string name="mv">mV</string>
 
     <!-- CPU -->
     <string name="cpu">CPU</string>
@@ -27,5 +30,10 @@
     <string name="minscreenonfreq_summary">Set the minimum frequency the CPU scales down to when the screen is on.</string>
     <string name="cpugovernor">CPU Governor</string>
     <string name="cpugovernor_summary">The CPU governor determines how the CPU behaves in response to changes in workload. Changing the governor will impact how the CPU scales through the frequency steps available to you CPU.</string>
+
+    <!-- Voltage -->
+    <string name="voltage">Voltage</string>
+    <string name="voltagecontrol">Voltage Control</string>
+    <string name="voltagecontrol_summary">Decreasing voltage will lower power consumption of the CPU. Increasing it on overclocked frequencies improves stability. Too low voltage may cause instabilities and freezes.</string>
 
 </resources>

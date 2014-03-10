@@ -28,5 +28,10 @@ public class BootReceiver extends BroadcastReceiver {
 	private static void setValue() {
 		for (String name : Control.stringfiles[0])
 			RootHelper.run(Utils.getString(name, "", context));
+
+		for (String name : Control.stringfiles[1])
+			RootHelper.run(Utils.getString(name, "", context));
+
+		Utils.toast(context.getString(R.string.ppbootedup), context);
 	}
 }

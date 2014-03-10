@@ -4,7 +4,6 @@ import java.io.IOException;
 
 public class CPUHelper {
 
-	public static String CPU_VOLTAGE;
 	public static final String CUR_GOVERNOR = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
 	public static final String AVAILABLE_GOVERNOR = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors";
 	public static final String MIN_SCREEN_ON = "/sys/devices/system/cpu/cpu0/cpufreq/screen_on_min_freq";
