@@ -34,19 +34,18 @@ public class Control {
 	public static void setCPU(Context c) {
 		context = c;
 		setValueCPU();
-		reset();
 	}
 
 	private static void setValueCPU() {
 		for (int i = 0; i < CPUCommands.size(); i++) {
 			RootHelper.run(CPUCommands.get(i));
+			Utils.saveString(CPUlistfiles.get(i), CPUCommands.get(i), context);
 		}
 	}
 
 	public static void setVoltage(Context c) {
 		context = c;
 		setValueVoltage();
-		reset();
 	}
 
 	private static void setValueVoltage() {
@@ -60,7 +59,6 @@ public class Control {
 	public static void setMisc(Context c) {
 		context = c;
 		setValueMisc();
-		reset();
 	}
 
 	private static void setValueMisc() {
@@ -74,9 +72,12 @@ public class Control {
 
 		Runnable r = new Runnable() {
 			public void run() {
-				CPUFragment.setLayout();
-				VoltageFragment.setLayout();
-				MiscFragment.setLayout();
+				if (CPUFragment.layout != null)
+					CPUFragment.setLayout();
+				if (VoltageFragment.layout != null)
+					VoltageFragment.setLayout();
+				if (MiscFragment.layout != null)
+					MiscFragment.setLayout();
 
 				CPUCommands.clear();
 				CPUlistfiles.clear();
@@ -90,33 +91,21 @@ public class Control {
 		};
 		Handler handler = new Handler();
 		handler.post(r);
-		handler.postDelayed(r, 300);
-	}
-
-	private static void saveCPUCommand(String command) {
-		CPUCommands.add(command);
+		handler.postDelayed(r, 100);
 	}
 
 	public static void runCPUGeneric(String value, String file) {
-		saveCPUCommand("echo " + value + " > " + file);
+		CPUCommands.add("echo " + value + " > " + file);
 		CPUlistfiles.add(file);
 	}
 
-	private static void saveVoltageCommand(String command) {
-		VoltageCommands.add(command);
-	}
-
 	public static void runVoltageGeneric(String value, String file) {
-		saveVoltageCommand("echo " + value + " > " + file);
+		VoltageCommands.add("echo " + value + " > " + file);
 		Voltagelistfiles.add(file);
 	}
 
-	private static void saveMiscCommand(String command) {
-		MiscCommands.add(command);
-	}
-
 	public static void runMiscGeneric(String value, String file) {
-		saveMiscCommand("echo " + value + " > " + file);
+		MiscCommands.add("echo " + value + " > " + file);
 		Misclistfiles.add(file);
 	}
 }

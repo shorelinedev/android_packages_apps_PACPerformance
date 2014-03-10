@@ -39,7 +39,9 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 		OnItemSelectedListener, OnClickListener, OnCheckedChangeListener {
 
 	private static Context context;
-	private static LinearLayout layout;
+
+	public static LinearLayout layout = null;
+
 	private static OnSeekBarChangeListener OnSeekBarChangeListener;
 	private static OnItemSelectedListener OnItemSelectedListener;
 	private static OnClickListener OnClickListener;

@@ -29,7 +29,8 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 		OnSeekBarChangeListener {
 
 	private static Context context;
-	private static LinearLayout layout;
+
+	public static LinearLayout layout = null;
 
 	private static OnClickListener OnClickListener;
 	private static OnSeekBarChangeListener OnSeekBarChangeListener;

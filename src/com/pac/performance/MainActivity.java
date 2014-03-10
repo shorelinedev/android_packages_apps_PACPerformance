@@ -164,6 +164,7 @@ public class MainActivity extends FragmentActivity {
 				Control.setMisc(getApplicationContext());
 				MiscChange = false;
 			}
+			Control.reset();
 			showButtons(false);
 			Utils.toast(getString(R.string.applysuccessfully),
 					getApplicationContext());

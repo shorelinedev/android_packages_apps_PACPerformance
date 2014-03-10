@@ -36,7 +36,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 
 	private static Context context;
 
-	private static LinearLayout layout;
+	public static LinearLayout layout = null;
 
 	private static OnClickListener OnClickListener;
 	private static OnItemSelectedListener OnItemSelectedListener;
