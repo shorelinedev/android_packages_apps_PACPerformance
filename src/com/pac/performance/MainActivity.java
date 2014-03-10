@@ -34,6 +34,7 @@ public class MainActivity extends FragmentActivity {
 
 	public static boolean CPUChange = false;
 	public static boolean VoltageChange = false;
+	public static boolean MiscChange = false;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -159,6 +160,10 @@ public class MainActivity extends FragmentActivity {
 				Control.setVoltage(getApplicationContext());
 				VoltageChange = false;
 			}
+			if (MiscChange) {
+				Control.setMisc(getApplicationContext());
+				MiscChange = false;
+			}
 			showButtons(false);
 			Utils.toast(getString(R.string.applysuccessfully),
 					getApplicationContext());
@@ -171,6 +176,10 @@ public class MainActivity extends FragmentActivity {
 			if (VoltageChange) {
 				VoltageFragment.setLayout();
 				VoltageChange = false;
+			}
+			if (MiscChange) {
+				MiscFragment.setLayout();
+				MiscChange = false;
 			}
 			Control.reset();
 			showButtons(false);

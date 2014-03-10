@@ -7,6 +7,8 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.pac.performance.fragments.CPUFragment;
+import com.pac.performance.fragments.MiscFragment;
+import com.pac.performance.fragments.VoltageFragment;
 
 public class Control {
 
@@ -16,13 +18,18 @@ public class Control {
 	private static List<String> VoltageCommands = new ArrayList<String>();
 	private static List<String> Voltagelistfiles = new ArrayList<String>();
 
+	private static List<String> MiscCommands = new ArrayList<String>();
+	private static List<String> Misclistfiles = new ArrayList<String>();
+
 	private static Context context;
 
 	public static String[][] stringfiles = {
 			{ CPUHelper.MAX_FREQ, CPUHelper.MIN_FREQ, CPUHelper.MAX_SCREEN_OFF,
 					CPUHelper.MIN_SCREEN_ON, CPUHelper.CUR_GOVERNOR,
 					CPUHelper.INTELLIPLUG, CPUHelper.INTELLIPLUG_ECO_MODE },
-			{ VoltageHelper.CPU_VOLTAGE, VoltageHelper.FAUX_VOLTAGE } };
+			{ VoltageHelper.CPU_VOLTAGE, VoltageHelper.FAUX_VOLTAGE },
+			{ MiscHelper.INTERNAL_SCHEDULER, MiscHelper.EXTERNAL_SCHEDULER,
+					MiscHelper.INTERNAL_READ, MiscHelper.EXTERNAL_READ } };
 
 	public static void setCPU(Context c) {
 		context = c;
@@ -50,17 +57,35 @@ public class Control {
 		}
 	}
 
+	public static void setMisc(Context c) {
+		context = c;
+		setValueMisc();
+		reset();
+	}
+
+	private static void setValueMisc() {
+		for (int i = 0; i < MiscCommands.size(); i++) {
+			RootHelper.run(MiscCommands.get(i));
+			Utils.saveString(Misclistfiles.get(i), MiscCommands.get(i), context);
+		}
+	}
+
 	public static void reset() {
 
 		Runnable r = new Runnable() {
 			public void run() {
 				CPUFragment.setLayout();
+				VoltageFragment.setLayout();
+				MiscFragment.setLayout();
 
 				CPUCommands.clear();
 				CPUlistfiles.clear();
 
 				VoltageCommands.clear();
 				Voltagelistfiles.clear();
+
+				MiscCommands.clear();
+				Misclistfiles.clear();
 			}
 		};
 		Handler handler = new Handler();
@@ -84,5 +109,14 @@ public class Control {
 	public static void runVoltageGeneric(String value, String file) {
 		saveVoltageCommand("echo " + value + " > " + file);
 		Voltagelistfiles.add(file);
+	}
+
+	private static void saveMiscCommand(String command) {
+		MiscCommands.add(command);
+	}
+
+	public static void runMiscGeneric(String value, String file) {
+		saveMiscCommand("echo " + value + " > " + file);
+		Misclistfiles.add(file);
 	}
 }

@@ -215,6 +215,8 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 				mVoltageBars[i].setProgress(mVoltageBars[i].getProgress() + 1);
 				saveVoltages();
 			}
+		}
+		for (int i = 0; i < mFauxVoltagesMV.length; i++) {
 			if (v.equals(mFauxVoltMinusbuttons[i])) {
 				mFauxVoltageBars[i].setProgress(mFauxVoltageBars[i]
 						.getProgress() - 1);

@@ -16,6 +16,7 @@
     <!-- Units -->
     <string name="mhz">MHz</string>
     <string name="mv">mV</string>
+    <string name="kb">kB</string>
 
     <!-- CPU -->
     <string name="cpu">CPU</string>
@@ -44,5 +45,12 @@
 
     <!-- Misc -->
     <string name="misc">Misc</string>
+    <string name="internalstoragescheduler">Internal Storage Scheduler</string>
+    <string name="storagescheduler_summary">Set the active I/O elevator algorithm. The scheduler decides how to handle I/O requests and how to handle them.</string>
+    <string name="externalstoragescheduler">External Storage Scheduler</string>
+    <string name="internalstorageread">Internal Storage Read-ahead</string>
+    <string name="internalstorageread_summary">The read-ahead value on the internal phone memory.</string>
+    <string name="externalstorageread">External Storage Read-ahead</string>
+    <string name="externalstorageread_summary">The read-ahead value on the external phone memory.</string>
 
 </resources>
