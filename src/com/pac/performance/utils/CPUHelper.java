@@ -4,6 +4,8 @@ import java.io.IOException;
 
 public class CPUHelper {
 
+	public static final String INTELLIPLUG_ECO_MODE = "/sys/module/intelli_plug/parameters/eco_mode_active";
+	public static final String INTELLIPLUG = "/sys/module/intelli_plug/parameters/intelli_plug_active";
 	public static final String CUR_GOVERNOR = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
 	public static final String AVAILABLE_GOVERNOR = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors";
 	public static final String MIN_SCREEN_ON = "/sys/devices/system/cpu/cpu0/cpufreq/screen_on_min_freq";
@@ -14,6 +16,24 @@ public class CPUHelper {
 	public static final String CORE_STAT = "/sys/devices/system/cpu/cpupresent/online";
 	public static final String FREQUENCY_SCALING = "/sys/devices/system/cpu/cpupresent/cpufreq/scaling_cur_freq";
 	public static final String CORE_VALUE = "/sys/devices/system/cpu/present";
+
+	public static boolean getIntelliPlugEcoMode() {
+		if (Utils.exist(INTELLIPLUG_ECO_MODE))
+			try {
+				return Utils.readLine(INTELLIPLUG_ECO_MODE).equals("1");
+			} catch (IOException e) {
+			}
+		return false;
+	}
+
+	public static boolean getIntelliPlug() {
+		if (Utils.exist(INTELLIPLUG))
+			try {
+				return Utils.readLine(INTELLIPLUG).equals("1");
+			} catch (IOException e) {
+			}
+		return false;
+	}
 
 	public static String getCurGovernor() {
 		if (Utils.exist(CUR_GOVERNOR))

@@ -6,7 +6,6 @@ import java.util.List;
 import android.content.Context;
 import android.os.Handler;
 
-import com.pac.performance.R;
 import com.pac.performance.fragments.CPUFragment;
 
 public class Control {
@@ -21,7 +20,8 @@ public class Control {
 
 	public static String[][] stringfiles = {
 			{ CPUHelper.MAX_FREQ, CPUHelper.MIN_FREQ, CPUHelper.MAX_SCREEN_OFF,
-					CPUHelper.MIN_SCREEN_ON, CPUHelper.CUR_GOVERNOR },
+					CPUHelper.MIN_SCREEN_ON, CPUHelper.CUR_GOVERNOR,
+					CPUHelper.INTELLIPLUG, CPUHelper.INTELLIPLUG_ECO_MODE },
 			{ VoltageHelper.CPU_VOLTAGE } };
 
 	public static void setCPU(Context c) {
@@ -66,8 +66,6 @@ public class Control {
 		Handler handler = new Handler();
 		handler.post(r);
 		handler.postDelayed(r, 300);
-
-		Utils.toast(context.getString(R.string.applysuccessfully), context);
 	}
 
 	private static void saveCPUCommand(String command) {

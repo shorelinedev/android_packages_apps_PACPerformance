@@ -30,6 +30,9 @@
     <string name="minscreenonfreq_summary">Set the minimum frequency the CPU scales down to when the screen is on.</string>
     <string name="cpugovernor">CPU Governor</string>
     <string name="cpugovernor_summary">The CPU governor determines how the CPU behaves in response to changes in workload. Changing the governor will impact how the CPU scales through the frequency steps available to you CPU.</string>
+    <string name="intelliplug">IntelliPlug</string>
+    <string name="intelliplug_summary">IntelliPlug hotplugs/unplugs CPU cores based on load demand of the system.</string>
+    <string name="intelliplugecomode">Eco Mode</string>
 
     <!-- Voltage -->
     <string name="voltage">Voltage</string>

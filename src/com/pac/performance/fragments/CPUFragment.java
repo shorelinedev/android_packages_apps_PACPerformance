@@ -76,6 +76,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 	private static List<String> mAvailableGovernorList = new ArrayList<String>();
 	private static TextView mGovernorTitle;
 
+	private static TextView mIntelliPlugTitle;
 	private static CheckBox mIntelliPlugBox;
 	private static CheckBox mIntelliPlugEcoModeBox;
 
@@ -297,6 +298,35 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 				mAvailableGovernorList.indexOf(CPUHelper.getCurGovernor()));
 		mGovernorSpinner.setOnItemSelectedListener(OnItemSelectedListener);
 		mGovernorLayout.addView(mGovernorSpinner);
+
+		// IntelliPlug
+		mIntelliPlugTitle = new TextView(context);
+		LayoutHelper.setTextTitle(mIntelliPlugTitle,
+				context.getString(R.string.intelliplug), context);
+		mIntelliPlugTitle.setPadding(0, (int) (MainActivity.mHeight / 21.6), 0,
+				0);
+		mIntelliPlugTitle.setOnClickListener(OnClickListener);
+		if (Utils.exist(CPUHelper.INTELLIPLUG))
+			layout.addView(mIntelliPlugTitle);
+
+		LinearLayout mIntelliPlugLayout = new LinearLayout(context);
+		mIntelliPlugLayout.setGravity(Gravity.CENTER);
+		if (Utils.exist(CPUHelper.INTELLIPLUG))
+			layout.addView(mIntelliPlugLayout);
+
+		mIntelliPlugBox = new CheckBox(context);
+		LayoutHelper.setCheckBox(mIntelliPlugBox, CPUHelper.getIntelliPlug(),
+				context.getString(R.string.intelliplug));
+		mIntelliPlugBox.setOnCheckedChangeListener(OnCheckedChangeListener);
+		mIntelliPlugLayout.addView(mIntelliPlugBox);
+
+		mIntelliPlugEcoModeBox = new CheckBox(context);
+		LayoutHelper.setCheckBox(mIntelliPlugEcoModeBox,
+				CPUHelper.getIntelliPlugEcoMode(),
+				context.getString(R.string.intelliplugecomode));
+		mIntelliPlugEcoModeBox
+				.setOnCheckedChangeListener(OnCheckedChangeListener);
+		mIntelliPlugLayout.addView(mIntelliPlugEcoModeBox);
 	}
 
 	@Override
@@ -442,6 +472,9 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 		else if (v.equals(mGovernorTitle))
 			InformationDialog.showInfo(mGovernorTitle.getText().toString(),
 					context.getString(R.string.cpugovernor_summary), context);
+		else if (v.equals(mIntelliPlugTitle))
+			InformationDialog.showInfo(mIntelliPlugTitle.getText().toString(),
+					context.getString(R.string.intelliplug_summary), context);
 	}
 
 	@Override
@@ -454,5 +487,11 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 						isChecked ? "1" : "0",
 						CPUHelper.CORE_STAT.replace("present",
 								String.valueOf(i)));
+
+		if (buttonView.equals(mIntelliPlugBox))
+			Control.runCPUGeneric(isChecked ? "1" : "0", CPUHelper.INTELLIPLUG);
+		if (buttonView.equals(mIntelliPlugEcoModeBox))
+			Control.runCPUGeneric(isChecked ? "1" : "0",
+					CPUHelper.INTELLIPLUG_ECO_MODE);
 	}
 }

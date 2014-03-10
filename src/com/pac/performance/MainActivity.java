@@ -148,6 +148,8 @@ public class MainActivity extends FragmentActivity {
 				VoltageChange = false;
 			}
 			showButtons(false);
+			Utils.toast(getString(R.string.applysuccessfully),
+					getApplicationContext());
 			break;
 		case R.id.action_cancel:
 			if (CPUChange) {

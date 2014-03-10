@@ -64,6 +64,7 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 
 		mVoltagesMV = VoltageHelper.getVoltages();
 
+		// Generic Voltage Control
 		mVoltageText = new TextView(context);
 		LayoutHelper.setTextTitle(mVoltageText,
 				context.getString(R.string.voltagecontrol), context);
