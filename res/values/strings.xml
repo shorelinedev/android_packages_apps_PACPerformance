@@ -55,4 +55,17 @@
     <string name="externalstorageread">External Storage Read-ahead</string>
     <string name="externalstorageread_summary">The read-ahead value on the external phone memory.</string>
 
+    <!-- Information -->
+    <string name="information">Information</string>
+    <string name="device">Device</string>
+    <string name="codename">Codename</string>
+    <string name="kernelversion">Kernel Version</string>
+    <string name="timeinstate">Time In State</string>
+    <string name="unusedcpustates">Unused CPU states</string>
+    <string name="totalstatetime">Total State Time</string>
+    <string name="deepsleep">Deep Sleep</string>
+    <string name="resettimers">Reset Timers</string>
+    <string name="restoretimers">Restore Timers</string>
+    <string name="refresh">Refresh</string>
+
 </resources>
