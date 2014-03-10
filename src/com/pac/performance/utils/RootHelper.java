@@ -3,9 +3,9 @@ package com.pac.performance.utils;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import com.stericson.roottools.RootTools;
-import com.stericson.roottools.exceptions.RootDeniedException;
-import com.stericson.roottools.execution.CommandCapture;
+import com.stericson.RootTools.RootTools;
+import com.stericson.RootTools.exceptions.RootDeniedException;
+import com.stericson.RootTools.execution.CommandCapture;
 
 public class RootHelper {
 

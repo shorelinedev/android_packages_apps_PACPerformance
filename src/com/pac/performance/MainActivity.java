@@ -2,13 +2,14 @@ package com.pac.performance;
 
 import com.pac.performance.fragments.CPUFragment;
 import com.pac.performance.fragments.MiscFragment;
+import com.pac.performance.fragments.VMFragment;
 import com.pac.performance.fragments.VoltageFragment;
 import com.pac.performance.utils.CPUHelper;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.RootHelper;
 import com.pac.performance.utils.Utils;
 import com.pac.performance.utils.VoltageHelper;
-import com.stericson.roottools.RootTools;
+import com.stericson.RootTools.RootTools;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,10 +42,8 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (!RootTools.isRootAvailable(getApplicationContext())) {
-			Utils.toast(
-					getString(getString(R.string.app_name).contains("PAC") ? R.string.noroot
-							: R.string.nicetrykanger), getApplicationContext());
+		if (!RootTools.isRootAvailable()) {
+			Utils.toast(getString(R.string.noroot), getApplicationContext());
 			finish();
 		} else if (!RootTools.isAccessGiven()) {
 			Utils.toast(getString(R.string.norootaccess),
@@ -93,8 +92,14 @@ public class MainActivity extends FragmentActivity {
 						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
 					return new VoltageFragment();
 				else
-					return new MiscFragment();
+					return new VMFragment();
 			case 2:
+				if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
+						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
+					return new VMFragment();
+				else
+					return new MiscFragment();
+			case 3:
 				return new MiscFragment();
 			default:
 				return new CPUFragment();
@@ -104,7 +109,7 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public int getCount() {
 			return Utils.exist(VoltageHelper.CPU_VOLTAGE)
-					|| Utils.exist(VoltageHelper.FAUX_VOLTAGE) ? 3 : 2;
+					|| Utils.exist(VoltageHelper.FAUX_VOLTAGE) ? 4 : 3;
 		}
 
 		@Override
@@ -117,8 +122,14 @@ public class MainActivity extends FragmentActivity {
 						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
 					return getString(R.string.voltage);
 				else
-					return getString(R.string.misc);
+					return getString(R.string.vm);
 			case 2:
+				if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
+						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
+					return getString(R.string.vm);
+				else
+					return getString(R.string.misc);
+			case 3:
 				return getString(R.string.misc);
 			}
 			return null;

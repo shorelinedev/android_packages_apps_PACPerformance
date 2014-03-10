@@ -3,7 +3,7 @@ package com.pac.performance;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.RootHelper;
 import com.pac.performance.utils.Utils;
-import com.stericson.roottools.RootTools;
+import com.stericson.RootTools.RootTools;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
