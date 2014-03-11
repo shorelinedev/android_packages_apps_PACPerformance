@@ -16,6 +16,8 @@
     <string name="mhz">MHz</string>
     <string name="mv">mV</string>
     <string name="kb">kB</string>
+    <string name="minus">&lt;</string>
+    <string name="plus">&gt;</string>
 
     <!-- CPU -->
     <string name="cpu">CPU</string>

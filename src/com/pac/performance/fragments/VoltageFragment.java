@@ -14,6 +14,7 @@ import com.pac.performance.utils.VoltageHelper;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -109,13 +110,14 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 			mVoltageLayout.addView(mVoltageText);
 
 			LinearLayout mVoltageBarLayout = new LinearLayout(context);
+			mVoltageBarLayout.setGravity(Gravity.CENTER);
 			mVoltageLayout.addView(mVoltageBarLayout);
 
 			LayoutParams lp = new LinearLayout.LayoutParams(0,
 					LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
 
 			Button mVoltMinusbutton = new Button(context);
-			mVoltMinusbutton.setText("-");
+			mVoltMinusbutton.setText(context.getString(R.string.minus));
 			mVoltMinusbuttons[i] = mVoltMinusbutton;
 			mVoltMinusbutton.setOnClickListener(OnClickListener);
 			mVoltageBarLayout.addView(mVoltMinusbutton);
@@ -129,7 +131,7 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 			mVoltageBarLayout.addView(mVoltageBar);
 
 			Button mVoltPlusButton = new Button(context);
-			mVoltPlusButton.setText("+");
+			mVoltPlusButton.setText(context.getString(R.string.plus));
 			mVoltPlusButtons[i] = mVoltPlusButton;
 			mVoltPlusButton.setOnClickListener(OnClickListener);
 			mVoltageBarLayout.addView(mVoltPlusButton);

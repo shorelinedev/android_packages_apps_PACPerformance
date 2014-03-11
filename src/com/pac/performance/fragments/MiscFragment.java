@@ -172,7 +172,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 				LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
 
 		mInternalReadMinus = new Button(context);
-		mInternalReadMinus.setText("-");
+		mInternalReadMinus.setText(context.getString(R.string.minus));
 		mInternalReadMinus.setOnClickListener(OnClickListener);
 		mInternalReadLayout.addView(mInternalReadMinus);
 
@@ -184,7 +184,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 		mInternalReadLayout.addView(mInternalReadBar);
 
 		mInternalReadPlus = new Button(context);
-		mInternalReadPlus.setText("+");
+		mInternalReadPlus.setText(context.getString(R.string.plus));
 		mInternalReadPlus.setOnClickListener(OnClickListener);
 		mInternalReadLayout.addView(mInternalReadPlus);
 
@@ -213,7 +213,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 			layout.addView(mExternalReadLayout);
 
 		mExternalReadMinus = new Button(context);
-		mExternalReadMinus.setText("-");
+		mExternalReadMinus.setText(context.getString(R.string.minus));
 		mExternalReadMinus.setOnClickListener(OnClickListener);
 		mExternalReadLayout.addView(mExternalReadMinus);
 
@@ -225,7 +225,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 		mExternalReadLayout.addView(mExternalReadBar);
 
 		mExternalReadPlus = new Button(context);
-		mExternalReadPlus.setText("+");
+		mExternalReadPlus.setText(context.getString(R.string.plus));
 		mExternalReadPlus.setOnClickListener(OnClickListener);
 		mExternalReadLayout.addView(mExternalReadPlus);
 	}
