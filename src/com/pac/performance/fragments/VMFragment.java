@@ -53,15 +53,15 @@ public class VMFragment extends Fragment implements OnClickListener,
 		OnClickListener = this;
 		TextWatcher = this;
 
-		if (VMHelper.getVMValues().size() == VMHelper.getVMFiles().size())
-			setLayout();
+		mVMFiles = VMHelper.getVMFiles();
+		setLayout();
 		return rootView;
 	}
 
 	public static void setLayout() {
 		layout.removeAllViews();
 
-		mVMFiles = VMHelper.getVMFiles();
+		List<String> VMValues = VMHelper.getVMValues();
 
 		// Create VM Tuning Title
 		mVMTitle = new TextView(context);
@@ -98,8 +98,7 @@ public class VMFragment extends Fragment implements OnClickListener,
 			mVMLayout.addView(mMinusButton);
 
 			EditText mVMEdit = new EditText(context);
-			LayoutHelper.setEditText(mVMEdit,
-					String.valueOf(VMHelper.getVMValues().get(i)));
+			LayoutHelper.setEditText(mVMEdit, String.valueOf(VMValues.get(i)));
 			mVMEdit.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED
 					| InputType.TYPE_CLASS_NUMBER);
 			mVMEdit.addTextChangedListener(TextWatcher);
@@ -120,20 +119,20 @@ public class VMFragment extends Fragment implements OnClickListener,
 			InformationDialog.showInfo(mVMTitle.getText().toString(),
 					context.getString(R.string.vmtunig_summary), context);
 
-		for (int i = 0; i < VMHelper.getVMFiles().size(); i++) {
+		for (int i = 0; i < mVMFiles.size(); i++) {
 			MainFragment.VMChange = true;
 			MainFragment.showButtons(true);
 			if (v.equals(mMinusButtons[i])) {
 				mVMEdits[i].setText(String.valueOf(Integer.parseInt(mVMEdits[i]
 						.getText().toString()) - 1));
-				Control.runVMGeneric(mVMEdits[i].getText().toString(), VMHelper
-						.getVMFiles().get(i));
+				Control.runVMGeneric(mVMEdits[i].getText().toString(),
+						mVMFiles.get(i));
 			}
 			if (v.equals(mPlusButtons[i])) {
 				mVMEdits[i].setText(String.valueOf(Integer.parseInt(mVMEdits[i]
 						.getText().toString()) + 1));
-				Control.runVMGeneric(mVMEdits[i].getText().toString(), VMHelper
-						.getVMFiles().get(i));
+				Control.runVMGeneric(mVMEdits[i].getText().toString(),
+						mVMFiles.get(i));
 			}
 		}
 	}
@@ -143,10 +142,10 @@ public class VMFragment extends Fragment implements OnClickListener,
 		MainFragment.VMChange = true;
 		MainFragment.showButtons(true);
 
-		for (int i = 0; i < VMHelper.getVMFiles().size(); i++)
+		for (int i = 0; i < mVMFiles.size(); i++)
 			if (s.equals(mVMEdits[i]))
-				Control.runVMGeneric(mVMEdits[i].getText().toString(), VMHelper
-						.getVMFiles().get(i));
+				Control.runVMGeneric(mVMEdits[i].getText().toString(),
+						mVMFiles.get(i));
 	}
 
 	@Override
