@@ -25,8 +25,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Display;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,9 +36,6 @@ public class MainActivity extends FragmentActivity {
 	private static DrawerLayout mDrawerLayout;
 	private static ListView mDrawerList;
 	private static ActionBarDrawerToggle mDrawerToggle;
-
-	private static CharSequence mDrawerTitle;
-	private static CharSequence mTitle;
 
 	public static int mWidth = 0;
 	public static int mHeight = 0;
@@ -93,7 +88,6 @@ public class MainActivity extends FragmentActivity {
 			mFragments.add(new InformationFragment());
 			mFragmentNames.add(getString(R.string.information));
 
-			mTitle = mDrawerTitle = getTitle();
 			mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 			mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -111,12 +105,10 @@ public class MainActivity extends FragmentActivity {
 					R.drawable.ic_drawer, R.string.drawer_open,
 					R.string.drawer_close) {
 				public void onDrawerClosed(View view) {
-					getActionBar().setTitle(mTitle);
 					invalidateOptionsMenu();
 				}
 
 				public void onDrawerOpened(View drawerView) {
-					getActionBar().setTitle(mDrawerTitle);
 					invalidateOptionsMenu();
 				}
 			};
@@ -150,15 +142,11 @@ public class MainActivity extends FragmentActivity {
 	private void selectItem(int position) {
 		if (MainFragment.mViewPager != null)
 			MainFragment.mViewPager.setCurrentItem(position);
-		mDrawerList.setItemChecked(position, true);
-		setTitle(mFragmentNames.get(position));
-		mDrawerLayout.closeDrawer(mDrawerList);
+		setDrawerSelected(position);
 	}
 
-	@Override
-	public void setTitle(CharSequence title) {
-		mTitle = title;
-		getActionBar().setTitle(mTitle);
+	public void setDrawerSelected(int position) {
+		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 
 	@Override
