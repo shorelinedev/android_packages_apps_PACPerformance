@@ -1,5 +1,8 @@
 package com.pac.performance;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pac.performance.fragments.CPUFragment;
 import com.pac.performance.fragments.InformationFragment;
 import com.pac.performance.fragments.MiscFragment;
@@ -9,6 +12,7 @@ import com.pac.performance.utils.CPUHelper;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.RootHelper;
 import com.pac.performance.utils.Utils;
+import com.pac.performance.utils.VMHelper;
 import com.pac.performance.utils.VoltageHelper;
 import com.stericson.RootTools.RootTools;
 
@@ -27,6 +31,9 @@ public class MainActivity extends FragmentActivity {
 	private SectionsPagerAdapter mSectionsPagerAdapter;
 	private ViewPager mViewPager;
 
+	private static List<Fragment> mFragments = new ArrayList<Fragment>();
+	private static List<String> mFragmentNames = new ArrayList<String>();
+
 	public static int mWidth = 0;
 	public static int mHeight = 0;
 
@@ -37,6 +44,7 @@ public class MainActivity extends FragmentActivity {
 	public static boolean CPUChange = false;
 	public static boolean VoltageChange = false;
 	public static boolean MiscChange = false;
+	public static boolean VMChange = false;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -62,6 +70,22 @@ public class MainActivity extends FragmentActivity {
 
 			setContentView(R.layout.activity_main);
 
+			mFragments.add(new CPUFragment());
+			mFragmentNames.add(getString(R.string.cpu));
+			if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
+					|| Utils.exist(VoltageHelper.FAUX_VOLTAGE)) {
+				mFragments.add(new VoltageFragment());
+				mFragmentNames.add(getString(R.string.voltage));
+			}
+			mFragments.add(new MiscFragment());
+			mFragmentNames.add(getString(R.string.misc));
+			if (VMHelper.getVMValues().size() == VMHelper.getVMFiles().size()) {
+				mFragments.add(new VMFragment());
+				mFragmentNames.add(getString(R.string.vm));
+			}
+			mFragments.add(new InformationFragment());
+			mFragmentNames.add(getString(R.string.information));
+
 			setPerm();
 
 			Display display = this.getWindowManager().getDefaultDisplay();
@@ -85,67 +109,17 @@ public class MainActivity extends FragmentActivity {
 
 		@Override
 		public Fragment getItem(int position) {
-			switch (position) {
-			case 0:
-				return new CPUFragment();
-			case 1:
-				if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
-						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
-					return new VoltageFragment();
-				else
-					return new VMFragment();
-			case 2:
-				if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
-						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
-					return new VMFragment();
-				else
-					return new MiscFragment();
-			case 3:
-				if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
-						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
-					return new MiscFragment();
-				else
-					return new InformationFragment();
-			case 4:
-				return new InformationFragment();
-			default:
-				return new CPUFragment();
-			}
+			return mFragments.get(position);
 		}
 
 		@Override
 		public int getCount() {
-			return Utils.exist(VoltageHelper.CPU_VOLTAGE)
-					|| Utils.exist(VoltageHelper.FAUX_VOLTAGE) ? 5 : 4;
+			return mFragments.size();
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			switch (position) {
-			case 0:
-				return getString(R.string.cpu);
-			case 1:
-				if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
-						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
-					return getString(R.string.voltage);
-				else
-					return getString(R.string.vm);
-			case 2:
-				if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
-						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
-					return getString(R.string.vm);
-				else
-					return getString(R.string.misc);
-			case 3:
-				if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
-						|| Utils.exist(VoltageHelper.FAUX_VOLTAGE))
-					return getString(R.string.misc);
-				else
-					return getString(R.string.information);
-			case 4:
-				return getString(R.string.information);
-			}
-			return null;
+			return mFragmentNames.get(position);
 		}
 	}
 
@@ -155,6 +129,7 @@ public class MainActivity extends FragmentActivity {
 		RootHelper.run("chmod 777 " + CPUHelper.MAX_SCREEN_OFF);
 		RootHelper.run("chmod 777 " + CPUHelper.MIN_SCREEN_ON);
 		RootHelper.run("chmod 777 " + CPUHelper.CUR_GOVERNOR);
+		RootHelper.run("chmod 777 " + VMHelper.VM_PATH + "/*");
 	}
 
 	@Override
@@ -188,6 +163,10 @@ public class MainActivity extends FragmentActivity {
 				Control.setMisc(getApplicationContext());
 				MiscChange = false;
 			}
+			if (VMChange) {
+				Control.setVM(getApplicationContext());
+				VMChange = false;
+			}
 			Control.reset();
 			showButtons(false);
 			Utils.toast(getString(R.string.applysuccessfully),
@@ -205,6 +184,10 @@ public class MainActivity extends FragmentActivity {
 			if (MiscChange) {
 				MiscFragment.setLayout();
 				MiscChange = false;
+			}
+			if (VMChange) {
+				VMFragment.setLayout();
+				VMChange = false;
 			}
 			Control.reset();
 			showButtons(false);

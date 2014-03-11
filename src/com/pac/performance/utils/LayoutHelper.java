@@ -7,11 +7,17 @@ import android.graphics.Typeface;
 import android.view.Gravity;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 public class LayoutHelper {
+
+	public static void setEditText(EditText i, String text) {
+		i.setGravity(Gravity.CENTER);
+		i.setText(text);
+	}
 
 	public static void setSubTitle(TextView i, String text) {
 		i.setGravity(Gravity.CENTER);

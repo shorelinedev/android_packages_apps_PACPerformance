@@ -6,8 +6,10 @@ import java.util.List;
 import android.content.Context;
 import android.os.Handler;
 
+import com.pac.performance.MainActivity;
 import com.pac.performance.fragments.CPUFragment;
 import com.pac.performance.fragments.MiscFragment;
+import com.pac.performance.fragments.VMFragment;
 import com.pac.performance.fragments.VoltageFragment;
 
 public class Control {
@@ -20,6 +22,9 @@ public class Control {
 
 	private static List<String> MiscCommands = new ArrayList<String>();
 	private static List<String> Misclistfiles = new ArrayList<String>();
+
+	private static List<String> VMCommands = new ArrayList<String>();
+	private static List<String> VMlistfiles = new ArrayList<String>();
 
 	private static Context context;
 
@@ -68,16 +73,31 @@ public class Control {
 		}
 	}
 
+	public static void setVM(Context c) {
+		context = c;
+		setValueVM();
+	}
+
+	private static void setValueVM() {
+		for (int i = 0; i < VMCommands.size(); i++) {
+			RootHelper.run(VMCommands.get(i));
+			Utils.saveString(VMlistfiles.get(i), VMCommands.get(i), context);
+		}
+	}
+
 	public static void reset() {
 
 		Runnable r = new Runnable() {
 			public void run() {
-				if (CPUFragment.layout != null)
+				if (CPUFragment.layout != null && MainActivity.CPUChange)
 					CPUFragment.setLayout();
-				if (VoltageFragment.layout != null)
+				if (VoltageFragment.layout != null
+						&& MainActivity.VoltageChange)
 					VoltageFragment.setLayout();
-				if (MiscFragment.layout != null)
+				if (MiscFragment.layout != null && MainActivity.MiscChange)
 					MiscFragment.setLayout();
+				if (VMFragment.layout != null && MainActivity.VMChange)
+					VMFragment.setLayout();
 
 				CPUCommands.clear();
 				CPUlistfiles.clear();
@@ -87,6 +107,9 @@ public class Control {
 
 				MiscCommands.clear();
 				Misclistfiles.clear();
+
+				VMCommands.clear();
+				VMlistfiles.clear();
 			}
 		};
 		Handler handler = new Handler();
@@ -107,5 +130,10 @@ public class Control {
 	public static void runMiscGeneric(String value, String file) {
 		MiscCommands.add("echo " + value + " > " + file);
 		Misclistfiles.add(file);
+	}
+
+	public static void runVMGeneric(String value, String file) {
+		VMCommands.add("sysctl -w vm." + file + "=" + value);
+		VMlistfiles.add(file);
 	}
 }

@@ -1,8 +1,10 @@
 package com.pac.performance;
 
+import com.pac.performance.utils.CPUHelper;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.RootHelper;
 import com.pac.performance.utils.Utils;
+import com.pac.performance.utils.VMHelper;
 import com.stericson.RootTools.RootTools;
 
 import android.content.BroadcastReceiver;
@@ -29,6 +31,14 @@ public class BootReceiver extends BroadcastReceiver {
 		for (int i = 0; i < Control.stringfiles.length; i++)
 			for (String name : Control.stringfiles[i])
 				RootHelper.run(Utils.getString(name, "", context));
+
+		for (int i = 0; i < CPUHelper.getCoreCount(); i++)
+			RootHelper.run(Utils.getString(
+					CPUHelper.CORE_STAT.replace("present", String.valueOf(i)),
+					"", context));
+
+		for (String name : VMHelper.getVMFiles())
+			RootHelper.run(Utils.getString(name, "", context));
 
 		Utils.toast(context.getString(R.string.ppbootedup), context);
 	}

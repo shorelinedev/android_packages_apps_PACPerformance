@@ -46,6 +46,8 @@
 
     <!-- VM -->
     <string name="vm">VM</string>
+    <string name="vmtuning">VM Tuning</string>
+    <string name="vmtunig_summary">Tune the operation of the virtual memory (VM) subsystem of the Linux kernel and the writeout of dirty data to disk.</string>
 
     <!-- Misc -->
     <string name="misc">Misc</string>

@@ -12,7 +12,21 @@ import android.content.Context;
 import android.widget.Toast;
 
 public class Utils {
-	
+
+	public static String setAllLetterUpperCase(String text) {
+		StringBuffer res = new StringBuffer();
+
+		String[] strArr = text.split(" ");
+		for (String str : strArr) {
+			char[] stringArray = str.trim().toCharArray();
+			stringArray[0] = Character.toUpperCase(stringArray[0]);
+			str = new String(stringArray);
+
+			res.append(str).append(" ");
+		}
+		return res.toString().trim();
+	}
+
 	public static String listSplitblock(List<String> value) {
 		StringBuilder mValue = new StringBuilder();
 		for (String s : value) {
