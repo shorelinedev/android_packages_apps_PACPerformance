@@ -267,8 +267,8 @@ public class MiscFragment extends Fragment implements OnClickListener,
 		if (arg0.equals(mInternalSchedulerSpinner)) {
 			if (arg2 != mAvailableInternalSchedulersList.indexOf(MiscHelper
 					.getCurInternalScheduler())) {
-				MainActivity.showButtons(true);
-				MainActivity.MiscChange = true;
+				MainFragment.showButtons(true);
+				MainFragment.MiscChange = true;
 				Control.runMiscGeneric(
 						mAvailableInternalSchedulersList.get(arg2),
 						MiscHelper.INTERNAL_SCHEDULER);
@@ -277,8 +277,8 @@ public class MiscFragment extends Fragment implements OnClickListener,
 		if (arg0.equals(mExternalSchedulerSpinner)) {
 			if (arg2 != mAvailableExternalSchedulersList.indexOf(MiscHelper
 					.getCurExternalScheduler())) {
-				MainActivity.showButtons(true);
-				MainActivity.MiscChange = true;
+				MainFragment.showButtons(true);
+				MainFragment.MiscChange = true;
 				Control.runMiscGeneric(
 						mAvailableExternalSchedulersList.get(arg2),
 						MiscHelper.EXTERNAL_SCHEDULER);
@@ -293,8 +293,8 @@ public class MiscFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		MainActivity.MiscChange = true;
-		MainActivity.showButtons(true);
+		MainFragment.MiscChange = true;
+		MainFragment.showButtons(true);
 		if (seekBar.equals(mInternalReadBar))
 			mInternalReadText.setText(String.valueOf(progress * 128 + 128)
 					+ context.getString(R.string.kb));

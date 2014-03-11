@@ -121,8 +121,8 @@ public class VMFragment extends Fragment implements OnClickListener,
 					context.getString(R.string.vmtunig_summary), context);
 
 		for (int i = 0; i < VMHelper.getVMFiles().size(); i++) {
-			MainActivity.VMChange = true;
-			MainActivity.showButtons(true);
+			MainFragment.VMChange = true;
+			MainFragment.showButtons(true);
 			if (v.equals(mMinusButtons[i])) {
 				mVMEdits[i].setText(String.valueOf(Integer.parseInt(mVMEdits[i]
 						.getText().toString()) - 1));
@@ -140,8 +140,8 @@ public class VMFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void afterTextChanged(Editable s) {
-		MainActivity.VMChange = true;
-		MainActivity.showButtons(true);
+		MainFragment.VMChange = true;
+		MainFragment.showButtons(true);
 
 		for (int i = 0; i < VMHelper.getVMFiles().size(); i++)
 			if (s.equals(mVMEdits[i]))

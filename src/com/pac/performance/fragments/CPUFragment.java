@@ -377,8 +377,8 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		MainActivity.showButtons(true);
-		MainActivity.CPUChange = true;
+		MainFragment.showButtons(true);
+		MainFragment.CPUChange = true;
 		if (seekBar.equals(mMaxFreqScalingBar)) {
 			mMaxFreqScalingText
 					.setText(String.valueOf(Integer.parseInt(mAvailableFreqList
@@ -444,8 +444,8 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 		if (arg0.equals(mGovernorSpinner)) {
 			if (arg2 != mAvailableGovernorList.indexOf(CPUHelper
 					.getCurGovernor())) {
-				MainActivity.showButtons(true);
-				MainActivity.CPUChange = true;
+				MainFragment.showButtons(true);
+				MainFragment.CPUChange = true;
 				Control.runCPUGeneric(mAvailableGovernorList.get(arg2),
 						CPUHelper.CUR_GOVERNOR);
 			}
@@ -482,8 +482,8 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		MainActivity.showButtons(true);
-		MainActivity.CPUChange = true;
+		MainFragment.showButtons(true);
+		MainFragment.CPUChange = true;
 		for (int i = 1; i < CPUHelper.getCoreCount(); i++)
 			if (buttonView.equals(mCoreControlBoxes[i]))
 				Control.runCPUGeneric(

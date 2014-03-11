@@ -11,6 +11,8 @@
     <string name="ppbootedup">PACPerformance booted up</string>
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
     <!-- Units -->
     <string name="mhz">MHz</string>
@@ -68,8 +70,5 @@
     <string name="unusedcpustates">Unused CPU states</string>
     <string name="totalstatetime">Total State Time</string>
     <string name="deepsleep">Deep Sleep</string>
-    <string name="resettimers">Reset Timers</string>
-    <string name="restoretimers">Restore Timers</string>
-    <string name="refresh">Refresh</string>
 
 </resources>

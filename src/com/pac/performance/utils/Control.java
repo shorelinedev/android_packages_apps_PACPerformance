@@ -6,8 +6,8 @@ import java.util.List;
 import android.content.Context;
 import android.os.Handler;
 
-import com.pac.performance.MainActivity;
 import com.pac.performance.fragments.CPUFragment;
+import com.pac.performance.fragments.MainFragment;
 import com.pac.performance.fragments.MiscFragment;
 import com.pac.performance.fragments.VMFragment;
 import com.pac.performance.fragments.VoltageFragment;
@@ -89,14 +89,14 @@ public class Control {
 
 		Runnable r = new Runnable() {
 			public void run() {
-				if (CPUFragment.layout != null && MainActivity.CPUChange)
+				if (CPUFragment.layout != null && MainFragment.CPUChange)
 					CPUFragment.setLayout();
 				if (VoltageFragment.layout != null
-						&& MainActivity.VoltageChange)
+						&& MainFragment.VoltageChange)
 					VoltageFragment.setLayout();
-				if (MiscFragment.layout != null && MainActivity.MiscChange)
+				if (MiscFragment.layout != null && MainFragment.MiscChange)
 					MiscFragment.setLayout();
-				if (VMFragment.layout != null && MainActivity.VMChange)
+				if (VMFragment.layout != null && MainFragment.VMChange)
 					VMFragment.setLayout();
 
 				CPUCommands.clear();

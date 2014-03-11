@@ -97,38 +97,6 @@ public class InformationFragment extends Fragment {
 		refreshData();
 	}
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.info, menu);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// what it do mayne
-		switch (item.getItemId()) {
-		/* pressed the load menu button */
-		case R.id.action_refresh:
-			refreshData();
-			break;
-		case R.id.action_reset:
-			try {
-				CpuSpyApp.getCpuStateMonitor().setOffsets();
-			} catch (CpuStateMonitorException e) {
-			}
-			CpuSpyApp.saveOffsets(getActivity());
-			updateView();
-			break;
-		case R.id.action_restore:
-			CpuSpyApp.getCpuStateMonitor().removeOffsets();
-			CpuSpyApp.saveOffsets(getActivity());
-			updateView();
-			break;
-		}
-		// made it
-		return false;
-	}
-
 	/** Generate and update all UI elements */
 	public void updateView() {
 		/**
