@@ -5,7 +5,6 @@ import com.pac.performance.utils.Control;
 import com.pac.performance.utils.RootHelper;
 import com.pac.performance.utils.Utils;
 import com.pac.performance.utils.VMHelper;
-import com.stericson.RootTools.RootTools;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,8 +17,7 @@ public class BootReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context c, Intent intent) {
 		context = c;
-		if (Utils.getBoolean("setonboot", false, context)
-				&& RootTools.isAccessGiven() && RootTools.isBusyboxAvailable())
+		if (Utils.getBoolean("setonboot", false, context))
 			if (Utils.getFormattedKernelVersion().equals(
 					Utils.getString("kernelversion", "nothing", context)))
 				setValue();

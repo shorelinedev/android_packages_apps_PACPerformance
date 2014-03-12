@@ -41,6 +41,7 @@ public class LayoutHelper {
 	public static void setSeekBarText(TextView i, String text) {
 		i.setGravity(Gravity.CENTER);
 		i.setText(text);
+		i.setPadding(0, 15, 0, 0);
 	}
 
 	public static void setNormalSeekBar(SeekBar i, int max, int progress,

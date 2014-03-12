@@ -2,7 +2,7 @@ package com.pac.performance.utils;
 
 import java.io.IOException;
 
-public class MiscHelper {
+public class IOHelper {
 
 	public static final String EXTERNAL_READ = "/sys/block/mmcblk1/queue/read_ahead_kb";
 	public static final String INTERNAL_READ = "/sys/block/mmcblk0/queue/read_ahead_kb";

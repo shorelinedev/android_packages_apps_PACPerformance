@@ -2,9 +2,6 @@
 <resources>
 
     <string name="app_name">PACPerformance</string>
-    <string name="noroot">You need Root!</string>
-    <string name="norootaccess">You need Root Access!</string>
-    <string name="nobusybox">You need Busybox!</string>
     <string name="applysuccessfully">Apply Successfully</string>
     <string name="setonboot">Set on boot</string>
     <string name="newkernel">New Kernel detected. Your values will not get applied.</string>
@@ -37,8 +34,14 @@
     <string name="cpugovernor">CPU Governor</string>
     <string name="cpugovernor_summary">The CPU governor determines how the CPU behaves in response to changes in workload. Changing the governor will impact how the CPU scales through the frequency steps available to you CPU.</string>
     <string name="intelliplug">IntelliPlug</string>
-    <string name="intelliplug_summary">IntelliPlug hotplugs/unplugs CPU cores based on load demand of the system.</string>
     <string name="intelliplugecomode">Eco Mode</string>
+
+    <!-- Battery -->
+    <string name="battery">Battery</string>
+    <string name="curbatteryvoltage">Current Battery Voltage</string>
+    <string name="fastcharge">Fast Charge</string>
+    <string name="blx">Battery Life eXtender</string>
+    <string name="blx_summary">Set a limit for the capacity to which the battery will be charged by passing a value between 0 and 100.</string>
 
     <!-- Voltage -->
     <string name="voltage">Voltage</string>
@@ -51,8 +54,8 @@
     <string name="vmtuning">VM Tuning</string>
     <string name="vmtunig_summary">Tune the operation of the virtual memory (VM) subsystem of the Linux kernel and the writeout of dirty data to disk.</string>
 
-    <!-- Misc -->
-    <string name="misc">Misc</string>
+    <!-- IO -->
+    <string name="io">I/O Schedulers</string>
     <string name="internalstoragescheduler">Internal Storage Scheduler</string>
     <string name="storagescheduler_summary">Set the active I/O elevator algorithm. The scheduler decides how to handle I/O requests and how to handle them.</string>
     <string name="externalstoragescheduler">External Storage Scheduler</string>

@@ -15,7 +15,7 @@ include $(BUILD_PACKAGE)
 ##################################################
 include $(CLEAR_VARS)
 
-LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := RootTools:libs/RootTools-3.3.jar
+LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := RootTools:libs/RootTools.jar
 
 include $(BUILD_MULTI_PREBUILT)
 

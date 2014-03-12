@@ -9,7 +9,7 @@ import com.pac.performance.R;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.InformationDialog;
 import com.pac.performance.utils.LayoutHelper;
-import com.pac.performance.utils.MiscHelper;
+import com.pac.performance.utils.IOHelper;
 import com.pac.performance.utils.Utils;
 
 import android.content.Context;
@@ -31,7 +31,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class MiscFragment extends Fragment implements OnClickListener,
+public class IOFragment extends Fragment implements OnClickListener,
 		OnItemSelectedListener, OnSeekBarChangeListener {
 
 	private static Context context;
@@ -87,7 +87,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 		mInternalSchedulerLayout.setPadding(0,
 				(int) (MainActivity.mHeight / 25), 0, 0);
 		mInternalSchedulerLayout.setGravity(Gravity.CENTER);
-		if (Utils.exist(MiscHelper.INTERNAL_SCHEDULER))
+		if (Utils.exist(IOHelper.INTERNAL_SCHEDULER))
 			layout.addView(mInternalSchedulerLayout);
 
 		mInternalSchedulerTitle = new TextView(context);
@@ -96,7 +96,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 		mInternalSchedulerTitle.setOnClickListener(OnClickListener);
 		mInternalSchedulerLayout.addView(mInternalSchedulerTitle);
 
-		mAvailableInternalSchedulers = MiscHelper.getInternalSchedulers();
+		mAvailableInternalSchedulers = IOHelper.getInternalSchedulers();
 		mAvailableInternalSchedulersList = Arrays
 				.asList(mAvailableInternalSchedulers);
 
@@ -108,7 +108,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 		mInternalSchedulerSpinner = new Spinner(context);
 		LayoutHelper.setSpinner(mInternalSchedulerSpinner,
 				adapterInternalScheduler, mAvailableInternalSchedulersList
-						.indexOf(MiscHelper.getCurInternalScheduler()));
+						.indexOf(IOHelper.getCurInternalScheduler()));
 		mInternalSchedulerSpinner
 				.setOnItemSelectedListener(OnItemSelectedListener);
 		mInternalSchedulerLayout.addView(mInternalSchedulerSpinner);
@@ -118,7 +118,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 		mExternalSchedulerLayout.setPadding(0,
 				(int) (MainActivity.mHeight / 25), 0, 0);
 		mExternalSchedulerLayout.setGravity(Gravity.CENTER);
-		if (Utils.exist(MiscHelper.EXTERNAL_SCHEDULER))
+		if (Utils.exist(IOHelper.EXTERNAL_SCHEDULER))
 			layout.addView(mExternalSchedulerLayout);
 
 		mExternalSchedulerTitle = new TextView(context);
@@ -127,7 +127,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 		mExternalSchedulerTitle.setOnClickListener(OnClickListener);
 		mExternalSchedulerLayout.addView(mExternalSchedulerTitle);
 
-		mAvailableExternalSchedulers = MiscHelper.getExternalSchedulers();
+		mAvailableExternalSchedulers = IOHelper.getExternalSchedulers();
 		mAvailableExternalSchedulersList = Arrays
 				.asList(mAvailableExternalSchedulers);
 
@@ -139,7 +139,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 		mExternalSchedulerSpinner = new Spinner(context);
 		LayoutHelper.setSpinner(mExternalSchedulerSpinner,
 				adapterExternalScheduler, mAvailableExternalSchedulersList
-						.indexOf(MiscHelper.getCurExternalScheduler()));
+						.indexOf(IOHelper.getCurExternalScheduler()));
 		mExternalSchedulerSpinner
 				.setOnItemSelectedListener(OnItemSelectedListener);
 		mExternalSchedulerLayout.addView(mExternalSchedulerSpinner);
@@ -151,21 +151,20 @@ public class MiscFragment extends Fragment implements OnClickListener,
 		mInternalReadTitle.setPadding(0, (int) (MainActivity.mHeight / 25), 0,
 				0);
 		mInternalReadTitle.setOnClickListener(OnClickListener);
-		if (Utils.exist(MiscHelper.INTERNAL_READ))
+		if (Utils.exist(IOHelper.INTERNAL_READ))
 			layout.addView(mInternalReadTitle);
 
 		mInternalReadText = new TextView(context);
 		LayoutHelper.setSeekBarText(
 				mInternalReadText,
-				String.valueOf(MiscHelper.getInternalRead())
+				String.valueOf(IOHelper.getInternalRead())
 						+ context.getString(R.string.kb));
-		mInternalReadText.setPadding(0, 15, 0, 0);
-		if (Utils.exist(MiscHelper.INTERNAL_READ))
+		if (Utils.exist(IOHelper.INTERNAL_READ))
 			layout.addView(mInternalReadText);
 
 		LinearLayout mInternalReadLayout = new LinearLayout(context);
 		mInternalReadLayout.setGravity(Gravity.CENTER);
-		if (Utils.exist(MiscHelper.INTERNAL_READ))
+		if (Utils.exist(IOHelper.INTERNAL_READ))
 			layout.addView(mInternalReadLayout);
 
 		LayoutParams lp = new LinearLayout.LayoutParams(0,
@@ -178,7 +177,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 
 		mInternalReadBar = new SeekBar(context);
 		LayoutHelper.setNormalSeekBar(mInternalReadBar, 31,
-				(MiscHelper.getInternalRead() - 128) / 128, context);
+				(IOHelper.getInternalRead() - 128) / 128, context);
 		mInternalReadBar.setLayoutParams(lp);
 		mInternalReadBar.setOnSeekBarChangeListener(OnSeekBarChangeListener);
 		mInternalReadLayout.addView(mInternalReadBar);
@@ -195,21 +194,20 @@ public class MiscFragment extends Fragment implements OnClickListener,
 		mExternalReadTitle.setPadding(0, (int) (MainActivity.mHeight / 25), 0,
 				0);
 		mExternalReadTitle.setOnClickListener(OnClickListener);
-		if (Utils.exist(MiscHelper.EXTERNAL_READ))
+		if (Utils.exist(IOHelper.EXTERNAL_READ))
 			layout.addView(mExternalReadTitle);
 
 		mExternalReadText = new TextView(context);
 		LayoutHelper.setSeekBarText(
 				mExternalReadText,
-				String.valueOf(MiscHelper.getExternalRead())
+				String.valueOf(IOHelper.getExternalRead())
 						+ context.getString(R.string.kb));
-		mExternalReadText.setPadding(0, 15, 0, 0);
-		if (Utils.exist(MiscHelper.EXTERNAL_READ))
+		if (Utils.exist(IOHelper.EXTERNAL_READ))
 			layout.addView(mExternalReadText);
 
 		LinearLayout mExternalReadLayout = new LinearLayout(context);
 		mExternalReadLayout.setGravity(Gravity.CENTER);
-		if (Utils.exist(MiscHelper.EXTERNAL_READ))
+		if (Utils.exist(IOHelper.EXTERNAL_READ))
 			layout.addView(mExternalReadLayout);
 
 		mExternalReadMinus = new Button(context);
@@ -219,7 +217,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 
 		mExternalReadBar = new SeekBar(context);
 		LayoutHelper.setNormalSeekBar(mExternalReadBar, 31,
-				(MiscHelper.getExternalRead() - 128) / 128, context);
+				(IOHelper.getExternalRead() - 128) / 128, context);
 		mExternalReadBar.setLayoutParams(lp);
 		mExternalReadBar.setOnSeekBarChangeListener(OnSeekBarChangeListener);
 		mExternalReadLayout.addView(mExternalReadBar);
@@ -265,23 +263,23 @@ public class MiscFragment extends Fragment implements OnClickListener,
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
 		if (arg0.equals(mInternalSchedulerSpinner)) {
-			if (arg2 != mAvailableInternalSchedulersList.indexOf(MiscHelper
+			if (arg2 != mAvailableInternalSchedulersList.indexOf(IOHelper
 					.getCurInternalScheduler())) {
 				MainFragment.showButtons(true);
-				MainFragment.MiscChange = true;
-				Control.runMiscGeneric(
+				MainFragment.IOChange = true;
+				Control.runIOGeneric(
 						mAvailableInternalSchedulersList.get(arg2),
-						MiscHelper.INTERNAL_SCHEDULER);
+						IOHelper.INTERNAL_SCHEDULER);
 			}
 		}
 		if (arg0.equals(mExternalSchedulerSpinner)) {
-			if (arg2 != mAvailableExternalSchedulersList.indexOf(MiscHelper
+			if (arg2 != mAvailableExternalSchedulersList.indexOf(IOHelper
 					.getCurExternalScheduler())) {
 				MainFragment.showButtons(true);
-				MainFragment.MiscChange = true;
-				Control.runMiscGeneric(
+				MainFragment.IOChange = true;
+				Control.runIOGeneric(
 						mAvailableExternalSchedulersList.get(arg2),
-						MiscHelper.EXTERNAL_SCHEDULER);
+						IOHelper.EXTERNAL_SCHEDULER);
 			}
 		}
 	}
@@ -293,7 +291,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		MainFragment.MiscChange = true;
+		MainFragment.IOChange = true;
 		MainFragment.showButtons(true);
 		if (seekBar.equals(mInternalReadBar))
 			mInternalReadText.setText(String.valueOf(progress * 128 + 128)
@@ -314,12 +312,12 @@ public class MiscFragment extends Fragment implements OnClickListener,
 
 	private static void saveReadahead(SeekBar seekBar) {
 		if (seekBar.equals(mInternalReadBar))
-			Control.runMiscGeneric(mInternalReadText.getText().toString()
+			Control.runIOGeneric(mInternalReadText.getText().toString()
 					.replace(context.getString(R.string.kb), ""),
-					MiscHelper.INTERNAL_READ);
+					IOHelper.INTERNAL_READ);
 		if (seekBar.equals(mExternalReadBar))
-			Control.runMiscGeneric(mExternalReadText.getText().toString()
+			Control.runIOGeneric(mExternalReadText.getText().toString()
 					.replace(context.getString(R.string.kb), ""),
-					MiscHelper.EXTERNAL_READ);
+					IOHelper.EXTERNAL_READ);
 	}
 }

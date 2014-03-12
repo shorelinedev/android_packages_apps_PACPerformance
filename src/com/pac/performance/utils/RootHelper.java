@@ -11,7 +11,7 @@ public class RootHelper {
 
 	public static void run(String run) {
 		try {
-			RootTools.getShell(true).add(new CommandCapture(0, run))
+			RootTools.getShell(true).add(new CommandCapture(100, run))
 					.commandCompleted(0, 0);
 		} catch (IOException e) {
 		} catch (TimeoutException e) {

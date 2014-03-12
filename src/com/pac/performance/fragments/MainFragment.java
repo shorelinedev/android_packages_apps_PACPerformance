@@ -27,8 +27,9 @@ public class MainFragment extends Fragment {
 	private static MenuItem setonboot;
 
 	public static boolean CPUChange = false;
+	public static boolean BatteryChange = false;
 	public static boolean VoltageChange = false;
-	public static boolean MiscChange = false;
+	public static boolean IOChange = false;
 	public static boolean VMChange = false;
 
 	@Override
@@ -87,22 +88,17 @@ public class MainFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_apply:
-			if (CPUChange) {
+			if (CPUChange)
 				Control.setCPU(getActivity());
-				CPUChange = false;
-			}
-			if (VoltageChange) {
+			if (BatteryChange)
+				Control.setBattery(getActivity());
+			if (VoltageChange)
 				Control.setVoltage(getActivity());
-				VoltageChange = false;
-			}
-			if (MiscChange) {
+			if (IOChange)
 				Control.setMisc(getActivity());
-				MiscChange = false;
-			}
-			if (VMChange) {
+			if (VMChange)
 				Control.setVM(getActivity());
-				VMChange = false;
-			}
+
 			Control.reset();
 			showButtons(false);
 			Utils.toast(getString(R.string.applysuccessfully), getActivity());
@@ -112,13 +108,17 @@ public class MainFragment extends Fragment {
 				CPUFragment.setLayout();
 				CPUChange = false;
 			}
+			if (BatteryChange) {
+				BatteryFragment.setLayout();
+				BatteryChange = false;
+			}
 			if (VoltageChange) {
 				VoltageFragment.setLayout();
 				VoltageChange = false;
 			}
-			if (MiscChange) {
-				MiscFragment.setLayout();
-				MiscChange = false;
+			if (IOChange) {
+				IOFragment.setLayout();
+				IOChange = false;
 			}
 			if (VMChange) {
 				VMFragment.setLayout();

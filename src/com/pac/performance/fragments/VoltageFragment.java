@@ -79,7 +79,7 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 		mVoltageText = new TextView(context);
 		LayoutHelper.setTextTitle(mVoltageText,
 				context.getString(R.string.voltagecontrol), context);
-		mVoltageText.setPadding(0, (int) (MainActivity.mHeight / 25), 0, 0);
+		mVoltageText.setPadding(0, (int) (MainActivity.mHeight / 25), 0, 15);
 		mVoltageText.setOnClickListener(OnClickListener);
 		if (Utils.exist(VoltageHelper.CPU_VOLTAGE))
 			layout.addView(mVoltageText);
@@ -143,7 +143,8 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 		mFauxVoltageText = new TextView(context);
 		LayoutHelper.setTextTitle(mFauxVoltageText,
 				context.getString(R.string.fauxvoltagecontrol), context);
-		mFauxVoltageText.setPadding(0, (int) (MainActivity.mHeight / 25), 0, 0);
+		mFauxVoltageText
+				.setPadding(0, (int) (MainActivity.mHeight / 25), 0, 15);
 		mFauxVoltageText.setOnClickListener(OnClickListener);
 		if (Utils.exist(VoltageHelper.FAUX_VOLTAGE))
 			layout.addView(mFauxVoltageText);
