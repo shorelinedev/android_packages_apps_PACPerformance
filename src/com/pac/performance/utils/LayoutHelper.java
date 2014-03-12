@@ -1,6 +1,7 @@
 package com.pac.performance.utils;
 
 import com.pac.performance.MainActivity;
+import com.pac.performance.R;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -42,15 +43,25 @@ public class LayoutHelper {
 		i.setText(text);
 	}
 
-	public static void setNormalSeekBar(SeekBar i, int max, int progress) {
+	public static void setNormalSeekBar(SeekBar i, int max, int progress,
+			Context context) {
 		i.setMax(max);
 		i.setProgress(progress);
+		i.setProgressDrawable(context.getResources().getDrawable(
+				R.drawable.seekbar_progress_bg));
+		i.setThumb(context.getResources().getDrawable(
+				R.drawable.seekbar_control));
 	}
 
-	public static void setSeekBar(SeekBar i, int max, int progress) {
+	public static void setSeekBar(SeekBar i, int max, int progress,
+			Context context) {
 		i.setMax(max);
 		i.setProgress(progress);
 		i.setPadding(MainActivity.mWidth / 13, 0, MainActivity.mWidth / 13, 0);
+		i.setProgressDrawable(context.getResources().getDrawable(
+				R.drawable.seekbar_progress_bg));
+		i.setThumb(context.getResources().getDrawable(
+				R.drawable.seekbar_control));
 	}
 
 	public static void setTextTitle(TextView i, String text, Context context) {

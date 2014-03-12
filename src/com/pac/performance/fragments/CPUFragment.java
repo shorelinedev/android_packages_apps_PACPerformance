@@ -188,7 +188,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
 		mMaxFreqScalingBar = new SeekBar(context);
 		LayoutHelper.setSeekBar(mMaxFreqScalingBar,
-				mAvailableFreqList.size() - 1, mMax);
+				mAvailableFreqList.size() - 1, mMax, context);
 		mMaxFreqScalingBar.setOnSeekBarChangeListener(OnSeekBarChangeListener);
 		if (Utils.exist(CPUHelper.MAX_FREQ))
 			mFreqScalingLayout.addView(mMaxFreqScalingBar);
@@ -214,7 +214,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
 		mMinFreqScalingBar = new SeekBar(context);
 		LayoutHelper.setSeekBar(mMinFreqScalingBar,
-				mAvailableFreqList.size() - 1, mMin);
+				mAvailableFreqList.size() - 1, mMin, context);
 		mMinFreqScalingBar.setOnSeekBarChangeListener(OnSeekBarChangeListener);
 		if (Utils.exist(CPUHelper.MIN_FREQ))
 			mFreqScalingLayout.addView(mMinFreqScalingBar);
@@ -239,7 +239,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
 		mMaxScreenOffFreqScalingBar = new SeekBar(context);
 		LayoutHelper.setSeekBar(mMaxScreenOffFreqScalingBar,
-				mAvailableFreqList.size() - 1, mMaxScreenOff);
+				mAvailableFreqList.size() - 1, mMaxScreenOff, context);
 		mMaxScreenOffFreqScalingBar
 				.setOnSeekBarChangeListener(OnSeekBarChangeListener);
 		if (Utils.exist(CPUHelper.MAX_SCREEN_OFF))
@@ -266,7 +266,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
 		mMinScreenOnFreqScalingBar = new SeekBar(context);
 		LayoutHelper.setSeekBar(mMinScreenOnFreqScalingBar,
-				mAvailableFreqList.size() - 1, mMinScreenOn);
+				mAvailableFreqList.size() - 1, mMinScreenOn, context);
 		mMinScreenOnFreqScalingBar
 				.setOnSeekBarChangeListener(OnSeekBarChangeListener);
 		if (Utils.exist(CPUHelper.MIN_SCREEN_ON))

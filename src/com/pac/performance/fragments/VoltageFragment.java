@@ -124,7 +124,7 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 
 			SeekBar mVoltageBar = new SeekBar(context);
 			LayoutHelper.setNormalSeekBar(mVoltageBar, 180,
-					(mVoltagesMV[i] - 600) / 5);
+					(mVoltagesMV[i] - 600) / 5, context);
 			mVoltageBar.setLayoutParams(lp);
 			mVoltageBar.setOnSeekBarChangeListener(OnSeekBarChangeListener);
 			mVoltageBars[i] = mVoltageBar;
@@ -188,7 +188,7 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 
 			SeekBar mFauxVoltageBar = new SeekBar(context);
 			LayoutHelper.setNormalSeekBar(mFauxVoltageBar, 180,
-					(mFauxVoltagesMV[i] - 600) / 5);
+					(mFauxVoltagesMV[i] - 600) / 5, context);
 			mFauxVoltageBar.setLayoutParams(lp);
 			mFauxVoltageBar.setOnSeekBarChangeListener(OnSeekBarChangeListener);
 			mFauxVoltageBars[i] = mFauxVoltageBar;

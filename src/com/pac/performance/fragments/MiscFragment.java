@@ -178,7 +178,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 
 		mInternalReadBar = new SeekBar(context);
 		LayoutHelper.setNormalSeekBar(mInternalReadBar, 31,
-				(MiscHelper.getInternalRead() - 128) / 128);
+				(MiscHelper.getInternalRead() - 128) / 128, context);
 		mInternalReadBar.setLayoutParams(lp);
 		mInternalReadBar.setOnSeekBarChangeListener(OnSeekBarChangeListener);
 		mInternalReadLayout.addView(mInternalReadBar);
@@ -219,7 +219,7 @@ public class MiscFragment extends Fragment implements OnClickListener,
 
 		mExternalReadBar = new SeekBar(context);
 		LayoutHelper.setNormalSeekBar(mExternalReadBar, 31,
-				(MiscHelper.getExternalRead() - 128) / 128);
+				(MiscHelper.getExternalRead() - 128) / 128, context);
 		mExternalReadBar.setLayoutParams(lp);
 		mExternalReadBar.setOnSeekBarChangeListener(OnSeekBarChangeListener);
 		mExternalReadLayout.addView(mExternalReadBar);
