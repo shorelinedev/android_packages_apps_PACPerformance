@@ -56,6 +56,9 @@ public class MainActivity extends FragmentActivity {
 		mWidth = display.getWidth();
 		mHeight = display.getHeight();
 
+		mFragments.clear();
+		mFragmentNames.clear();
+
 		mFragments.add(new CPUFragment());
 		mFragmentNames.add(getString(R.string.cpu));
 		if (Utils.exist(BatteryHelper.FAST_CHARGE)
