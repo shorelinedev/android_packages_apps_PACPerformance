@@ -11,6 +11,11 @@ import com.pac.performance.fragments.MainFragment;
 import com.pac.performance.fragments.IOFragment;
 import com.pac.performance.fragments.VMFragment;
 import com.pac.performance.fragments.VoltageFragment;
+import com.pac.performance.helpers.BatteryHelper;
+import com.pac.performance.helpers.CPUHelper;
+import com.pac.performance.helpers.IOHelper;
+import com.pac.performance.helpers.RootHelper;
+import com.pac.performance.helpers.VoltageHelper;
 
 public class Control {
 

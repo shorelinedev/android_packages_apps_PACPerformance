@@ -1,4 +1,4 @@
-package com.pac.performance.utils;
+package com.pac.performance.helpers;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;

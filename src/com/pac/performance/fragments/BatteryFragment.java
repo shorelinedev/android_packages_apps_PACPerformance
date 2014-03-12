@@ -2,10 +2,10 @@ package com.pac.performance.fragments;
 
 import com.pac.performance.MainActivity;
 import com.pac.performance.R;
-import com.pac.performance.utils.BatteryHelper;
+import com.pac.performance.helpers.BatteryHelper;
+import com.pac.performance.helpers.LayoutHelper;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.InformationDialog;
-import com.pac.performance.utils.LayoutHelper;
 import com.pac.performance.utils.Utils;
 
 import android.annotation.SuppressLint;

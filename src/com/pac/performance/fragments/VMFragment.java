@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.pac.performance.MainActivity;
 import com.pac.performance.R;
+import com.pac.performance.helpers.LayoutHelper;
+import com.pac.performance.helpers.VMHelper;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.InformationDialog;
-import com.pac.performance.utils.LayoutHelper;
 import com.pac.performance.utils.Utils;
-import com.pac.performance.utils.VMHelper;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -43,6 +43,18 @@
     <string name="blx">Battery Life eXtender</string>
     <string name="blx_summary">Set a limit for the capacity to which the battery will be charged by passing a value between 0 and 100.</string>
 
+    <!-- Audio -->
+    <string name="audio">Audio</string>
+    <string name="fauxsoundcontrol">Faux Sound Control</string>
+    <string name="digitalgaincontrols">Digital Gain Controls</string>
+    <string name="headphonegain">Headphone Gain</string>
+    <string name="linkheadphonegaincontrols">Link Headphones Gain Controls</string>
+    <string name="handsetmicgain">Handset Microphone Gain</string>
+    <string name="cammicgain">Camcorder Microphone Gain</string>
+    <string name="speakergain">Speaker Gain</string>
+    <string name="analoggaincontrols">Analog Gain Controls</string>
+    <string name="headphonepagain">Headphone PowerAmp Gain</string>
+
     <!-- Voltage -->
     <string name="voltage">Voltage</string>
     <string name="voltagecontrol">Voltage Control</string>

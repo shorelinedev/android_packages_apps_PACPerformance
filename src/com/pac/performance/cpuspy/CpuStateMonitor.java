@@ -17,7 +17,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.pac.performance.utils.CPUHelper;
+
+import com.pac.performance.helpers.CPUHelper;
+
 import android.annotation.SuppressLint;
 import android.os.SystemClock;
 

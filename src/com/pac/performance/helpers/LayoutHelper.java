@@ -1,4 +1,4 @@
-package com.pac.performance.utils;
+package com.pac.performance.helpers;
 
 import com.pac.performance.MainActivity;
 import com.pac.performance.R;

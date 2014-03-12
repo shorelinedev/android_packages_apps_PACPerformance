@@ -1,10 +1,10 @@
 package com.pac.performance;
 
-import com.pac.performance.utils.CPUHelper;
+import com.pac.performance.helpers.CPUHelper;
+import com.pac.performance.helpers.RootHelper;
+import com.pac.performance.helpers.VMHelper;
 import com.pac.performance.utils.Control;
-import com.pac.performance.utils.RootHelper;
 import com.pac.performance.utils.Utils;
-import com.pac.performance.utils.VMHelper;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

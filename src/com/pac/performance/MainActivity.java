@@ -3,6 +3,7 @@ package com.pac.performance;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pac.performance.fragments.AudioFragment;
 import com.pac.performance.fragments.BatteryFragment;
 import com.pac.performance.fragments.CPUFragment;
 import com.pac.performance.fragments.InformationFragment;
@@ -10,12 +11,13 @@ import com.pac.performance.fragments.MainFragment;
 import com.pac.performance.fragments.IOFragment;
 import com.pac.performance.fragments.VMFragment;
 import com.pac.performance.fragments.VoltageFragment;
-import com.pac.performance.utils.BatteryHelper;
-import com.pac.performance.utils.CPUHelper;
-import com.pac.performance.utils.RootHelper;
+import com.pac.performance.helpers.AudioHelper;
+import com.pac.performance.helpers.BatteryHelper;
+import com.pac.performance.helpers.CPUHelper;
+import com.pac.performance.helpers.RootHelper;
+import com.pac.performance.helpers.VMHelper;
+import com.pac.performance.helpers.VoltageHelper;
 import com.pac.performance.utils.Utils;
-import com.pac.performance.utils.VMHelper;
-import com.pac.performance.utils.VoltageHelper;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -65,6 +67,10 @@ public class MainActivity extends FragmentActivity {
 				|| Utils.exist(BatteryHelper.BLX)) {
 			mFragments.add(new BatteryFragment());
 			mFragmentNames.add(getString(R.string.battery));
+		}
+		if (Utils.exist(AudioHelper.FAUX_SOUND_CONTROL)) {
+			mFragments.add(new AudioFragment());
+			mFragmentNames.add(getString(R.string.audio));
 		}
 		if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
 				|| Utils.exist(VoltageHelper.FAUX_VOLTAGE)) {
