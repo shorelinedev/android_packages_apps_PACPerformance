@@ -70,12 +70,12 @@ public class MainActivity extends FragmentActivity {
 		}
 		mFragments.add(new IOFragment());
 		mFragmentNames.add(getString(R.string.io));
+		mFragments.add(new InformationFragment());
+		mFragmentNames.add(getString(R.string.information));
 		if (VMHelper.getVMValues().size() == VMHelper.getVMFiles().size()) {
 			mFragments.add(new VMFragment());
 			mFragmentNames.add(getString(R.string.vm));
 		}
-		mFragments.add(new InformationFragment());
-		mFragmentNames.add(getString(R.string.information));
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);

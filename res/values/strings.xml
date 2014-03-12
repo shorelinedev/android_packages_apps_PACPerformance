@@ -49,11 +49,6 @@
     <string name="voltagecontrol_summary">Decreasing voltage will lower power consumption of the CPU. Increasing it on overclocked frequencies improves stability. Too low voltage may cause instabilities and freezes.</string>
     <string name="fauxvoltagecontrol">Faux Voltage Control</string>
 
-    <!-- VM -->
-    <string name="vm">VM</string>
-    <string name="vmtuning">VM Tuning</string>
-    <string name="vmtunig_summary">Tune the operation of the virtual memory (VM) subsystem of the Linux kernel and the writeout of dirty data to disk.</string>
-
     <!-- IO -->
     <string name="io">I/O Schedulers</string>
     <string name="internalstoragescheduler">Internal Storage Scheduler</string>
@@ -73,5 +68,10 @@
     <string name="unusedcpustates">Unused CPU states</string>
     <string name="totalstatetime">Total State Time</string>
     <string name="deepsleep">Deep Sleep</string>
+
+    <!-- VM -->
+    <string name="vm">VM</string>
+    <string name="vmtuning">VM Tuning</string>
+    <string name="vmtunig_summary">Tune the operation of the virtual memory (VM) subsystem of the Linux kernel and the writeout of dirty data to disk.</string>
 
 </resources>
