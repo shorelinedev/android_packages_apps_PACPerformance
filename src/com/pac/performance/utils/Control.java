@@ -11,6 +11,7 @@ import com.pac.performance.fragments.MainFragment;
 import com.pac.performance.fragments.IOFragment;
 import com.pac.performance.fragments.VMFragment;
 import com.pac.performance.fragments.VoltageFragment;
+import com.pac.performance.helpers.AudioHelper;
 import com.pac.performance.helpers.BatteryHelper;
 import com.pac.performance.helpers.CPUHelper;
 import com.pac.performance.helpers.IOHelper;
@@ -24,6 +25,9 @@ public class Control {
 
 	private static List<String> BatteryCommands = new ArrayList<String>();
 	private static List<String> Batterylistfiles = new ArrayList<String>();
+
+	private static List<String> AudioCommands = new ArrayList<String>();
+	private static List<String> Audiolistfiles = new ArrayList<String>();
 
 	private static List<String> VoltageCommands = new ArrayList<String>();
 	private static List<String> Voltagelistfiles = new ArrayList<String>();
@@ -39,6 +43,7 @@ public class Control {
 					CPUHelper.MIN_SCREEN_ON, CPUHelper.CUR_GOVERNOR,
 					CPUHelper.INTELLIPLUG, CPUHelper.INTELLIPLUG_ECO_MODE },
 			{ BatteryHelper.FAST_CHARGE, BatteryHelper.BLX },
+			AudioHelper.FAUX_SOUND,
 			{ VoltageHelper.CPU_VOLTAGE, VoltageHelper.FAUX_VOLTAGE },
 			{ IOHelper.INTERNAL_SCHEDULER, IOHelper.EXTERNAL_SCHEDULER,
 					IOHelper.INTERNAL_READ, IOHelper.EXTERNAL_READ } };
@@ -54,6 +59,14 @@ public class Control {
 		for (int i = 0; i < BatteryCommands.size(); i++) {
 			RootHelper.run(BatteryCommands.get(i));
 			Utils.saveString(Batterylistfiles.get(i), BatteryCommands.get(i),
+					context);
+		}
+	}
+
+	public static void setAudio(Context context) {
+		for (int i = 0; i < AudioCommands.size(); i++) {
+			RootHelper.run(AudioCommands.get(i));
+			Utils.saveString(Audiolistfiles.get(i), AudioCommands.get(i),
 					context);
 		}
 	}
@@ -94,13 +107,16 @@ public class Control {
 				if (VMFragment.layout != null && MainFragment.VMChange)
 					VMFragment.setLayout();
 
-				MainFragment.CPUChange = MainFragment.VoltageChange = MainFragment.IOChange = MainFragment.VMChange = false;
+				MainFragment.CPUChange = MainFragment.BatteryChange = MainFragment.AudioChange = MainFragment.VoltageChange = MainFragment.IOChange = MainFragment.VMChange = false;
 
 				CPUCommands.clear();
 				CPUlistfiles.clear();
 
 				BatteryCommands.clear();
 				Batterylistfiles.clear();
+
+				AudioCommands.clear();
+				Audiolistfiles.clear();
 
 				VoltageCommands.clear();
 				Voltagelistfiles.clear();
@@ -125,6 +141,24 @@ public class Control {
 	public static void runBatteryGeneric(String value, String file) {
 		BatteryCommands.add("echo " + value + " > " + file);
 		Batterylistfiles.add(file);
+	}
+
+	public static void runAudioFaux(String value, String file) {
+		if (file.equals(AudioHelper.FAUX_HEADPHONE_GAIN))
+			AudioCommands.add("echo "
+					+ String.valueOf(Integer.parseInt(value) + 40) + " "
+					+ String.valueOf(Integer.parseInt(value) + 40) + " > "
+					+ file);
+		else if (file.equals(AudioHelper.FAUX_HEADPHONE_PA_GAIN))
+			AudioCommands.add("echo "
+					+ String.valueOf(Integer.parseInt(value) + 12) + " "
+					+ String.valueOf(Integer.parseInt(value) + 12) + " > "
+					+ file);
+		else
+			AudioCommands.add("echo "
+					+ String.valueOf(Integer.parseInt(value) + 40) + " > "
+					+ file);
+		Audiolistfiles.add(file);
 	}
 
 	public static void runVoltageGeneric(String value, String file) {

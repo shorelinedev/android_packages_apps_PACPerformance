@@ -28,6 +28,7 @@ public class MainFragment extends Fragment {
 
 	public static boolean CPUChange = false;
 	public static boolean BatteryChange = false;
+	public static boolean AudioChange = false;
 	public static boolean VoltageChange = false;
 	public static boolean IOChange = false;
 	public static boolean VMChange = false;
@@ -92,6 +93,8 @@ public class MainFragment extends Fragment {
 				Control.setCPU(getActivity());
 			if (BatteryChange)
 				Control.setBattery(getActivity());
+			if (AudioChange)
+				Control.setAudio(getActivity());
 			if (VoltageChange)
 				Control.setVoltage(getActivity());
 			if (IOChange)
@@ -104,26 +107,6 @@ public class MainFragment extends Fragment {
 			Utils.toast(getString(R.string.applysuccessfully), getActivity());
 			break;
 		case R.id.action_cancel:
-			if (CPUChange) {
-				CPUFragment.setLayout();
-				CPUChange = false;
-			}
-			if (BatteryChange) {
-				BatteryFragment.setLayout();
-				BatteryChange = false;
-			}
-			if (VoltageChange) {
-				VoltageFragment.setLayout();
-				VoltageChange = false;
-			}
-			if (IOChange) {
-				IOFragment.setLayout();
-				IOChange = false;
-			}
-			if (VMChange) {
-				VMFragment.setLayout();
-				VMChange = false;
-			}
 			Control.reset();
 			showButtons(false);
 			break;

@@ -17,6 +17,7 @@
     <string name="kb">kB</string>
     <string name="minus">&lt;</string>
     <string name="plus">&gt;</string>
+    <string name="db">dB</string>
 
     <!-- CPU -->
     <string name="cpu">CPU</string>
@@ -46,13 +47,10 @@
     <!-- Audio -->
     <string name="audio">Audio</string>
     <string name="fauxsoundcontrol">Faux Sound Control</string>
-    <string name="digitalgaincontrols">Digital Gain Controls</string>
     <string name="headphonegain">Headphone Gain</string>
-    <string name="linkheadphonegaincontrols">Link Headphones Gain Controls</string>
     <string name="handsetmicgain">Handset Microphone Gain</string>
     <string name="cammicgain">Camcorder Microphone Gain</string>
     <string name="speakergain">Speaker Gain</string>
-    <string name="analoggaincontrols">Analog Gain Controls</string>
     <string name="headphonepagain">Headphone PowerAmp Gain</string>
 
     <!-- Voltage -->
