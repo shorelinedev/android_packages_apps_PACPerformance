@@ -68,7 +68,7 @@ public class AudioFragment extends Fragment implements OnClickListener,
 			mFauxSoundBars = new SeekBar[AudioHelper.FAUX_SOUND.length];
 			mFauxSoundPluses = new Button[AudioHelper.FAUX_SOUND.length];
 
-			for (int i = 0; i < AudioHelper.FAUX_SOUND.length; i++) {
+			for (int i = 1; i < AudioHelper.FAUX_SOUND.length; i++) {
 
 				TextView mFauxTitle = new TextView(context);
 				if (AudioHelper.FAUX_SOUND[i]
@@ -159,6 +159,8 @@ public class AudioFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
+		MainFragment.AudioChange = true;
+		MainFragment.showButtons(true);
 		for (int i = 0; i < AudioHelper.FAUX_SOUND.length; i++)
 			if (seekBar.equals(mFauxSoundBars[i]))
 				mFauxSoundTexts[i]

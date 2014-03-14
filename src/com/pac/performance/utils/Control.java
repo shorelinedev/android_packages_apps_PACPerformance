@@ -6,6 +6,8 @@ import java.util.List;
 import android.content.Context;
 import android.os.Handler;
 
+import com.pac.performance.fragments.AudioFragment;
+import com.pac.performance.fragments.BatteryFragment;
 import com.pac.performance.fragments.CPUFragment;
 import com.pac.performance.fragments.MainFragment;
 import com.pac.performance.fragments.IOFragment;
@@ -99,6 +101,11 @@ public class Control {
 			public void run() {
 				if (CPUFragment.layout != null && MainFragment.CPUChange)
 					CPUFragment.setLayout();
+				if (BatteryFragment.layout != null
+						&& MainFragment.BatteryChange)
+					BatteryFragment.setLayout();
+				if (AudioFragment.layout != null && MainFragment.AudioChange)
+					AudioFragment.setLayout();
 				if (VoltageFragment.layout != null
 						&& MainFragment.VoltageChange)
 					VoltageFragment.setLayout();

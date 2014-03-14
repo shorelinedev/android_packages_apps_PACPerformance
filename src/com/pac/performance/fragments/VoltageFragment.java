@@ -182,7 +182,7 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 					LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
 
 			Button mFauxVoltMinusbutton = new Button(context);
-			mFauxVoltMinusbutton.setText("-");
+			mFauxVoltMinusbutton.setText(context.getString(R.string.minus));
 			mFauxVoltMinusbuttons[i] = mFauxVoltMinusbutton;
 			mFauxVoltMinusbutton.setOnClickListener(OnClickListener);
 			mFauxVoltageBarLayout.addView(mFauxVoltMinusbutton);
@@ -196,7 +196,7 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 			mFauxVoltageBarLayout.addView(mFauxVoltageBar);
 
 			Button mFauxVoltPlusButton = new Button(context);
-			mFauxVoltPlusButton.setText("+");
+			mFauxVoltPlusButton.setText(context.getString(R.string.plus));
 			mFauxVoltPlusButtons[i] = mFauxVoltPlusButton;
 			mFauxVoltPlusButton.setOnClickListener(OnClickListener);
 			mFauxVoltageBarLayout.addView(mFauxVoltPlusButton);
@@ -224,12 +224,20 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 			if (v.equals(mFauxVoltMinusbuttons[i])) {
 				mFauxVoltageBars[i].setProgress(mFauxVoltageBars[i]
 						.getProgress() - 1);
-				saveVoltages();
+				saveFauxVoltage(String.valueOf(VoltageHelper
+						.getFauxFreqVoltages()[i])
+						+ "000 "
+						+ mFauxVoltageTexts[i].getText().toString()
+								.replace(context.getString(R.string.mv), "000"));
 			}
 			if (v.equals(mFauxVoltPlusButtons[i])) {
 				mFauxVoltageBars[i].setProgress(mFauxVoltageBars[i]
 						.getProgress() + 1);
-				saveVoltages();
+				saveFauxVoltage(String.valueOf(VoltageHelper
+						.getFauxFreqVoltages()[i])
+						+ "000 "
+						+ mFauxVoltageTexts[i].getText().toString()
+								.replace(context.getString(R.string.mv), "000"));
 			}
 		}
 	}
@@ -263,16 +271,11 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 	public void onStopTrackingTouch(SeekBar seekBar) {
 		for (int i = 0; i < mFauxVoltagesMV.length; i++)
 			if (seekBar.equals(mFauxVoltageBars[i]))
-				Control.runVoltageGeneric(
-						String.valueOf(VoltageHelper.getFauxFreqVoltages()[i])
-								+ " "
-								+ mFauxVoltageTexts[i]
-										.getText()
-										.toString()
-										.replace(
-												context.getString(R.string.mv),
-												"000"),
-						VoltageHelper.FAUX_VOLTAGE);
+				saveFauxVoltage(String.valueOf(VoltageHelper
+						.getFauxFreqVoltages()[i])
+						+ "000 "
+						+ mFauxVoltageTexts[i].getText().toString()
+								.replace(context.getString(R.string.mv), "000"));
 
 		if (Utils.exist(VoltageHelper.CPU_VOLTAGE))
 			saveVoltages();
@@ -282,4 +285,9 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 		Control.runVoltageGeneric(Utils.listSplitline(mVoltageList),
 				VoltageHelper.CPU_VOLTAGE);
 	}
+
+	private static void saveFauxVoltage(String value) {
+		Control.runVoltageGeneric(value, VoltageHelper.FAUX_VOLTAGE);
+	}
+
 }
