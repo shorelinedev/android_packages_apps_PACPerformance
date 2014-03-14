@@ -115,8 +115,10 @@ public class VMFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void onClick(View v) {
-		MainActivity.VMChange = !v.equals(mVMTitle);
-		MainActivity.showButtons(!v.equals(mVMTitle));
+		if (!v.equals(mVMTitle)) {
+			MainActivity.VMChange = true;
+			MainActivity.showButtons(true);
+		}
 
 		if (v.equals(mVMTitle))
 			InformationDialog.showInfo(mVMTitle.getText().toString(),
