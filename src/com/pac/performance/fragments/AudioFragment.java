@@ -159,8 +159,8 @@ public class AudioFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		MainFragment.AudioChange = true;
-		MainFragment.showButtons(true);
+		MainActivity.AudioChange = true;
+		MainActivity.showButtons(true);
 		for (int i = 0; i < AudioHelper.FAUX_SOUND.length; i++)
 			if (seekBar.equals(mFauxSoundBars[i]))
 				mFauxSoundTexts[i]

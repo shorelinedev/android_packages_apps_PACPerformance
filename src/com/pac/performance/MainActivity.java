@@ -17,6 +17,7 @@ import com.pac.performance.helpers.CPUHelper;
 import com.pac.performance.helpers.RootHelper;
 import com.pac.performance.helpers.VMHelper;
 import com.pac.performance.helpers.VoltageHelper;
+import com.pac.performance.utils.Control;
 import com.pac.performance.utils.Utils;
 
 import android.content.res.Configuration;
@@ -28,6 +29,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Display;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,6 +47,17 @@ public class MainActivity extends FragmentActivity {
 
 	public static List<Fragment> mFragments = new ArrayList<Fragment>();
 	public static List<String> mFragmentNames = new ArrayList<String>();
+
+	private static MenuItem applyButton;
+	private static MenuItem cancelButton;
+	private static MenuItem setonboot;
+
+	public static boolean CPUChange = false;
+	public static boolean BatteryChange = false;
+	public static boolean AudioChange = false;
+	public static boolean VoltageChange = false;
+	public static boolean IOChange = false;
+	public static boolean VMChange = false;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -124,7 +137,52 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		applyButton = menu.findItem(R.id.action_apply);
+		cancelButton = menu.findItem(R.id.action_cancel);
+		applyButton.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_WITH_TEXT
+				| MenuItem.SHOW_AS_ACTION_ALWAYS);
+		cancelButton.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_WITH_TEXT
+				| MenuItem.SHOW_AS_ACTION_ALWAYS);
+		showButtons(false);
+		setonboot = menu.findItem(R.id.action_setonboot).setChecked(
+				Utils.getBoolean("setonboot", false, getApplicationContext()));
+		return true;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_apply:
+			if (CPUChange)
+				Control.setCPU(getApplicationContext());
+			if (BatteryChange)
+				Control.setBattery(getApplicationContext());
+			if (AudioChange)
+				Control.setAudio(getApplicationContext());
+			if (VoltageChange)
+				Control.setVoltage(getApplicationContext());
+			if (IOChange)
+				Control.setMisc(getApplicationContext());
+			if (VMChange)
+				Control.setVM(getApplicationContext());
+
+			Control.reset();
+			showButtons(false);
+			Utils.toast(getString(R.string.applysuccessfully),
+					getApplicationContext());
+			break;
+		case R.id.action_cancel:
+			Control.reset();
+			showButtons(false);
+			break;
+		case R.id.action_setonboot:
+			Utils.saveBoolean("setonboot", !setonboot.isChecked(),
+					getApplicationContext());
+			setonboot.setChecked(!setonboot.isChecked());
+			break;
+		}
 		return mDrawerToggle.onOptionsItemSelected(item);
 	}
 
@@ -166,5 +224,10 @@ public class MainActivity extends FragmentActivity {
 		RootHelper.run("chmod 777 " + CPUHelper.MIN_SCREEN_ON);
 		RootHelper.run("chmod 777 " + CPUHelper.CUR_GOVERNOR);
 		RootHelper.run("chmod 777 " + VMHelper.VM_PATH + "/*");
+	}
+
+	public static void showButtons(boolean show) {
+		applyButton.setVisible(show);
+		cancelButton.setVisible(show);
 	}
 }

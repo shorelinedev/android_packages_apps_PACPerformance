@@ -6,10 +6,10 @@ import java.util.List;
 import android.content.Context;
 import android.os.Handler;
 
+import com.pac.performance.MainActivity;
 import com.pac.performance.fragments.AudioFragment;
 import com.pac.performance.fragments.BatteryFragment;
 import com.pac.performance.fragments.CPUFragment;
-import com.pac.performance.fragments.MainFragment;
 import com.pac.performance.fragments.IOFragment;
 import com.pac.performance.fragments.VMFragment;
 import com.pac.performance.fragments.VoltageFragment;
@@ -99,22 +99,22 @@ public class Control {
 
 		Runnable r = new Runnable() {
 			public void run() {
-				if (CPUFragment.layout != null && MainFragment.CPUChange)
+				if (CPUFragment.layout != null && MainActivity.CPUChange)
 					CPUFragment.setLayout();
 				if (BatteryFragment.layout != null
-						&& MainFragment.BatteryChange)
+						&& MainActivity.BatteryChange)
 					BatteryFragment.setLayout();
-				if (AudioFragment.layout != null && MainFragment.AudioChange)
+				if (AudioFragment.layout != null && MainActivity.AudioChange)
 					AudioFragment.setLayout();
 				if (VoltageFragment.layout != null
-						&& MainFragment.VoltageChange)
+						&& MainActivity.VoltageChange)
 					VoltageFragment.setLayout();
-				if (IOFragment.layout != null && MainFragment.IOChange)
+				if (IOFragment.layout != null && MainActivity.IOChange)
 					IOFragment.setLayout();
-				if (VMFragment.layout != null && MainFragment.VMChange)
+				if (VMFragment.layout != null && MainActivity.VMChange)
 					VMFragment.setLayout();
 
-				MainFragment.CPUChange = MainFragment.BatteryChange = MainFragment.AudioChange = MainFragment.VoltageChange = MainFragment.IOChange = MainFragment.VMChange = false;
+				MainActivity.CPUChange = MainActivity.BatteryChange = MainActivity.AudioChange = MainActivity.VoltageChange = MainActivity.IOChange = MainActivity.VMChange = false;
 
 				CPUCommands.clear();
 				CPUlistfiles.clear();

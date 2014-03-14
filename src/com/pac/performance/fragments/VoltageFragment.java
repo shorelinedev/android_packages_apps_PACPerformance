@@ -245,8 +245,8 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		MainFragment.showButtons(true);
-		MainFragment.VoltageChange = true;
+		MainActivity.showButtons(true);
+		MainActivity.VoltageChange = true;
 
 		mVoltageList.clear();
 		for (int i = 0; i < mVoltagesMV.length; i++) {

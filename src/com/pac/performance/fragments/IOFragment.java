@@ -265,8 +265,8 @@ public class IOFragment extends Fragment implements OnClickListener,
 		if (arg0.equals(mInternalSchedulerSpinner)) {
 			if (arg2 != mAvailableInternalSchedulersList.indexOf(IOHelper
 					.getCurInternalScheduler())) {
-				MainFragment.showButtons(true);
-				MainFragment.IOChange = true;
+				MainActivity.showButtons(true);
+				MainActivity.IOChange = true;
 				Control.runIOGeneric(
 						mAvailableInternalSchedulersList.get(arg2),
 						IOHelper.INTERNAL_SCHEDULER);
@@ -275,8 +275,8 @@ public class IOFragment extends Fragment implements OnClickListener,
 		if (arg0.equals(mExternalSchedulerSpinner)) {
 			if (arg2 != mAvailableExternalSchedulersList.indexOf(IOHelper
 					.getCurExternalScheduler())) {
-				MainFragment.showButtons(true);
-				MainFragment.IOChange = true;
+				MainActivity.showButtons(true);
+				MainActivity.IOChange = true;
 				Control.runIOGeneric(
 						mAvailableExternalSchedulersList.get(arg2),
 						IOHelper.EXTERNAL_SCHEDULER);
@@ -291,8 +291,8 @@ public class IOFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		MainFragment.IOChange = true;
-		MainFragment.showButtons(true);
+		MainActivity.IOChange = true;
+		MainActivity.showButtons(true);
 		if (seekBar.equals(mInternalReadBar))
 			mInternalReadText.setText(String.valueOf(progress * 128 + 128)
 					+ context.getString(R.string.kb));

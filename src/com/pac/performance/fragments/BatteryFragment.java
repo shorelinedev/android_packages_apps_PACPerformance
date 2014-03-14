@@ -194,8 +194,8 @@ public class BatteryFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		MainFragment.BatteryChange = true;
-		MainFragment.showButtons(true);
+		MainActivity.BatteryChange = true;
+		MainActivity.showButtons(true);
 		if (buttonView.equals(mFastChargeBox))
 			Control.runBatteryGeneric(isChecked ? "1" : "0",
 					BatteryHelper.FAST_CHARGE);
@@ -204,8 +204,8 @@ public class BatteryFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		MainFragment.BatteryChange = true;
-		MainFragment.showButtons(true);
+		MainActivity.BatteryChange = true;
+		MainActivity.showButtons(true);
 		if (seekBar.equals(mBLXBar)) {
 			mBLXText.setText(String.valueOf(progress));
 			saveBLX();
