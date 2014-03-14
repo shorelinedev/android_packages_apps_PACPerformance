@@ -142,13 +142,13 @@ public class VMFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void afterTextChanged(Editable s) {
-		MainActivity.VMChange = true;
-		MainActivity.showButtons(true);
 
-		for (int i = 0; i < mVMFiles.size(); i++)
-			if (s.equals(mVMEdits[i]))
-				Control.runVMGeneric(mVMEdits[i].getText().toString(),
-						mVMFiles.get(i));
+		for (int i = 0; i < mVMFiles.size(); i++) {
+			MainActivity.VMChange = true;
+			MainActivity.showButtons(true);
+			Control.runVMGeneric(mVMEdits[i].getText().toString(),
+					mVMFiles.get(i));
+		}
 	}
 
 	@Override
