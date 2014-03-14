@@ -151,7 +151,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 					mCoreBox,
 					CPUHelper.getCoreOnline(i),
 					context.getString(R.string.core) + " "
-							+ String.valueOf(i + 1));
+							+ String.valueOf(i + 1), context);
 			mCoreBox.setOnCheckedChangeListener(OnCheckedChangeListener);
 			mCoreControlBoxes[i] = mCoreBox;
 			mCoreControlLayout.addView(mCoreBox);
@@ -326,14 +326,14 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
 		mIntelliPlugBox = new CheckBox(context);
 		LayoutHelper.setCheckBox(mIntelliPlugBox, CPUHelper.getIntelliPlug(),
-				context.getString(R.string.intelliplug));
+				context.getString(R.string.intelliplug), context);
 		mIntelliPlugBox.setOnCheckedChangeListener(OnCheckedChangeListener);
 		mIntelliPlugLayout.addView(mIntelliPlugBox);
 
 		mIntelliPlugEcoModeBox = new CheckBox(context);
 		LayoutHelper.setCheckBox(mIntelliPlugEcoModeBox,
 				CPUHelper.getIntelliPlugEcoMode(),
-				context.getString(R.string.intelliplugecomode));
+				context.getString(R.string.intelliplugecomode), context);
 		mIntelliPlugEcoModeBox
 				.setOnCheckedChangeListener(OnCheckedChangeListener);
 		if (Utils.exist(CPUHelper.INTELLIPLUG))

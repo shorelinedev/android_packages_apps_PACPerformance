@@ -42,9 +42,12 @@ public class LayoutHelper {
 		i.setText(text);
 	}
 
-	public static void setCheckBox(CheckBox i, boolean checked, String text) {
+	public static void setCheckBox(CheckBox i, boolean checked, String text,
+			Context context) {
 		i.setText(text);
 		i.setChecked(checked);
+		i.setButtonDrawable(context.getResources().getDrawable(
+				R.drawable.checkbox));
 	}
 
 	public static void setSpinner(Spinner i, ArrayAdapter<String> adapter,

@@ -113,7 +113,7 @@ public class BatteryFragment extends Fragment implements OnClickListener,
 
 		mFastChargeBox = new CheckBox(context);
 		LayoutHelper.setCheckBox(mFastChargeBox, BatteryHelper.getFastCharge(),
-				context.getString(R.string.fastcharge));
+				context.getString(R.string.fastcharge), context);
 		mFastChargeBox.setOnCheckedChangeListener(OnCheckedChangeListener);
 		mFastChargeLayout.addView(mFastChargeBox);
 
