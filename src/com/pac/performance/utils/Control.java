@@ -11,12 +11,14 @@ import com.pac.performance.fragments.AudioFragment;
 import com.pac.performance.fragments.BatteryFragment;
 import com.pac.performance.fragments.CPUFragment;
 import com.pac.performance.fragments.IOFragment;
+import com.pac.performance.fragments.MinFreeFragment;
 import com.pac.performance.fragments.VMFragment;
 import com.pac.performance.fragments.VoltageFragment;
 import com.pac.performance.helpers.AudioHelper;
 import com.pac.performance.helpers.BatteryHelper;
 import com.pac.performance.helpers.CPUHelper;
 import com.pac.performance.helpers.IOHelper;
+import com.pac.performance.helpers.MinFreeHelper;
 import com.pac.performance.helpers.RootHelper;
 import com.pac.performance.helpers.VoltageHelper;
 
@@ -37,6 +39,9 @@ public class Control {
 	private static List<String> IOCommands = new ArrayList<String>();
 	private static List<String> IOlistfiles = new ArrayList<String>();
 
+	private static List<String> MinFreeCommands = new ArrayList<String>();
+	private static List<String> MinFreelistfiles = new ArrayList<String>();
+
 	private static List<String> VMCommands = new ArrayList<String>();
 	private static List<String> VMlistfiles = new ArrayList<String>();
 
@@ -48,7 +53,8 @@ public class Control {
 			AudioHelper.FAUX_SOUND,
 			{ VoltageHelper.CPU_VOLTAGE, VoltageHelper.FAUX_VOLTAGE },
 			{ IOHelper.INTERNAL_SCHEDULER, IOHelper.EXTERNAL_SCHEDULER,
-					IOHelper.INTERNAL_READ, IOHelper.EXTERNAL_READ } };
+					IOHelper.INTERNAL_READ, IOHelper.EXTERNAL_READ },
+			{ MinFreeHelper.MINFREE } };
 
 	public static void setCPU(Context context) {
 		for (int i = 0; i < CPUCommands.size(); i++) {
@@ -88,6 +94,14 @@ public class Control {
 		}
 	}
 
+	public static void setMinFree(Context context) {
+		for (int i = 0; i < MinFreeCommands.size(); i++) {
+			RootHelper.run(MinFreeCommands.get(i));
+			Utils.saveString(MinFreelistfiles.get(i), MinFreeCommands.get(i),
+					context);
+		}
+	}
+
 	public static void setVM(Context context) {
 		for (int i = 0; i < VMCommands.size(); i++) {
 			RootHelper.run(VMCommands.get(i));
@@ -101,20 +115,31 @@ public class Control {
 			public void run() {
 				if (CPUFragment.layout != null && MainActivity.CPUChange)
 					CPUFragment.setLayout();
+
 				if (BatteryFragment.layout != null
 						&& MainActivity.BatteryChange)
 					BatteryFragment.setLayout();
+
 				if (AudioFragment.layout != null && MainActivity.AudioChange)
 					AudioFragment.setLayout();
+
 				if (VoltageFragment.layout != null
 						&& MainActivity.VoltageChange)
 					VoltageFragment.setLayout();
+
 				if (IOFragment.layout != null && MainActivity.IOChange)
 					IOFragment.setLayout();
+
+				if (MinFreeFragment.layout != null
+						&& MainActivity.MinFreeChange)
+					MinFreeFragment.setLayout();
+
 				if (VMFragment.layout != null && MainActivity.VMChange)
 					VMFragment.setLayout();
 
-				MainActivity.CPUChange = MainActivity.BatteryChange = MainActivity.AudioChange = MainActivity.VoltageChange = MainActivity.IOChange = MainActivity.VMChange = false;
+				MainActivity.CPUChange = MainActivity.BatteryChange = MainActivity.AudioChange = false;
+				MainActivity.VoltageChange = MainActivity.IOChange = MainActivity.MinFreeChange = false;
+				MainActivity.VMChange = false;
 
 				CPUCommands.clear();
 				CPUlistfiles.clear();
@@ -130,6 +155,9 @@ public class Control {
 
 				IOCommands.clear();
 				IOlistfiles.clear();
+
+				MinFreeCommands.clear();
+				MinFreelistfiles.clear();
 
 				VMCommands.clear();
 				VMlistfiles.clear();
@@ -176,6 +204,11 @@ public class Control {
 	public static void runIOGeneric(String value, String file) {
 		IOCommands.add("echo " + value + " > " + file);
 		IOlistfiles.add(file);
+	}
+
+	public static void runMinFreeGeneric(String value, String file) {
+		MinFreeCommands.add("echo " + value + " > " + file);
+		MinFreelistfiles.add(file);
 	}
 
 	public static void runVMGeneric(String value, String file) {

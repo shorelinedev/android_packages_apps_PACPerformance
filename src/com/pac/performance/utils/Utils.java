@@ -13,6 +13,13 @@ import android.widget.Toast;
 
 public class Utils {
 
+	public static String replaceLastChar(String s, int length) {
+		int slength = s.length();
+		if (slength < length)
+			return "0";
+		return s.substring(0, slength - length) + "";
+	}
+
 	public static String setAllLetterUpperCase(String text) {
 		StringBuffer res = new StringBuffer();
 
@@ -25,15 +32,6 @@ public class Utils {
 			res.append(str).append(" ");
 		}
 		return res.toString().trim();
-	}
-
-	public static String listSplitblock(List<String> value) {
-		StringBuilder mValue = new StringBuilder();
-		for (String s : value) {
-			mValue.append(s);
-			mValue.append("\n");
-		}
-		return mValue.toString();
 	}
 
 	public static String listSplitline(List<String> value) {

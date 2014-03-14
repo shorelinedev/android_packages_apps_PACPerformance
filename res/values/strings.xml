@@ -18,6 +18,7 @@
     <string name="minus">&lt;</string>
     <string name="plus">&gt;</string>
     <string name="db">dB</string>
+    <string name="mb">MB</string>
 
     <!-- CPU -->
     <string name="cpu">CPU</string>
@@ -69,6 +70,21 @@
     <string name="externalstorageread">External Storage Read-ahead</string>
     <string name="externalstorageread_summary">The read-ahead value on the external phone memory.</string>
 
+    <!-- MinFree -->
+    <string name="minfree">MinFree</string>
+    <string name="minfreesettings">MinFree Settings</string>
+    <string name="forgroundapplications">Foreground Applications</string>
+    <string name="visbileapplications">Visible Applications</string>
+    <string name="secondaryserver">Secondary Server</string>
+    <string name="hiddenapplications">Hidden Applications</string>
+    <string name="contentproviders">Content Providers</string>
+    <string name="emptyapplications">Empty Applications</string>
+
+    <!-- VM -->
+    <string name="vm">VM</string>
+    <string name="vmtuning">VM Tuning</string>
+    <string name="vmtunig_summary">Tune the operation of the virtual memory (VM) subsystem of the Linux kernel and the writeout of dirty data to disk.</string>
+
     <!-- Information -->
     <string name="information">Information</string>
     <string name="device">Device</string>
@@ -78,10 +94,5 @@
     <string name="unusedcpustates">Unused CPU states</string>
     <string name="totalstatetime">Total State Time</string>
     <string name="deepsleep">Deep Sleep</string>
-
-    <!-- VM -->
-    <string name="vm">VM</string>
-    <string name="vmtuning">VM Tuning</string>
-    <string name="vmtunig_summary">Tune the operation of the virtual memory (VM) subsystem of the Linux kernel and the writeout of dirty data to disk.</string>
 
 </resources>

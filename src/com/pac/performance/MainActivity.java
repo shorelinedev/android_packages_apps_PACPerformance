@@ -9,6 +9,7 @@ import com.pac.performance.fragments.CPUFragment;
 import com.pac.performance.fragments.InformationFragment;
 import com.pac.performance.fragments.MainFragment;
 import com.pac.performance.fragments.IOFragment;
+import com.pac.performance.fragments.MinFreeFragment;
 import com.pac.performance.fragments.VMFragment;
 import com.pac.performance.fragments.VoltageFragment;
 import com.pac.performance.helpers.AudioHelper;
@@ -57,6 +58,7 @@ public class MainActivity extends FragmentActivity {
 	public static boolean AudioChange = false;
 	public static boolean VoltageChange = false;
 	public static boolean IOChange = false;
+	public static boolean MinFreeChange = false;
 	public static boolean VMChange = false;
 
 	@SuppressWarnings("deprecation")
@@ -74,30 +76,47 @@ public class MainActivity extends FragmentActivity {
 		mFragments.clear();
 		mFragmentNames.clear();
 
+		// add CPU Fragment
 		mFragments.add(new CPUFragment());
 		mFragmentNames.add(getString(R.string.cpu));
+
+		// add Battery Fragment
 		if (Utils.exist(BatteryHelper.FAST_CHARGE)
 				|| Utils.exist(BatteryHelper.BLX)) {
 			mFragments.add(new BatteryFragment());
 			mFragmentNames.add(getString(R.string.battery));
 		}
+
+		// add Audio Fragment
 		if (Utils.exist(AudioHelper.FAUX_SOUND_CONTROL)) {
 			mFragments.add(new AudioFragment());
 			mFragmentNames.add(getString(R.string.audio));
 		}
+
+		// add Voltage Fragment
 		if (Utils.exist(VoltageHelper.CPU_VOLTAGE)
 				|| Utils.exist(VoltageHelper.FAUX_VOLTAGE)) {
 			mFragments.add(new VoltageFragment());
 			mFragmentNames.add(getString(R.string.voltage));
 		}
+
+		// add IO Fragment
 		mFragments.add(new IOFragment());
 		mFragmentNames.add(getString(R.string.io));
-		mFragments.add(new InformationFragment());
-		mFragmentNames.add(getString(R.string.information));
+
+		// add MinFree Fragment
+		mFragments.add(new MinFreeFragment());
+		mFragmentNames.add(getString(R.string.minfree));
+
+		// add VM Fragment
 		if (VMHelper.getVMValues().size() == VMHelper.getVMFiles().size()) {
 			mFragments.add(new VMFragment());
 			mFragmentNames.add(getString(R.string.vm));
 		}
+
+		// add Information Fragment
+		mFragments.add(new InformationFragment());
+		mFragmentNames.add(getString(R.string.information));
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -166,6 +185,8 @@ public class MainActivity extends FragmentActivity {
 				Control.setVoltage(getApplicationContext());
 			if (IOChange)
 				Control.setMisc(getApplicationContext());
+			if (MinFreeChange)
+				Control.setMinFree(getApplicationContext());
 			if (VMChange)
 				Control.setVM(getApplicationContext());
 
