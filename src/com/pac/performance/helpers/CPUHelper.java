@@ -137,8 +137,12 @@ public class CPUHelper {
 	public static int getCoreCount() {
 		if (Utils.exist(CORE_VALUE))
 			try {
-				return Integer
-						.parseInt(Utils.readLine(CORE_VALUE).split("-")[1]) + 1;
+				String output = Utils.readLine(CORE_VALUE);
+				if (!output.equals("0"))
+					return Integer.parseInt(output.split("-")[1]) + 1;
+				else
+					return 1;
+
 			} catch (IOException e) {
 			}
 		return 0;
