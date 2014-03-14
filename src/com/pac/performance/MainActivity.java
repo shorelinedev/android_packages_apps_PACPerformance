@@ -145,7 +145,8 @@ public class MainActivity extends FragmentActivity {
 				| MenuItem.SHOW_AS_ACTION_ALWAYS);
 		cancelButton.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_WITH_TEXT
 				| MenuItem.SHOW_AS_ACTION_ALWAYS);
-		showButtons(false);
+		showButtons(CPUChange || BatteryChange || AudioChange || VoltageChange
+				|| VoltageChange || IOChange || VMChange);
 		setonboot = menu.findItem(R.id.action_setonboot).setChecked(
 				Utils.getBoolean("setonboot", false, getApplicationContext()));
 		return true;
