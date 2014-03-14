@@ -57,7 +57,7 @@ public class AudioFragment extends Fragment implements OnClickListener,
 		TextView mFauxSoundTitle = new TextView(context);
 		LayoutHelper.setTextTitle(mFauxSoundTitle,
 				context.getString(R.string.fauxsoundcontrol), context);
-		mFauxSoundTitle.setPadding(0, (int) (MainActivity.mHeight / 25), 15, 0);
+		mFauxSoundTitle.setPadding(0, (int) (MainActivity.mHeight / 25), 0, 15);
 		if (Utils.exist(AudioHelper.FAUX_SOUND_CONTROL))
 			layout.addView(mFauxSoundTitle);
 
