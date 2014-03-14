@@ -30,11 +30,14 @@ public class VMHelper {
 		if (Utils.exist(VM_PATH)) {
 			File[] filepaths = new File(VM_PATH).listFiles();
 			for (File file : filepaths)
-				if (!(file.getName().equals("lowmem_reserve_ratio")
-						|| file.getName().equals("compact_memory")
-						|| file.getName().equals("overcommit_memory")
-						|| file.getName().equals("nr_pdflush_threads") || file
-						.getName().equals("scan_unevictable_pages")))
+				if ((file.getName().equals("dirty_ratio")
+						|| file.getName().equals("dirty_background_ratio")
+						|| file.getName().equals("dirty_expire_centisecs")
+						|| file.getName().equals("dirty_writeback_centisecs")
+						|| file.getName().equals("min_free_kbytes")
+						|| file.getName().equals("overcommit_ratio")
+						|| file.getName().equals("swappiness") || file
+						.getName().equals("vfs_cache_pressure")))
 					dummy.add(file.getName());
 		} else
 			dummy.add("0");
@@ -46,11 +49,14 @@ public class VMHelper {
 		if (Utils.exist(VM_PATH)) {
 			File[] filepaths = new File(VM_PATH).listFiles();
 			for (File path : filepaths)
-				if (!(path.getName().equals("lowmem_reserve_ratio")
-						|| path.getName().equals("compact_memory")
-						|| path.getName().equals("overcommit_memory")
-						|| path.getName().equals("nr_pdflush_threads") || path
-						.getName().equals("scan_unevictable_pages")))
+				if ((path.getName().equals("dirty_ratio")
+						|| path.getName().equals("dirty_background_ratio")
+						|| path.getName().equals("dirty_expire_centisecs")
+						|| path.getName().equals("dirty_writeback_centisecs")
+						|| path.getName().equals("min_free_kbytes")
+						|| path.getName().equals("overcommit_ratio")
+						|| path.getName().equals("swappiness") || path
+						.getName().equals("vfs_cache_pressure")))
 					dummy.add(path.getPath());
 		} else
 			dummy.add("0");
