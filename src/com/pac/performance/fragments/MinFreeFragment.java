@@ -121,7 +121,8 @@ public class MinFreeFragment extends Fragment implements OnClickListener,
 			LayoutHelper
 					.setSeekBarText(
 							mMinFreeText,
-							String.valueOf(MinFreeHelper.getMinFreeValues()[i] / 1024 * 4)
+							String.valueOf((int) MinFreeHelper
+									.getMinFreeValues()[i] / 1024 * 4)
 									+ context.getString(R.string.mb)
 									+ "["
 									+ String.valueOf(MinFreeHelper
@@ -181,14 +182,12 @@ public class MinFreeFragment extends Fragment implements OnClickListener,
 		mMinFreeList.clear();
 		for (int i = 0; i < MinFreeHelper.getMinFreeValues().length; i++) {
 			if (seekBar.equals(mMinFreeBars[i]))
-				mMinFreeTexts[i].setText(String.valueOf(progress
+				mMinFreeTexts[i].setText(String.valueOf((int) progress
 						+ context.getString(R.string.mb) + "[" + progress / 4
 						* 1024 + "]"));
-			mMinFreeList
-					.add(String.valueOf(Integer.parseInt(mMinFreeTexts[i]
-							.getText().toString()
-							.split(context.getString(R.string.mb))[0])
-							/ 4 * 1024 + ","));
+			mMinFreeList.add(mMinFreeTexts[i].getText().toString()
+					.split(context.getString(R.string.mb))[1].replace("[", "")
+					.replace("]", "") + ",");
 		}
 	}
 
