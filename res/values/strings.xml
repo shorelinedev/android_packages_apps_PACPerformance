@@ -38,7 +38,7 @@
 
     <!-- CPU -->
     <string name="cpu">CPU</string>
-    <string name="currentfreq">Current Frequency</string>
+    <string name="currentfreq">Current CPU Frequency</string>
     <string name="core">Core</string>
     <string name="offline">Offline</string>
     <string name="maxfreq">CPU Maximum Frequency</string>
