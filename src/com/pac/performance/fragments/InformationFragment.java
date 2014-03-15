@@ -29,6 +29,7 @@ import com.pac.performance.cpuspy.CpuStateMonitor.CpuStateMonitorException;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +40,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class InformationFragment extends Fragment {
+
+	Handler hand = new Handler();
 
 	private static View rootView;
 
@@ -106,8 +109,22 @@ public class InformationFragment extends Fragment {
 	/** Update the view when the application regains focus */
 	@Override
 	public void onResume() {
+		hand.postDelayed(run, 0);
 		super.onResume();
-		refreshData();
+	}
+
+	Runnable run = new Runnable() {
+		@Override
+		public void run() {
+			refreshData();
+			hand.postDelayed(run, 1000);
+		}
+	};
+
+	@Override
+	public void onDestroy() {
+		hand.removeCallbacks(run);
+		super.onDestroy();
 	}
 
 	/** Generate and update all UI elements */

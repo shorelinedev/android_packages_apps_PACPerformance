@@ -170,8 +170,9 @@ public class BatteryFragment extends Fragment implements OnClickListener,
 		public void run() {
 			try {
 				while (true) {
-					mCurCPUHandler.sendMessage(mCurCPUHandler.obtainMessage(0,
-							""));
+					mCurBatteryVoltageHandler
+							.sendMessage(mCurBatteryVoltageHandler
+									.obtainMessage(0, ""));
 					sleep(1000);
 				}
 			} catch (InterruptedException e) {
@@ -180,7 +181,7 @@ public class BatteryFragment extends Fragment implements OnClickListener,
 	}
 
 	@SuppressLint("HandlerLeak")
-	protected Handler mCurCPUHandler = new Handler() {
+	protected Handler mCurBatteryVoltageHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			mBatteryVoltageText.setText(String.valueOf(BatteryHelper
 					.getCurBatteryVoltage() / 1000)
