@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2014 PAC-man ROM
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+       http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<resources>
+
+    <string name="app_name">PACPrestatie</string>
+    <string name="applysuccessfully">Succesvol toegepast</string>
+    <string name="setonboot">Ingesteld bij het opstarten</string>
+    <string name="newkernel">Nieuwe Kernel gedecteerd. Uw waarde word niet toegepast.</string>
+    <string name="ppbootedup">PACPrestatie opgestart</string>
+    <string name="apply">Toepassen</string>
+    <string name="cancel">Annuleren</string>
+    <string name="drawer_open">Open meldingspaneel</string>
+    <string name="drawer_close">Sluit meldingspaneel</string>
+
+    <!-- Units -->
+    <string name="mhz">MHz</string>
+    <string name="mv">mV</string>
+    <string name="kb">kB</string>
+    <string name="minus">&lt;</string>
+    <string name="plus">&gt;</string>
+    <string name="db">dB</string>
+    <string name="mb">MB</string>
+
+    <!-- CPU -->
+    <string name="cpu">CPU</string>
+    <string name="currentfreq">Huidige CPU Frequentie</string>
+    <string name="core">Core</string>
+    <string name="offline">Offline</string>
+    <string name="maxfreq">CPU Maximum Frequentie</string>
+    <string name="maxfreq_summary">Stel de maximum frequentie in dat de CPU naar opschaalt.</string>
+    <string name="minfreq">CPU Minimum Frequentie</string>
+    <string name="minfreq_summary">Stel de minimum frequentie in dat de CPU naar beneden schaalt.</string>
+    <string name="maxscreenofffreq">CPU Maximum Frequentie Scherm Uit</string>
+    <string name="maxscreenofffreq_summary">Stel de maximum frequentie in dat de CPU opschaalt wanneer het scherm uit is.</string>
+    <string name="minscreenonfreq">CPU Minimum Frequentie Scherm Aan</string>
+    <string name="minscreenonfreq_summary">Stel de minimum frequentie in dat de CPU naar beneden schaalt als het scherm aan is.</string>
+    <string name="cpugovernor">CPU Gouverneur</string>
+    <string name="cpugovernor_summary">De CPU gouverneur bepaalt hoe de CPU zich gedraagt in antwoord op wijzigingen in werklast. De gouverneur veranderen zal invloed hebben hoe de CPU balanst door de frequentie stappen beschikbaar aan de CPU.</string>
+    <string name="intelliplug">IntelliPlug</string>
+    <string name="intelliplugecomode">Eco Modus</string>
+
+    <!-- Battery -->
+    <string name="battery">Batterij</string>
+    <string name="curbatteryvoltage">Huidige Batterij Voltage</string>
+    <string name="fastcharge">Snel Opladen</string>
+    <string name="blx">Batterij Levensduur verlengen</string>
+    <string name="blx_summary">Stel een limiet in voor de capaciteit dat de batterij zal worden opgeladen bij het passeren van een waarde tussen 0 en 100.</string>
+
+    <!-- Audio -->
+    <string name="audio">Audio</string>
+    <string name="fauxsoundcontrol">Faux Geluid Beheer</string>
+    <string name="headphonegain">Hoofdtelefoon Volume</string>
+    <string name="handsetmicgain">Handset Microfoon Volume</string>
+    <string name="cammicgain">Camcorder Microfoon Volume</string>
+    <string name="speakergain">Speaker Volume</string>
+    <string name="headphonepagain">Hoofdtelefoon PowerAmp Volume</string>
+
+    <!-- Voltage -->
+    <string name="voltage">Voltage</string>
+    <string name="voltagecontrol">Voltage Beheer</string>
+    <string name="voltagecontrol_summary">Voltage verlagen zal het stroomverbruik verlagen van de CPU. Verhogen tot overgeklokte frequenties zal de stabiliteit verbeteren. Te lage voltage zal leiden tot instabiliteit en vast lopen van de telefoon.</string>
+    <string name="fauxvoltagecontrol">Faux Voltage Beheer</string>
+
+    <!-- IO -->
+    <string name="io">I/O Planners</string>
+    <string name="internalstoragescheduler">Interne Opslag Planner</string>
+    <string name="storagescheduler_summary">Stel de actieve I/O lift algoritme. De planner beslist hoe om te gaan met I/O aanvragen en hoe ermee af te handelen.</string>
+    <string name="externalstoragescheduler">Externe Opslag Planner</string>
+    <string name="internalstorageread">Interne Opslag Lees-vooruit</string>
+    <string name="internalstorageread_summary">De lees-vooruit waarde op de interne telefoon geheugen.</string>
+    <string name="externalstorageread">Externe Opslag Lees-vooruit</string>
+    <string name="externalstorageread_summary">De lees-vooruit waarde op de externe telefoon geheugen.</string>
+
+    <!-- MinFree -->
+    <string name="minfree">MinFree</string>
+    <string name="minfreesettings">MinFree Instellingen</string>
+    <string name="forgroundapplications">Voorgrond Applicaties</string>
+    <string name="visbileapplications">Zichtbare Applicaties</string>
+    <string name="secondaryserver">Secundaire Server</string>
+    <string name="hiddenapplications">Verborgen Applicaties</string>
+    <string name="contentproviders">Inhoud Providers</string>
+    <string name="emptyapplications">Lege Applicaties</string>
+
+    <!-- VM -->
+    <string name="vm">VM</string>
+    <string name="vmtuning">VM Tunen</string>
+    <string name="vmtunig_summary">Tune de operatie van de virtuele geheugen (VM) subsystem of de Linux kernel en de writeout of dirty data to disk.</string>
+
+    <!-- Information -->
+    <string name="information">Informatie</string>
+    <string name="device">Apparaat</string>
+    <string name="codename">Codename</string>
+    <string name="kernelversion">Kernel Versie</string>
+    <string name="timeinstate">Tijd in Staat</string>
+    <string name="unusedcpustates">Ongebruikte CPU states</string>
+    <string name="totalstatetime">Total State Time</string>
+    <string name="deepsleep">Diepe Slaap</string>
+
+</resources>
