@@ -1,4 +1,4 @@
-package com.stericson.roottools.containers;
+package com.stericson.roottools;
 
 import android.annotation.SuppressLint;
 

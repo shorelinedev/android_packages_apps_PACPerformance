@@ -24,9 +24,6 @@ package com.stericson.roottools;
 
 import android.util.Log;
 
-import com.stericson.roottools.exceptions.RootDeniedException;
-import com.stericson.roottools.execution.Shell;
-
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 

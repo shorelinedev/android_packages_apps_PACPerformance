@@ -20,7 +20,7 @@
  * limitations under that License.
  */
 
-package com.stericson.roottools.execution;
+package com.stericson.roottools;
 
 import com.stericson.roottools.RootTools;
 

@@ -19,10 +19,9 @@
  * See each License for the specific language governing permissions and
  * limitations under that License.
  */
-package com.stericson.roottools.execution;
+package com.stericson.roottools;
 
 import com.stericson.roottools.RootTools;
-import com.stericson.roottools.exceptions.RootDeniedException;
 
 import java.io.BufferedReader;
 import java.io.EOFException;

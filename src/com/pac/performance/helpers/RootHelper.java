@@ -16,9 +16,9 @@
 
 package com.pac.performance.helpers;
 
+import com.stericson.roottools.CommandCapture;
+import com.stericson.roottools.RootDeniedException;
 import com.stericson.roottools.RootTools;
-import com.stericson.roottools.exceptions.RootDeniedException;
-import com.stericson.roottools.execution.CommandCapture;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
