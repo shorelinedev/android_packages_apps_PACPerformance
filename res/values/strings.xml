@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright (C) 2014 PAC-man ROM
- 
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
- 
+
        http://www.apache.org/licenses/LICENSE-2.0
- 
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,15 +17,13 @@
 
 <resources>
 
-    <string name="app_name">PACPerformance</string>
+    <string name="pacperformance">PACPerformance</string>
     <string name="applysuccessfully">Apply Successfully</string>
     <string name="setonboot">Set on boot</string>
     <string name="newkernel">New Kernel detected. Your values will not get applied.</string>
     <string name="ppbootedup">PACPerformance booted up</string>
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
 
     <!-- Units -->
     <string name="mhz">MHz</string>

@@ -16,44 +16,59 @@
 
 package com.pac.performance;
 
-import com.pac.performance.helpers.CPUHelper;
-import com.pac.performance.helpers.RootHelper;
-import com.pac.performance.helpers.VMHelper;
-import com.pac.performance.utils.Control;
-import com.pac.performance.utils.Utils;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.pac.performance.helpers.AudioHelper;
+import com.pac.performance.helpers.BatteryHelper;
+import com.pac.performance.helpers.CPUHelper;
+import com.pac.performance.helpers.IOHelper;
+import com.pac.performance.helpers.MinFreeHelper;
+import com.pac.performance.helpers.RootHelper;
+import com.pac.performance.helpers.VMHelper;
+import com.pac.performance.helpers.VoltageHelper;
+import com.pac.performance.utils.Utils;
+
 public class BootReceiver extends BroadcastReceiver {
 
-	private static Context context;
+    private static Context context;
 
-	@Override
-	public void onReceive(Context c, Intent intent) {
-		context = c;
-		if (Utils.getBoolean("setonboot", false, context))
-			if (Utils.getFormattedKernelVersion().equals(
-					Utils.getString("kernelversion", "nothing", context)))
-				setValue();
-			else
-				Utils.toast(context.getString(R.string.newkernel), context);
-	}
+    private static String[][] stringfiles = {
+            { CPUHelper.MAX_FREQ, CPUHelper.MIN_FREQ, CPUHelper.MAX_SCREEN_OFF,
+                    CPUHelper.MIN_SCREEN_ON, CPUHelper.CUR_GOVERNOR,
+                    CPUHelper.INTELLIPLUG, CPUHelper.INTELLIPLUG_ECO_MODE },
+            { BatteryHelper.FAST_CHARGE, BatteryHelper.BLX },
+            AudioHelper.FAUX_SOUND,
+            { VoltageHelper.CPU_VOLTAGE, VoltageHelper.FAUX_VOLTAGE },
+            { IOHelper.INTERNAL_SCHEDULER, IOHelper.EXTERNAL_SCHEDULER,
+                    IOHelper.INTERNAL_READ, IOHelper.EXTERNAL_READ },
+            { MinFreeHelper.MINFREE } };
 
-	private static void setValue() {
-		for (int i = 0; i < Control.stringfiles.length; i++)
-			for (String name : Control.stringfiles[i])
-				RootHelper.run(Utils.getString(name, "", context));
+    @Override
+    public void onReceive(Context c, Intent intent) {
+        context = c;
+        if (Utils.getBoolean("setonboot", false, context))
+            if (Utils.getFormattedKernelVersion().equals(
+                    Utils.getString("kernelversion", "nothing", context)))
+                setValue();
+            else
+                Utils.toast(context.getString(R.string.newkernel), context);
+    }
 
-		for (int i = 0; i < CPUHelper.getCoreCount(); i++)
-			RootHelper.run(Utils.getString(
-					CPUHelper.CORE_STAT.replace("present", String.valueOf(i)),
-					"", context));
+    private static void setValue() {
+        for (String[] stringfile : stringfiles)
+            for (String name : stringfile)
+                RootHelper.run(Utils.getString(name, "", context));
 
-		for (String name : VMHelper.getVMFiles())
-			RootHelper.run(Utils.getString(name, "", context));
+        for (int i = 0; i < CPUHelper.getCoreCount(); i++)
+            RootHelper.run(Utils.getString(
+                    CPUHelper.CORE_STAT.replace("present", String.valueOf(i)),
+                    "", context));
 
-		Utils.toast(context.getString(R.string.ppbootedup), context);
-	}
+        for (String name : VMHelper.getVMPaths())
+            RootHelper.run(Utils.getString(name, "", context));
+
+        Utils.toast(context.getString(R.string.ppbootedup), context);
+    }
 }

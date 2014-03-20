@@ -16,23 +16,23 @@
 
 package com.pac.performance.helpers;
 
+import com.stericson.roottools.RootTools;
+import com.stericson.roottools.exceptions.RootDeniedException;
+import com.stericson.roottools.execution.CommandCapture;
+
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import com.stericson.RootTools.RootTools;
-import com.stericson.RootTools.exceptions.RootDeniedException;
-import com.stericson.RootTools.execution.CommandCapture;
-
 public class RootHelper {
 
-	public static void run(String run) {
-		try {
-			RootTools.getShell(true).add(new CommandCapture(100, run))
-					.commandCompleted(0, 0);
-		} catch (IOException e) {
-		} catch (TimeoutException e) {
-		} catch (RootDeniedException e) {
-		}
-	}
+    public static void run(String command) {
+        try {
+            RootTools.getShell().add(new CommandCapture(0, command))
+                    .commandCompleted(0, 0);
+        } catch (IOException ignored) {
+        } catch (TimeoutException ignored) {
+        } catch (RootDeniedException ignored) {
+        }
+    }
 
 }

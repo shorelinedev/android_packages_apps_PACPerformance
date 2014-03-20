@@ -16,59 +16,59 @@
 
 package com.pac.performance.helpers;
 
+import com.pac.performance.utils.Utils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.pac.performance.utils.Utils;
-
 public class VMHelper {
 
-	private static final String[] supportedvm = { "dirty_ratio",
-			"dirty_background_ratio", "dirty_expire_centisecs",
-			"dirty_writeback_centisecs", "min_free_kbytes", "overcommit_ratio",
-			"swappiness", "vfs_cache_pressure" };
+    private static final String[] supportedvm = { "dirty_ratio",
+            "dirty_background_ratio", "dirty_expire_centisecs",
+            "dirty_writeback_centisecs", "min_free_kbytes", "overcommit_ratio",
+            "swappiness", "vfs_cache_pressure" };
 
-	public static final String VM_PATH = "/proc/sys/vm";
+    public static final String VM_PATH = "/proc/sys/vm";
 
-	public static List<String> getVMValues() {
-		List<String> dummy = new ArrayList<String>();
-		if (Utils.exist(VM_PATH))
-			try {
-				for (String file : getVMPaths())
-					dummy.add(Utils.readLine(file));
-			} catch (IOException e) {
+    public static List<String> getVMValues() {
+        List<String> dummy = new ArrayList<String>();
+        if (Utils.exist(VM_PATH))
+            try {
+                for (String file : getVMPaths())
+                    dummy.add(Utils.readLine(file));
+            } catch (IOException ignored) {
 
-			}
-		else
-			dummy.add("0");
-		return dummy;
-	}
+            }
+        else
+            dummy.add("0");
+        return dummy;
+    }
 
-	public static List<String> getVMFiles() {
-		List<String> dummy = new ArrayList<String>();
-		if (Utils.exist(VM_PATH)) {
-			File[] filepaths = new File(VM_PATH).listFiles();
-			for (File file : filepaths)
-				for (String supported : supportedvm)
-					if (file.getName().equals(supported))
-						dummy.add(file.getName());
-		} else
-			dummy.add("0");
-		return dummy;
-	}
+    public static List<String> getVMFiles() {
+        List<String> dummy = new ArrayList<String>();
+        if (Utils.exist(VM_PATH)) {
+            File[] filepaths = new File(VM_PATH).listFiles();
+            for (File file : filepaths)
+                for (String supported : supportedvm)
+                    if (file.getName().equals(supported))
+                        dummy.add(file.getName());
+        } else
+            dummy.add("0");
+        return dummy;
+    }
 
-	public static List<String> getVMPaths() {
-		List<String> dummy = new ArrayList<String>();
-		if (Utils.exist(VM_PATH)) {
-			File[] filepaths = new File(VM_PATH).listFiles();
-			for (File path : filepaths)
-				for (String supported : supportedvm)
-					if (path.getName().equals(supported))
-						dummy.add(path.getPath());
-		} else
-			dummy.add("0");
-		return dummy;
-	}
+    public static List<String> getVMPaths() {
+        List<String> dummy = new ArrayList<String>();
+        if (Utils.exist(VM_PATH)) {
+            File[] filepaths = new File(VM_PATH).listFiles();
+            for (File path : filepaths)
+                for (String supported : supportedvm)
+                    if (path.getName().equals(supported))
+                        dummy.add(path.getPath());
+        } else
+            dummy.add("0");
+        return dummy;
+    }
 }

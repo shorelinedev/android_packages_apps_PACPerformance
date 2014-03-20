@@ -16,21 +16,13 @@
 
 package com.pac.performance.fragments;
 
-import com.pac.performance.MainActivity;
-import com.pac.performance.R;
-import com.pac.performance.helpers.BatteryHelper;
-import com.pac.performance.helpers.LayoutHelper;
-import com.pac.performance.utils.Control;
-import com.pac.performance.utils.InformationDialog;
-import com.pac.performance.utils.Utils;
-
 import android.annotation.SuppressLint;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,206 +31,212 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.SeekBar;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.pac.performance.MainActivity;
+import com.pac.performance.R;
+import com.pac.performance.helpers.BatteryHelper;
+import com.pac.performance.helpers.LayoutHelper;
+import com.pac.performance.utils.Control;
+import com.pac.performance.utils.InformationDialog;
+import com.pac.performance.utils.Utils;
+
 public class BatteryFragment extends Fragment implements OnClickListener,
-		OnCheckedChangeListener, OnSeekBarChangeListener {
+        OnCheckedChangeListener, OnSeekBarChangeListener {
 
-	private static Context context;
+    private static Context context;
 
-	public static LinearLayout layout = null;
+    public static LinearLayout layout = null;
 
-	private static OnClickListener OnClickListener;
-	private static OnCheckedChangeListener OnCheckedChangeListener;
-	private static OnSeekBarChangeListener OnSeekBarChangeListener;
+    private static TextView mBatteryVoltageTitle;
+    private static TextView mBatteryVoltageText;
 
-	private static CurBatteryVoltageThread mCurBatteryVoltage;
+    private static CheckBox mFastChargeBox;
 
-	private static TextView mBatteryVoltageTitle;
-	private static TextView mBatteryVoltageText;
+    private static TextView mBLXTitle;
+    private static TextView mBLXText;
+    private static Button mBLXMinus;
+    private static SeekBar mBLXBar;
+    private static Button mBLXPlus;
 
-	private static CheckBox mFastChargeBox;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        context = getActivity();
+        View rootView = inflater.inflate(R.layout.generic, container, false);
+        layout = (LinearLayout) rootView.findViewById(R.id.layout);
 
-	private static TextView mBLXTitle;
-	private static TextView mBLXText;
-	private static Button mBLXMinus;
-	private static SeekBar mBLXBar;
-	private static Button mBLXPlus;
+        setLayout();
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		context = getActivity();
-		View rootView = inflater.inflate(R.layout.generic, container, false);
-		layout = (LinearLayout) rootView.findViewById(R.id.layout);
+        mBatteryVoltageTitle.setOnClickListener(this);
+        mFastChargeBox.setOnCheckedChangeListener(this);
+        mBLXMinus.setOnClickListener(this);
+        mBLXBar.setOnSeekBarChangeListener(this);
+        mBLXPlus.setOnClickListener(this);
 
-		OnClickListener = this;
-		OnCheckedChangeListener = this;
-		OnSeekBarChangeListener = this;
+        return rootView;
+    }
 
-		setLayout();
-		return rootView;
-	}
+    private void setLayout() {
+        mBatteryVoltageTitle = new TextView(context);
+        mBatteryVoltageTitle.setPadding(0, MainActivity.mHeight / 25, 0, 0);
+        if (Utils.exist(BatteryHelper.BATTERY_VOLTAGE))
+            layout.addView(mBatteryVoltageTitle);
 
-	public static void setLayout() {
-		layout.removeAllViews();
+        mBatteryVoltageText = new TextView(context);
+        if (Utils.exist(BatteryHelper.BATTERY_VOLTAGE))
+            layout.addView(mBatteryVoltageText);
 
-		mBatteryVoltageTitle = new TextView(context);
-		LayoutHelper.setTextTitle(mBatteryVoltageTitle,
-				context.getString(R.string.curbatteryvoltage), context);
-		mBatteryVoltageTitle.setPadding(0, (int) (MainActivity.mHeight / 25),
-				0, 0);
-		mBatteryVoltageTitle.setOnClickListener(OnClickListener);
-		if (Utils.exist(BatteryHelper.BATTERY_VOLTAGE))
-			layout.addView(mBatteryVoltageTitle);
+        LinearLayout mFastChargeLayout = new LinearLayout(context);
+        mFastChargeLayout.setGravity(Gravity.CENTER);
+        mFastChargeLayout.setPadding(0, (int) (MainActivity.mHeight / 21.6), 0,
+                0);
+        if (Utils.exist(BatteryHelper.FAST_CHARGE))
+            layout.addView(mFastChargeLayout);
 
-		mBatteryVoltageText = new TextView(context);
-		LayoutHelper.setSubTitle(mBatteryVoltageText,
-				String.valueOf(BatteryHelper.getCurBatteryVoltage() / 1000)
-						+ context.getString(R.string.mv));
-		if (Utils.exist(BatteryHelper.BATTERY_VOLTAGE))
-			layout.addView(mBatteryVoltageText);
+        mFastChargeBox = new CheckBox(context);
+        mFastChargeLayout.addView(mFastChargeBox);
 
-		LinearLayout mFastChargeLayout = new LinearLayout(context);
-		mFastChargeLayout.setGravity(Gravity.CENTER);
-		mFastChargeLayout.setPadding(0, (int) (MainActivity.mHeight / 21.6), 0,
-				0);
-		if (Utils.exist(BatteryHelper.FAST_CHARGE))
-			layout.addView(mFastChargeLayout);
+        mBLXTitle = new TextView(context);
+        LayoutHelper.setTextTitle(mBLXTitle, getString(R.string.blx), context);
+        mBLXTitle.setPadding(0, (int) (MainActivity.mHeight / 21.6), 0, 0);
+        if (Utils.exist(BatteryHelper.BLX))
+            layout.addView(mBLXTitle);
 
-		mFastChargeBox = new CheckBox(context);
-		LayoutHelper.setCheckBox(mFastChargeBox, BatteryHelper.getFastCharge(),
-				context.getString(R.string.fastcharge), context);
-		mFastChargeBox.setOnCheckedChangeListener(OnCheckedChangeListener);
-		mFastChargeLayout.addView(mFastChargeBox);
+        mBLXText = new TextView(context);
+        if (Utils.exist(BatteryHelper.BLX))
+            layout.addView(mBLXText);
 
-		mBLXTitle = new TextView(context);
-		LayoutHelper.setTextTitle(mBLXTitle, context.getString(R.string.blx),
-				context);
-		mBLXTitle.setPadding(0, (int) (MainActivity.mHeight / 21.6), 0, 0);
-		mBLXTitle.setOnClickListener(OnClickListener);
-		if (Utils.exist(BatteryHelper.BLX))
-			layout.addView(mBLXTitle);
+        LinearLayout mBLXLayout = new LinearLayout(context);
+        mBLXLayout.setGravity(Gravity.CENTER);
+        if (Utils.exist(BatteryHelper.BLX))
+            layout.addView(mBLXLayout);
 
-		mBLXText = new TextView(context);
-		LayoutHelper.setSeekBarText(mBLXText,
-				String.valueOf(BatteryHelper.getBLX()));
-		if (Utils.exist(BatteryHelper.BLX))
-			layout.addView(mBLXText);
+        LayoutParams lp = new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
 
-		LinearLayout mBLXLayout = new LinearLayout(context);
-		mBLXLayout.setGravity(Gravity.CENTER);
-		if (Utils.exist(BatteryHelper.BLX))
-			layout.addView(mBLXLayout);
+        mBLXMinus = new Button(context);
+        mBLXMinus.setText(getString(R.string.minus));
+        mBLXLayout.addView(mBLXMinus);
 
-		LayoutParams lp = new LinearLayout.LayoutParams(0,
-				LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        mBLXBar = new SeekBar(context);
+        mBLXBar.setLayoutParams(lp);
+        mBLXLayout.addView(mBLXBar);
 
-		mBLXMinus = new Button(context);
-		mBLXMinus.setText(context.getString(R.string.minus));
-		mBLXMinus.setOnClickListener(OnClickListener);
-		mBLXLayout.addView(mBLXMinus);
+        mBLXPlus = new Button(context);
+        mBLXPlus.setText(getString(R.string.plus));
+        mBLXLayout.addView(mBLXPlus);
 
-		mBLXBar = new SeekBar(context);
-		LayoutHelper.setNormalSeekBar(mBLXBar, 100, BatteryHelper.getBLX(),
-				context);
-		mBLXBar.setLayoutParams(lp);
-		mBLXBar.setOnSeekBarChangeListener(OnSeekBarChangeListener);
-		mBLXLayout.addView(mBLXBar);
+        setValues();
+    }
 
-		mBLXPlus = new Button(context);
-		mBLXPlus.setText(context.getString(R.string.plus));
-		mBLXPlus.setOnClickListener(OnClickListener);
-		mBLXLayout.addView(mBLXPlus);
-	}
+    public static void setValues() {
+        LayoutHelper.setTextTitle(mBatteryVoltageTitle,
+                context.getString(R.string.curbatteryvoltage), context);
 
-	@Override
-	public void onResume() {
-		mCurBatteryVoltage = new CurBatteryVoltageThread();
-		mCurBatteryVoltage.start();
-		super.onResume();
-	}
+        LayoutHelper.setSubTitle(mBatteryVoltageText,
+                String.valueOf(BatteryHelper.getCurBatteryVoltage() / 1000)
+                        + context.getString(R.string.mv));
 
-	protected class CurBatteryVoltageThread extends Thread {
+        LayoutHelper.setCheckBox(mFastChargeBox, BatteryHelper.getFastCharge(),
+                context.getString(R.string.fastcharge), context);
 
-		@Override
-		public void run() {
-			try {
-				while (true) {
-					mCurBatteryVoltageHandler
-							.sendMessage(mCurBatteryVoltageHandler
-									.obtainMessage(0, ""));
-					sleep(1000);
-				}
-			} catch (InterruptedException e) {
-			}
-		}
-	}
+        LayoutHelper.setSeekBarText(mBLXText,
+                String.valueOf(BatteryHelper.getBLX()));
 
-	@SuppressLint("HandlerLeak")
-	protected Handler mCurBatteryVoltageHandler = new Handler() {
-		public void handleMessage(Message msg) {
-			mBatteryVoltageText.setText(String.valueOf(BatteryHelper
-					.getCurBatteryVoltage() / 1000)
-					+ context.getString(R.string.mv));
-		}
-	};
+        LayoutHelper.setNormalSeekBar(mBLXBar, 100, BatteryHelper.getBLX(),
+                context);
+    }
 
-	@Override
-	public void onClick(View v) {
-		if (v.equals(mBatteryVoltageTitle))
-			try {
-				startActivity(new Intent(Intent.ACTION_POWER_USAGE_SUMMARY));
-			} catch (Exception e) {
-			}
-		if (v.equals(mBLXTitle))
-			InformationDialog.showInfo(mBLXTitle.getText().toString(),
-					context.getString(R.string.blx_summary), context);
-		if (v.equals(mBLXMinus)) {
-			mBLXBar.setProgress(mBLXBar.getProgress() - 1);
-			saveBLX();
-		}
-		if (v.equals(mBLXPlus)) {
-			mBLXBar.setProgress(mBLXBar.getProgress() + 1);
-			saveBLX();
-		}
-	}
+    @Override
+    public void onResume() {
+        CurBatteryVoltageThread mCurBatteryVoltage = new CurBatteryVoltageThread();
+        mCurBatteryVoltage.start();
+        super.onResume();
+    }
 
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		MainActivity.BatteryChange = true;
-		MainActivity.showButtons(true);
-		if (buttonView.equals(mFastChargeBox))
-			Control.runBatteryGeneric(isChecked ? "1" : "0",
-					BatteryHelper.FAST_CHARGE);
-	}
+    protected class CurBatteryVoltageThread extends Thread {
 
-	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress,
-			boolean fromUser) {
-		MainActivity.BatteryChange = true;
-		MainActivity.showButtons(true);
-		if (seekBar.equals(mBLXBar)) {
-			mBLXText.setText(String.valueOf(progress));
-			saveBLX();
-		}
-	}
+        @Override
+        public void run() {
+            try {
+                boolean dummy = true;
+                while (dummy) {
+                    mCurBatteryVoltageHandler
+                            .sendMessage(mCurBatteryVoltageHandler
+                                    .obtainMessage(0, ""));
+                    sleep(1000);
+                }
+            } catch (InterruptedException ignored) {
+            }
+        }
+    }
 
-	@Override
-	public void onStartTrackingTouch(SeekBar seekBar) {
-	}
+    @SuppressLint("HandlerLeak")
+    protected Handler mCurBatteryVoltageHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            mBatteryVoltageText.setText(String.valueOf(BatteryHelper
+                    .getCurBatteryVoltage() / 1000)
+                    + context.getString(R.string.mv));
+        }
+    };
 
-	@Override
-	public void onStopTrackingTouch(SeekBar seekBar) {
-	}
+    @Override
+    public void onClick(View v) {
+        if (v.equals(mBatteryVoltageTitle))
+            try {
+                startActivity(new Intent(Intent.ACTION_POWER_USAGE_SUMMARY));
+            } catch (Exception ignored) {
+            }
+        if (v.equals(mBLXTitle))
+            InformationDialog.showInfo(mBLXTitle.getText().toString(),
+                    getString(R.string.blx_summary), context);
+        if (v.equals(mBLXMinus)) {
+            mBLXBar.setProgress(mBLXBar.getProgress() - 1);
+            saveBLX();
+        }
+        if (v.equals(mBLXPlus)) {
+            mBLXBar.setProgress(mBLXBar.getProgress() + 1);
+            saveBLX();
+        }
+    }
 
-	private static void saveBLX() {
-		Control.runBatteryGeneric(mBLXText.getText().toString(),
-				BatteryHelper.BLX);
-	}
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        MainActivity.BatteryChange = true;
+        MainActivity.showButtons(true);
+        if (buttonView.equals(mFastChargeBox))
+            Control.runBatteryGeneric(isChecked ? "1" : "0",
+                    BatteryHelper.FAST_CHARGE);
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress,
+            boolean fromUser) {
+        MainActivity.BatteryChange = true;
+        MainActivity.showButtons(true);
+
+        if (seekBar.equals(mBLXBar)) {
+            mBLXText.setText(String.valueOf(progress));
+            saveBLX();
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+    }
+
+    private static void saveBLX() {
+        Control.runBatteryGeneric(mBLXText.getText().toString(),
+                BatteryHelper.BLX);
+    }
 }
