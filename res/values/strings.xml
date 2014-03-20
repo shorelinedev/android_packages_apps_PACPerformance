@@ -24,6 +24,8 @@
     <string name="ppbootedup">PACPerformance booted up</string>
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
     <!-- Units -->
     <string name="mhz">MHz</string>

@@ -465,8 +465,6 @@ public class CPUFragment extends Fragment implements Constants,
                 Control.runCPUGeneric(
                         mAvailableFreqList.get(mMinScreenOnFreqPosition),
                         MIN_SCREEN_ON);
-
-            Utils.toast(mAvailableFreqList.get(mMaxFreqPosition), context);
         }
     }
 

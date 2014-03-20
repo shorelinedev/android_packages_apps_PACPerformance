@@ -24,8 +24,6 @@
     <string name="ppbootedup">PACPerformance inicializado</string>
     <string name="apply">Aplicar</string>
     <string name="cancel">Cancelar</string>
-    <string name="drawer_open">Abrir painel de navegação</string>
-    <string name="drawer_close">Fechar painel de navegação</string>
 
     <!-- Units -->
     <string name="mhz">MHz</string>

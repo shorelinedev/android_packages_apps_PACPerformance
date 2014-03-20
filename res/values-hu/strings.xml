@@ -24,8 +24,6 @@
     <string name="ppbootedup">PACPerformance betöltődott</string>
     <string name="apply">Alkalmaz</string>
     <string name="cancel">Mégsem</string>
-    <string name="drawer_open">Navigációs ablak megnyitása</string>
-    <string name="drawer_close">Navigációs ablak bezárása</string>
 
     <!-- Units -->
     <string name="mhz">MHz</string>
