@@ -3,7 +3,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE_TAGS := optional
 
-LOCAL_STATIC_JAVA_LIBRARIES := android-support-v4 android-support-v13
+LOCAL_STATIC_JAVA_LIBRARIES := android-support-v13
 
 LOCAL_PACKAGE_NAME := PACPerformance
 
