@@ -16,15 +16,12 @@
 
 package com.pac.performance.helpers;
 
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Utils;
 
 import java.io.IOException;
 
-public class BatteryHelper {
-
-    public static final String BLX = "/sys/devices/virtual/misc/batterylifeextender/charging_limit";
-    public static final String FAST_CHARGE = "/sys/kernel/fast_charge/force_fast_charge";
-    public static final String BATTERY_VOLTAGE = "/sys/class/power_supply/battery/voltage_now";
+public class BatteryHelper implements Constants {
 
     public static int getBLX() {
         if (Utils.exist(BLX))

@@ -16,16 +16,12 @@
 
 package com.pac.performance.helpers;
 
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Utils;
 
 import java.io.IOException;
 
-public class IOHelper {
-
-    public static final String EXTERNAL_READ = "/sys/block/mmcblk1/queue/read_ahead_kb";
-    public static final String INTERNAL_READ = "/sys/block/mmcblk0/queue/read_ahead_kb";
-    public static final String EXTERNAL_SCHEDULER = "/sys/block/mmcblk1/queue/scheduler";
-    public static final String INTERNAL_SCHEDULER = "/sys/block/mmcblk0/queue/scheduler";
+public class IOHelper implements Constants {
 
     public static int getExternalRead() {
         if (Utils.exist(EXTERNAL_READ))

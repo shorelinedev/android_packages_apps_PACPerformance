@@ -35,11 +35,12 @@ import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.AudioHelper;
 import com.pac.performance.helpers.LayoutHelper;
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.Utils;
 
-public class AudioFragment extends Fragment implements OnClickListener,
-        OnSeekBarChangeListener {
+public class AudioFragment extends Fragment implements Constants,
+        OnClickListener, OnSeekBarChangeListener {
 
     private static Context context;
 
@@ -59,7 +60,7 @@ public class AudioFragment extends Fragment implements OnClickListener,
 
         setLayout();
 
-        if (Utils.exist(AudioHelper.FAUX_SOUND_CONTROL))
+        if (Utils.exist(FAUX_SOUND_CONTROL))
             for (int i = 1; i < AudioHelper.FAUX_SOUND.length; i++) {
                 mFauxSoundMinuses[i].setOnClickListener(this);
                 mFauxSoundBars[i].setOnSeekBarChangeListener(this);
@@ -75,10 +76,10 @@ public class AudioFragment extends Fragment implements OnClickListener,
                 getString(R.string.fauxsoundcontrol), getActivity());
         mFauxSoundTitle.setPadding(0, Math.round(MainActivity.mHeight / 25), 0,
                 15);
-        if (Utils.exist(AudioHelper.FAUX_SOUND_CONTROL))
+        if (Utils.exist(FAUX_SOUND_CONTROL))
             layout.addView(mFauxSoundTitle);
 
-        if (Utils.exist(AudioHelper.FAUX_SOUND_CONTROL)) {
+        if (Utils.exist(FAUX_SOUND_CONTROL)) {
 
             mFauxSoundTexts = new TextView[AudioHelper.FAUX_SOUND.length];
             mFauxSoundMinuses = new Button[AudioHelper.FAUX_SOUND.length];
@@ -88,24 +89,21 @@ public class AudioFragment extends Fragment implements OnClickListener,
             for (int i = 1; i < AudioHelper.FAUX_SOUND.length; i++) {
 
                 TextView mFauxTitle = new TextView(context);
-                if (AudioHelper.FAUX_SOUND[i]
-                        .equals(AudioHelper.FAUX_HEADPHONE_GAIN))
+                if (AudioHelper.FAUX_SOUND[i].equals(FAUX_HEADPHONE_GAIN))
                     LayoutHelper.setSubTitle(mFauxTitle,
                             getString(R.string.headphonegain));
                 else if (AudioHelper.FAUX_SOUND[i]
-                        .equals(AudioHelper.FAUX_HANDSET_MIC_GAIN))
+                        .equals(FAUX_HANDSET_MIC_GAIN))
                     LayoutHelper.setSubTitle(mFauxTitle,
                             getString(R.string.handsetmicgain));
-                else if (AudioHelper.FAUX_SOUND[i]
-                        .equals(AudioHelper.FAUX_CAM_MIC_GAIN))
+                else if (AudioHelper.FAUX_SOUND[i].equals(FAUX_CAM_MIC_GAIN))
                     LayoutHelper.setSubTitle(mFauxTitle,
                             getString(R.string.cammicgain));
-                else if (AudioHelper.FAUX_SOUND[i]
-                        .equals(AudioHelper.FAUX_SPEAKER_GAIN))
+                else if (AudioHelper.FAUX_SOUND[i].equals(FAUX_SPEAKER_GAIN))
                     LayoutHelper.setSubTitle(mFauxTitle,
                             getString(R.string.speakergain));
                 else if (AudioHelper.FAUX_SOUND[i]
-                        .equals(AudioHelper.FAUX_HEADPHONE_PA_GAIN))
+                        .equals(FAUX_HEADPHONE_PA_GAIN))
                     LayoutHelper.setSubTitle(mFauxTitle,
                             getString(R.string.headphonepagain));
                 layout.addView(mFauxTitle);
@@ -154,10 +152,9 @@ public class AudioFragment extends Fragment implements OnClickListener,
                     .setNormalSeekBar(
                             mFauxSoundBars[i],
                             AudioHelper.FAUX_SOUND[i]
-                                    .equals(AudioHelper.FAUX_HEADPHONE_PA_GAIN) ? 17
-                                    : 30,
+                                    .equals(FAUX_HEADPHONE_PA_GAIN) ? 17 : 30,
                             AudioHelper.FAUX_SOUND[i]
-                                    .equals(AudioHelper.FAUX_HEADPHONE_PA_GAIN) ? AudioHelper
+                                    .equals(FAUX_HEADPHONE_PA_GAIN) ? AudioHelper
                                     .getFauxSoundControlValues(i) + 12
                                     : AudioHelper.getFauxSoundControlValues(i) + 20,
                             context);
@@ -184,11 +181,11 @@ public class AudioFragment extends Fragment implements OnClickListener,
 
         for (int i = 0; i < AudioHelper.FAUX_SOUND.length; i++)
             if (seekBar.equals(mFauxSoundBars[i]))
-                mFauxSoundTexts[i]
-                        .setText(String.valueOf(AudioHelper.FAUX_SOUND[i]
-                                .equals(AudioHelper.FAUX_HEADPHONE_PA_GAIN) ? progress - 12
+                mFauxSoundTexts[i].setText(String
+                        .valueOf(AudioHelper.FAUX_SOUND[i]
+                                .equals(FAUX_HEADPHONE_PA_GAIN) ? progress - 12
                                 : progress - 20)
-                                + context.getString(R.string.db));
+                        + context.getString(R.string.db));
     }
 
     @Override

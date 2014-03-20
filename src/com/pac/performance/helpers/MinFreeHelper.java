@@ -16,13 +16,12 @@
 
 package com.pac.performance.helpers;
 
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Utils;
 
 import java.io.IOException;
 
-public class MinFreeHelper {
-
-    public static final String MINFREE = "/sys/module/lowmemorykiller/parameters/minfree";
+public class MinFreeHelper implements Constants {
 
     public static Integer[] getMinFreeValues() {
         if (Utils.exist(MINFREE))

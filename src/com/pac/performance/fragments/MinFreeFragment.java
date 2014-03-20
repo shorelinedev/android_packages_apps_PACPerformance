@@ -35,14 +35,15 @@ import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.LayoutHelper;
 import com.pac.performance.helpers.MinFreeHelper;
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MinFreeFragment extends Fragment implements OnClickListener,
-        OnSeekBarChangeListener {
+public class MinFreeFragment extends Fragment implements Constants,
+        OnClickListener, OnSeekBarChangeListener {
 
     private static Context context;
 
@@ -212,8 +213,7 @@ public class MinFreeFragment extends Fragment implements OnClickListener,
         String values = "";
         for (String value : mMinFreeList)
             values = values + value;
-        Control.runMinFreeGeneric(Utils.replaceLastChar(values, 1),
-                MinFreeHelper.MINFREE);
+        Control.runMinFreeGeneric(Utils.replaceLastChar(values, 1), MINFREE);
     }
 
 }

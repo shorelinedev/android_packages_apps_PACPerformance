@@ -27,13 +27,12 @@ import com.pac.performance.MainActivity;
 import com.pac.performance.fragments.MinFreeFragment;
 import com.pac.performance.fragments.VMFragment;
 import com.pac.performance.fragments.VoltageFragment;
-import com.pac.performance.helpers.AudioHelper;
 import com.pac.performance.helpers.RootHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Control {
+public class Control implements Constants {
 
     private static List<String> CPUCommands = new ArrayList<String>();
     private static List<String> BatteryCommands = new ArrayList<String>();
@@ -180,11 +179,11 @@ public class Control {
         if (AudioCommands.indexOf(file) != -1)
             AudioCommands.remove(AudioCommands.indexOf(file));
 
-        if (file.equals(AudioHelper.FAUX_HEADPHONE_GAIN))
+        if (file.equals(FAUX_HEADPHONE_GAIN))
             AudioCommands.add(String.valueOf(file + "::echo "
                     + Integer.parseInt(value) + 40 + " "
                     + Integer.parseInt(value) + 40 + " > " + file));
-        else if (file.equals(AudioHelper.FAUX_HEADPHONE_PA_GAIN))
+        else if (file.equals(FAUX_HEADPHONE_PA_GAIN))
             AudioCommands.add(String.valueOf(file + "::echo "
                     + Integer.parseInt(value) + 12 + " "
                     + Integer.parseInt(value) + 12 + " > " + file));

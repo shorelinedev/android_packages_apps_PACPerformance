@@ -16,24 +16,12 @@
 
 package com.pac.performance.helpers;
 
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Utils;
 
 import java.io.IOException;
 
-public class CPUHelper {
-
-    public static final String INTELLIPLUG_ECO_MODE = "/sys/module/intelli_plug/parameters/eco_mode_active";
-    public static final String INTELLIPLUG = "/sys/module/intelli_plug/parameters/intelli_plug_active";
-    public static final String CUR_GOVERNOR = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
-    public static final String AVAILABLE_GOVERNOR = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors";
-    public static final String MIN_SCREEN_ON = "/sys/devices/system/cpu/cpu0/cpufreq/screen_on_min_freq";
-    public static final String MAX_SCREEN_OFF = "/sys/devices/system/cpu/cpu0/cpufreq/screen_off_max_freq";
-    public static final String MIN_FREQ = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq";
-    public static final String MAX_FREQ = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
-    public static final String AVAILABLE_FREQ = "/sys/devices/system/cpu/cpu0/cpufreq/stats/time_in_state";
-    public static final String CORE_STAT = "/sys/devices/system/cpu/cpupresent/online";
-    public static final String FREQUENCY_SCALING = "/sys/devices/system/cpu/cpupresent/cpufreq/scaling_cur_freq";
-    public static final String CORE_VALUE = "/sys/devices/system/cpu/present";
+public class CPUHelper implements Constants {
 
     public static boolean getIntelliPlugEcoMode() {
         if (Utils.exist(INTELLIPLUG_ECO_MODE))

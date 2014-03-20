@@ -21,16 +21,14 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.pac.performance.helpers.AudioHelper;
-import com.pac.performance.helpers.BatteryHelper;
 import com.pac.performance.helpers.CPUHelper;
-import com.pac.performance.helpers.IOHelper;
-import com.pac.performance.helpers.MinFreeHelper;
 import com.pac.performance.helpers.RootHelper;
 import com.pac.performance.helpers.VMHelper;
 import com.pac.performance.helpers.VoltageHelper;
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Utils;
 
-public class BootReceiver extends BroadcastReceiver {
+public class BootReceiver extends BroadcastReceiver implements Constants {
 
     private static Context context;
 
@@ -38,12 +36,11 @@ public class BootReceiver extends BroadcastReceiver {
             { CPUHelper.MAX_FREQ, CPUHelper.MIN_FREQ, CPUHelper.MAX_SCREEN_OFF,
                     CPUHelper.MIN_SCREEN_ON, CPUHelper.CUR_GOVERNOR,
                     CPUHelper.INTELLIPLUG, CPUHelper.INTELLIPLUG_ECO_MODE },
-            { BatteryHelper.FAST_CHARGE, BatteryHelper.BLX },
+            { FAST_CHARGE, BLX },
             AudioHelper.FAUX_SOUND,
             { VoltageHelper.CPU_VOLTAGE, VoltageHelper.FAUX_VOLTAGE },
-            { IOHelper.INTERNAL_SCHEDULER, IOHelper.EXTERNAL_SCHEDULER,
-                    IOHelper.INTERNAL_READ, IOHelper.EXTERNAL_READ },
-            { MinFreeHelper.MINFREE } };
+            { INTERNAL_SCHEDULER, EXTERNAL_SCHEDULER, INTERNAL_READ,
+                    EXTERNAL_READ }, { MINFREE } };
 
     @Override
     public void onReceive(Context c, Intent intent) {
@@ -63,8 +60,8 @@ public class BootReceiver extends BroadcastReceiver {
 
         for (int i = 0; i < CPUHelper.getCoreCount(); i++)
             RootHelper.run(Utils.getString(
-                    CPUHelper.CORE_STAT.replace("present", String.valueOf(i)),
-                    "", context));
+                    CORE_STAT.replace("present", String.valueOf(i)), "",
+                    context));
 
         for (String name : VMHelper.getVMPaths())
             RootHelper.run(Utils.getString(name, "", context));

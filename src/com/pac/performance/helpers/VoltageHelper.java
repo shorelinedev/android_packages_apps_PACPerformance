@@ -16,14 +16,12 @@
 
 package com.pac.performance.helpers;
 
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Utils;
 
 import java.io.IOException;
 
-public class VoltageHelper {
-
-    public static final String FAUX_VOLTAGE = "/sys/devices/system/cpu/cpufreq/vdd_table/vdd_levels";
-    public static final String CPU_VOLTAGE = "/sys/devices/system/cpu/cpu0/cpufreq/UV_mV_table";
+public class VoltageHelper implements Constants {
 
     public static Integer[] getFauxFreqVoltages() {
         if (Utils.exist(FAUX_VOLTAGE))

@@ -43,6 +43,7 @@ import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.CPUHelper;
 import com.pac.performance.helpers.LayoutHelper;
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.InformationDialog;
 import com.pac.performance.utils.Utils;
@@ -51,8 +52,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
-        OnItemSelectedListener, OnClickListener, OnCheckedChangeListener {
+public class CPUFragment extends Fragment implements Constants,
+        OnSeekBarChangeListener, OnItemSelectedListener, OnClickListener,
+        OnCheckedChangeListener {
 
     private static Context context;
 
@@ -123,8 +125,8 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
         mCurFreqLayout.setPadding(0, Math.round(MainActivity.mHeight / 25), 0,
                 0);
         mCurFreqLayout.setOrientation(LinearLayout.VERTICAL);
-        if (Utils.exist(CPUHelper.FREQUENCY_SCALING.replace("present", "0"))
-                && Utils.exist(CPUHelper.CORE_VALUE))
+        if (Utils.exist(FREQUENCY_SCALING.replace("present", "0"))
+                && Utils.exist(CORE_VALUE))
             layout.addView(mCurFreqLayout);
 
         TextView mCurFreqTitle = new TextView(context);
@@ -144,7 +146,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
         // Core Control
         LinearLayout mCoreControlLayout = new LinearLayout(context);
         mCoreControlLayout.setGravity(Gravity.CENTER);
-        if (Utils.exist(CPUHelper.CORE_STAT.replace("present", "0")))
+        if (Utils.exist(CORE_STAT.replace("present", "0")))
             layout.addView(mCoreControlLayout);
 
         mCoreControlBoxes = new CheckBox[CPUHelper.getCoreCount()];
@@ -159,11 +161,10 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
         mFreqScalingLayout.setPaddingRelative(0,
                 Math.round(MainActivity.mHeight / 20), 0, 0);
         mFreqScalingLayout.setOrientation(LinearLayout.VERTICAL);
-        if (Utils.exist(CPUHelper.AVAILABLE_GOVERNOR)
-                || Utils.exist(CPUHelper.MIN_SCREEN_ON)
-                || (Utils.exist(CPUHelper.MAX_SCREEN_OFF)
-                        || Utils.exist(CPUHelper.MIN_FREQ) || Utils
-                            .exist(CPUHelper.MAX_FREQ)))
+        if (Utils.exist(AVAILABLE_GOVERNOR)
+                || Utils.exist(MIN_SCREEN_ON)
+                || (Utils.exist(MAX_SCREEN_OFF) || Utils.exist(MIN_FREQ) || Utils
+                        .exist(MAX_FREQ)))
             layout.addView(mFreqScalingLayout);
 
         // Create a list to store all freqs
@@ -182,60 +183,60 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
         mMaxScalingText = new TextView(context);
         LayoutHelper.setTextTitle(mMaxScalingText, getString(R.string.maxfreq),
                 context);
-        if (Utils.exist(CPUHelper.MAX_FREQ))
+        if (Utils.exist(MAX_FREQ))
             mFreqScalingLayout.addView(mMaxScalingText);
 
         mMaxFreqScalingText = new TextView(context);
-        if (Utils.exist(CPUHelper.MAX_FREQ))
+        if (Utils.exist(MAX_FREQ))
             mFreqScalingLayout.addView(mMaxFreqScalingText);
 
         mMaxFreqScalingBar = new SeekBar(context);
-        if (Utils.exist(CPUHelper.MAX_FREQ))
+        if (Utils.exist(MAX_FREQ))
             mFreqScalingLayout.addView(mMaxFreqScalingBar);
 
         // Min Cpu Scaling
         mMinScalingText = new TextView(context);
         LayoutHelper.setTextTitle(mMinScalingText, getString(R.string.minfreq),
                 context);
-        if (Utils.exist(CPUHelper.MIN_FREQ))
+        if (Utils.exist(MIN_FREQ))
             mFreqScalingLayout.addView(mMinScalingText);
 
         mMinFreqScalingText = new TextView(context);
-        if (Utils.exist(CPUHelper.MIN_FREQ))
+        if (Utils.exist(MIN_FREQ))
             mFreqScalingLayout.addView(mMinFreqScalingText);
 
         mMinFreqScalingBar = new SeekBar(context);
-        if (Utils.exist(CPUHelper.MIN_FREQ))
+        if (Utils.exist(MIN_FREQ))
             mFreqScalingLayout.addView(mMinFreqScalingBar);
 
         // Max Screen Off Cpu Scaling
         mMaxScreenOffFreqText = new TextView(context);
         LayoutHelper.setTextTitle(mMaxScreenOffFreqText,
                 getString(R.string.maxscreenofffreq), context);
-        if (Utils.exist(CPUHelper.MAX_SCREEN_OFF))
+        if (Utils.exist(MAX_SCREEN_OFF))
             mFreqScalingLayout.addView(mMaxScreenOffFreqText);
 
         mMaxScreenOffFreqScalingText = new TextView(context);
-        if (Utils.exist(CPUHelper.MAX_SCREEN_OFF))
+        if (Utils.exist(MAX_SCREEN_OFF))
             mFreqScalingLayout.addView(mMaxScreenOffFreqScalingText);
 
         mMaxScreenOffFreqScalingBar = new SeekBar(context);
-        if (Utils.exist(CPUHelper.MAX_SCREEN_OFF))
+        if (Utils.exist(MAX_SCREEN_OFF))
             mFreqScalingLayout.addView(mMaxScreenOffFreqScalingBar);
 
         // Min Screen On Cpu Scaling
         mMinScreenOnFreqText = new TextView(context);
         LayoutHelper.setTextTitle(mMinScreenOnFreqText,
                 getString(R.string.minscreenonfreq), context);
-        if (Utils.exist(CPUHelper.MIN_SCREEN_ON))
+        if (Utils.exist(MIN_SCREEN_ON))
             mFreqScalingLayout.addView(mMinScreenOnFreqText);
 
         mMinScreenOnFreqScalingText = new TextView(context);
-        if (Utils.exist(CPUHelper.MIN_SCREEN_ON))
+        if (Utils.exist(MIN_SCREEN_ON))
             mFreqScalingLayout.addView(mMinScreenOnFreqScalingText);
 
         mMinScreenOnFreqScalingBar = new SeekBar(context);
-        if (Utils.exist(CPUHelper.MIN_SCREEN_ON))
+        if (Utils.exist(MIN_SCREEN_ON))
             mFreqScalingLayout.addView(mMinScreenOnFreqScalingBar);
 
         // CPU Governor Layout
@@ -243,7 +244,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
         mGovernorLayout.setGravity(Gravity.CENTER);
         mGovernorLayout
                 .setPadding(0, (int) (MainActivity.mHeight / 21.6), 0, 0);
-        if (Utils.exist(CPUHelper.AVAILABLE_GOVERNOR))
+        if (Utils.exist(AVAILABLE_GOVERNOR))
             layout.addView(mGovernorLayout);
 
         // Governor
@@ -263,14 +264,14 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
         mIntelliPlugLayout.setGravity(Gravity.CENTER);
         mIntelliPlugLayout.setPadding(0, (int) (MainActivity.mHeight / 21.6),
                 0, 0);
-        if (Utils.exist(CPUHelper.INTELLIPLUG))
+        if (Utils.exist(INTELLIPLUG))
             layout.addView(mIntelliPlugLayout);
 
         mIntelliPlugBox = new CheckBox(context);
         mIntelliPlugLayout.addView(mIntelliPlugBox);
 
         mIntelliPlugEcoModeBox = new CheckBox(context);
-        if (Utils.exist(CPUHelper.INTELLIPLUG))
+        if (Utils.exist(INTELLIPLUG))
             mIntelliPlugLayout.addView(mIntelliPlugEcoModeBox);
 
         setValues();
@@ -432,17 +433,15 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
                 || seekBar.equals(mMaxScreenOffFreqScalingBar)
                 || seekBar.equals(mMinScreenOnFreqScalingBar)) {
             Control.runCPUGeneric(mMaxFreqScalingText.getText().toString()
-                    .replace(getString(R.string.mhz), "000"),
-                    CPUHelper.MAX_FREQ);
+                    .replace(getString(R.string.mhz), "000"), MAX_FREQ);
             Control.runCPUGeneric(mMinFreqScalingText.getText().toString()
-                    .replace(getString(R.string.mhz), "000"),
-                    CPUHelper.MIN_FREQ);
+                    .replace(getString(R.string.mhz), "000"), MIN_FREQ);
             Control.runCPUGeneric(mMaxScreenOffFreqScalingText.getText()
                     .toString().replace(getString(R.string.mhz), "000"),
-                    CPUHelper.MAX_SCREEN_OFF);
+                    MAX_SCREEN_OFF);
             Control.runCPUGeneric(mMinScreenOnFreqScalingText.getText()
                     .toString().replace(getString(R.string.mhz), "000"),
-                    CPUHelper.MIN_SCREEN_ON);
+                    MIN_SCREEN_ON);
         }
     }
 
@@ -456,7 +455,7 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
                 MainActivity.CPUChange = true;
 
                 Control.runCPUGeneric(mAvailableGovernorList.get(arg2),
-                        CPUHelper.CUR_GOVERNOR);
+                        CUR_GOVERNOR);
             }
         }
     }
@@ -492,15 +491,12 @@ public class CPUFragment extends Fragment implements OnSeekBarChangeListener,
 
         for (int i = 1; i < CPUHelper.getCoreCount(); i++)
             if (buttonView.equals(mCoreControlBoxes[i]))
-                Control.runCPUGeneric(
-                        isChecked ? "1" : "0",
-                        CPUHelper.CORE_STAT.replace("present",
-                                String.valueOf(i)));
+                Control.runCPUGeneric(isChecked ? "1" : "0",
+                        CORE_STAT.replace("present", String.valueOf(i)));
 
         if (buttonView.equals(mIntelliPlugBox))
-            Control.runCPUGeneric(isChecked ? "1" : "0", CPUHelper.INTELLIPLUG);
+            Control.runCPUGeneric(isChecked ? "1" : "0", INTELLIPLUG);
         if (buttonView.equals(mIntelliPlugEcoModeBox))
-            Control.runCPUGeneric(isChecked ? "1" : "0",
-                    CPUHelper.INTELLIPLUG_ECO_MODE);
+            Control.runCPUGeneric(isChecked ? "1" : "0", INTELLIPLUG_ECO_MODE);
     }
 }

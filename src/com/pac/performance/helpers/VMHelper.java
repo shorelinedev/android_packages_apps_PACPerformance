@@ -16,6 +16,7 @@
 
 package com.pac.performance.helpers;
 
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Utils;
 
 import java.io.File;
@@ -23,14 +24,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VMHelper {
+public class VMHelper implements Constants {
 
     private static final String[] supportedvm = { "dirty_ratio",
             "dirty_background_ratio", "dirty_expire_centisecs",
             "dirty_writeback_centisecs", "min_free_kbytes", "overcommit_ratio",
             "swappiness", "vfs_cache_pressure" };
-
-    public static final String VM_PATH = "/proc/sys/vm";
 
     public static List<String> getVMValues() {
         List<String> dummy = new ArrayList<String>();

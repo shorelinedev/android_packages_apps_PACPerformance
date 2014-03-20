@@ -28,12 +28,10 @@ import com.pac.performance.fragments.MinFreeFragment;
 import com.pac.performance.fragments.VMFragment;
 import com.pac.performance.fragments.ViewPagerFragment;
 import com.pac.performance.fragments.VoltageFragment;
-import com.pac.performance.helpers.AudioHelper;
-import com.pac.performance.helpers.BatteryHelper;
-import com.pac.performance.helpers.CPUHelper;
 import com.pac.performance.helpers.RootHelper;
 import com.pac.performance.helpers.VMHelper;
 import com.pac.performance.helpers.VoltageHelper;
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.Utils;
 
@@ -54,7 +52,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements Constants {
 
     private static DrawerLayout mDrawerLayout;
     private static ListView mDrawerList;
@@ -97,14 +95,13 @@ public class MainActivity extends Activity {
         mFragmentNames.add(getString(R.string.cpu));
 
         // add Battery Fragment
-        if (Utils.exist(BatteryHelper.FAST_CHARGE)
-                || Utils.exist(BatteryHelper.BLX)) {
+        if (Utils.exist(FAST_CHARGE) || Utils.exist(BLX)) {
             mFragments.add(new BatteryFragment());
             mFragmentNames.add(getString(R.string.battery));
         }
 
         // add Audio Fragment
-        if (Utils.exist(AudioHelper.FAUX_SOUND_CONTROL)) {
+        if (Utils.exist(FAUX_SOUND_CONTROL)) {
             mFragments.add(new AudioFragment());
             mFragmentNames.add(getString(R.string.audio));
         }
@@ -251,9 +248,8 @@ public class MainActivity extends Activity {
     }
 
     private void setPerm() {
-        String[] files = { CPUHelper.MAX_FREQ, CPUHelper.MIN_FREQ,
-                CPUHelper.MAX_SCREEN_OFF, CPUHelper.MIN_SCREEN_ON,
-                CPUHelper.CUR_GOVERNOR };
+        String[] files = { MAX_FREQ, MIN_FREQ, MAX_SCREEN_OFF, MIN_SCREEN_ON,
+                CUR_GOVERNOR };
         for (String file : files)
             RootHelper.run("chmod 777 " + file);
     }

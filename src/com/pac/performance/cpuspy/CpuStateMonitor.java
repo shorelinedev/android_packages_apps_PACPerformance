@@ -8,10 +8,6 @@ package com.pac.performance.cpuspy;
 
 // imports
 
-import android.os.SystemClock;
-
-import com.pac.performance.helpers.CPUHelper;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,12 +19,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.os.SystemClock;
+
+import com.pac.performance.utils.Constants;
+
 /**
  * CpuStateMonitor is a class responsible for querying the system and getting
  * the time-in-state information, as well as allowing the user to set/reset
  * offsets to "restart" the state timers
  */
-public class CpuStateMonitor {
+public class CpuStateMonitor implements Constants {
 
     private List<CpuState> _states = new ArrayList<CpuState>();
     private Map<Integer, Long> _offsets = new HashMap<Integer, Long>();
@@ -131,7 +131,7 @@ public class CpuStateMonitor {
          * read in the states to the class
          */
         try {
-            InputStream is = new FileInputStream(CPUHelper.AVAILABLE_FREQ);
+            InputStream is = new FileInputStream(AVAILABLE_FREQ);
             InputStreamReader ir = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(ir);
             _states.clear();

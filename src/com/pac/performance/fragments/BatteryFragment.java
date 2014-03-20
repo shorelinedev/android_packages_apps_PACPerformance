@@ -42,12 +42,13 @@ import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.BatteryHelper;
 import com.pac.performance.helpers.LayoutHelper;
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.InformationDialog;
 import com.pac.performance.utils.Utils;
 
-public class BatteryFragment extends Fragment implements OnClickListener,
-        OnCheckedChangeListener, OnSeekBarChangeListener {
+public class BatteryFragment extends Fragment implements Constants,
+        OnClickListener, OnCheckedChangeListener, OnSeekBarChangeListener {
 
     private static Context context;
 
@@ -85,18 +86,18 @@ public class BatteryFragment extends Fragment implements OnClickListener,
     private void setLayout() {
         mBatteryVoltageTitle = new TextView(context);
         mBatteryVoltageTitle.setPadding(0, MainActivity.mHeight / 25, 0, 0);
-        if (Utils.exist(BatteryHelper.BATTERY_VOLTAGE))
+        if (Utils.exist(BATTERY_VOLTAGE))
             layout.addView(mBatteryVoltageTitle);
 
         mBatteryVoltageText = new TextView(context);
-        if (Utils.exist(BatteryHelper.BATTERY_VOLTAGE))
+        if (Utils.exist(BATTERY_VOLTAGE))
             layout.addView(mBatteryVoltageText);
 
         LinearLayout mFastChargeLayout = new LinearLayout(context);
         mFastChargeLayout.setGravity(Gravity.CENTER);
         mFastChargeLayout.setPadding(0, (int) (MainActivity.mHeight / 21.6), 0,
                 0);
-        if (Utils.exist(BatteryHelper.FAST_CHARGE))
+        if (Utils.exist(FAST_CHARGE))
             layout.addView(mFastChargeLayout);
 
         mFastChargeBox = new CheckBox(context);
@@ -105,16 +106,16 @@ public class BatteryFragment extends Fragment implements OnClickListener,
         mBLXTitle = new TextView(context);
         LayoutHelper.setTextTitle(mBLXTitle, getString(R.string.blx), context);
         mBLXTitle.setPadding(0, (int) (MainActivity.mHeight / 21.6), 0, 0);
-        if (Utils.exist(BatteryHelper.BLX))
+        if (Utils.exist(BLX))
             layout.addView(mBLXTitle);
 
         mBLXText = new TextView(context);
-        if (Utils.exist(BatteryHelper.BLX))
+        if (Utils.exist(BLX))
             layout.addView(mBLXText);
 
         LinearLayout mBLXLayout = new LinearLayout(context);
         mBLXLayout.setGravity(Gravity.CENTER);
-        if (Utils.exist(BatteryHelper.BLX))
+        if (Utils.exist(BLX))
             layout.addView(mBLXLayout);
 
         LayoutParams lp = new LinearLayout.LayoutParams(0,
@@ -211,8 +212,7 @@ public class BatteryFragment extends Fragment implements OnClickListener,
         MainActivity.BatteryChange = true;
         MainActivity.showButtons(true);
         if (buttonView.equals(mFastChargeBox))
-            Control.runBatteryGeneric(isChecked ? "1" : "0",
-                    BatteryHelper.FAST_CHARGE);
+            Control.runBatteryGeneric(isChecked ? "1" : "0", FAST_CHARGE);
     }
 
     @Override
@@ -236,7 +236,6 @@ public class BatteryFragment extends Fragment implements OnClickListener,
     }
 
     private static void saveBLX() {
-        Control.runBatteryGeneric(mBLXText.getText().toString(),
-                BatteryHelper.BLX);
+        Control.runBatteryGeneric(mBLXText.getText().toString(), BLX);
     }
 }

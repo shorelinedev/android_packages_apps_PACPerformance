@@ -39,6 +39,7 @@ import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.IOHelper;
 import com.pac.performance.helpers.LayoutHelper;
+import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.InformationDialog;
 import com.pac.performance.utils.Utils;
@@ -47,7 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class IOFragment extends Fragment implements OnClickListener,
+public class IOFragment extends Fragment implements Constants, OnClickListener,
         OnItemSelectedListener, OnSeekBarChangeListener {
 
     private static Context context;
@@ -106,7 +107,7 @@ public class IOFragment extends Fragment implements OnClickListener,
         mInternalSchedulerLayout.setPadding(0,
                 Math.round(MainActivity.mHeight / 25), 0, 0);
         mInternalSchedulerLayout.setGravity(Gravity.CENTER);
-        if (Utils.exist(IOHelper.INTERNAL_SCHEDULER))
+        if (Utils.exist(INTERNAL_SCHEDULER))
             layout.addView(mInternalSchedulerLayout);
 
         mInternalSchedulerTitle = new TextView(context);
@@ -127,7 +128,7 @@ public class IOFragment extends Fragment implements OnClickListener,
         mExternalSchedulerLayout.setPadding(0,
                 Math.round(MainActivity.mHeight / 25), 0, 0);
         mExternalSchedulerLayout.setGravity(Gravity.CENTER);
-        if (Utils.exist(IOHelper.EXTERNAL_SCHEDULER))
+        if (Utils.exist(EXTERNAL_SCHEDULER))
             layout.addView(mExternalSchedulerLayout);
 
         mExternalSchedulerTitle = new TextView(context);
@@ -149,19 +150,19 @@ public class IOFragment extends Fragment implements OnClickListener,
                 getString(R.string.internalstorageread), context);
         mInternalReadTitle.setPadding(0, Math.round(MainActivity.mHeight / 25),
                 0, 0);
-        if (Utils.exist(IOHelper.INTERNAL_READ))
+        if (Utils.exist(INTERNAL_READ))
             layout.addView(mInternalReadTitle);
 
         mInternalReadText = new TextView(context);
         LayoutHelper.setSeekBarText(mInternalReadText,
                 String.valueOf(IOHelper.getInternalRead())
                         + getString(R.string.kb));
-        if (Utils.exist(IOHelper.INTERNAL_READ))
+        if (Utils.exist(INTERNAL_READ))
             layout.addView(mInternalReadText);
 
         LinearLayout mInternalReadLayout = new LinearLayout(context);
         mInternalReadLayout.setGravity(Gravity.CENTER);
-        if (Utils.exist(IOHelper.INTERNAL_READ))
+        if (Utils.exist(INTERNAL_READ))
             layout.addView(mInternalReadLayout);
 
         LayoutParams lp = new LinearLayout.LayoutParams(0,
@@ -185,19 +186,19 @@ public class IOFragment extends Fragment implements OnClickListener,
                 getString(R.string.externalstorageread), context);
         mExternalReadTitle.setPadding(0, Math.round(MainActivity.mHeight / 25),
                 0, 0);
-        if (Utils.exist(IOHelper.EXTERNAL_READ))
+        if (Utils.exist(EXTERNAL_READ))
             layout.addView(mExternalReadTitle);
 
         mExternalReadText = new TextView(context);
         LayoutHelper.setSeekBarText(mExternalReadText,
                 String.valueOf(IOHelper.getExternalRead())
                         + getString(R.string.kb));
-        if (Utils.exist(IOHelper.EXTERNAL_READ))
+        if (Utils.exist(EXTERNAL_READ))
             layout.addView(mExternalReadText);
 
         LinearLayout mExternalReadLayout = new LinearLayout(context);
         mExternalReadLayout.setGravity(Gravity.CENTER);
-        if (Utils.exist(IOHelper.EXTERNAL_READ))
+        if (Utils.exist(EXTERNAL_READ))
             layout.addView(mExternalReadLayout);
 
         mExternalReadMinus = new Button(context);
@@ -281,7 +282,7 @@ public class IOFragment extends Fragment implements OnClickListener,
 
                 Control.runIOGeneric(
                         mAvailableInternalSchedulersList.get(arg2),
-                        IOHelper.INTERNAL_SCHEDULER);
+                        INTERNAL_SCHEDULER);
             }
         }
 
@@ -293,7 +294,7 @@ public class IOFragment extends Fragment implements OnClickListener,
 
                 Control.runIOGeneric(
                         mAvailableExternalSchedulersList.get(arg2),
-                        IOHelper.EXTERNAL_SCHEDULER);
+                        EXTERNAL_SCHEDULER);
             }
     }
 
@@ -326,11 +327,9 @@ public class IOFragment extends Fragment implements OnClickListener,
     private static void saveReadahead(SeekBar seekBar) {
         if (seekBar.equals(mInternalReadBar))
             Control.runIOGeneric(mInternalReadText.getText().toString()
-                    .replace(context.getString(R.string.kb), ""),
-                    IOHelper.INTERNAL_READ);
+                    .replace(context.getString(R.string.kb), ""), INTERNAL_READ);
         if (seekBar.equals(mExternalReadBar))
             Control.runIOGeneric(mExternalReadText.getText().toString()
-                    .replace(context.getString(R.string.kb), ""),
-                    IOHelper.EXTERNAL_READ);
+                    .replace(context.getString(R.string.kb), ""), EXTERNAL_READ);
     }
 }
