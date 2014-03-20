@@ -266,7 +266,7 @@ public class InformationFragment extends Fragment {
             try {
                 monitor.updateStates();
             } catch (CpuStateMonitorException e) {
-                Log.e(getString(R.string.pacperformance),
+                Log.e(getString(R.string.app_name),
                         "Problem getting CPU states");
             }
 
@@ -297,6 +297,6 @@ public class InformationFragment extends Fragment {
      * logging
      */
     private void log(String s) {
-        Log.d(getString(R.string.pacperformance), s);
+        Log.d(getString(R.string.app_name), s);
     }
 }
