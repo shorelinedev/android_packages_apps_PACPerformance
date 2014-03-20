@@ -36,76 +36,80 @@ import java.util.List;
 public class Control {
 
     private static List<String> CPUCommands = new ArrayList<String>();
-    private static List<String> CPUlistfiles = new ArrayList<String>();
-
     private static List<String> BatteryCommands = new ArrayList<String>();
-    private static List<String> Batterylistfiles = new ArrayList<String>();
-
     private static List<String> AudioCommands = new ArrayList<String>();
-    private static List<String> Audiolistfiles = new ArrayList<String>();
-
     private static List<String> VoltageCommands = new ArrayList<String>();
-    private static List<String> Voltagelistfiles = new ArrayList<String>();
-
     private static List<String> IOCommands = new ArrayList<String>();
-    private static List<String> IOlistfiles = new ArrayList<String>();
-
     private static List<String> MinFreeCommands = new ArrayList<String>();
-    private static List<String> MinFreelistfiles = new ArrayList<String>();
-
     private static List<String> VMCommands = new ArrayList<String>();
-    private static List<String> VMlistfiles = new ArrayList<String>();
 
     public static void setCPU(Context context) {
-        for (int i = 0; i < CPUCommands.size(); i++) {
-            RootHelper.run(CPUCommands.get(i));
-            Utils.saveString(CPUlistfiles.get(i), CPUCommands.get(i), context);
+        for (String cpuvalue : CPUCommands) {
+            String file = cpuvalue.split("::")[0];
+            String command = cpuvalue.split("::")[1];
+
+            RootHelper.run(command);
+            Utils.saveString(file, command, context);
         }
     }
 
     public static void setBattery(Context context) {
-        for (int i = 0; i < BatteryCommands.size(); i++) {
-            RootHelper.run(BatteryCommands.get(i));
-            Utils.saveString(Batterylistfiles.get(i), BatteryCommands.get(i),
-                    context);
+        for (String batteryvalue : BatteryCommands) {
+            String file = batteryvalue.split("::")[0];
+            String command = batteryvalue.split("::")[1];
+
+            RootHelper.run(command);
+            Utils.saveString(file, command, context);
         }
     }
 
     public static void setAudio(Context context) {
-        for (int i = 0; i < AudioCommands.size(); i++) {
-            RootHelper.run(AudioCommands.get(i));
-            Utils.saveString(Audiolistfiles.get(i), AudioCommands.get(i),
-                    context);
+        for (String audiovalue : AudioCommands) {
+            String file = audiovalue.split("::")[0];
+            String command = audiovalue.split("::")[1];
+
+            RootHelper.run(command);
+            Utils.saveString(file, command, context);
         }
     }
 
     public static void setVoltage(Context context) {
-        for (int i = 0; i < VoltageCommands.size(); i++) {
-            RootHelper.run(VoltageCommands.get(i));
-            Utils.saveString(Voltagelistfiles.get(i), VoltageCommands.get(i),
-                    context);
+        for (String voltagevalue : VoltageCommands) {
+            String file = voltagevalue.split("::")[0];
+            String command = voltagevalue.split("::")[1];
+
+            RootHelper.run(command);
+            Utils.saveString(file, command, context);
         }
     }
 
-    public static void setMisc(Context context) {
-        for (int i = 0; i < IOCommands.size(); i++) {
-            RootHelper.run(IOCommands.get(i));
-            Utils.saveString(IOlistfiles.get(i), IOCommands.get(i), context);
+    public static void setIO(Context context) {
+        for (String iovalue : IOCommands) {
+            String file = iovalue.split("::")[0];
+            String command = iovalue.split("::")[1];
+
+            RootHelper.run(command);
+            Utils.saveString(file, command, context);
         }
     }
 
     public static void setMinFree(Context context) {
-        for (int i = 0; i < MinFreeCommands.size(); i++) {
-            RootHelper.run(MinFreeCommands.get(i));
-            Utils.saveString(MinFreelistfiles.get(i), MinFreeCommands.get(i),
-                    context);
+        for (String minfreevalue : MinFreeCommands) {
+            String file = minfreevalue.split("::")[0];
+            String command = minfreevalue.split("::")[1];
+
+            RootHelper.run(command);
+            Utils.saveString(file, command, context);
         }
     }
 
     public static void setVM(Context context) {
-        for (int i = 0; i < VMCommands.size(); i++) {
-            RootHelper.run(VMCommands.get(i));
-            Utils.saveString(VMlistfiles.get(i), VMCommands.get(i), context);
+        for (String vmvalue : VMCommands) {
+            String file = vmvalue.split("::")[0];
+            String command = vmvalue.split("::")[1];
+
+            RootHelper.run(command);
+            Utils.saveString(file, command, context);
         }
     }
 
@@ -145,25 +149,12 @@ public class Control {
                 MainActivity.showButtons(false);
 
                 CPUCommands.clear();
-                CPUlistfiles.clear();
-
                 BatteryCommands.clear();
-                Batterylistfiles.clear();
-
                 AudioCommands.clear();
-                Audiolistfiles.clear();
-
                 VoltageCommands.clear();
-                Voltagelistfiles.clear();
-
                 IOCommands.clear();
-                IOlistfiles.clear();
-
                 MinFreeCommands.clear();
-                MinFreelistfiles.clear();
-
                 VMCommands.clear();
-                VMlistfiles.clear();
             }
         };
         Handler handler = new Handler();
@@ -172,50 +163,61 @@ public class Control {
     }
 
     public static void runCPUGeneric(String value, String file) {
-        CPUCommands.add("echo " + value + " > " + file);
-        CPUlistfiles.add(file);
+        if (CPUCommands.indexOf(file) != -1)
+            CPUCommands.remove(CPUCommands.indexOf(file));
+
+        CPUCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runBatteryGeneric(String value, String file) {
-        BatteryCommands.add("echo " + value + " > " + file);
-        Batterylistfiles.add(file);
+        if (BatteryCommands.indexOf(file) != -1)
+            BatteryCommands.remove(BatteryCommands.indexOf(file));
+
+        BatteryCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runAudioFaux(String value, String file) {
+        if (AudioCommands.indexOf(file) != -1)
+            AudioCommands.remove(AudioCommands.indexOf(file));
+
         if (file.equals(AudioHelper.FAUX_HEADPHONE_GAIN))
-            AudioCommands.add("echo "
-                    + String.valueOf(Integer.parseInt(value) + 40) + " "
-                    + String.valueOf(Integer.parseInt(value) + 40) + " > "
-                    + file);
+            AudioCommands.add(String.valueOf(file + "::echo "
+                    + Integer.parseInt(value) + 40 + " "
+                    + Integer.parseInt(value) + 40 + " > " + file));
         else if (file.equals(AudioHelper.FAUX_HEADPHONE_PA_GAIN))
-            AudioCommands.add("echo "
-                    + String.valueOf(Integer.parseInt(value) + 12) + " "
-                    + String.valueOf(Integer.parseInt(value) + 12) + " > "
-                    + file);
+            AudioCommands.add(String.valueOf(file + "::echo "
+                    + Integer.parseInt(value) + 12 + " "
+                    + Integer.parseInt(value) + 12 + " > " + file));
         else
-            AudioCommands.add("echo "
-                    + String.valueOf(Integer.parseInt(value) + 40) + " > "
-                    + file);
-        Audiolistfiles.add(file);
+            AudioCommands.add(String.valueOf(file + "::echo "
+                    + Integer.parseInt(value) + 40 + " > " + file));
     }
 
     public static void runVoltageGeneric(String value, String file) {
-        VoltageCommands.add("echo " + value + " > " + file);
-        Voltagelistfiles.add(file);
+        if (VoltageCommands.indexOf(file) != -1)
+            VoltageCommands.remove(VoltageCommands.indexOf(file));
+
+        VoltageCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runIOGeneric(String value, String file) {
-        IOCommands.add("echo " + value + " > " + file);
-        IOlistfiles.add(file);
+        if (IOCommands.indexOf(file) != -1)
+            IOCommands.remove(IOCommands.indexOf(file));
+
+        IOCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runMinFreeGeneric(String value, String file) {
-        MinFreeCommands.add("echo " + value + " > " + file);
-        MinFreelistfiles.add(file);
+        if (MinFreeCommands.indexOf(file) != -1)
+            MinFreeCommands.remove(MinFreeCommands.indexOf(file));
+
+        MinFreeCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runVMGeneric(String value, String file) {
-        VMCommands.add("sysctl -w vm." + file + "=" + value);
-        VMlistfiles.add(file);
+        if (VMCommands.indexOf(file) != -1)
+            VMCommands.remove(VMCommands.indexOf(file));
+
+        VMCommands.add(file + "::sysctl -w vm." + file + "=" + value);
     }
 }

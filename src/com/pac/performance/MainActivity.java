@@ -228,7 +228,7 @@ public class MainActivity extends Activity {
             if (VoltageChange)
                 Control.setVoltage(getApplicationContext());
             if (IOChange)
-                Control.setMisc(getApplicationContext());
+                Control.setIO(getApplicationContext());
             if (MinFreeChange)
                 Control.setMinFree(getApplicationContext());
             if (VMChange)
