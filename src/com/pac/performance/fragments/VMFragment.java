@@ -31,6 +31,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.pac.performance.MainActivity;
 import com.pac.performance.R;
@@ -105,6 +106,9 @@ public class VMFragment extends Fragment implements OnClickListener,
             if (Utils.exist(VMHelper.VM_PATH))
                 layout.addView(mVMLayout);
 
+            LayoutParams lp = new LinearLayout.LayoutParams(0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+
             Button mMinusButton = new Button(context);
             mMinusButton.setText(getString(R.string.minus));
             mMinusButtons[i] = mMinusButton;
@@ -113,6 +117,7 @@ public class VMFragment extends Fragment implements OnClickListener,
             EditText mVMEdit = new EditText(context);
             mVMEdit.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED
                     | InputType.TYPE_CLASS_NUMBER);
+            mVMEdit.setLayoutParams(lp);
             mVMEdits[i] = mVMEdit;
             mVMLayout.addView(mVMEdit);
 
