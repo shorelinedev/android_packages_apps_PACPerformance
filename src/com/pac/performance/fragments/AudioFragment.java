@@ -26,7 +26,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -116,21 +115,18 @@ public class AudioFragment extends Fragment implements Constants,
                 mFauxSoundLayout.setGravity(Gravity.CENTER);
                 layout.addView(mFauxSoundLayout);
 
-                LayoutParams lp = new LinearLayout.LayoutParams(0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-
-                Button mFauxSoundMinus = new Button(context);
-                mFauxSoundMinus.setText(getString(R.string.minus));
+                Button mFauxSoundMinus = (Button) LayoutHelper
+                        .createSeekBar(getActivity())[0];
                 mFauxSoundMinuses[i] = mFauxSoundMinus;
                 mFauxSoundLayout.addView(mFauxSoundMinus);
 
-                SeekBar mFauxSoundBar = new SeekBar(context);
-                mFauxSoundBar.setLayoutParams(lp);
+                SeekBar mFauxSoundBar = (SeekBar) LayoutHelper
+                        .createSeekBar(getActivity())[1];
                 mFauxSoundBars[i] = mFauxSoundBar;
                 mFauxSoundLayout.addView(mFauxSoundBar);
 
-                Button mFauxSoundPlus = new Button(context);
-                mFauxSoundPlus.setText(getString(R.string.plus));
+                Button mFauxSoundPlus = (Button) LayoutHelper
+                        .createSeekBar(getActivity())[2];
                 mFauxSoundPluses[i] = mFauxSoundPlus;
                 mFauxSoundLayout.addView(mFauxSoundPlus);
 

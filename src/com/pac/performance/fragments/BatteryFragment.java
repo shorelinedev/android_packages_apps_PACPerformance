@@ -31,7 +31,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -117,19 +116,13 @@ public class BatteryFragment extends Fragment implements Constants,
         if (Utils.exist(BLX))
             layout.addView(mBLXLayout);
 
-        LayoutParams lp = new LinearLayout.LayoutParams(0,
-                LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-
-        mBLXMinus = new Button(context);
-        mBLXMinus.setText(getString(R.string.minus));
+        mBLXMinus = (Button) LayoutHelper.createSeekBar(getActivity())[0];
         mBLXLayout.addView(mBLXMinus);
 
-        mBLXBar = new SeekBar(context);
-        mBLXBar.setLayoutParams(lp);
+        mBLXBar = (SeekBar) LayoutHelper.createSeekBar(getActivity())[1];
         mBLXLayout.addView(mBLXBar);
 
-        mBLXPlus = new Button(context);
-        mBLXPlus.setText(getString(R.string.plus));
+        mBLXPlus = (Button) LayoutHelper.createSeekBar(getActivity())[2];
         mBLXLayout.addView(mBLXPlus);
 
         setValues();

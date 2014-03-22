@@ -26,7 +26,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -132,25 +131,22 @@ public class MinFreeFragment extends Fragment implements Constants,
             mMinFreeTexts[i] = mMinFreeText;
             layout.addView(mMinFreeText);
 
-            LayoutParams lp = new LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-
             LinearLayout mMinFreeLayout = new LinearLayout(context);
             mMinFreeLayout.setGravity(Gravity.CENTER);
             layout.addView(mMinFreeLayout);
 
-            Button mMinFreeMinus = new Button(context);
-            mMinFreeMinus.setText(getString(R.string.minus));
+            Button mMinFreeMinus = (Button) LayoutHelper
+                    .createSeekBar(getActivity())[0];
             mMinFreeMinuses[i] = mMinFreeMinus;
             mMinFreeLayout.addView(mMinFreeMinus);
 
-            SeekBar mMinFreeBar = new SeekBar(context);
-            mMinFreeBar.setLayoutParams(lp);
+            SeekBar mMinFreeBar = (SeekBar) LayoutHelper
+                    .createSeekBar(getActivity())[1];
             mMinFreeBars[i] = mMinFreeBar;
             mMinFreeLayout.addView(mMinFreeBar);
 
-            Button mMinFreePlus = new Button(context);
-            mMinFreePlus.setText(getString(R.string.plus));
+            Button mMinFreePlus = (Button) LayoutHelper
+                    .createSeekBar(getActivity())[2];
             mMinFreePluses[i] = mMinFreePlus;
             mMinFreeLayout.addView(mMinFreePlus);
         }

@@ -20,7 +20,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,8 +30,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
-
 import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.LayoutHelper;
@@ -106,23 +103,18 @@ public class VMFragment extends Fragment implements OnClickListener,
             if (Utils.exist(VMHelper.VM_PATH))
                 layout.addView(mVMLayout);
 
-            LayoutParams lp = new LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-
-            Button mMinusButton = new Button(context);
-            mMinusButton.setText(getString(R.string.minus));
+            Button mMinusButton = (Button) LayoutHelper
+                    .createEditText(getActivity())[0];
             mMinusButtons[i] = mMinusButton;
             mVMLayout.addView(mMinusButton);
 
-            EditText mVMEdit = new EditText(context);
-            mVMEdit.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED
-                    | InputType.TYPE_CLASS_NUMBER);
-            mVMEdit.setLayoutParams(lp);
+            EditText mVMEdit = (EditText) LayoutHelper
+                    .createEditText(getActivity())[1];
             mVMEdits[i] = mVMEdit;
             mVMLayout.addView(mVMEdit);
 
-            Button mPlusButton = new Button(context);
-            mPlusButton.setText(getString(R.string.plus));
+            Button mPlusButton = (Button) LayoutHelper
+                    .createEditText(getActivity())[2];
             mPlusButtons[i] = mPlusButton;
             mVMLayout.addView(mPlusButton);
         }

@@ -18,18 +18,57 @@ package com.pac.performance.helpers;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.InputType;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.pac.performance.R;
 import com.pac.performance.MainActivity;
 
 public class LayoutHelper {
+
+    public static View[] createEditText(Context context) {
+        LayoutParams lp = new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+
+        Button minus = new Button(context);
+        minus.setText(context.getString(R.string.minus));
+
+        EditText text = new EditText(context);
+        text.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED
+                | InputType.TYPE_CLASS_NUMBER);
+        text.setLayoutParams(lp);
+
+        Button plus = new Button(context);
+        plus.setText(context.getString(R.string.plus));
+
+        return new View[] { minus, text, plus };
+    }
+
+    public static View[] createSeekBar(Context context) {
+        LayoutParams lp = new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+
+        Button minus = new Button(context);
+        minus.setText(context.getString(R.string.minus));
+
+        SeekBar bar = new SeekBar(context);
+        bar.setLayoutParams(lp);
+
+        Button plus = new Button(context);
+        plus.setText(context.getString(R.string.plus));
+
+        return new View[] { minus, bar, plus };
+    }
 
     public static void setEditText(EditText i, String text) {
         i.setGravity(Gravity.CENTER);

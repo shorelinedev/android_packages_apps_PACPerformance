@@ -29,7 +29,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
@@ -165,19 +164,13 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
         if (Utils.exist(INTERNAL_READ))
             layout.addView(mInternalReadLayout);
 
-        LayoutParams lp = new LinearLayout.LayoutParams(0,
-                LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-
-        mInternalReadMinus = new Button(context);
-        mInternalReadMinus.setText(getString(R.string.minus));
+        mInternalReadMinus = (Button) LayoutHelper.createSeekBar(getActivity())[0];
         mInternalReadLayout.addView(mInternalReadMinus);
 
-        mInternalReadBar = new SeekBar(context);
-        mInternalReadBar.setLayoutParams(lp);
+        mInternalReadBar = (SeekBar) LayoutHelper.createSeekBar(getActivity())[1];
         mInternalReadLayout.addView(mInternalReadBar);
 
-        mInternalReadPlus = new Button(context);
-        mInternalReadPlus.setText(getString(R.string.plus));
+        mInternalReadPlus = (Button) LayoutHelper.createSeekBar(getActivity())[2];
         mInternalReadLayout.addView(mInternalReadPlus);
 
         // External storage read-ahead
@@ -201,16 +194,13 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
         if (Utils.exist(EXTERNAL_READ))
             layout.addView(mExternalReadLayout);
 
-        mExternalReadMinus = new Button(context);
-        mExternalReadMinus.setText(getString(R.string.minus));
+        mExternalReadMinus = (Button) LayoutHelper.createSeekBar(getActivity())[0];
         mExternalReadLayout.addView(mExternalReadMinus);
 
-        mExternalReadBar = new SeekBar(context);
-        mExternalReadBar.setLayoutParams(lp);
+        mExternalReadBar = (SeekBar) LayoutHelper.createSeekBar(getActivity())[1];
         mExternalReadLayout.addView(mExternalReadBar);
 
-        mExternalReadPlus = new Button(context);
-        mExternalReadPlus.setText(getString(R.string.plus));
+        mExternalReadPlus = (Button) LayoutHelper.createSeekBar(getActivity())[2];
         mExternalReadLayout.addView(mExternalReadPlus);
 
         setValues();

@@ -26,7 +26,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -135,21 +134,18 @@ public class VoltageFragment extends Fragment implements OnClickListener,
             mVoltageBarLayout.setGravity(Gravity.CENTER);
             mVoltageLayout.addView(mVoltageBarLayout);
 
-            LayoutParams lp = new LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-
-            Button mVoltMinusbutton = new Button(context);
-            mVoltMinusbutton.setText(getString(R.string.minus));
+            Button mVoltMinusbutton = (Button) LayoutHelper
+                    .createSeekBar(getActivity())[0];
             mVoltMinusbuttons[i] = mVoltMinusbutton;
             mVoltageBarLayout.addView(mVoltMinusbutton);
 
-            SeekBar mVoltageBar = new SeekBar(context);
-            mVoltageBar.setLayoutParams(lp);
+            SeekBar mVoltageBar = (SeekBar) LayoutHelper
+                    .createSeekBar(getActivity())[1];
             mVoltageBars[i] = mVoltageBar;
             mVoltageBarLayout.addView(mVoltageBar);
 
-            Button mVoltPlusButton = new Button(context);
-            mVoltPlusButton.setText(getString(R.string.plus));
+            Button mVoltPlusButton = (Button) LayoutHelper
+                    .createSeekBar(getActivity())[2];
             mVoltPlusButtons[i] = mVoltPlusButton;
             mVoltageBarLayout.addView(mVoltPlusButton);
         }
@@ -194,21 +190,18 @@ public class VoltageFragment extends Fragment implements OnClickListener,
             LinearLayout mFauxVoltageBarLayout = new LinearLayout(context);
             mFauxVoltageLayout.addView(mFauxVoltageBarLayout);
 
-            LayoutParams lp = new LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-
-            Button mFauxVoltMinusbutton = new Button(context);
-            mFauxVoltMinusbutton.setText(getString(R.string.minus));
+            Button mFauxVoltMinusbutton = (Button) LayoutHelper
+                    .createSeekBar(getActivity())[0];
             mFauxVoltMinusbuttons[i] = mFauxVoltMinusbutton;
             mFauxVoltageBarLayout.addView(mFauxVoltMinusbutton);
 
-            SeekBar mFauxVoltageBar = new SeekBar(context);
-            mFauxVoltageBar.setLayoutParams(lp);
+            SeekBar mFauxVoltageBar = (SeekBar) LayoutHelper
+                    .createSeekBar(getActivity())[1];
             mFauxVoltageBars[i] = mFauxVoltageBar;
             mFauxVoltageBarLayout.addView(mFauxVoltageBar);
 
-            Button mFauxVoltPlusButton = new Button(context);
-            mFauxVoltPlusButton.setText(getString(R.string.plus));
+            Button mFauxVoltPlusButton = (Button) LayoutHelper
+                    .createSeekBar(getActivity())[2];
             mFauxVoltPlusButtons[i] = mFauxVoltPlusButton;
             mFauxVoltageBarLayout.addView(mFauxVoltPlusButton);
         }
