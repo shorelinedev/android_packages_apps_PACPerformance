@@ -16,12 +16,10 @@
 
 package com.pac.performance.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +58,7 @@ public class CPUFragment extends Fragment implements Constants,
 
     public static LinearLayout layout = null;
 
+    private static Handler hand = new Handler();
     private static TextView[] mCurFreqTexts;
 
     private static CheckBox[] mCoreControlBoxes;
@@ -342,33 +341,23 @@ public class CPUFragment extends Fragment implements Constants,
 
     @Override
     public void onResume() {
-        CurCpuThread mCurCpuThread = new CurCpuThread();
-        mCurCpuThread.start();
+        hand.postDelayed(run, 0);
         super.onResume();
     }
 
-    protected class CurCpuThread extends Thread {
-
+    Runnable run = new Runnable() {
         @Override
         public void run() {
-            try {
-                boolean dummy = true;
-                while (dummy) {
-                    mCurCPUHandler.sendMessage(mCurCPUHandler.obtainMessage(0,
-                            ""));
-                    sleep(500);
-                }
-            } catch (InterruptedException ignored) {
-            }
-        }
-    }
-
-    @SuppressLint("HandlerLeak")
-    protected Handler mCurCPUHandler = new Handler() {
-        public void handleMessage(Message msg) {
             setCurFreq();
+            hand.postDelayed(run, 1000);
         }
     };
+
+    @Override
+    public void onDestroy() {
+        hand.removeCallbacks(run);
+        super.onDestroy();
+    }
 
     private static void setCurFreq() {
         for (int i = 0; i < CPUHelper.getCoreCount(); i += 2) {

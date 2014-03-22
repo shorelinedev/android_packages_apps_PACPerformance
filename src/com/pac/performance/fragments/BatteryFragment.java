@@ -16,13 +16,11 @@
 
 package com.pac.performance.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +52,7 @@ public class BatteryFragment extends Fragment implements Constants,
 
     public static LinearLayout layout = null;
 
+    private static Handler hand = new Handler();
     private static TextView mBatteryVoltageTitle;
     private static TextView mBatteryVoltageText;
 
@@ -156,36 +155,25 @@ public class BatteryFragment extends Fragment implements Constants,
 
     @Override
     public void onResume() {
-        CurBatteryVoltageThread mCurBatteryVoltage = new CurBatteryVoltageThread();
-        mCurBatteryVoltage.start();
+        hand.postDelayed(run, 0);
         super.onResume();
     }
 
-    protected class CurBatteryVoltageThread extends Thread {
-
+    Runnable run = new Runnable() {
         @Override
         public void run() {
-            try {
-                boolean dummy = true;
-                while (dummy) {
-                    mCurBatteryVoltageHandler
-                            .sendMessage(mCurBatteryVoltageHandler
-                                    .obtainMessage(0, ""));
-                    sleep(1000);
-                }
-            } catch (InterruptedException ignored) {
-            }
-        }
-    }
-
-    @SuppressLint("HandlerLeak")
-    protected Handler mCurBatteryVoltageHandler = new Handler() {
-        public void handleMessage(Message msg) {
             mBatteryVoltageText.setText(String.valueOf(BatteryHelper
                     .getCurBatteryVoltage() / 1000)
                     + context.getString(R.string.mv));
+            hand.postDelayed(run, 1000);
         }
     };
+
+    @Override
+    public void onDestroy() {
+        hand.removeCallbacks(run);
+        super.onDestroy();
+    }
 
     @Override
     public void onClick(View v) {

@@ -40,7 +40,7 @@ import java.util.List;
 
 public class InformationFragment extends Fragment {
 
-    Handler hand = new Handler();
+    private static Handler hand = new Handler();
 
     private static View rootView;
 
