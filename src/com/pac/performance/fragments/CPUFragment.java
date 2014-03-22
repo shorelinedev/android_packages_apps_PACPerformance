@@ -81,9 +81,6 @@ public class CPUFragment extends Fragment implements Constants,
     private static TextView mMinScreenOnFreqScalingText;
     private static TextView mMinScreenOnFreqText;
 
-    private static int mMaxFreqPosition = -1, mMinFreqPosition = -1,
-            mMaxScreenOffFreqPosition = -1, mMinScreenOnFreqPosition = -1;
-
     private static Spinner mGovernorSpinner;
     private static List<String> mAvailableGovernorList = new ArrayList<String>();
     private static TextView mGovernorTitle;
@@ -384,49 +381,41 @@ public class CPUFragment extends Fragment implements Constants,
             mMaxFreqScalingText
                     .setText(String.valueOf(Integer.parseInt(mAvailableFreqList
                             .get(progress)) / 1000) + "MHz");
-            mMaxFreqPosition = progress;
-            if (progress < mMinFreqScalingBar.getProgress()) {
+            if (progress < mMinFreqScalingBar.getProgress())
                 mMinFreqScalingBar.setProgress(progress);
-                mMinFreqPosition = progress;
-            }
-            if (progress < mMinScreenOnFreqScalingBar.getProgress()) {
+            if (progress < mMinScreenOnFreqScalingBar.getProgress())
                 mMinScreenOnFreqScalingBar.setProgress(progress);
-                mMinScreenOnFreqPosition = progress;
-            }
+            if (progress < mMaxScreenOffFreqScalingBar.getProgress())
+                mMaxScreenOffFreqScalingBar.setProgress(progress);
         }
         if (seekBar.equals(mMinFreqScalingBar)) {
             mMinFreqScalingText
                     .setText(String.valueOf(Integer.parseInt(mAvailableFreqList
                             .get(progress)) / 1000) + "MHz");
-            mMinFreqPosition = progress;
-            if (progress > mMaxFreqScalingBar.getProgress()) {
+            if (progress > mMaxFreqScalingBar.getProgress())
                 mMaxFreqScalingBar.setProgress(progress);
-                mMaxFreqPosition = progress;
-            }
-            if (progress > mMaxScreenOffFreqScalingBar.getProgress()) {
+            if (progress > mMaxScreenOffFreqScalingBar.getProgress())
                 mMaxScreenOffFreqScalingBar.setProgress(progress);
-                mMaxScreenOffFreqPosition = progress;
-            }
+            if (progress > mMinScreenOnFreqScalingBar.getProgress())
+                mMinScreenOnFreqScalingBar.setProgress(progress);
         }
         if (seekBar.equals(mMaxScreenOffFreqScalingBar)) {
             mMaxScreenOffFreqScalingText
                     .setText(String.valueOf(Integer.parseInt(mAvailableFreqList
                             .get(progress)) / 1000) + "MHz");
-            mMaxScreenOffFreqPosition = progress;
-            if (progress < mMinFreqScalingBar.getProgress()) {
+            if (progress < mMinFreqScalingBar.getProgress())
                 mMinFreqScalingBar.setProgress(progress);
-                mMinFreqPosition = progress;
-            }
+            if (progress > mMaxFreqScalingBar.getProgress())
+                mMaxFreqScalingBar.setProgress(progress);
         }
         if (seekBar.equals(mMinScreenOnFreqScalingBar)) {
             mMinScreenOnFreqScalingText
                     .setText(String.valueOf(Integer.parseInt(mAvailableFreqList
                             .get(progress)) / 1000) + "MHz");
-            mMinScreenOnFreqPosition = progress;
-            if (progress > mMaxFreqScalingBar.getProgress()) {
+            if (progress > mMaxFreqScalingBar.getProgress())
                 mMaxFreqScalingBar.setProgress(progress);
-                mMaxFreqPosition = progress;
-            }
+            if (progress > mMinFreqScalingBar.getProgress())
+                mMinFreqScalingBar.setProgress(progress);
         }
     }
 
@@ -440,20 +429,18 @@ public class CPUFragment extends Fragment implements Constants,
                 || (seekBar.equals(mMinFreqScalingBar))
                 || seekBar.equals(mMaxScreenOffFreqScalingBar)
                 || seekBar.equals(mMinScreenOnFreqScalingBar)) {
-            if (mMaxFreqPosition != -1)
-                Control.runCPUGeneric(mAvailableFreqList.get(mMaxFreqPosition),
-                        MAX_FREQ);
-            if (mMinFreqPosition != -1)
-                Control.runCPUGeneric(mAvailableFreqList.get(mMinFreqPosition),
-                        MIN_FREQ);
-            if (mMaxScreenOffFreqPosition != -1)
-                Control.runCPUGeneric(
-                        mAvailableFreqList.get(mMaxScreenOffFreqPosition),
-                        MAX_SCREEN_OFF);
-            if (mMinScreenOnFreqPosition != -1)
-                Control.runCPUGeneric(
-                        mAvailableFreqList.get(mMinScreenOnFreqPosition),
-                        MIN_SCREEN_ON);
+            Control.runCPUGeneric(
+                    mAvailableFreqList.get(mMaxFreqScalingBar.getProgress()),
+                    MAX_FREQ);
+            Control.runCPUGeneric(
+                    mAvailableFreqList.get(mMinFreqScalingBar.getProgress()),
+                    MIN_FREQ);
+            Control.runCPUGeneric(mAvailableFreqList
+                    .get(mMaxScreenOffFreqScalingBar.getProgress()),
+                    MAX_SCREEN_OFF);
+            Control.runCPUGeneric(mAvailableFreqList
+                    .get(mMinScreenOnFreqScalingBar.getProgress()),
+                    MIN_SCREEN_ON);
         }
     }
 
