@@ -82,8 +82,7 @@ public class VMFragment extends Fragment implements OnClickListener,
         LayoutHelper.setTextTitle(mVMTitle, getString(R.string.vmtuning),
                 context);
         mVMTitle.setPadding(0, Math.round(MainActivity.mHeight / 25), 0, 15);
-        if (Utils.exist(VMHelper.VM_PATH))
-            layout.addView(mVMTitle);
+        if (Utils.exist(VMHelper.VM_PATH)) layout.addView(mVMTitle);
 
         mMinusButtons = new Button[mVMFiles.size()];
         mVMEdits = new EditText[mVMFiles.size()];
@@ -95,13 +94,11 @@ public class VMFragment extends Fragment implements OnClickListener,
                     mVMText,
                     Utils.setAllLetterUpperCase(mVMFiles.get(i).replace("_",
                             " ")));
-            if (Utils.exist(VMHelper.VM_PATH))
-                layout.addView(mVMText);
+            if (Utils.exist(VMHelper.VM_PATH)) layout.addView(mVMText);
 
             LinearLayout mVMLayout = new LinearLayout(context);
             mVMLayout.setGravity(Gravity.CENTER);
-            if (Utils.exist(VMHelper.VM_PATH))
-                layout.addView(mVMLayout);
+            if (Utils.exist(VMHelper.VM_PATH)) layout.addView(mVMLayout);
 
             Button mMinusButton = (Button) LayoutHelper
                     .createEditText(getActivity())[0];
@@ -134,9 +131,8 @@ public class VMFragment extends Fragment implements OnClickListener,
             MainActivity.showButtons(true);
         }
 
-        if (v.equals(mVMTitle))
-            InformationDialog.showInfo(mVMTitle.getText().toString(),
-                    getString(R.string.vmtunig_summary), context);
+        if (v.equals(mVMTitle)) InformationDialog.showInfo(mVMTitle.getText()
+                .toString(), getString(R.string.vmtunig_summary), context);
 
         for (int i = 0; i < mVMFiles.size(); i++) {
             if (v.equals(mMinusButtons[i])) {
@@ -166,10 +162,8 @@ public class VMFragment extends Fragment implements OnClickListener,
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count,
-            int after) {
-    }
+            int after) {}
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-    }
+    public void onTextChanged(CharSequence s, int start, int before, int count) {}
 }

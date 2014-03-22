@@ -125,8 +125,7 @@ public class CPUFragment extends Fragment implements Constants,
                 0);
         mCurFreqLayout.setOrientation(LinearLayout.VERTICAL);
         if (Utils.exist(FREQUENCY_SCALING.replace("present", "0"))
-                && Utils.exist(CORE_VALUE))
-            layout.addView(mCurFreqLayout);
+                && Utils.exist(CORE_VALUE)) layout.addView(mCurFreqLayout);
 
         TextView mCurFreqTitle = new TextView(context);
         LayoutHelper.setTextTitle(mCurFreqTitle,
@@ -145,8 +144,8 @@ public class CPUFragment extends Fragment implements Constants,
         // Core Control
         LinearLayout mCoreControlLayout = new LinearLayout(context);
         mCoreControlLayout.setGravity(Gravity.CENTER);
-        if (Utils.exist(CORE_STAT.replace("present", "0")))
-            layout.addView(mCoreControlLayout);
+        if (Utils.exist(CORE_STAT.replace("present", "0"))) layout
+                .addView(mCoreControlLayout);
 
         mCoreControlBoxes = new CheckBox[CPUHelper.getCoreCount()];
         for (int i = 1; i < CPUHelper.getCoreCount(); i++) {
@@ -163,8 +162,7 @@ public class CPUFragment extends Fragment implements Constants,
         if (Utils.exist(AVAILABLE_GOVERNOR)
                 || Utils.exist(MIN_SCREEN_ON)
                 || (Utils.exist(MAX_SCREEN_OFF) || Utils.exist(MIN_FREQ) || Utils
-                        .exist(MAX_FREQ)))
-            layout.addView(mFreqScalingLayout);
+                        .exist(MAX_FREQ))) layout.addView(mFreqScalingLayout);
 
         // Create a list to store all freqs
         for (int text : CPUHelper.getAvailableFreq())
@@ -182,69 +180,81 @@ public class CPUFragment extends Fragment implements Constants,
         mMaxScalingText = new TextView(context);
         LayoutHelper.setTextTitle(mMaxScalingText, getString(R.string.maxfreq),
                 context);
-        if (Utils.exist(MAX_FREQ))
-            mFreqScalingLayout.addView(mMaxScalingText);
+        if (Utils.exist(MAX_FREQ)) mFreqScalingLayout.addView(mMaxScalingText);
 
         mMaxFreqScalingText = new TextView(context);
-        if (Utils.exist(MAX_FREQ))
-            mFreqScalingLayout.addView(mMaxFreqScalingText);
+        LayoutHelper.setSeekBarText(
+                mMaxFreqScalingText,
+                String.valueOf(CPUHelper.getMaxFreq() / 1000)
+                        + context.getString(R.string.mhz));
+        if (Utils.exist(MAX_FREQ)) mFreqScalingLayout
+                .addView(mMaxFreqScalingText);
 
         mMaxFreqScalingBar = new SeekBar(context);
-        if (Utils.exist(MAX_FREQ))
-            mFreqScalingLayout.addView(mMaxFreqScalingBar);
+        if (Utils.exist(MAX_FREQ)) mFreqScalingLayout
+                .addView(mMaxFreqScalingBar);
 
         // Min Cpu Scaling
         mMinScalingText = new TextView(context);
         LayoutHelper.setTextTitle(mMinScalingText, getString(R.string.minfreq),
                 context);
-        if (Utils.exist(MIN_FREQ))
-            mFreqScalingLayout.addView(mMinScalingText);
+        if (Utils.exist(MIN_FREQ)) mFreqScalingLayout.addView(mMinScalingText);
 
         mMinFreqScalingText = new TextView(context);
-        if (Utils.exist(MIN_FREQ))
-            mFreqScalingLayout.addView(mMinFreqScalingText);
+        LayoutHelper.setSeekBarText(
+                mMinFreqScalingText,
+                String.valueOf(CPUHelper.getMinFreq() / 1000)
+                        + context.getString(R.string.mhz));
+        if (Utils.exist(MIN_FREQ)) mFreqScalingLayout
+                .addView(mMinFreqScalingText);
 
         mMinFreqScalingBar = new SeekBar(context);
-        if (Utils.exist(MIN_FREQ))
-            mFreqScalingLayout.addView(mMinFreqScalingBar);
+        if (Utils.exist(MIN_FREQ)) mFreqScalingLayout
+                .addView(mMinFreqScalingBar);
 
         // Max Screen Off Cpu Scaling
         mMaxScreenOffFreqText = new TextView(context);
         LayoutHelper.setTextTitle(mMaxScreenOffFreqText,
                 getString(R.string.maxscreenofffreq), context);
-        if (Utils.exist(MAX_SCREEN_OFF))
-            mFreqScalingLayout.addView(mMaxScreenOffFreqText);
+        if (Utils.exist(MAX_SCREEN_OFF)) mFreqScalingLayout
+                .addView(mMaxScreenOffFreqText);
 
         mMaxScreenOffFreqScalingText = new TextView(context);
-        if (Utils.exist(MAX_SCREEN_OFF))
-            mFreqScalingLayout.addView(mMaxScreenOffFreqScalingText);
+        LayoutHelper.setSeekBarText(mMaxScreenOffFreqScalingText,
+                String.valueOf(CPUHelper.getMaxScreenOffFreq() / 1000)
+                        + context.getString(R.string.mhz));
+        if (Utils.exist(MAX_SCREEN_OFF)) mFreqScalingLayout
+                .addView(mMaxScreenOffFreqScalingText);
 
         mMaxScreenOffFreqScalingBar = new SeekBar(context);
-        if (Utils.exist(MAX_SCREEN_OFF))
-            mFreqScalingLayout.addView(mMaxScreenOffFreqScalingBar);
+        if (Utils.exist(MAX_SCREEN_OFF)) mFreqScalingLayout
+                .addView(mMaxScreenOffFreqScalingBar);
 
         // Min Screen On Cpu Scaling
         mMinScreenOnFreqText = new TextView(context);
         LayoutHelper.setTextTitle(mMinScreenOnFreqText,
                 getString(R.string.minscreenonfreq), context);
-        if (Utils.exist(MIN_SCREEN_ON))
-            mFreqScalingLayout.addView(mMinScreenOnFreqText);
+        if (Utils.exist(MIN_SCREEN_ON)) mFreqScalingLayout
+                .addView(mMinScreenOnFreqText);
 
         mMinScreenOnFreqScalingText = new TextView(context);
-        if (Utils.exist(MIN_SCREEN_ON))
-            mFreqScalingLayout.addView(mMinScreenOnFreqScalingText);
+        LayoutHelper.setSeekBarText(
+                mMinScreenOnFreqScalingText,
+                String.valueOf(CPUHelper.getMinScreenOnFreq() / 1000)
+                        + context.getString(R.string.mhz));
+        if (Utils.exist(MIN_SCREEN_ON)) mFreqScalingLayout
+                .addView(mMinScreenOnFreqScalingText);
 
         mMinScreenOnFreqScalingBar = new SeekBar(context);
-        if (Utils.exist(MIN_SCREEN_ON))
-            mFreqScalingLayout.addView(mMinScreenOnFreqScalingBar);
+        if (Utils.exist(MIN_SCREEN_ON)) mFreqScalingLayout
+                .addView(mMinScreenOnFreqScalingBar);
 
         // CPU Governor Layout
         LinearLayout mGovernorLayout = new LinearLayout(context);
         mGovernorLayout.setGravity(Gravity.CENTER);
         mGovernorLayout
                 .setPadding(0, (int) (MainActivity.mHeight / 21.6), 0, 0);
-        if (Utils.exist(AVAILABLE_GOVERNOR))
-            layout.addView(mGovernorLayout);
+        if (Utils.exist(AVAILABLE_GOVERNOR)) layout.addView(mGovernorLayout);
 
         // Governor
         mGovernorTitle = new TextView(context);
@@ -263,15 +273,14 @@ public class CPUFragment extends Fragment implements Constants,
         mIntelliPlugLayout.setGravity(Gravity.CENTER);
         mIntelliPlugLayout.setPadding(0, (int) (MainActivity.mHeight / 21.6),
                 0, 0);
-        if (Utils.exist(INTELLIPLUG))
-            layout.addView(mIntelliPlugLayout);
+        if (Utils.exist(INTELLIPLUG)) layout.addView(mIntelliPlugLayout);
 
         mIntelliPlugBox = new CheckBox(context);
         mIntelliPlugLayout.addView(mIntelliPlugBox);
 
         mIntelliPlugEcoModeBox = new CheckBox(context);
-        if (Utils.exist(INTELLIPLUG))
-            mIntelliPlugLayout.addView(mIntelliPlugEcoModeBox);
+        if (Utils.exist(INTELLIPLUG)) mIntelliPlugLayout
+                .addView(mIntelliPlugEcoModeBox);
 
         setValues();
     }
@@ -284,38 +293,19 @@ public class CPUFragment extends Fragment implements Constants,
                     context.getString(R.string.core) + " "
                             + String.valueOf(i + 1), context);
 
-        LayoutHelper.setSeekBarText(
-                mMaxFreqScalingText,
-                String.valueOf(CPUHelper.getMaxFreq() / 1000)
-                        + context.getString(R.string.mhz));
-
         LayoutHelper.setSeekBar(mMaxFreqScalingBar,
                 mAvailableFreqList.size() - 1, mAvailableFreqList
                         .indexOf(String.valueOf(CPUHelper.getMaxFreq())),
                 context);
-
-        LayoutHelper.setSeekBarText(
-                mMinFreqScalingText,
-                String.valueOf(CPUHelper.getMinFreq() / 1000)
-                        + context.getString(R.string.mhz));
 
         LayoutHelper.setSeekBar(mMinFreqScalingBar,
                 mAvailableFreqList.size() - 1, mAvailableFreqList
                         .indexOf(String.valueOf(CPUHelper.getMinFreq())),
                 context);
 
-        LayoutHelper.setSeekBarText(mMaxScreenOffFreqScalingText,
-                String.valueOf(CPUHelper.getMaxScreenOffFreq() / 1000)
-                        + context.getString(R.string.mhz));
-
         LayoutHelper.setSeekBar(mMaxScreenOffFreqScalingBar, mAvailableFreqList
                 .size() - 1, mAvailableFreqList.indexOf(String
                 .valueOf(CPUHelper.getMaxScreenOffFreq())), context);
-
-        LayoutHelper.setSeekBarText(
-                mMinScreenOnFreqScalingText,
-                String.valueOf(CPUHelper.getMinScreenOnFreq() / 1000)
-                        + context.getString(R.string.mhz));
 
         LayoutHelper.setSeekBar(mMinScreenOnFreqScalingBar, mAvailableFreqList
                 .size() - 1, mAvailableFreqList.indexOf(String
@@ -381,47 +371,46 @@ public class CPUFragment extends Fragment implements Constants,
             mMaxFreqScalingText
                     .setText(String.valueOf(Integer.parseInt(mAvailableFreqList
                             .get(progress)) / 1000) + "MHz");
-            if (progress < mMinFreqScalingBar.getProgress())
-                mMinFreqScalingBar.setProgress(progress);
-            if (progress < mMinScreenOnFreqScalingBar.getProgress())
-                mMinScreenOnFreqScalingBar.setProgress(progress);
-            if (progress < mMaxScreenOffFreqScalingBar.getProgress())
-                mMaxScreenOffFreqScalingBar.setProgress(progress);
+            if (progress < mMinFreqScalingBar.getProgress()) mMinFreqScalingBar
+                    .setProgress(progress);
+            if (progress < mMinScreenOnFreqScalingBar.getProgress()) mMinScreenOnFreqScalingBar
+                    .setProgress(progress);
+            if (progress < mMaxScreenOffFreqScalingBar.getProgress()) mMaxScreenOffFreqScalingBar
+                    .setProgress(progress);
         }
         if (seekBar.equals(mMinFreqScalingBar)) {
             mMinFreqScalingText
                     .setText(String.valueOf(Integer.parseInt(mAvailableFreqList
                             .get(progress)) / 1000) + "MHz");
-            if (progress > mMaxFreqScalingBar.getProgress())
-                mMaxFreqScalingBar.setProgress(progress);
-            if (progress > mMaxScreenOffFreqScalingBar.getProgress())
-                mMaxScreenOffFreqScalingBar.setProgress(progress);
-            if (progress > mMinScreenOnFreqScalingBar.getProgress())
-                mMinScreenOnFreqScalingBar.setProgress(progress);
+            if (progress > mMaxFreqScalingBar.getProgress()) mMaxFreqScalingBar
+                    .setProgress(progress);
+            if (progress > mMaxScreenOffFreqScalingBar.getProgress()) mMaxScreenOffFreqScalingBar
+                    .setProgress(progress);
+            if (progress > mMinScreenOnFreqScalingBar.getProgress()) mMinScreenOnFreqScalingBar
+                    .setProgress(progress);
         }
         if (seekBar.equals(mMaxScreenOffFreqScalingBar)) {
             mMaxScreenOffFreqScalingText
                     .setText(String.valueOf(Integer.parseInt(mAvailableFreqList
                             .get(progress)) / 1000) + "MHz");
-            if (progress < mMinFreqScalingBar.getProgress())
-                mMinFreqScalingBar.setProgress(progress);
-            if (progress > mMaxFreqScalingBar.getProgress())
-                mMaxFreqScalingBar.setProgress(progress);
+            if (progress < mMinFreqScalingBar.getProgress()) mMinFreqScalingBar
+                    .setProgress(progress);
+            if (progress > mMaxFreqScalingBar.getProgress()) mMaxFreqScalingBar
+                    .setProgress(progress);
         }
         if (seekBar.equals(mMinScreenOnFreqScalingBar)) {
             mMinScreenOnFreqScalingText
                     .setText(String.valueOf(Integer.parseInt(mAvailableFreqList
                             .get(progress)) / 1000) + "MHz");
-            if (progress > mMaxFreqScalingBar.getProgress())
-                mMaxFreqScalingBar.setProgress(progress);
-            if (progress > mMinFreqScalingBar.getProgress())
-                mMinFreqScalingBar.setProgress(progress);
+            if (progress > mMaxFreqScalingBar.getProgress()) mMaxFreqScalingBar
+                    .setProgress(progress);
+            if (progress > mMinFreqScalingBar.getProgress()) mMinFreqScalingBar
+                    .setProgress(progress);
         }
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-    }
+    public void onStartTrackingTouch(SeekBar seekBar) {}
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
@@ -460,27 +449,25 @@ public class CPUFragment extends Fragment implements Constants,
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
-    }
+    public void onNothingSelected(AdapterView<?> arg0) {}
 
     @Override
     public void onClick(View v) {
-        if (v.equals(mMaxScalingText))
-            InformationDialog.showInfo(mMaxScalingText.getText().toString(),
-                    getString(R.string.maxfreq_summary), context);
-        else if (v.equals(mMinScalingText))
-            InformationDialog.showInfo(mMinScalingText.getText().toString(),
-                    getString(R.string.minfreq_summary), context);
-        else if (v.equals(mMaxScreenOffFreqText))
-            InformationDialog.showInfo(mMaxScreenOffFreqText.getText()
-                    .toString(), getString(R.string.maxscreenofffreq_summary),
-                    context);
-        else if (v.equals(mMinScreenOnFreqText))
-            InformationDialog.showInfo(mMinScalingText.getText().toString(),
-                    getString(R.string.minscreenonfreq_summary), context);
-        else if (v.equals(mGovernorTitle))
-            InformationDialog.showInfo(mGovernorTitle.getText().toString(),
-                    getString(R.string.cpugovernor_summary), context);
+        if (v.equals(mMaxScalingText)) InformationDialog.showInfo(
+                mMaxScalingText.getText().toString(),
+                getString(R.string.maxfreq_summary), context);
+        else if (v.equals(mMinScalingText)) InformationDialog.showInfo(
+                mMinScalingText.getText().toString(),
+                getString(R.string.minfreq_summary), context);
+        else if (v.equals(mMaxScreenOffFreqText)) InformationDialog.showInfo(
+                mMaxScreenOffFreqText.getText().toString(),
+                getString(R.string.maxscreenofffreq_summary), context);
+        else if (v.equals(mMinScreenOnFreqText)) InformationDialog.showInfo(
+                mMinScalingText.getText().toString(),
+                getString(R.string.minscreenonfreq_summary), context);
+        else if (v.equals(mGovernorTitle)) InformationDialog.showInfo(
+                mGovernorTitle.getText().toString(),
+                getString(R.string.cpugovernor_summary), context);
     }
 
     @Override
@@ -489,13 +476,13 @@ public class CPUFragment extends Fragment implements Constants,
         MainActivity.CPUChange = true;
 
         for (int i = 1; i < CPUHelper.getCoreCount(); i++)
-            if (buttonView.equals(mCoreControlBoxes[i]))
-                Control.runCPUGeneric(isChecked ? "1" : "0",
-                        CORE_STAT.replace("present", String.valueOf(i)));
+            if (buttonView.equals(mCoreControlBoxes[i])) Control.runCPUGeneric(
+                    isChecked ? "1" : "0",
+                    CORE_STAT.replace("present", String.valueOf(i)));
 
-        if (buttonView.equals(mIntelliPlugBox))
-            Control.runCPUGeneric(isChecked ? "1" : "0", INTELLIPLUG);
-        if (buttonView.equals(mIntelliPlugEcoModeBox))
-            Control.runCPUGeneric(isChecked ? "1" : "0", INTELLIPLUG_ECO_MODE);
+        if (buttonView.equals(mIntelliPlugBox)) Control.runCPUGeneric(
+                isChecked ? "1" : "0", INTELLIPLUG);
+        if (buttonView.equals(mIntelliPlugEcoModeBox)) Control.runCPUGeneric(
+                isChecked ? "1" : "0", INTELLIPLUG_ECO_MODE);
     }
 }

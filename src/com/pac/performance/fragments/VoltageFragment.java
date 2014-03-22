@@ -104,8 +104,8 @@ public class VoltageFragment extends Fragment implements OnClickListener,
                 getString(R.string.voltagecontrol), context);
         mVoltageText
                 .setPadding(0, Math.round(MainActivity.mHeight / 25), 0, 15);
-        if (Utils.exist(VoltageHelper.CPU_VOLTAGE))
-            layout.addView(mVoltageText);
+        if (Utils.exist(VoltageHelper.CPU_VOLTAGE)) layout
+                .addView(mVoltageText);
 
         mVoltageBars = new SeekBar[mVoltagesMV.length];
         mVoltageTexts = new TextView[mVoltagesMV.length];
@@ -115,8 +115,8 @@ public class VoltageFragment extends Fragment implements OnClickListener,
         for (int i = 0; i < mVoltagesMV.length; i++) {
             LinearLayout mVoltageLayout = new LinearLayout(context);
             mVoltageLayout.setOrientation(LinearLayout.VERTICAL);
-            if (Utils.exist(VoltageHelper.CPU_VOLTAGE))
-                layout.addView(mVoltageLayout);
+            if (Utils.exist(VoltageHelper.CPU_VOLTAGE)) layout
+                    .addView(mVoltageLayout);
 
             TextView mVoltageFreq = new TextView(context);
             LayoutHelper.setSubTitle(mVoltageFreq,
@@ -158,8 +158,8 @@ public class VoltageFragment extends Fragment implements OnClickListener,
                 getString(R.string.fauxvoltagecontrol), context);
         mFauxVoltageText.setPadding(0, Math.round(MainActivity.mHeight / 25),
                 0, 15);
-        if (Utils.exist(VoltageHelper.FAUX_VOLTAGE))
-            layout.addView(mFauxVoltageText);
+        if (Utils.exist(VoltageHelper.FAUX_VOLTAGE)) layout
+                .addView(mFauxVoltageText);
 
         mFauxVoltageBars = new SeekBar[mFauxVoltagesMV.length];
         mFauxVoltageTexts = new TextView[mFauxVoltagesMV.length];
@@ -170,8 +170,8 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 
             LinearLayout mFauxVoltageLayout = new LinearLayout(context);
             mFauxVoltageLayout.setOrientation(LinearLayout.VERTICAL);
-            if (Utils.exist(VoltageHelper.FAUX_VOLTAGE))
-                layout.addView(mFauxVoltageLayout);
+            if (Utils.exist(VoltageHelper.FAUX_VOLTAGE)) layout
+                    .addView(mFauxVoltageLayout);
 
             TextView mFauxVoltageFreq = new TextView(context);
             LayoutHelper.setSubTitle(mFauxVoltageFreq,
@@ -226,11 +226,10 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 
     @Override
     public void onClick(View v) {
-        if (v.equals(mVoltageText) || v.equals(mFauxVoltageText))
-            InformationDialog.showInfo(v.equals(mVoltageText) ? mVoltageText
-                    .getText().toString() : mFauxVoltageText.getText()
-                    .toString(), getString(R.string.voltagecontrol_summary),
-                    context);
+        if (v.equals(mVoltageText) || v.equals(mFauxVoltageText)) InformationDialog
+                .showInfo(v.equals(mVoltageText) ? mVoltageText.getText()
+                        .toString() : mFauxVoltageText.getText().toString(),
+                        getString(R.string.voltagecontrol_summary), context);
         for (int i = 0; i < mVoltagesMV.length; i++) {
             if (v.equals(mVoltMinusbuttons[i])) {
                 mVoltageBars[i].setProgress(mVoltageBars[i].getProgress() - 1);
@@ -271,36 +270,33 @@ public class VoltageFragment extends Fragment implements OnClickListener,
 
         mVoltageList.clear();
         for (int i = 0; i < mVoltagesMV.length; i++) {
-            if (seekBar.equals(mVoltageBars[i]))
-                mVoltageTexts[i].setText(String.valueOf(progress * 5 + 600)
-                        + context.getString(R.string.mv));
+            if (seekBar.equals(mVoltageBars[i])) mVoltageTexts[i]
+                    .setText(String.valueOf(progress * 5 + 600)
+                            + context.getString(R.string.mv));
 
             mVoltageList.add(mVoltageTexts[i].getText().toString()
                     .replace(getString(R.string.mv), ""));
         }
 
         for (int i = 0; i < mFauxVoltagesMV.length; i++)
-            if (seekBar.equals(mFauxVoltageBars[i]))
-                mFauxVoltageTexts[i].setText(String.valueOf(progress * 5 + 600)
-                        + getString(R.string.mv));
+            if (seekBar.equals(mFauxVoltageBars[i])) mFauxVoltageTexts[i]
+                    .setText(String.valueOf(progress * 5 + 600)
+                            + getString(R.string.mv));
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-    }
+    public void onStartTrackingTouch(SeekBar seekBar) {}
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         for (int i = 0; i < mFauxVoltagesMV.length; i++)
-            if (seekBar.equals(mFauxVoltageBars[i]))
-                saveFauxVoltage(String.valueOf(VoltageHelper
-                        .getFauxFreqVoltages()[i])
-                        + "000 "
-                        + mFauxVoltageTexts[i].getText().toString()
-                                .replace(getString(R.string.mv), "000"));
+            if (seekBar.equals(mFauxVoltageBars[i])) saveFauxVoltage(String
+                    .valueOf(VoltageHelper.getFauxFreqVoltages()[i])
+                    + "000 "
+                    + mFauxVoltageTexts[i].getText().toString()
+                            .replace(getString(R.string.mv), "000"));
 
-        if (Utils.exist(VoltageHelper.CPU_VOLTAGE))
-            saveVoltages();
+        if (Utils.exist(VoltageHelper.CPU_VOLTAGE)) saveVoltages();
     }
 
     private static void saveVoltages() {

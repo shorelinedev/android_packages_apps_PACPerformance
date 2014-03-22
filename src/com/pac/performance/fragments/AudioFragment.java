@@ -59,12 +59,11 @@ public class AudioFragment extends Fragment implements Constants,
 
         setLayout();
 
-        if (Utils.exist(FAUX_SOUND_CONTROL))
-            for (int i = 1; i < AudioHelper.FAUX_SOUND.length; i++) {
-                mFauxSoundMinuses[i].setOnClickListener(this);
-                mFauxSoundBars[i].setOnSeekBarChangeListener(this);
-                mFauxSoundPluses[i].setOnClickListener(this);
-            }
+        if (Utils.exist(FAUX_SOUND_CONTROL)) for (int i = 1; i < AudioHelper.FAUX_SOUND.length; i++) {
+            mFauxSoundMinuses[i].setOnClickListener(this);
+            mFauxSoundBars[i].setOnSeekBarChangeListener(this);
+            mFauxSoundPluses[i].setOnClickListener(this);
+        }
 
         return rootView;
     }
@@ -75,8 +74,7 @@ public class AudioFragment extends Fragment implements Constants,
                 getString(R.string.fauxsoundcontrol), getActivity());
         mFauxSoundTitle.setPadding(0, Math.round(MainActivity.mHeight / 25), 0,
                 15);
-        if (Utils.exist(FAUX_SOUND_CONTROL))
-            layout.addView(mFauxSoundTitle);
+        if (Utils.exist(FAUX_SOUND_CONTROL)) layout.addView(mFauxSoundTitle);
 
         if (Utils.exist(FAUX_SOUND_CONTROL)) {
 
@@ -88,26 +86,29 @@ public class AudioFragment extends Fragment implements Constants,
             for (int i = 1; i < AudioHelper.FAUX_SOUND.length; i++) {
 
                 TextView mFauxTitle = new TextView(context);
-                if (AudioHelper.FAUX_SOUND[i].equals(FAUX_HEADPHONE_GAIN))
-                    LayoutHelper.setSubTitle(mFauxTitle,
-                            getString(R.string.headphonegain));
+                if (AudioHelper.FAUX_SOUND[i].equals(FAUX_HEADPHONE_GAIN)) LayoutHelper
+                        .setSubTitle(mFauxTitle,
+                                getString(R.string.headphonegain));
                 else if (AudioHelper.FAUX_SOUND[i]
-                        .equals(FAUX_HANDSET_MIC_GAIN))
-                    LayoutHelper.setSubTitle(mFauxTitle,
-                            getString(R.string.handsetmicgain));
-                else if (AudioHelper.FAUX_SOUND[i].equals(FAUX_CAM_MIC_GAIN))
-                    LayoutHelper.setSubTitle(mFauxTitle,
-                            getString(R.string.cammicgain));
-                else if (AudioHelper.FAUX_SOUND[i].equals(FAUX_SPEAKER_GAIN))
-                    LayoutHelper.setSubTitle(mFauxTitle,
-                            getString(R.string.speakergain));
+                        .equals(FAUX_HANDSET_MIC_GAIN)) LayoutHelper
+                        .setSubTitle(mFauxTitle,
+                                getString(R.string.handsetmicgain));
+                else if (AudioHelper.FAUX_SOUND[i].equals(FAUX_CAM_MIC_GAIN)) LayoutHelper
+                        .setSubTitle(mFauxTitle, getString(R.string.cammicgain));
+                else if (AudioHelper.FAUX_SOUND[i].equals(FAUX_SPEAKER_GAIN)) LayoutHelper
+                        .setSubTitle(mFauxTitle,
+                                getString(R.string.speakergain));
                 else if (AudioHelper.FAUX_SOUND[i]
-                        .equals(FAUX_HEADPHONE_PA_GAIN))
-                    LayoutHelper.setSubTitle(mFauxTitle,
-                            getString(R.string.headphonepagain));
+                        .equals(FAUX_HEADPHONE_PA_GAIN)) LayoutHelper
+                        .setSubTitle(mFauxTitle,
+                                getString(R.string.headphonepagain));
                 layout.addView(mFauxTitle);
 
                 TextView mFauxSoundText = new TextView(context);
+                LayoutHelper.setSeekBarText(
+                        mFauxSoundText,
+                        String.valueOf(AudioHelper.getFauxSoundControlValues(i)
+                                + context.getString(R.string.db)));
                 mFauxSoundTexts[i] = mFauxSoundText;
                 layout.addView(mFauxSoundText);
 
@@ -138,12 +139,7 @@ public class AudioFragment extends Fragment implements Constants,
     }
 
     public static void setValues() {
-        for (int i = 1; i < AudioHelper.FAUX_SOUND.length; i++) {
-            LayoutHelper.setSeekBarText(
-                    mFauxSoundTexts[i],
-                    String.valueOf(AudioHelper.getFauxSoundControlValues(i)
-                            + context.getString(R.string.db)));
-
+        for (int i = 1; i < AudioHelper.FAUX_SOUND.length; i++)
             LayoutHelper
                     .setNormalSeekBar(
                             mFauxSoundBars[i],
@@ -154,7 +150,6 @@ public class AudioFragment extends Fragment implements Constants,
                                     .getFauxSoundControlValues(i) + 12
                                     : AudioHelper.getFauxSoundControlValues(i) + 20,
                             context);
-        }
     }
 
     @Override
@@ -176,23 +171,20 @@ public class AudioFragment extends Fragment implements Constants,
         MainActivity.showButtons(true);
 
         for (int i = 0; i < AudioHelper.FAUX_SOUND.length; i++)
-            if (seekBar.equals(mFauxSoundBars[i]))
-                mFauxSoundTexts[i].setText(String
-                        .valueOf(AudioHelper.FAUX_SOUND[i]
-                                .equals(FAUX_HEADPHONE_PA_GAIN) ? progress - 12
-                                : progress - 20)
-                        + context.getString(R.string.db));
+            if (seekBar.equals(mFauxSoundBars[i])) mFauxSoundTexts[i]
+                    .setText(String.valueOf(AudioHelper.FAUX_SOUND[i]
+                            .equals(FAUX_HEADPHONE_PA_GAIN) ? progress - 12
+                            : progress - 20)
+                            + context.getString(R.string.db));
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-    }
+    public void onStartTrackingTouch(SeekBar seekBar) {}
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         for (int i = 0; i < AudioHelper.FAUX_SOUND.length; i++)
-            if (seekBar.equals(mFauxSoundBars[i]))
-                saveFauxValue(i);
+            if (seekBar.equals(mFauxSoundBars[i])) saveFauxValue(i);
     }
 
     private static void saveFauxValue(int i) {

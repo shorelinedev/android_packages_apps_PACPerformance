@@ -86,8 +86,7 @@ public class CpuStateMonitor implements Constants {
             long duration = state.duration;
             if (_offsets.containsKey(state.freq)) {
                 long offset = _offsets.get(state.freq);
-                if (offset <= duration)
-                    duration -= offset;
+                if (offset <= duration) duration -= offset;
                 else {
                     /*
                      * offset > duration implies our offsets are now invalid, so

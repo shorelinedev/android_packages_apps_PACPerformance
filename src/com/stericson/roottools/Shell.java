@@ -99,8 +99,7 @@ public class Shell {
 
                 try {
                     this.proc.destroy();
-                } catch (Exception ignored) {
-                }
+                } catch (Exception ignored) {}
 
                 closeQuietly(this.in);
                 closeQuietly(this.out);
@@ -114,8 +113,7 @@ public class Shell {
 
                 try {
                     this.proc.destroy();
-                } catch (Exception ignored) {
-                }
+                } catch (Exception ignored) {}
 
                 closeQuietly(this.in);
                 closeQuietly(this.out);
@@ -235,13 +233,11 @@ public class Shell {
                                 /**
                                  * If we recieve EOF then the shell closed
                                  */
-                                if (line == null)
-                                    break;
+                                if (line == null) break;
 
                                 if (command == null) {
                                     if (read >= commands.size()) {
-                                        if (close)
-                                            break;
+                                        if (close) break;
 
                                         continue;
                                     }
@@ -281,16 +277,14 @@ public class Shell {
 
                                         try {
                                             id = Integer.parseInt(fields[1]);
-                                        } catch (NumberFormatException ignored) {
-                                        }
+                                        } catch (NumberFormatException ignored) {}
 
                                         int exitCode = -1;
 
                                         try {
                                             exitCode = Integer
                                                     .parseInt(fields[2]);
-                                        } catch (NumberFormatException ignored) {
-                                        }
+                                        } catch (NumberFormatException ignored) {}
 
                                         if (id == totalRead) {
                                             command.setExitCode(exitCode);
@@ -308,8 +302,7 @@ public class Shell {
                             try {
                                 proc.waitFor();
                                 proc.destroy();
-                            } catch (Exception ignored) {
-                            }
+                            } catch (Exception ignored) {}
 
                             closeQuietly(out);
                             closeQuietly(in);
@@ -317,8 +310,8 @@ public class Shell {
                             RootTools.log("Shell destroyed");
 
                             while (read < commands.size()) {
-                                if (command == null)
-                                    command = commands.get(read);
+                                if (command == null) command = commands
+                                        .get(read);
 
                                 command.terminated("Unexpected Termination.");
                                 command = null;
@@ -344,9 +337,8 @@ public class Shell {
     }
 
     public Command add(Command command) throws IOException {
-        if (this.close)
-            throw new IllegalStateException(
-                    "Unable to add commands to a closed shell");
+        if (this.close) throw new IllegalStateException(
+                "Unable to add commands to a closed shell");
 
         while (this.isCleaning) {
             // Don't add commands while cleaning
@@ -377,8 +369,7 @@ public class Shell {
             if (input != null) {
                 input.close();
             }
-        } catch (Exception ignore) {
-        }
+        } catch (Exception ignore) {}
     }
 
     private void closeQuietly(final Writer output) {
@@ -386,17 +377,13 @@ public class Shell {
             if (output != null) {
                 output.close();
             }
-        } catch (Exception ignore) {
-        }
+        } catch (Exception ignore) {}
     }
 
     public void close() throws IOException {
-        if (this == Shell.rootShell)
-            Shell.rootShell = null;
-        else if (this == Shell.shell)
-            Shell.shell = null;
-        else if (this == Shell.customShell)
-            Shell.customShell = null;
+        if (this == Shell.rootShell) Shell.rootShell = null;
+        else if (this == Shell.shell) Shell.shell = null;
+        else if (this == Shell.customShell) Shell.customShell = null;
         synchronized (this.commands) {
             /**
              * instruct the two threads monitoring input and output of the shell
@@ -408,20 +395,17 @@ public class Shell {
     }
 
     public static void closeCustomShell() throws IOException {
-        if (Shell.customShell == null)
-            return;
+        if (Shell.customShell == null) return;
         Shell.customShell.close();
     }
 
     public static void closeRootShell() throws IOException {
-        if (Shell.rootShell == null)
-            return;
+        if (Shell.rootShell == null) return;
         Shell.rootShell.close();
     }
 
     public static void closeShell() throws IOException {
-        if (Shell.shell == null)
-            return;
+        if (Shell.shell == null) return;
         Shell.shell.close();
     }
 
@@ -503,11 +487,8 @@ public class Shell {
 
                 while (true) {
                     String line = shell.in.readLine();
-                    if (line == null) {
-                        throw new EOFException();
-                    }
-                    if ("".equals(line))
-                        continue;
+                    if (line == null) { throw new EOFException(); }
+                    if ("".equals(line)) continue;
                     if ("Started".equals(line)) {
                         this.exit = 1;
                         setShellOom();
@@ -518,10 +499,8 @@ public class Shell {
                 }
             } catch (IOException e) {
                 exit = -42;
-                if (e.getMessage() != null)
-                    shell.error = e.getMessage();
-                else
-                    shell.error = "RootAccess denied?.";
+                if (e.getMessage() != null) shell.error = e.getMessage();
+                else shell.error = "RootAccess denied?.";
             }
 
         }

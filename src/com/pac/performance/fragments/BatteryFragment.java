@@ -84,19 +84,16 @@ public class BatteryFragment extends Fragment implements Constants,
     private void setLayout() {
         mBatteryVoltageTitle = new TextView(context);
         mBatteryVoltageTitle.setPadding(0, MainActivity.mHeight / 25, 0, 0);
-        if (Utils.exist(BATTERY_VOLTAGE))
-            layout.addView(mBatteryVoltageTitle);
+        if (Utils.exist(BATTERY_VOLTAGE)) layout.addView(mBatteryVoltageTitle);
 
         mBatteryVoltageText = new TextView(context);
-        if (Utils.exist(BATTERY_VOLTAGE))
-            layout.addView(mBatteryVoltageText);
+        if (Utils.exist(BATTERY_VOLTAGE)) layout.addView(mBatteryVoltageText);
 
         LinearLayout mFastChargeLayout = new LinearLayout(context);
         mFastChargeLayout.setGravity(Gravity.CENTER);
         mFastChargeLayout.setPadding(0, (int) (MainActivity.mHeight / 21.6), 0,
                 0);
-        if (Utils.exist(FAST_CHARGE))
-            layout.addView(mFastChargeLayout);
+        if (Utils.exist(FAST_CHARGE)) layout.addView(mFastChargeLayout);
 
         mFastChargeBox = new CheckBox(context);
         mFastChargeLayout.addView(mFastChargeBox);
@@ -104,17 +101,16 @@ public class BatteryFragment extends Fragment implements Constants,
         mBLXTitle = new TextView(context);
         LayoutHelper.setTextTitle(mBLXTitle, getString(R.string.blx), context);
         mBLXTitle.setPadding(0, (int) (MainActivity.mHeight / 21.6), 0, 0);
-        if (Utils.exist(BLX))
-            layout.addView(mBLXTitle);
+        if (Utils.exist(BLX)) layout.addView(mBLXTitle);
 
         mBLXText = new TextView(context);
-        if (Utils.exist(BLX))
-            layout.addView(mBLXText);
+        LayoutHelper.setSeekBarText(mBLXText,
+                String.valueOf(BatteryHelper.getBLX()));
+        if (Utils.exist(BLX)) layout.addView(mBLXText);
 
         LinearLayout mBLXLayout = new LinearLayout(context);
         mBLXLayout.setGravity(Gravity.CENTER);
-        if (Utils.exist(BLX))
-            layout.addView(mBLXLayout);
+        if (Utils.exist(BLX)) layout.addView(mBLXLayout);
 
         mBLXMinus = (Button) LayoutHelper.createSeekBar(getActivity())[0];
         mBLXLayout.addView(mBLXMinus);
@@ -138,9 +134,6 @@ public class BatteryFragment extends Fragment implements Constants,
 
         LayoutHelper.setCheckBox(mFastChargeBox, BatteryHelper.getFastCharge(),
                 context.getString(R.string.fastcharge), context);
-
-        LayoutHelper.setSeekBarText(mBLXText,
-                String.valueOf(BatteryHelper.getBLX()));
 
         LayoutHelper.setNormalSeekBar(mBLXBar, 100, BatteryHelper.getBLX(),
                 context);
@@ -170,14 +163,11 @@ public class BatteryFragment extends Fragment implements Constants,
 
     @Override
     public void onClick(View v) {
-        if (v.equals(mBatteryVoltageTitle))
-            try {
-                startActivity(new Intent(Intent.ACTION_POWER_USAGE_SUMMARY));
-            } catch (Exception ignored) {
-            }
-        if (v.equals(mBLXTitle))
-            InformationDialog.showInfo(mBLXTitle.getText().toString(),
-                    getString(R.string.blx_summary), context);
+        if (v.equals(mBatteryVoltageTitle)) try {
+            startActivity(new Intent(Intent.ACTION_POWER_USAGE_SUMMARY));
+        } catch (Exception ignored) {}
+        if (v.equals(mBLXTitle)) InformationDialog.showInfo(mBLXTitle.getText()
+                .toString(), getString(R.string.blx_summary), context);
         if (v.equals(mBLXMinus)) {
             mBLXBar.setProgress(mBLXBar.getProgress() - 1);
             saveBLX();
@@ -192,8 +182,8 @@ public class BatteryFragment extends Fragment implements Constants,
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         MainActivity.BatteryChange = true;
         MainActivity.showButtons(true);
-        if (buttonView.equals(mFastChargeBox))
-            Control.runBatteryGeneric(isChecked ? "1" : "0", FAST_CHARGE);
+        if (buttonView.equals(mFastChargeBox)) Control.runBatteryGeneric(
+                isChecked ? "1" : "0", FAST_CHARGE);
     }
 
     @Override
@@ -209,12 +199,10 @@ public class BatteryFragment extends Fragment implements Constants,
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-    }
+    public void onStartTrackingTouch(SeekBar seekBar) {}
 
     @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-    }
+    public void onStopTrackingTouch(SeekBar seekBar) {}
 
     private static void saveBLX() {
         Control.runBatteryGeneric(mBLXText.getText().toString(), BLX);

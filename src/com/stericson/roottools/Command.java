@@ -153,8 +153,7 @@ public abstract class Command {
             Shell.closeAll();
             RootTools.log("Terminating all shells.");
             terminated(reason);
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
     }
 
     protected void terminated(String reason) {
@@ -203,8 +202,7 @@ public abstract class Command {
                 synchronized (Command.this) {
                     try {
                         Command.this.wait(timeout);
-                    } catch (InterruptedException ignored) {
-                    }
+                    } catch (InterruptedException ignored) {}
                 }
 
                 if (!finished) {
@@ -229,15 +227,15 @@ public abstract class Command {
             String text = msg.getData().getString(TEXT);
 
             switch (action) {
-            case COMMAND_OUTPUT:
-                commandOutput(id, text);
-                break;
-            case COMMAND_COMPLETED:
-                commandCompleted(id, exitCode);
-                break;
-            case COMMAND_TERMINATED:
-                commandTerminated(id, text);
-                break;
+                case COMMAND_OUTPUT:
+                    commandOutput(id, text);
+                    break;
+                case COMMAND_COMPLETED:
+                    commandCompleted(id, exitCode);
+                    break;
+                case COMMAND_TERMINATED:
+                    commandTerminated(id, text);
+                    break;
             }
         }
     }

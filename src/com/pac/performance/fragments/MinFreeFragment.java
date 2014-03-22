@@ -92,30 +92,30 @@ public class MinFreeFragment extends Fragment implements Constants,
         for (int i = 0; i < minfreelength; i++) {
             TextView mMinFreeSubTitle = new TextView(context);
             switch (i) {
-            case 0:
-                LayoutHelper.setSubTitle(mMinFreeSubTitle,
-                        getString(R.string.forgroundapplications));
-                break;
-            case 1:
-                LayoutHelper.setSubTitle(mMinFreeSubTitle,
-                        getString(R.string.visbileapplications));
-                break;
-            case 2:
-                LayoutHelper.setSubTitle(mMinFreeSubTitle,
-                        getString(R.string.secondaryserver));
-                break;
-            case 3:
-                LayoutHelper.setSubTitle(mMinFreeSubTitle,
-                        getString(R.string.hiddenapplications));
-                break;
-            case 4:
-                LayoutHelper.setSubTitle(mMinFreeSubTitle,
-                        getString(R.string.contentproviders));
-                break;
-            case 5:
-                LayoutHelper.setSubTitle(mMinFreeSubTitle,
-                        getString(R.string.emptyapplications));
-                break;
+                case 0:
+                    LayoutHelper.setSubTitle(mMinFreeSubTitle,
+                            getString(R.string.forgroundapplications));
+                    break;
+                case 1:
+                    LayoutHelper.setSubTitle(mMinFreeSubTitle,
+                            getString(R.string.visbileapplications));
+                    break;
+                case 2:
+                    LayoutHelper.setSubTitle(mMinFreeSubTitle,
+                            getString(R.string.secondaryserver));
+                    break;
+                case 3:
+                    LayoutHelper.setSubTitle(mMinFreeSubTitle,
+                            getString(R.string.hiddenapplications));
+                    break;
+                case 4:
+                    LayoutHelper.setSubTitle(mMinFreeSubTitle,
+                            getString(R.string.contentproviders));
+                    break;
+                case 5:
+                    LayoutHelper.setSubTitle(mMinFreeSubTitle,
+                            getString(R.string.emptyapplications));
+                    break;
             }
             layout.addView(mMinFreeSubTitle);
 
@@ -154,7 +154,6 @@ public class MinFreeFragment extends Fragment implements Constants,
     }
 
     public static void setValues() {
-
         for (int i = 0; i < minfreelength; i++)
             LayoutHelper.setNormalSeekBar(mMinFreeBars[i], 256,
                     MinFreeHelper.getMinFreeValues()[i] / 256, context);
@@ -183,9 +182,9 @@ public class MinFreeFragment extends Fragment implements Constants,
 
         mMinFreeList.clear();
         for (int i = 0; i < MinFreeHelper.getMinFreeValues().length; i++) {
-            if (seekBar.equals(mMinFreeBars[i]))
-                mMinFreeTexts[i].setText(String.valueOf(progress
-                        + getString(R.string.mb) + "[" + progress * 256 + "]"));
+            if (seekBar.equals(mMinFreeBars[i])) mMinFreeTexts[i]
+                    .setText(String.valueOf(progress + getString(R.string.mb)
+                            + "[" + progress * 256 + "]"));
             mMinFreeList
                     .add(String.valueOf(Integer
                             .parseInt(mMinFreeTexts[i].getText().toString()
@@ -195,14 +194,12 @@ public class MinFreeFragment extends Fragment implements Constants,
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-    }
+    public void onStartTrackingTouch(SeekBar seekBar) {}
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         for (int i = 0; i < MinFreeHelper.getMinFreeValues().length; i++)
-            if (seekBar.equals(mMinFreeBars[i]))
-                saveValues();
+            if (seekBar.equals(mMinFreeBars[i])) saveValues();
     }
 
     private static void saveValues() {

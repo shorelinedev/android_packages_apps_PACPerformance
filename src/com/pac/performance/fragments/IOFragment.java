@@ -106,8 +106,8 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
         mInternalSchedulerLayout.setPadding(0,
                 Math.round(MainActivity.mHeight / 25), 0, 0);
         mInternalSchedulerLayout.setGravity(Gravity.CENTER);
-        if (Utils.exist(INTERNAL_SCHEDULER))
-            layout.addView(mInternalSchedulerLayout);
+        if (Utils.exist(INTERNAL_SCHEDULER)) layout
+                .addView(mInternalSchedulerLayout);
 
         mInternalSchedulerTitle = new TextView(context);
         LayoutHelper.setTextTitle(mInternalSchedulerTitle,
@@ -127,8 +127,8 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
         mExternalSchedulerLayout.setPadding(0,
                 Math.round(MainActivity.mHeight / 25), 0, 0);
         mExternalSchedulerLayout.setGravity(Gravity.CENTER);
-        if (Utils.exist(EXTERNAL_SCHEDULER))
-            layout.addView(mExternalSchedulerLayout);
+        if (Utils.exist(EXTERNAL_SCHEDULER)) layout
+                .addView(mExternalSchedulerLayout);
 
         mExternalSchedulerTitle = new TextView(context);
         LayoutHelper.setTextTitle(mExternalSchedulerTitle,
@@ -149,20 +149,17 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
                 getString(R.string.internalstorageread), context);
         mInternalReadTitle.setPadding(0, Math.round(MainActivity.mHeight / 25),
                 0, 0);
-        if (Utils.exist(INTERNAL_READ))
-            layout.addView(mInternalReadTitle);
+        if (Utils.exist(INTERNAL_READ)) layout.addView(mInternalReadTitle);
 
         mInternalReadText = new TextView(context);
         LayoutHelper.setSeekBarText(mInternalReadText,
                 String.valueOf(IOHelper.getInternalRead())
                         + getString(R.string.kb));
-        if (Utils.exist(INTERNAL_READ))
-            layout.addView(mInternalReadText);
+        if (Utils.exist(INTERNAL_READ)) layout.addView(mInternalReadText);
 
         LinearLayout mInternalReadLayout = new LinearLayout(context);
         mInternalReadLayout.setGravity(Gravity.CENTER);
-        if (Utils.exist(INTERNAL_READ))
-            layout.addView(mInternalReadLayout);
+        if (Utils.exist(INTERNAL_READ)) layout.addView(mInternalReadLayout);
 
         mInternalReadMinus = (Button) LayoutHelper.createSeekBar(getActivity())[0];
         mInternalReadLayout.addView(mInternalReadMinus);
@@ -179,20 +176,17 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
                 getString(R.string.externalstorageread), context);
         mExternalReadTitle.setPadding(0, Math.round(MainActivity.mHeight / 25),
                 0, 0);
-        if (Utils.exist(EXTERNAL_READ))
-            layout.addView(mExternalReadTitle);
+        if (Utils.exist(EXTERNAL_READ)) layout.addView(mExternalReadTitle);
 
         mExternalReadText = new TextView(context);
         LayoutHelper.setSeekBarText(mExternalReadText,
                 String.valueOf(IOHelper.getExternalRead())
                         + getString(R.string.kb));
-        if (Utils.exist(EXTERNAL_READ))
-            layout.addView(mExternalReadText);
+        if (Utils.exist(EXTERNAL_READ)) layout.addView(mExternalReadText);
 
         LinearLayout mExternalReadLayout = new LinearLayout(context);
         mExternalReadLayout.setGravity(Gravity.CENTER);
-        if (Utils.exist(EXTERNAL_READ))
-            layout.addView(mExternalReadLayout);
+        if (Utils.exist(EXTERNAL_READ)) layout.addView(mExternalReadLayout);
 
         mExternalReadMinus = (Button) LayoutHelper.createSeekBar(getActivity())[0];
         mExternalReadLayout.addView(mExternalReadMinus);
@@ -234,28 +228,26 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
 
     @Override
     public void onClick(View v) {
-        if (v.equals(mInternalSchedulerTitle))
-            InformationDialog.showInfo(mInternalSchedulerTitle.getText()
-                    .toString(), getString(R.string.storagescheduler_summary),
-                    context);
-        if (v.equals(mExternalSchedulerTitle))
-            InformationDialog.showInfo(mExternalSchedulerTitle.getText()
-                    .toString(), getString(R.string.storagescheduler_summary),
-                    context);
-        if (v.equals(mInternalReadTitle))
-            InformationDialog.showInfo(mInternalReadTitle.getText().toString(),
-                    getString(R.string.internalstorageread_summary), context);
-        if (v.equals(mInternalReadMinus))
-            mInternalReadBar.setProgress(mInternalReadBar.getProgress() - 1);
-        if (v.equals(mInternalReadPlus))
-            mInternalReadBar.setProgress(mInternalReadBar.getProgress() + 1);
-        if (v.equals(mExternalReadTitle))
-            InformationDialog.showInfo(mExternalReadTitle.getText().toString(),
-                    getString(R.string.externalstorageread_summary), context);
-        if (v.equals(mExternalReadMinus))
-            mExternalReadBar.setProgress(mExternalReadBar.getProgress() - 1);
-        if (v.equals(mExternalReadPlus))
-            mExternalReadBar.setProgress(mExternalReadBar.getProgress() + 1);
+        if (v.equals(mInternalSchedulerTitle)) InformationDialog.showInfo(
+                mInternalSchedulerTitle.getText().toString(),
+                getString(R.string.storagescheduler_summary), context);
+        if (v.equals(mExternalSchedulerTitle)) InformationDialog.showInfo(
+                mExternalSchedulerTitle.getText().toString(),
+                getString(R.string.storagescheduler_summary), context);
+        if (v.equals(mInternalReadTitle)) InformationDialog.showInfo(
+                mInternalReadTitle.getText().toString(),
+                getString(R.string.internalstorageread_summary), context);
+        if (v.equals(mInternalReadMinus)) mInternalReadBar
+                .setProgress(mInternalReadBar.getProgress() - 1);
+        if (v.equals(mInternalReadPlus)) mInternalReadBar
+                .setProgress(mInternalReadBar.getProgress() + 1);
+        if (v.equals(mExternalReadTitle)) InformationDialog.showInfo(
+                mExternalReadTitle.getText().toString(),
+                getString(R.string.externalstorageread_summary), context);
+        if (v.equals(mExternalReadMinus)) mExternalReadBar
+                .setProgress(mExternalReadBar.getProgress() - 1);
+        if (v.equals(mExternalReadPlus)) mExternalReadBar
+                .setProgress(mExternalReadBar.getProgress() + 1);
         saveReadahead(v.equals(mExternalReadMinus)
                 || v.equals(mExternalReadPlus) ? mExternalReadBar
                 : mInternalReadBar);
@@ -276,38 +268,32 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
             }
         }
 
-        if (arg0.equals(mExternalSchedulerSpinner))
-            if (arg2 != mAvailableExternalSchedulersList.indexOf(IOHelper
-                    .getCurExternalScheduler())) {
-                MainActivity.showButtons(true);
-                MainActivity.IOChange = true;
+        if (arg0.equals(mExternalSchedulerSpinner)) if (arg2 != mAvailableExternalSchedulersList
+                .indexOf(IOHelper.getCurExternalScheduler())) {
+            MainActivity.showButtons(true);
+            MainActivity.IOChange = true;
 
-                Control.runIOGeneric(
-                        mAvailableExternalSchedulersList.get(arg2),
-                        EXTERNAL_SCHEDULER);
-            }
+            Control.runIOGeneric(mAvailableExternalSchedulersList.get(arg2),
+                    EXTERNAL_SCHEDULER);
+        }
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
-    }
+    public void onNothingSelected(AdapterView<?> arg0) {}
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress,
             boolean fromUser) {
         MainActivity.IOChange = true;
         MainActivity.showButtons(true);
-        if (seekBar.equals(mInternalReadBar))
-            mInternalReadText.setText(String.valueOf(progress * 128 + 128)
-                    + getString(R.string.kb));
-        if (seekBar.equals(mExternalReadBar))
-            mExternalReadText.setText(String.valueOf(progress * 128 + 128)
-                    + getString(R.string.kb));
+        if (seekBar.equals(mInternalReadBar)) mInternalReadText.setText(String
+                .valueOf(progress * 128 + 128) + getString(R.string.kb));
+        if (seekBar.equals(mExternalReadBar)) mExternalReadText.setText(String
+                .valueOf(progress * 128 + 128) + getString(R.string.kb));
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-    }
+    public void onStartTrackingTouch(SeekBar seekBar) {}
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
@@ -315,11 +301,13 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
     }
 
     private static void saveReadahead(SeekBar seekBar) {
-        if (seekBar.equals(mInternalReadBar))
-            Control.runIOGeneric(mInternalReadText.getText().toString()
-                    .replace(context.getString(R.string.kb), ""), INTERNAL_READ);
-        if (seekBar.equals(mExternalReadBar))
-            Control.runIOGeneric(mExternalReadText.getText().toString()
-                    .replace(context.getString(R.string.kb), ""), EXTERNAL_READ);
+        if (seekBar.equals(mInternalReadBar)) Control.runIOGeneric(
+                mInternalReadText.getText().toString()
+                        .replace(context.getString(R.string.kb), ""),
+                INTERNAL_READ);
+        if (seekBar.equals(mExternalReadBar)) Control.runIOGeneric(
+                mExternalReadText.getText().toString()
+                        .replace(context.getString(R.string.kb), ""),
+                EXTERNAL_READ);
     }
 }

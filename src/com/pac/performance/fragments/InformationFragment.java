@@ -82,8 +82,8 @@ public class InformationFragment extends Fragment {
         findViews();
 
         // see if we're updating data during a config change (rotate screen)
-        if (savedInstanceState != null)
-            _updatingData = savedInstanceState.getBoolean("updatingData");
+        if (savedInstanceState != null) _updatingData = savedInstanceState
+                .getBoolean("updatingData");
     }
 
     private static void findViews() {
@@ -144,12 +144,10 @@ public class InformationFragment extends Fragment {
         _uiStatesView.removeAllViews();
         List<String> extraStates = new ArrayList<String>();
         for (CpuState state : monitor.getStates())
-            if (state.duration > 0)
-                generateStateRow(state, _uiStatesView);
-            else if (state.freq == 0)
-                extraStates.add(getString(R.string.deepsleep));
-            else
-                extraStates.add(state.freq / 1000 + " MHz");
+            if (state.duration > 0) generateStateRow(state, _uiStatesView);
+            else if (state.freq == 0) extraStates
+                    .add(getString(R.string.deepsleep));
+            else extraStates.add(state.freq / 1000 + " MHz");
 
         // show the red warning label if no states found
         if (monitor.getStates().size() == 0) {
@@ -168,8 +166,7 @@ public class InformationFragment extends Fragment {
             String str = "";
 
             for (String s : extraStates) {
-                if (n++ > 0)
-                    str += ", ";
+                if (n++ > 0) str += ", ";
                 str += s;
             }
 
@@ -186,8 +183,7 @@ public class InformationFragment extends Fragment {
      * Attempt to update the time-in-state info
      */
     public void refreshData() {
-        if (!_updatingData)
-            new RefreshStateDataTask().execute((Void) null);
+        if (!_updatingData) new RefreshStateDataTask().execute((Void) null);
     }
 
     /**
@@ -199,11 +195,9 @@ public class InformationFragment extends Fragment {
         long s = tSec % 60;
         String sDur;
         sDur = h + ":";
-        if (m < 10)
-            sDur += "0";
+        if (m < 10) sDur += "0";
         sDur += m + ":";
-        if (s < 10)
-            sDur += "0";
+        if (s < 10) sDur += "0";
         sDur += s;
 
         return sDur;

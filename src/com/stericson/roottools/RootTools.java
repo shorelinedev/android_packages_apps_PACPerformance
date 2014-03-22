@@ -130,8 +130,7 @@ public final class RootTools {
      */
     public static void log(String msg, int type, Exception e) {
         if (msg != null && !msg.equals("")) {
-            if (debugMode)
-                switch (type) {
+            if (debugMode) switch (type) {
                 case 1:
                     Log.v(TAG, msg);
                     break;
@@ -141,7 +140,7 @@ public final class RootTools {
                 case 3:
                     Log.d(TAG, msg);
                     break;
-                }
+            }
         }
     }
 }

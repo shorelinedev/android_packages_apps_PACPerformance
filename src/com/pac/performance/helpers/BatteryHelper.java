@@ -24,31 +24,23 @@ import java.io.IOException;
 public class BatteryHelper implements Constants {
 
     public static int getBLX() {
-        if (Utils.exist(BLX))
-            try {
-                return Integer.parseInt(Utils.readLine(BLX));
-            } catch (NumberFormatException ignored) {
-            } catch (IOException ignored) {
-            }
+        if (Utils.exist(BLX)) try {
+            return Integer.parseInt(Utils.readLine(BLX));
+        } catch (NumberFormatException ignored) {} catch (IOException ignored) {}
         return 0;
     }
 
     public static boolean getFastCharge() {
-        if (Utils.exist(FAST_CHARGE))
-            try {
-                return Utils.readLine(FAST_CHARGE).equals("1");
-            } catch (IOException ignored) {
-            }
+        if (Utils.exist(FAST_CHARGE)) try {
+            return Utils.readLine(FAST_CHARGE).equals("1");
+        } catch (IOException ignored) {}
         return false;
     }
 
     public static int getCurBatteryVoltage() {
-        if (Utils.exist(BATTERY_VOLTAGE))
-            try {
-                return Integer.parseInt(Utils.readLine(BATTERY_VOLTAGE));
-            } catch (NumberFormatException ignored) {
-            } catch (IOException ignored) {
-            }
+        if (Utils.exist(BATTERY_VOLTAGE)) try {
+            return Integer.parseInt(Utils.readLine(BATTERY_VOLTAGE));
+        } catch (NumberFormatException ignored) {} catch (IOException ignored) {}
         return 0;
     }
 }

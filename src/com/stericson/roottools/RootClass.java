@@ -132,9 +132,7 @@ public class RootClass /* #ANNOTATIONS extends AbstractProcessor */{
                 jarBuilder.directory(builtPath);
                 try {
                     jarBuilder.start().waitFor();
-                } catch (IOException ignored) {
-                } catch (InterruptedException ignored) {
-                }
+                } catch (IOException ignored) {} catch (InterruptedException ignored) {}
 
                 System.out
                         .println("Done building jar file. Creating dex file.");
@@ -153,9 +151,7 @@ public class RootClass /* #ANNOTATIONS extends AbstractProcessor */{
                 ProcessBuilder dexBuilder = new ProcessBuilder(cmd);
                 try {
                     dexBuilder.start().waitFor();
-                } catch (IOException ignored) {
-                } catch (InterruptedException ignored) {
-                }
+                } catch (IOException ignored) {} catch (InterruptedException ignored) {}
             }
             System.out
                     .println("All done. ::: anbuild.dex should now be in your project's res/raw/ folder :::");
@@ -208,23 +204,22 @@ public class RootClass /* #ANNOTATIONS extends AbstractProcessor */{
                 String line;
                 while (null != (line = reader.readLine())) {
                     switch (readState) {
-                    case STARTING:
-                        if (line.contains("@RootClass.Candidate"))
-                            readState = READ_STATE.FOUND_ANNOTATION;
-                        break;
-                    case FOUND_ANNOTATION:
-                        Matcher m = p.matcher(line);
-                        if (m.find()) {
-                            System.out.println(" Found annotated class: "
-                                    + m.group(0));
-                            return true;
-                        } else {
-                            System.err
-                                    .println("Error: unmatched annotation in "
-                                            + file.getAbsolutePath());
-                            readState = READ_STATE.STARTING;
-                        }
-                        break;
+                        case STARTING:
+                            if (line.contains("@RootClass.Candidate")) readState = READ_STATE.FOUND_ANNOTATION;
+                            break;
+                        case FOUND_ANNOTATION:
+                            Matcher m = p.matcher(line);
+                            if (m.find()) {
+                                System.out.println(" Found annotated class: "
+                                        + m.group(0));
+                                return true;
+                            } else {
+                                System.err
+                                        .println("Error: unmatched annotation in "
+                                                + file.getAbsolutePath());
+                                readState = READ_STATE.STARTING;
+                            }
+                            break;
                     }
                 }
             } catch (FileNotFoundException e) {
@@ -237,10 +232,8 @@ public class RootClass /* #ANNOTATIONS extends AbstractProcessor */{
 
         protected String getPathToDx() throws IOException {
             String androidHome = System.getenv("ANDROID_HOME");
-            if (null == androidHome) {
-                throw new IOException(
-                        "Error: you need to set $ANDROID_HOME globally");
-            }
+            if (null == androidHome) { throw new IOException(
+                    "Error: you need to set $ANDROID_HOME globally"); }
             String dxPath = null;
             File[] files = new File(androidHome + File.separator
                     + "build-tools").listFiles();
@@ -264,10 +257,8 @@ public class RootClass /* #ANNOTATIONS extends AbstractProcessor */{
                     }
                 }
             }
-            if (dxPath == null) {
-                throw new IOException(
-                        "Error: unable to find dx binary in $ANDROID_HOME");
-            }
+            if (dxPath == null) { throw new IOException(
+                    "Error: unable to find dx binary in $ANDROID_HOME"); }
             return dxPath;
         }
 

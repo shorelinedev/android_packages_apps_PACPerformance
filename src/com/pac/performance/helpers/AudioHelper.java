@@ -29,17 +29,12 @@ public class AudioHelper implements Constants {
 
     public static int getFauxSoundControlValues(int count) {
         try {
-            if (FAUX_SOUND[count].equals(FAUX_HEADPHONE_GAIN))
-                return Integer.parseInt(Utils.readLine(FAUX_HEADPHONE_GAIN)
-                        .split(" ")[0]) - 40;
-            else if (FAUX_SOUND[count].equals(FAUX_HEADPHONE_PA_GAIN))
-                return Integer.parseInt(Utils.readLine(FAUX_HEADPHONE_PA_GAIN)
-                        .split(" ")[0]) - 12;
-            else
-                return Integer.parseInt(Utils.readLine(FAUX_SOUND[count])) - 40;
-        } catch (NumberFormatException ignored) {
-        } catch (IOException ignored) {
-        }
+            if (FAUX_SOUND[count].equals(FAUX_HEADPHONE_GAIN)) return Integer
+                    .parseInt(Utils.readLine(FAUX_HEADPHONE_GAIN).split(" ")[0]) - 40;
+            else if (FAUX_SOUND[count].equals(FAUX_HEADPHONE_PA_GAIN)) return Integer
+                    .parseInt(Utils.readLine(FAUX_HEADPHONE_PA_GAIN).split(" ")[0]) - 12;
+            else return Integer.parseInt(Utils.readLine(FAUX_SOUND[count])) - 40;
+        } catch (NumberFormatException ignored) {} catch (IOException ignored) {}
         return 0;
     }
 }

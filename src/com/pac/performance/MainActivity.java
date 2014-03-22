@@ -178,8 +178,8 @@ public class MainActivity extends Activity implements Constants {
     }
 
     private void selectItem(int position) {
-        if (ViewPagerFragment.mViewPager != null)
-            ViewPagerFragment.mViewPager.setCurrentItem(position);
+        if (ViewPagerFragment.mViewPager != null) ViewPagerFragment.mViewPager
+                .setCurrentItem(position);
         setDrawerSelected(position);
     }
 
@@ -215,34 +215,27 @@ public class MainActivity extends Activity implements Constants {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.action_apply:
-            if (CPUChange)
-                Control.setCPU(getApplicationContext());
-            if (BatteryChange)
-                Control.setBattery(getApplicationContext());
-            if (AudioChange)
-                Control.setAudio(getApplicationContext());
-            if (VoltageChange)
-                Control.setVoltage(getApplicationContext());
-            if (IOChange)
-                Control.setIO(getApplicationContext());
-            if (MinFreeChange)
-                Control.setMinFree(getApplicationContext());
-            if (VMChange)
-                Control.setVM(getApplicationContext());
+            case R.id.action_apply:
+                if (CPUChange) Control.setCPU(getApplicationContext());
+                if (BatteryChange) Control.setBattery(getApplicationContext());
+                if (AudioChange) Control.setAudio(getApplicationContext());
+                if (VoltageChange) Control.setVoltage(getApplicationContext());
+                if (IOChange) Control.setIO(getApplicationContext());
+                if (MinFreeChange) Control.setMinFree(getApplicationContext());
+                if (VMChange) Control.setVM(getApplicationContext());
 
-            Control.reset();
-            Utils.toast(getString(R.string.applysuccessfully),
-                    getApplicationContext());
-            break;
-        case R.id.action_cancel:
-            Control.reset();
-            break;
-        case R.id.action_setonboot:
-            Utils.saveBoolean("setonboot", !setonboot.isChecked(),
-                    getApplicationContext());
-            setonboot.setChecked(!setonboot.isChecked());
-            break;
+                Control.reset();
+                Utils.toast(getString(R.string.applysuccessfully),
+                        getApplicationContext());
+                break;
+            case R.id.action_cancel:
+                Control.reset();
+                break;
+            case R.id.action_setonboot:
+                Utils.saveBoolean("setonboot", !setonboot.isChecked(),
+                        getApplicationContext());
+                setonboot.setChecked(!setonboot.isChecked());
+                break;
         }
         return mDrawerToggle.onOptionsItemSelected(item);
     }

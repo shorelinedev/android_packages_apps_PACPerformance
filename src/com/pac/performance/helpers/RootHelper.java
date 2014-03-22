@@ -29,10 +29,7 @@ public class RootHelper {
         try {
             RootTools.getShell().add(new CommandCapture(0, command))
                     .commandCompleted(0, 0);
-        } catch (IOException ignored) {
-        } catch (TimeoutException ignored) {
-        } catch (RootDeniedException ignored) {
-        }
+        } catch (IOException ignored) {} catch (TimeoutException ignored) {} catch (RootDeniedException ignored) {}
     }
 
 }

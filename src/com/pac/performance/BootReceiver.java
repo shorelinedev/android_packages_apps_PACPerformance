@@ -45,12 +45,10 @@ public class BootReceiver extends BroadcastReceiver implements Constants {
     @Override
     public void onReceive(Context c, Intent intent) {
         context = c;
-        if (Utils.getBoolean("setonboot", false, context))
-            if (Utils.getFormattedKernelVersion().equals(
-                    Utils.getString("kernelversion", "nothing", context)))
-                setValue();
-            else
-                Utils.toast(context.getString(R.string.newkernel), context);
+        if (Utils.getBoolean("setonboot", false, context)) if (Utils
+                .getFormattedKernelVersion().equals(
+                        Utils.getString("kernelversion", "nothing", context))) setValue();
+        else Utils.toast(context.getString(R.string.newkernel), context);
     }
 
     private static void setValue() {

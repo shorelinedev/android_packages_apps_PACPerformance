@@ -32,39 +32,32 @@ public class VMHelper implements Constants {
 
     public static List<String> getVMValues() {
         List<String> dummy = new ArrayList<String>();
-        if (Utils.exist(VM_PATH))
-            try {
-                for (String file : getVMPaths())
-                    dummy.add(Utils.readLine(file));
-            } catch (IOException ignored) {
+        if (Utils.exist(VM_PATH)) try {
+            for (String file : getVMPaths())
+                dummy.add(Utils.readLine(file));
+        } catch (IOException ignored) {
 
-            }
-        else
-            dummy.add("0");
+        }
+        else dummy.add("0");
         return dummy;
     }
 
     public static List<String> getVMFiles() {
         List<String> dummy = new ArrayList<String>();
         if (Utils.exist(VM_PATH)) {
-            if (Utils.exist(VM_PATH))
-                for (String file : supportedvm)
-                    if (Utils.exist(VM_PATH + "/" + file))
-                        dummy.add(file);
-        } else
-            dummy.add("0");
+            if (Utils.exist(VM_PATH)) for (String file : supportedvm)
+                if (Utils.exist(VM_PATH + "/" + file)) dummy.add(file);
+        } else dummy.add("0");
         return dummy;
     }
 
     public static List<String> getVMPaths() {
         List<String> dummy = new ArrayList<String>();
         if (Utils.exist(VM_PATH)) {
-            if (Utils.exist(VM_PATH))
-                for (String file : supportedvm)
-                    if (Utils.exist(VM_PATH + "/" + file))
-                        dummy.add(VM_PATH + "/" + file);
-        } else
-            dummy.add("0");
+            if (Utils.exist(VM_PATH)) for (String file : supportedvm)
+                if (Utils.exist(VM_PATH + "/" + file)) dummy.add(VM_PATH + "/"
+                        + file);
+        } else dummy.add("0");
         return dummy;
     }
 }

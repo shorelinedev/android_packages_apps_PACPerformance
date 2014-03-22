@@ -24,15 +24,13 @@ import java.io.IOException;
 public class MinFreeHelper implements Constants {
 
     public static Integer[] getMinFreeValues() {
-        if (Utils.exist(MINFREE))
-            try {
-                String[] dummy = Utils.readLine(MINFREE).split(",");
-                Integer[] values = new Integer[dummy.length];
-                for (int i = 0; i < dummy.length; i++)
-                    values[i] = Integer.parseInt(dummy[i]);
-                return values;
-            } catch (IOException ignored) {
-            }
+        if (Utils.exist(MINFREE)) try {
+            String[] dummy = Utils.readLine(MINFREE).split(",");
+            Integer[] values = new Integer[dummy.length];
+            for (int i = 0; i < dummy.length; i++)
+                values[i] = Integer.parseInt(dummy[i]);
+            return values;
+        } catch (IOException ignored) {}
         return new Integer[] { 0 };
     }
 }

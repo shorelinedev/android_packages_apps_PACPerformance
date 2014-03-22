@@ -117,29 +117,29 @@ public class Control implements Constants {
         Runnable r = new Runnable() {
             public void run() {
 
-                if (CPUFragment.layout != null && MainActivity.CPUChange)
-                    CPUFragment.setValues();
+                if (CPUFragment.layout != null && MainActivity.CPUChange) CPUFragment
+                        .setValues();
 
                 if (BatteryFragment.layout != null
-                        && MainActivity.BatteryChange)
-                    BatteryFragment.setValues();
+                        && MainActivity.BatteryChange) BatteryFragment
+                        .setValues();
 
-                if (AudioFragment.layout != null && MainActivity.AudioChange)
-                    AudioFragment.setValues();
+                if (AudioFragment.layout != null && MainActivity.AudioChange) AudioFragment
+                        .setValues();
 
                 if (VoltageFragment.layout != null
-                        && MainActivity.VoltageChange)
-                    VoltageFragment.setValues();
+                        && MainActivity.VoltageChange) VoltageFragment
+                        .setValues();
 
-                if (IOFragment.layout != null && MainActivity.IOChange)
-                    IOFragment.setValues();
+                if (IOFragment.layout != null && MainActivity.IOChange) IOFragment
+                        .setValues();
 
                 if (MinFreeFragment.layout != null
-                        && MainActivity.MinFreeChange)
-                    MinFreeFragment.setValues();
+                        && MainActivity.MinFreeChange) MinFreeFragment
+                        .setValues();
 
-                if (VMFragment.layout != null && MainActivity.VMChange)
-                    VMFragment.setValues();
+                if (VMFragment.layout != null && MainActivity.VMChange) VMFragment
+                        .setValues();
 
                 MainActivity.CPUChange = MainActivity.BatteryChange = MainActivity.AudioChange = false;
                 MainActivity.VoltageChange = MainActivity.IOChange = MainActivity.MinFreeChange = false;
@@ -162,60 +162,57 @@ public class Control implements Constants {
     }
 
     public static void runCPUGeneric(String value, String file) {
-        if (CPUCommands.indexOf(file) != -1)
-            CPUCommands.remove(CPUCommands.indexOf(file));
+        if (CPUCommands.indexOf(file) != -1) CPUCommands.remove(CPUCommands
+                .indexOf(file));
 
         CPUCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runBatteryGeneric(String value, String file) {
-        if (BatteryCommands.indexOf(file) != -1)
-            BatteryCommands.remove(BatteryCommands.indexOf(file));
+        if (BatteryCommands.indexOf(file) != -1) BatteryCommands
+                .remove(BatteryCommands.indexOf(file));
 
         BatteryCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runAudioFaux(String value, String file) {
-        if (AudioCommands.indexOf(file) != -1)
-            AudioCommands.remove(AudioCommands.indexOf(file));
+        if (AudioCommands.indexOf(file) != -1) AudioCommands
+                .remove(AudioCommands.indexOf(file));
 
-        if (file.equals(FAUX_HEADPHONE_GAIN))
-            AudioCommands.add(String.valueOf(file + "::echo "
-                    + Integer.parseInt(value) + 40 + " "
-                    + Integer.parseInt(value) + 40 + " > " + file));
-        else if (file.equals(FAUX_HEADPHONE_PA_GAIN))
-            AudioCommands.add(String.valueOf(file + "::echo "
-                    + Integer.parseInt(value) + 12 + " "
-                    + Integer.parseInt(value) + 12 + " > " + file));
-        else
-            AudioCommands.add(String.valueOf(file + "::echo "
-                    + Integer.parseInt(value) + 40 + " > " + file));
+        if (file.equals(FAUX_HEADPHONE_GAIN)) AudioCommands.add(String
+                .valueOf(file + "::echo " + Integer.parseInt(value) + 40 + " "
+                        + Integer.parseInt(value) + 40 + " > " + file));
+        else if (file.equals(FAUX_HEADPHONE_PA_GAIN)) AudioCommands.add(String
+                .valueOf(file + "::echo " + Integer.parseInt(value) + 12 + " "
+                        + Integer.parseInt(value) + 12 + " > " + file));
+        else AudioCommands.add(String.valueOf(file + "::echo "
+                + Integer.parseInt(value) + 40 + " > " + file));
     }
 
     public static void runVoltageGeneric(String value, String file) {
-        if (VoltageCommands.indexOf(file) != -1)
-            VoltageCommands.remove(VoltageCommands.indexOf(file));
+        if (VoltageCommands.indexOf(file) != -1) VoltageCommands
+                .remove(VoltageCommands.indexOf(file));
 
         VoltageCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runIOGeneric(String value, String file) {
-        if (IOCommands.indexOf(file) != -1)
-            IOCommands.remove(IOCommands.indexOf(file));
+        if (IOCommands.indexOf(file) != -1) IOCommands.remove(IOCommands
+                .indexOf(file));
 
         IOCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runMinFreeGeneric(String value, String file) {
-        if (MinFreeCommands.indexOf(file) != -1)
-            MinFreeCommands.remove(MinFreeCommands.indexOf(file));
+        if (MinFreeCommands.indexOf(file) != -1) MinFreeCommands
+                .remove(MinFreeCommands.indexOf(file));
 
         MinFreeCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runVMGeneric(String value, String file) {
-        if (VMCommands.indexOf(file) != -1)
-            VMCommands.remove(VMCommands.indexOf(file));
+        if (VMCommands.indexOf(file) != -1) VMCommands.remove(VMCommands
+                .indexOf(file));
 
         VMCommands.add(file + "::sysctl -w vm." + file + "=" + value);
     }
