@@ -84,7 +84,7 @@ public class VMFragment extends Fragment implements OnClickListener,
         mVMTitle = new TextView(context);
         LayoutHelper.setTextTitle(mVMTitle, getString(R.string.vmtuning),
                 context);
-        mVMTitle.setPadding(0, Math.round(MainActivity.mHeight / 25), 0, 0);
+        mVMTitle.setPadding(0, Math.round(MainActivity.mHeight / 25), 0, 15);
         if (Utils.exist(VMHelper.VM_PATH))
             layout.addView(mVMTitle);
 

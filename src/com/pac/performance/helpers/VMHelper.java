@@ -16,13 +16,12 @@
 
 package com.pac.performance.helpers;
 
-import com.pac.performance.utils.Constants;
-import com.pac.performance.utils.Utils;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.pac.performance.utils.Constants;
+import com.pac.performance.utils.Utils;
 
 public class VMHelper implements Constants {
 
@@ -48,11 +47,10 @@ public class VMHelper implements Constants {
     public static List<String> getVMFiles() {
         List<String> dummy = new ArrayList<String>();
         if (Utils.exist(VM_PATH)) {
-            File[] filepaths = new File(VM_PATH).listFiles();
-            for (File file : filepaths)
-                for (String supported : supportedvm)
-                    if (file.getName().equals(supported))
-                        dummy.add(file.getName());
+            if (Utils.exist(VM_PATH))
+                for (String file : supportedvm)
+                    if (Utils.exist(VM_PATH + "/" + file))
+                        dummy.add(file);
         } else
             dummy.add("0");
         return dummy;
@@ -61,11 +59,10 @@ public class VMHelper implements Constants {
     public static List<String> getVMPaths() {
         List<String> dummy = new ArrayList<String>();
         if (Utils.exist(VM_PATH)) {
-            File[] filepaths = new File(VM_PATH).listFiles();
-            for (File path : filepaths)
-                for (String supported : supportedvm)
-                    if (path.getName().equals(supported))
-                        dummy.add(path.getPath());
+            if (Utils.exist(VM_PATH))
+                for (String file : supportedvm)
+                    if (Utils.exist(VM_PATH + "/" + file))
+                        dummy.add(VM_PATH + "/" + file);
         } else
             dummy.add("0");
         return dummy;
