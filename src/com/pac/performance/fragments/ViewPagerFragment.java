@@ -29,7 +29,8 @@ import android.view.ViewGroup;
 import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 
-public class ViewPagerFragment extends Fragment {
+public class ViewPagerFragment extends Fragment implements
+        ViewPager.OnPageChangeListener {
 
     public static ViewPager mViewPager;
 
@@ -45,6 +46,7 @@ public class ViewPagerFragment extends Fragment {
                 getFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(0);
+        mViewPager.setOnPageChangeListener(this);
 
         PagerTabStrip mPagerTabStrip = (PagerTabStrip) rootView
                 .findViewById(R.id.pagerTabStrip);
@@ -75,6 +77,17 @@ public class ViewPagerFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return MainActivity.mFragmentNames.get(position);
         }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int arg0) {}
+
+    @Override
+    public void onPageScrolled(int arg0, float arg1, int arg2) {}
+
+    @Override
+    public void onPageSelected(int arg0) {
+        MainActivity.actionBar.setSelectedNavigationItem(arg0);
     }
 
 }

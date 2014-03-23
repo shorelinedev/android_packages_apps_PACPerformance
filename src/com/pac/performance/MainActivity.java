@@ -35,6 +35,7 @@ import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.Utils;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -52,11 +53,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends Activity implements Constants {
+public class MainActivity extends Activity implements Constants,
+        ActionBar.OnNavigationListener {
 
     private static DrawerLayout mDrawerLayout;
     private static ListView mDrawerList;
     private static ActionBarDrawerToggle mDrawerToggle;
+
+    public static ActionBar actionBar = null;
 
     public static int mWidth = 1;
     public static int mHeight = 1;
@@ -79,6 +83,8 @@ public class MainActivity extends Activity implements Constants {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActionBar().setBackgroundDrawable(
+                getResources().getDrawable(android.R.color.holo_blue_dark));
         setContentView(R.layout.activity_main);
 
         CPUChange = BatteryChange = AudioChange = VoltageChange = IOChange = MinFreeChange = VMChange = false;
@@ -159,6 +165,15 @@ public class MainActivity extends Activity implements Constants {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+        actionBar = getActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+        actionBar.setListNavigationCallbacks(
+                new ArrayAdapter<String>(actionBar.getThemedContext(),
+                        android.R.layout.simple_list_item_1,
+                        android.R.id.text1, mFragmentNames), this);
+
         if (savedInstanceState == null) {
             Fragment fragment = new ViewPagerFragment();
 
@@ -182,10 +197,8 @@ public class MainActivity extends Activity implements Constants {
     private void selectItem(int position) {
         if (ViewPagerFragment.mViewPager != null) ViewPagerFragment.mViewPager
                 .setCurrentItem(position);
-        setDrawerSelected(position);
-    }
 
-    public void setDrawerSelected(int position) {
+        mDrawerList.setItemChecked(position, true);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
@@ -253,5 +266,11 @@ public class MainActivity extends Activity implements Constants {
     public static void showButtons(boolean show) {
         applyButton.setVisible(show);
         cancelButton.setVisible(show);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        selectItem(itemPosition);
+        return false;
     }
 }

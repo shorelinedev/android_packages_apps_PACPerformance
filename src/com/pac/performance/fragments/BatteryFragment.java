@@ -83,7 +83,7 @@ public class BatteryFragment extends Fragment implements Constants,
 
     private void setLayout() {
         mBatteryVoltageTitle = new TextView(context);
-        mBatteryVoltageTitle.setPadding(0, MainActivity.mHeight / 25, 0, 0);
+        mBatteryVoltageTitle.setPadding(0, MainActivity.mHeight / 25, 0, 15);
         if (Utils.exist(BATTERY_VOLTAGE)) layout.addView(mBatteryVoltageTitle);
 
         mBatteryVoltageText = new TextView(context);

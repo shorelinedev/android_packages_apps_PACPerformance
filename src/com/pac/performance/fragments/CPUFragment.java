@@ -122,7 +122,7 @@ public class CPUFragment extends Fragment implements Constants,
         // Current Freq
         LinearLayout mCurFreqLayout = new LinearLayout(context);
         mCurFreqLayout.setPadding(0, Math.round(MainActivity.mHeight / 25), 0,
-                0);
+                15);
         mCurFreqLayout.setOrientation(LinearLayout.VERTICAL);
         if (Utils.exist(FREQUENCY_SCALING.replace("present", "0"))
                 && Utils.exist(CORE_VALUE)) layout.addView(mCurFreqLayout);
@@ -130,6 +130,7 @@ public class CPUFragment extends Fragment implements Constants,
         TextView mCurFreqTitle = new TextView(context);
         LayoutHelper.setTextTitle(mCurFreqTitle,
                 getString(R.string.currentfreq), context);
+        mCurFreqTitle.setPadding(0, 0, 0, 15);
         mCurFreqLayout.addView(mCurFreqTitle);
 
         mCurFreqTexts = new TextView[CPUHelper.getCoreCount()];
