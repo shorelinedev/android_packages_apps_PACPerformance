@@ -91,12 +91,6 @@ public class MainActivity extends Activity implements Constants,
 
         CPUChange = BatteryChange = AudioChange = VoltageChange = IOChange = MinFreeChange = VMChange = false;
 
-        setPerm();
-
-        Display display = getWindowManager().getDefaultDisplay();
-        mWidth = display.getWidth();
-        mHeight = display.getHeight();
-
         mFragments.clear();
         mFragmentNames.clear();
 
@@ -177,6 +171,12 @@ public class MainActivity extends Activity implements Constants,
                         android.R.id.text1, mFragmentNames), this);
 
         if (savedInstanceState == null) {
+            Display display = getWindowManager().getDefaultDisplay();
+            mWidth = display.getWidth();
+            mHeight = display.getHeight();
+
+            setPerm();
+
             Fragment fragment = new ViewPagerFragment();
 
             FragmentManager fragmentManager = getFragmentManager();
