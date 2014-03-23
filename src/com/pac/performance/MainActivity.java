@@ -62,6 +62,8 @@ public class MainActivity extends Activity implements Constants,
 
     public static ActionBar actionBar = null;
 
+    private static int currentPage = 0;
+
     public static int mWidth = 1;
     public static int mHeight = 1;
 
@@ -190,13 +192,15 @@ public class MainActivity extends Activity implements Constants,
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                 long id) {
-            selectItem(position);
+            actionBar.setSelectedNavigationItem(position);
         }
     }
 
     private void selectItem(int position) {
-        if (ViewPagerFragment.mViewPager != null) ViewPagerFragment.mViewPager
+        if (currentPage != position && ViewPagerFragment.mViewPager != null) ViewPagerFragment.mViewPager
                 .setCurrentItem(position);
+
+        currentPage = position;
 
         mDrawerList.setItemChecked(position, true);
         mDrawerLayout.closeDrawer(mDrawerList);
