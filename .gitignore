@@ -4,3 +4,4 @@ bin
 gen
 libs
 project.properties
+lint.xml

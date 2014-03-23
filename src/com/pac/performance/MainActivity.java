@@ -81,6 +81,8 @@ public class MainActivity extends Activity implements Constants {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        CPUChange = BatteryChange = AudioChange = VoltageChange = IOChange = MinFreeChange = VMChange = false;
+
         setPerm();
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -208,7 +210,8 @@ public class MainActivity extends Activity implements Constants {
         setonboot = menu.findItem(R.id.action_setonboot).setChecked(
                 Utils.getBoolean("setonboot", false, getApplicationContext()));
 
-        showButtons(false);
+        showButtons(CPUChange || BatteryChange || AudioChange || VoltageChange
+                || IOChange || MinFreeChange || VMChange);
         return super.onCreateOptionsMenu(menu);
     }
 
