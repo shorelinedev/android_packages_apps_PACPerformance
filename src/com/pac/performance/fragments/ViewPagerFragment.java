@@ -33,6 +33,7 @@ public class ViewPagerFragment extends Fragment implements
         ViewPager.OnPageChangeListener {
 
     public static ViewPager mViewPager;
+    public static PagerTabStrip mPagerTabStrip;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +49,7 @@ public class ViewPagerFragment extends Fragment implements
         mViewPager.setCurrentItem(0);
         mViewPager.setOnPageChangeListener(this);
 
-        PagerTabStrip mPagerTabStrip = (PagerTabStrip) rootView
+        mPagerTabStrip = (PagerTabStrip) rootView
                 .findViewById(R.id.pagerTabStrip);
         mPagerTabStrip.setTabIndicatorColor(getResources().getColor(
                 android.R.color.white));

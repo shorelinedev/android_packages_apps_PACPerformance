@@ -18,6 +18,7 @@ package com.pac.performance;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.pac.performance.fragments.AudioFragment;
 import com.pac.performance.fragments.BatteryFragment;
@@ -40,6 +41,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -85,8 +87,13 @@ public class MainActivity extends Activity implements Constants,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActionBar().setBackgroundDrawable(
-                getResources().getDrawable(android.R.color.holo_blue_dark));
+
+        if (mWidth == 1 || mHeight == 1) {
+            Display display = getWindowManager().getDefaultDisplay();
+            mWidth = display.getWidth();
+            mHeight = display.getHeight();
+        }
+
         setContentView(R.layout.activity_main);
 
         CPUChange = BatteryChange = AudioChange = VoltageChange = IOChange = MinFreeChange = VMChange = false;
@@ -171,10 +178,6 @@ public class MainActivity extends Activity implements Constants,
                         android.R.id.text1, mFragmentNames), this);
 
         if (savedInstanceState == null) {
-            Display display = getWindowManager().getDefaultDisplay();
-            mWidth = display.getWidth();
-            mHeight = display.getHeight();
-
             setPerm();
 
             Fragment fragment = new ViewPagerFragment();
@@ -204,6 +207,14 @@ public class MainActivity extends Activity implements Constants,
 
         mDrawerList.setItemChecked(position, true);
         mDrawerLayout.closeDrawer(mDrawerList);
+
+        Random rnd = new Random();
+        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256),
+                rnd.nextInt(256));
+
+        if (ViewPagerFragment.mPagerTabStrip != null) ViewPagerFragment.mPagerTabStrip
+                .setBackgroundColor(color);
+        mDrawerList.setBackgroundColor(color);
     }
 
     @Override
