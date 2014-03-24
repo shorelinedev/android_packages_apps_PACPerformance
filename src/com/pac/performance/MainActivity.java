@@ -142,6 +142,9 @@ public class MainActivity extends Activity implements Constants,
         mFragments.add(new InformationFragment());
         mFragmentNames.add(getString(R.string.information));
 
+        Utils.saveString("kernelversion", Utils.getFormattedKernelVersion(),
+                getApplicationContext());
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
