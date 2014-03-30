@@ -49,6 +49,15 @@ public class ViewPagerFragment extends Fragment implements
         mViewPager.setCurrentItem(0);
         mViewPager.setOnPageChangeListener(this);
 
+        mViewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
+            @Override
+            public void transformPage(View arg0, float arg1) {
+                float normalizedposition = Math.abs(Math.abs(arg1) - 1);
+                arg0.setScaleX(normalizedposition / 2 + 0.5f);
+                arg0.setScaleY(normalizedposition / 2 + 0.5f);
+            }
+        });
+
         mPagerTabStrip = (PagerTabStrip) rootView
                 .findViewById(R.id.pagerTabStrip);
         mPagerTabStrip.setTabIndicatorColor(getResources().getColor(
