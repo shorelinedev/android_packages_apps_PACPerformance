@@ -17,7 +17,7 @@
 
 <resources>
 
-    <string name="app_name">PACPerformance</string>
+    <string name="pacperformance">PACPerformance</string>
     <string name="applysuccessfully">Aplicado com Sucesso</string>
     <string name="setonboot">Se habilitado todas as configurações serão restauradas ao reiniciar</string>
     <string name="newkernel">Novo kernel detetado. As suas configurações não serão aplicadas.</string>

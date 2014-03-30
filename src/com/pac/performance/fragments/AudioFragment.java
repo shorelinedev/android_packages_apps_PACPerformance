@@ -30,7 +30,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.AudioHelper;
 import com.pac.performance.helpers.LayoutHelper;
@@ -72,7 +71,7 @@ public class AudioFragment extends Fragment implements Constants,
         TextView mFauxSoundTitle = new TextView(getActivity());
         LayoutHelper.setTextTitle(mFauxSoundTitle,
                 getString(R.string.fauxsoundcontrol), getActivity());
-        mFauxSoundTitle.setPadding(0, Math.round(MainActivity.mHeight / 25), 0,
+        mFauxSoundTitle.setPadding(0, Math.round(MainFragment.mHeight / 25), 0,
                 15);
         if (Utils.exist(FAUX_SOUND_CONTROL)) layout.addView(mFauxSoundTitle);
 
@@ -167,8 +166,8 @@ public class AudioFragment extends Fragment implements Constants,
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress,
             boolean fromUser) {
-        MainActivity.AudioChange = true;
-        MainActivity.showButtons(true);
+        MainFragment.AudioChange = true;
+        MainFragment.showButtons(true);
 
         for (int i = 0; i < AudioHelper.FAUX_SOUND.length; i++)
             if (seekBar.equals(mFauxSoundBars[i])) mFauxSoundTexts[i]

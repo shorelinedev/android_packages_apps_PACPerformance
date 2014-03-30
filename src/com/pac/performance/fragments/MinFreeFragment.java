@@ -30,7 +30,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.LayoutHelper;
 import com.pac.performance.helpers.MinFreeHelper;
@@ -78,7 +77,7 @@ public class MinFreeFragment extends Fragment implements Constants,
         TextView mMinFreeTitle = new TextView(context);
         LayoutHelper.setTextTitle(mMinFreeTitle,
                 getString(R.string.minfreesettings), context);
-        mMinFreeTitle.setPadding(0, Math.round(MainActivity.mHeight / 25), 0,
+        mMinFreeTitle.setPadding(0, Math.round(MainFragment.mHeight / 25), 0,
                 15);
         layout.addView(mMinFreeTitle);
 
@@ -177,8 +176,8 @@ public class MinFreeFragment extends Fragment implements Constants,
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress,
             boolean fromUser) {
-        MainActivity.MinFreeChange = true;
-        MainActivity.showButtons(true);
+        MainFragment.MinFreeChange = true;
+        MainFragment.showButtons(true);
 
         mMinFreeList.clear();
         for (int i = 0; i < MinFreeHelper.getMinFreeValues().length; i++) {

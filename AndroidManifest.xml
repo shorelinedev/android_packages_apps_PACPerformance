@@ -15,10 +15,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@drawable/pacperformance_logo"
+        android:label="@string/pacperformance"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.pac.performance.MainActivity" >
+        <activity
+            android:name="com.pac.performance.Activity"
+            android:label="@string/pacperformance" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

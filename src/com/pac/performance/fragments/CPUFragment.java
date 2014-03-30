@@ -37,7 +37,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.CPUHelper;
 import com.pac.performance.helpers.LayoutHelper;
@@ -121,7 +120,7 @@ public class CPUFragment extends Fragment implements Constants,
 
         // Current Freq
         LinearLayout mCurFreqLayout = new LinearLayout(context);
-        mCurFreqLayout.setPadding(0, Math.round(MainActivity.mHeight / 25), 0,
+        mCurFreqLayout.setPadding(0, Math.round(MainFragment.mHeight / 25), 0,
                 15);
         mCurFreqLayout.setOrientation(LinearLayout.VERTICAL);
         if (Utils.exist(FREQUENCY_SCALING.replace("present", "0"))
@@ -158,7 +157,7 @@ public class CPUFragment extends Fragment implements Constants,
         // Create a layout for scaling
         LinearLayout mFreqScalingLayout = new LinearLayout(context);
         mFreqScalingLayout.setPaddingRelative(0,
-                Math.round(MainActivity.mHeight / 20), 0, 0);
+                Math.round(MainFragment.mHeight / 20), 0, 0);
         mFreqScalingLayout.setOrientation(LinearLayout.VERTICAL);
         if (Utils.exist(AVAILABLE_GOVERNOR)
                 || Utils.exist(MIN_SCREEN_ON)
@@ -254,7 +253,7 @@ public class CPUFragment extends Fragment implements Constants,
         LinearLayout mGovernorLayout = new LinearLayout(context);
         mGovernorLayout.setGravity(Gravity.CENTER);
         mGovernorLayout
-                .setPadding(0, (int) (MainActivity.mHeight / 21.6), 0, 0);
+                .setPadding(0, (int) (MainFragment.mHeight / 21.6), 0, 0);
         if (Utils.exist(AVAILABLE_GOVERNOR)) layout.addView(mGovernorLayout);
 
         // Governor
@@ -272,7 +271,7 @@ public class CPUFragment extends Fragment implements Constants,
         // IntelliPlug
         LinearLayout mIntelliPlugLayout = new LinearLayout(context);
         mIntelliPlugLayout.setGravity(Gravity.CENTER);
-        mIntelliPlugLayout.setPadding(0, (int) (MainActivity.mHeight / 21.6),
+        mIntelliPlugLayout.setPadding(0, (int) (MainFragment.mHeight / 21.6),
                 0, 0);
         if (Utils.exist(INTELLIPLUG)) layout.addView(mIntelliPlugLayout);
 
@@ -365,8 +364,8 @@ public class CPUFragment extends Fragment implements Constants,
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress,
             boolean fromUser) {
-        MainActivity.showButtons(true);
-        MainActivity.CPUChange = true;
+        MainFragment.showButtons(true);
+        MainFragment.CPUChange = true;
 
         if (seekBar.equals(mMaxFreqScalingBar)) {
             mMaxFreqScalingText
@@ -440,8 +439,8 @@ public class CPUFragment extends Fragment implements Constants,
         if (arg0.equals(mGovernorSpinner)) {
             if (arg2 != mAvailableGovernorList.indexOf(CPUHelper
                     .getCurGovernor())) {
-                MainActivity.showButtons(true);
-                MainActivity.CPUChange = true;
+                MainFragment.showButtons(true);
+                MainFragment.CPUChange = true;
 
                 Control.runCPUGeneric(mAvailableGovernorList.get(arg2),
                         CUR_GOVERNOR);
@@ -473,8 +472,8 @@ public class CPUFragment extends Fragment implements Constants,
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        MainActivity.showButtons(true);
-        MainActivity.CPUChange = true;
+        MainFragment.showButtons(true);
+        MainFragment.CPUChange = true;
 
         for (int i = 1; i < CPUHelper.getCoreCount(); i++)
             if (buttonView.equals(mCoreControlBoxes[i])) Control.runCPUGeneric(

@@ -17,7 +17,7 @@
 
 <resources>
 
-    <string name="app_name">PACPerformance</string>
+    <string name="pacperformance">PACPerformance</string>
     <string name="applysuccessfully">Sikeresen alkalmazva</string>
     <string name="setonboot">Alkamazd rendszerindításkor</string>
     <string name="newkernel">Új kernelt észleltem. Az értékek nem kerülnek alkalmazásra.</string>

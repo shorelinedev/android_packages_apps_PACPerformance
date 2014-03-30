@@ -28,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.cpuspy.CpuSpyApp;
 import com.pac.performance.cpuspy.CpuStateMonitor;
@@ -52,7 +51,7 @@ public class InformationFragment extends Fragment {
 
         TextView mTimeinstate = (TextView) rootView
                 .findViewById(R.id.timeinstate);
-        mTimeinstate.setPadding(0, Math.round(MainActivity.mHeight / 25), 0, 0);
+        mTimeinstate.setPadding(0, Math.round(MainFragment.mHeight / 25), 0, 0);
 
         CpuSpy(savedInstanceState);
 
@@ -260,7 +259,7 @@ public class InformationFragment extends Fragment {
             try {
                 monitor.updateStates();
             } catch (CpuStateMonitorException e) {
-                Log.e(getString(R.string.app_name),
+                Log.e(getString(R.string.pacperformance),
                         "Problem getting CPU states");
             }
 
@@ -291,6 +290,6 @@ public class InformationFragment extends Fragment {
      * logging
      */
     private void log(String s) {
-        Log.d(getString(R.string.app_name), s);
+        Log.d(getString(R.string.pacperformance), s);
     }
 }

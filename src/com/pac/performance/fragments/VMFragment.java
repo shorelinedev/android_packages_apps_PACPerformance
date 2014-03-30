@@ -30,7 +30,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.LayoutHelper;
 import com.pac.performance.helpers.VMHelper;
@@ -81,7 +80,7 @@ public class VMFragment extends Fragment implements OnClickListener,
         mVMTitle = new TextView(context);
         LayoutHelper.setTextTitle(mVMTitle, getString(R.string.vmtuning),
                 context);
-        mVMTitle.setPadding(0, Math.round(MainActivity.mHeight / 25), 0, 15);
+        mVMTitle.setPadding(0, Math.round(MainFragment.mHeight / 25), 0, 15);
         if (Utils.exist(VMHelper.VM_PATH)) layout.addView(mVMTitle);
 
         mMinusButtons = new Button[mVMFiles.size()];
@@ -127,8 +126,8 @@ public class VMFragment extends Fragment implements OnClickListener,
     @Override
     public void onClick(View v) {
         if (!v.equals(mVMTitle)) {
-            MainActivity.VMChange = true;
-            MainActivity.showButtons(true);
+            MainFragment.VMChange = true;
+            MainFragment.showButtons(true);
         }
 
         if (v.equals(mVMTitle)) InformationDialog.showInfo(mVMTitle.getText()
@@ -152,8 +151,8 @@ public class VMFragment extends Fragment implements OnClickListener,
 
     @Override
     public void afterTextChanged(Editable s) {
-        MainActivity.VMChange = true;
-        MainActivity.showButtons(true);
+        MainFragment.VMChange = true;
+        MainFragment.showButtons(true);
 
         for (int i = 0; i < mVMFiles.size(); i++)
             Control.runVMGeneric(mVMEdits[i].getText().toString(),

@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.pac.performance;
+package com.pac.performance.fragments;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.pac.performance.R;
 import com.pac.performance.fragments.AudioFragment;
 import com.pac.performance.fragments.BatteryFragment;
 import com.pac.performance.fragments.CPUFragment;
@@ -27,7 +28,6 @@ import com.pac.performance.fragments.InformationFragment;
 import com.pac.performance.fragments.IOFragment;
 import com.pac.performance.fragments.MinFreeFragment;
 import com.pac.performance.fragments.VMFragment;
-import com.pac.performance.fragments.ViewPagerFragment;
 import com.pac.performance.fragments.VoltageFragment;
 import com.pac.performance.helpers.RootHelper;
 import com.pac.performance.helpers.VMHelper;
@@ -37,34 +37,35 @@ import com.pac.performance.utils.Control;
 import com.pac.performance.utils.Utils;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerTabStrip;
+import android.support.v4.view.ViewPager;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+// Remove this if you build with Eclipse etc.
+import android.preference.PreferenceFrameLayout;
 
-public class MainActivity extends Activity implements Constants,
-        ActionBar.OnNavigationListener {
+public class MainFragment extends Fragment implements Constants,
+        ActionBar.OnNavigationListener, ViewPager.OnPageChangeListener {
 
-    private static DrawerLayout mDrawerLayout;
-    private static ListView mDrawerList;
-    private static ActionBarDrawerToggle mDrawerToggle;
+    public static ViewPager mViewPager;
+    public static PagerTabStrip mPagerTabStrip;
 
     public static ActionBar actionBar = null;
 
     private static int currentPage = 0;
+
+    private static Random rnd = new Random();
 
     public static int mWidth = 1;
     public static int mHeight = 1;
@@ -85,19 +86,48 @@ public class MainActivity extends Activity implements Constants,
     public static boolean VMChange = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
 
         if (mWidth == 1 || mHeight == 1) {
-            Display display = getWindowManager().getDefaultDisplay();
+            Display display = getActivity().getWindowManager()
+                    .getDefaultDisplay();
             mWidth = display.getWidth();
             mHeight = display.getHeight();
         }
 
-        setContentView(R.layout.activity_main);
+        View rootView = inflater.inflate(R.layout.fragment_main, container,
+                false);
 
         CPUChange = BatteryChange = AudioChange = VoltageChange = IOChange = MinFreeChange = VMChange = false;
 
+        Utils.saveString("kernelversion", Utils.getFormattedKernelVersion(),
+                getActivity());
+
+        setPerm();
+
+        setFragments();
+
+        setViewPager(rootView);
+
+        actionBar = getActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+        actionBar.setListNavigationCallbacks(
+                new ArrayAdapter<String>(actionBar.getThemedContext(),
+                        android.R.layout.simple_list_item_1,
+                        android.R.id.text1, mFragmentNames), this);
+
+        // Remove this if you build with Eclipse etc.
+        if (container instanceof PreferenceFrameLayout) ((PreferenceFrameLayout.LayoutParams) rootView
+                .getLayoutParams()).removeBorders = true;
+
+        return rootView;
+    }
+
+    private void setFragments() {
         mFragments.clear();
         mFragmentNames.clear();
 
@@ -141,137 +171,114 @@ public class MainActivity extends Activity implements Constants,
         // add Information Fragment
         mFragments.add(new InformationFragment());
         mFragmentNames.add(getString(R.string.information));
-
-        Utils.saveString("kernelversion", Utils.getFormattedKernelVersion(),
-                getApplicationContext());
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-                GravityCompat.START);
-
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.fragment_list, mFragmentNames));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.ic_drawer, R.string.drawer_open,
-                R.string.drawer_close) {
-            public void onDrawerClosed(View view) {
-                invalidateOptionsMenu();
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                invalidateOptionsMenu();
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-        actionBar.setListNavigationCallbacks(
-                new ArrayAdapter<String>(actionBar.getThemedContext(),
-                        android.R.layout.simple_list_item_1,
-                        android.R.id.text1, mFragmentNames), this);
-
-        if (savedInstanceState == null) {
-            setPerm();
-
-            Fragment fragment = new ViewPagerFragment();
-
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment).commit();
-            selectItem(0);
-        }
-
     }
 
-    private class DrawerItemClickListener implements
-            ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
-                long id) {
-            actionBar.setSelectedNavigationItem(position);
+    private void setViewPager(View rootView) {
+        assert rootView != null;
+        mViewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(
+                getFragmentManager());
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(0);
+        mViewPager.setOnPageChangeListener(this);
+
+        mPagerTabStrip = (PagerTabStrip) rootView
+                .findViewById(R.id.pagerTabStrip);
+        mPagerTabStrip.setTabIndicatorColor(getResources().getColor(
+                android.R.color.white));
+        mPagerTabStrip.setDrawFullUnderline(false);
+
+        mViewPager.setOffscreenPageLimit(mFragments.size());
+    }
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
         }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentNames.get(position);
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int arg0) {}
+
+    @Override
+    public void onPageScrolled(int arg0, float arg1, int arg2) {}
+
+    @Override
+    public void onPageSelected(int arg0) {
+        MainFragment.actionBar.setSelectedNavigationItem(arg0);
+    }
+
+    private ActionBar getActionBar() {
+        return getActivity().getActionBar();
     }
 
     private void selectItem(int position) {
-        if (currentPage != position && ViewPagerFragment.mViewPager != null) ViewPagerFragment.mViewPager
+        if (currentPage != position && mViewPager != null) mViewPager
                 .setCurrentItem(position);
 
         currentPage = position;
 
-        mDrawerList.setItemChecked(position, true);
-        mDrawerLayout.closeDrawer(mDrawerList);
-
-        Random rnd = new Random();
         int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256),
                 rnd.nextInt(256));
 
-        if (ViewPagerFragment.mPagerTabStrip != null) ViewPagerFragment.mPagerTabStrip
-                .setBackgroundColor(color);
-        mDrawerList.setBackgroundColor(color);
+        if (mPagerTabStrip != null) mPagerTabStrip.setBackgroundColor(color);
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.pacperformancemenu, menu);
         applyButton = menu.findItem(R.id.action_apply);
         cancelButton = menu.findItem(R.id.action_cancel);
         setonboot = menu.findItem(R.id.action_setonboot).setChecked(
-                Utils.getBoolean("setonboot", false, getApplicationContext()));
+                Utils.getBoolean("setonboot", false, getActivity()));
 
         showButtons(CPUChange || BatteryChange || AudioChange || VoltageChange
                 || IOChange || MinFreeChange || VMChange);
-        return super.onCreateOptionsMenu(menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_apply:
-                if (CPUChange) Control.setCPU(getApplicationContext());
-                if (BatteryChange) Control.setBattery(getApplicationContext());
-                if (AudioChange) Control.setAudio(getApplicationContext());
-                if (VoltageChange) Control.setVoltage(getApplicationContext());
-                if (IOChange) Control.setIO(getApplicationContext());
-                if (MinFreeChange) Control.setMinFree(getApplicationContext());
-                if (VMChange) Control.setVM(getApplicationContext());
+                if (CPUChange) Control.setCPU(getActivity());
+                if (BatteryChange) Control.setBattery(getActivity());
+                if (AudioChange) Control.setAudio(getActivity());
+                if (VoltageChange) Control.setVoltage(getActivity());
+                if (IOChange) Control.setIO(getActivity());
+                if (MinFreeChange) Control.setMinFree(getActivity());
+                if (VMChange) Control.setVM(getActivity());
 
                 Control.reset();
                 Utils.toast(getString(R.string.applysuccessfully),
-                        getApplicationContext());
+                        getActivity());
                 break;
             case R.id.action_cancel:
                 Control.reset();
                 break;
             case R.id.action_setonboot:
                 Utils.saveBoolean("setonboot", !setonboot.isChecked(),
-                        getApplicationContext());
+                        getActivity());
                 setonboot.setChecked(!setonboot.isChecked());
                 break;
         }
-        return mDrawerToggle.onOptionsItemSelected(item);
+        return true;
     }
 
     private void setPerm() {

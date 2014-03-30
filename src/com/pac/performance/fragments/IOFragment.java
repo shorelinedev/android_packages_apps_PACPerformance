@@ -34,7 +34,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.IOHelper;
 import com.pac.performance.helpers.LayoutHelper;
@@ -104,7 +103,7 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
         // Internal storage scheduler
         LinearLayout mInternalSchedulerLayout = new LinearLayout(context);
         mInternalSchedulerLayout.setPadding(0,
-                Math.round(MainActivity.mHeight / 25), 0, 0);
+                Math.round(MainFragment.mHeight / 25), 0, 0);
         mInternalSchedulerLayout.setGravity(Gravity.CENTER);
         if (Utils.exist(INTERNAL_SCHEDULER)) layout
                 .addView(mInternalSchedulerLayout);
@@ -125,7 +124,7 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
         // External storage scheduler
         LinearLayout mExternalSchedulerLayout = new LinearLayout(context);
         mExternalSchedulerLayout.setPadding(0,
-                Math.round(MainActivity.mHeight / 25), 0, 0);
+                Math.round(MainFragment.mHeight / 25), 0, 0);
         mExternalSchedulerLayout.setGravity(Gravity.CENTER);
         if (Utils.exist(EXTERNAL_SCHEDULER)) layout
                 .addView(mExternalSchedulerLayout);
@@ -147,7 +146,7 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
         mInternalReadTitle = new TextView(context);
         LayoutHelper.setTextTitle(mInternalReadTitle,
                 getString(R.string.internalstorageread), context);
-        mInternalReadTitle.setPadding(0, Math.round(MainActivity.mHeight / 25),
+        mInternalReadTitle.setPadding(0, Math.round(MainFragment.mHeight / 25),
                 0, 0);
         if (Utils.exist(INTERNAL_READ)) layout.addView(mInternalReadTitle);
 
@@ -174,7 +173,7 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
         mExternalReadTitle = new TextView(context);
         LayoutHelper.setTextTitle(mExternalReadTitle,
                 getString(R.string.externalstorageread), context);
-        mExternalReadTitle.setPadding(0, Math.round(MainActivity.mHeight / 25),
+        mExternalReadTitle.setPadding(0, Math.round(MainFragment.mHeight / 25),
                 0, 0);
         if (Utils.exist(EXTERNAL_READ)) layout.addView(mExternalReadTitle);
 
@@ -259,8 +258,8 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
         if (arg0.equals(mInternalSchedulerSpinner)) {
             if (arg2 != mAvailableInternalSchedulersList.indexOf(IOHelper
                     .getCurInternalScheduler())) {
-                MainActivity.showButtons(true);
-                MainActivity.IOChange = true;
+                MainFragment.showButtons(true);
+                MainFragment.IOChange = true;
 
                 Control.runIOGeneric(
                         mAvailableInternalSchedulersList.get(arg2),
@@ -270,8 +269,8 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
 
         if (arg0.equals(mExternalSchedulerSpinner)) if (arg2 != mAvailableExternalSchedulersList
                 .indexOf(IOHelper.getCurExternalScheduler())) {
-            MainActivity.showButtons(true);
-            MainActivity.IOChange = true;
+            MainFragment.showButtons(true);
+            MainFragment.IOChange = true;
 
             Control.runIOGeneric(mAvailableExternalSchedulersList.get(arg2),
                     EXTERNAL_SCHEDULER);
@@ -284,8 +283,8 @@ public class IOFragment extends Fragment implements Constants, OnClickListener,
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress,
             boolean fromUser) {
-        MainActivity.IOChange = true;
-        MainActivity.showButtons(true);
+        MainFragment.IOChange = true;
+        MainFragment.showButtons(true);
         if (seekBar.equals(mInternalReadBar)) mInternalReadText.setText(String
                 .valueOf(progress * 128 + 128) + getString(R.string.kb));
         if (seekBar.equals(mExternalReadBar)) mExternalReadText.setText(String

@@ -32,7 +32,7 @@ import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.pac.performance.R;
-import com.pac.performance.MainActivity;
+import com.pac.performance.fragments.MainFragment;
 
 public class LayoutHelper {
 
@@ -93,7 +93,7 @@ public class LayoutHelper {
             int selection) {
         i.setAdapter(adapter);
         i.setSelection(selection);
-        i.setPadding(MainActivity.mWidth / 13, 0, MainActivity.mWidth / 13, 0);
+        i.setPadding(MainFragment.mWidth / 13, 0, MainFragment.mWidth / 13, 0);
     }
 
     public static void setSeekBarText(TextView i, String text) {
@@ -116,7 +116,7 @@ public class LayoutHelper {
             Context context) {
         i.setMax(max);
         i.setProgress(progress);
-        i.setPadding(MainActivity.mWidth / 13, 0, MainActivity.mWidth / 13, 0);
+        i.setPadding(MainFragment.mWidth / 13, 0, MainFragment.mWidth / 13, 0);
         i.setProgressDrawable(context.getResources().getDrawable(
                 R.drawable.seekbar_progress_bg));
         i.setThumb(context.getResources().getDrawable(

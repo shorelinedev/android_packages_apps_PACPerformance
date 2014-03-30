@@ -15,15 +15,14 @@
   limitations under the License.
 -->
 <resources>
-    <string name="app_name">PAC 性能</string>
+
+    <string name="pacperformance">PAC 性能</string>
     <string name="applysuccessfully">应用成功</string>
     <string name="setonboot">启动时设置</string>
     <string name="newkernel">检测到新内核。您的设置不会生效。</string>
     <string name="ppbootedup">PAC 性能已启动</string>
     <string name="apply">应用</string>
     <string name="cancel">取消</string>
-    <string name="drawer_open">打开导航抽屉</string>
-    <string name="drawer_close">关闭导航抽屉</string>
 
     <!-- Units -->
     <string name="mhz">MHz</string>

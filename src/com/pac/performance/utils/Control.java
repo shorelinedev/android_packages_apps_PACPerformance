@@ -23,7 +23,7 @@ import com.pac.performance.fragments.AudioFragment;
 import com.pac.performance.fragments.BatteryFragment;
 import com.pac.performance.fragments.CPUFragment;
 import com.pac.performance.fragments.IOFragment;
-import com.pac.performance.MainActivity;
+import com.pac.performance.fragments.MainFragment;
 import com.pac.performance.fragments.MinFreeFragment;
 import com.pac.performance.fragments.VMFragment;
 import com.pac.performance.fragments.VoltageFragment;
@@ -117,35 +117,35 @@ public class Control implements Constants {
         Runnable r = new Runnable() {
             public void run() {
 
-                if (CPUFragment.layout != null && MainActivity.CPUChange) CPUFragment
+                if (CPUFragment.layout != null && MainFragment.CPUChange) CPUFragment
                         .setValues();
 
                 if (BatteryFragment.layout != null
-                        && MainActivity.BatteryChange) BatteryFragment
+                        && MainFragment.BatteryChange) BatteryFragment
                         .setValues();
 
-                if (AudioFragment.layout != null && MainActivity.AudioChange) AudioFragment
+                if (AudioFragment.layout != null && MainFragment.AudioChange) AudioFragment
                         .setValues();
 
                 if (VoltageFragment.layout != null
-                        && MainActivity.VoltageChange) VoltageFragment
+                        && MainFragment.VoltageChange) VoltageFragment
                         .setValues();
 
-                if (IOFragment.layout != null && MainActivity.IOChange) IOFragment
+                if (IOFragment.layout != null && MainFragment.IOChange) IOFragment
                         .setValues();
 
                 if (MinFreeFragment.layout != null
-                        && MainActivity.MinFreeChange) MinFreeFragment
+                        && MainFragment.MinFreeChange) MinFreeFragment
                         .setValues();
 
-                if (VMFragment.layout != null && MainActivity.VMChange) VMFragment
+                if (VMFragment.layout != null && MainFragment.VMChange) VMFragment
                         .setValues();
 
-                MainActivity.CPUChange = MainActivity.BatteryChange = MainActivity.AudioChange = false;
-                MainActivity.VoltageChange = MainActivity.IOChange = MainActivity.MinFreeChange = false;
-                MainActivity.VMChange = false;
+                MainFragment.CPUChange = MainFragment.BatteryChange = MainFragment.AudioChange = false;
+                MainFragment.VoltageChange = MainFragment.IOChange = MainFragment.MinFreeChange = false;
+                MainFragment.VMChange = false;
 
-                MainActivity.showButtons(false);
+                MainFragment.showButtons(false);
 
                 CPUCommands.clear();
                 BatteryCommands.clear();

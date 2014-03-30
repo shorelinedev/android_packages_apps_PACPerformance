@@ -85,7 +85,7 @@ public class Shell {
             /**
              * The flow of execution will wait for the thread to die or wait
              * until the given timeout has expired.
-             * 
+             *
              * The result of the worker, which is determined by the exit code of
              * the worker, will tell us if the operation was completed
              * successfully or it the operation failed.
@@ -126,10 +126,10 @@ public class Shell {
             else {
                 /**
                  * The shell is open.
-                 * 
+                 *
                  * Start two threads, one to handle the input and one to handle
                  * the output.
-                 * 
+                 *
                  * input, and output are runnables that the threads execute.
                  */
                 /*
@@ -247,7 +247,7 @@ public class Shell {
                                 /**
                                  * trying to determine if all commands have been
                                  * completed.
-                                 * 
+                                 *
                                  * if the token is present then the command has
                                  * finished execution.
                                  */
@@ -473,11 +473,11 @@ public class Shell {
 
             /**
              * Trying to open the shell.
-             * 
+             *
              * We echo "Started" and we look for it in the output.
-             * 
+             *
              * If we find the output then the shell is open and we return.
-             * 
+             *
              * If we do not find it then we determine the error and report it by
              * setting the value of the variable exit
              */

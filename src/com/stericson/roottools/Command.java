@@ -57,7 +57,7 @@ public abstract class Command {
 
     /**
      * Constructor for executing a normal shell command
-     * 
+     *
      * @param id
      *            the id of the command being executed
      * @param command

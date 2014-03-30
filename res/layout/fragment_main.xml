@@ -13,6 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -27,7 +28,6 @@
             android:id="@+id/pagerTabStrip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_light"
             android:textSize="15sp"
             android:textStyle="bold" />
     </android.support.v4.view.ViewPager>

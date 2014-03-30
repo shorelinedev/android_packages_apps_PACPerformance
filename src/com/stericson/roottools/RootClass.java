@@ -21,12 +21,12 @@ public class RootClass /* #ANNOTATIONS extends AbstractProcessor */{
 
     /*
      * #ANNOTATIONS
-     * 
+     *
      * @Override public boolean process(Set<? extends TypeElement> typeElements,
      * RoundEnvironment roundEnvironment) {
      * processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,
      * "I was invoked!!!");
-     * 
+     *
      * return false; }
      */
 

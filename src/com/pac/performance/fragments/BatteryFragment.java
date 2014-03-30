@@ -35,7 +35,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.BatteryHelper;
 import com.pac.performance.helpers.LayoutHelper;
@@ -83,7 +82,7 @@ public class BatteryFragment extends Fragment implements Constants,
 
     private void setLayout() {
         mBatteryVoltageTitle = new TextView(context);
-        mBatteryVoltageTitle.setPadding(0, MainActivity.mHeight / 25, 0, 15);
+        mBatteryVoltageTitle.setPadding(0, MainFragment.mHeight / 25, 0, 15);
         if (Utils.exist(BATTERY_VOLTAGE)) layout.addView(mBatteryVoltageTitle);
 
         mBatteryVoltageText = new TextView(context);
@@ -91,7 +90,7 @@ public class BatteryFragment extends Fragment implements Constants,
 
         LinearLayout mFastChargeLayout = new LinearLayout(context);
         mFastChargeLayout.setGravity(Gravity.CENTER);
-        mFastChargeLayout.setPadding(0, (int) (MainActivity.mHeight / 21.6), 0,
+        mFastChargeLayout.setPadding(0, (int) (MainFragment.mHeight / 21.6), 0,
                 0);
         if (Utils.exist(FAST_CHARGE)) layout.addView(mFastChargeLayout);
 
@@ -100,7 +99,7 @@ public class BatteryFragment extends Fragment implements Constants,
 
         mBLXTitle = new TextView(context);
         LayoutHelper.setTextTitle(mBLXTitle, getString(R.string.blx), context);
-        mBLXTitle.setPadding(0, (int) (MainActivity.mHeight / 21.6), 0, 0);
+        mBLXTitle.setPadding(0, (int) (MainFragment.mHeight / 21.6), 0, 0);
         if (Utils.exist(BLX)) layout.addView(mBLXTitle);
 
         mBLXText = new TextView(context);
@@ -180,8 +179,8 @@ public class BatteryFragment extends Fragment implements Constants,
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        MainActivity.BatteryChange = true;
-        MainActivity.showButtons(true);
+        MainFragment.BatteryChange = true;
+        MainFragment.showButtons(true);
         if (buttonView.equals(mFastChargeBox)) Control.runBatteryGeneric(
                 isChecked ? "1" : "0", FAST_CHARGE);
     }
@@ -189,8 +188,8 @@ public class BatteryFragment extends Fragment implements Constants,
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress,
             boolean fromUser) {
-        MainActivity.BatteryChange = true;
-        MainActivity.showButtons(true);
+        MainFragment.BatteryChange = true;
+        MainFragment.showButtons(true);
 
         if (seekBar.equals(mBLXBar)) {
             mBLXText.setText(String.valueOf(progress));

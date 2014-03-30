@@ -30,7 +30,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.pac.performance.MainActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.LayoutHelper;
 import com.pac.performance.helpers.VoltageHelper;
@@ -103,7 +102,7 @@ public class VoltageFragment extends Fragment implements OnClickListener,
         LayoutHelper.setTextTitle(mVoltageText,
                 getString(R.string.voltagecontrol), context);
         mVoltageText
-                .setPadding(0, Math.round(MainActivity.mHeight / 25), 0, 15);
+                .setPadding(0, Math.round(MainFragment.mHeight / 25), 0, 15);
         if (Utils.exist(VoltageHelper.CPU_VOLTAGE)) layout
                 .addView(mVoltageText);
 
@@ -156,7 +155,7 @@ public class VoltageFragment extends Fragment implements OnClickListener,
         mFauxVoltageText = new TextView(context);
         LayoutHelper.setTextTitle(mFauxVoltageText,
                 getString(R.string.fauxvoltagecontrol), context);
-        mFauxVoltageText.setPadding(0, Math.round(MainActivity.mHeight / 25),
+        mFauxVoltageText.setPadding(0, Math.round(MainFragment.mHeight / 25),
                 0, 15);
         if (Utils.exist(VoltageHelper.FAUX_VOLTAGE)) layout
                 .addView(mFauxVoltageText);
@@ -265,8 +264,8 @@ public class VoltageFragment extends Fragment implements OnClickListener,
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress,
             boolean fromUser) {
-        MainActivity.showButtons(true);
-        MainActivity.VoltageChange = true;
+        MainFragment.showButtons(true);
+        MainFragment.VoltageChange = true;
 
         mVoltageList.clear();
         for (int i = 0; i < mVoltagesMV.length; i++) {
