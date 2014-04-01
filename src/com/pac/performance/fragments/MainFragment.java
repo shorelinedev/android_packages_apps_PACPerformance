@@ -86,9 +86,19 @@ public class MainFragment extends Fragment implements Constants,
     public static boolean VMChange = false;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
+        getActionBar().setIcon(
+                getResources().getDrawable(R.drawable.pacperformance_logo));
 
         if (mWidth == 1 || mHeight == 1) {
             Display display = getActivity().getWindowManager()
@@ -276,6 +286,9 @@ public class MainFragment extends Fragment implements Constants,
                 Utils.saveBoolean("setonboot", !setonboot.isChecked(),
                         getActivity());
                 setonboot.setChecked(!setonboot.isChecked());
+                break;
+            case android.R.id.home:
+                getActivity().finish();
                 break;
         }
         return true;
