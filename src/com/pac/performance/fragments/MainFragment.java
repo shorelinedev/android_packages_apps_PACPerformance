@@ -40,6 +40,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerTabStrip;
@@ -248,6 +249,7 @@ public class MainFragment extends Fragment implements Constants,
                 rnd.nextInt(256));
 
         if (mPagerTabStrip != null) mPagerTabStrip.setBackgroundColor(color);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(color));
     }
 
     @Override
@@ -258,8 +260,7 @@ public class MainFragment extends Fragment implements Constants,
         setonboot = menu.findItem(R.id.action_setonboot).setChecked(
                 Utils.getBoolean("setonboot", false, getActivity()));
 
-        showButtons(CPUChange || BatteryChange || AudioChange || VoltageChange
-                || IOChange || MinFreeChange || VMChange);
+        showButtons(false);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
