@@ -24,8 +24,6 @@
     <string name="ppbootedup">Производительность PAC загрузился</string>
     <string name="apply">Применить</string>
     <string name="cancel">Отмена</string>
-    <string name="drawer_open">Открыть меню навигации</string>
-    <string name="drawer_close">Закрыть меню навигации</string>
 
     <!-- Units -->
     <string name="mhz">МГц</string>
