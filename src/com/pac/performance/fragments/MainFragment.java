@@ -55,7 +55,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 // Remove this if you build with Eclipse etc.
-//import android.preference.PreferenceFrameLayout;
+import android.preference.PreferenceFrameLayout;
 
 public class MainFragment extends Fragment implements Constants,
         ActionBar.OnNavigationListener, ViewPager.OnPageChangeListener {
@@ -135,9 +135,8 @@ public class MainFragment extends Fragment implements Constants,
                         android.R.id.text1, mFragmentNames), this);
 
         // Remove this if you build with Eclipse etc.
-        // if (container instanceof PreferenceFrameLayout)
-        // ((PreferenceFrameLayout.LayoutParams) rootView
-        // .getLayoutParams()).removeBorders = true;
+        if (container instanceof PreferenceFrameLayout) ((PreferenceFrameLayout.LayoutParams) rootView
+                .getLayoutParams()).removeBorders = true;
 
         return rootView;
     }
