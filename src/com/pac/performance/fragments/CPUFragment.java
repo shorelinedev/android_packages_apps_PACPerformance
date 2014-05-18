@@ -19,7 +19,6 @@ package com.pac.performance.fragments;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +56,6 @@ public class CPUFragment extends Fragment implements Constants,
 
     public static LinearLayout layout = null;
 
-    private static Handler hand = new Handler();
     private static TextView[] mCurFreqTexts;
 
     private static CheckBox[] mCoreControlBoxes;
@@ -326,38 +324,22 @@ public class CPUFragment extends Fragment implements Constants,
                 context.getString(R.string.intelliplugecomode), context);
     }
 
-    @Override
-    public void onResume() {
-        hand.postDelayed(run, 0);
-        super.onResume();
-    }
-
-    Runnable run = new Runnable() {
-        @Override
-        public void run() {
-            setCurFreq();
-            hand.postDelayed(run, 1000);
-        }
-    };
-
-    @Override
-    public void onDestroy() {
-        hand.removeCallbacks(run);
-        super.onDestroy();
-    }
-
-    private static void setCurFreq() {
+    public static void setCurFreq() {
         for (int i = 0; i < CPUHelper.getCoreCount(); i += 2) {
-            String freq1 = CPUHelper.getFreqScaling(i) == 0 ? context
-                    .getString(R.string.offline) : String.valueOf(CPUHelper
-                    .getFreqScaling(i) / 1000) + "MHz";
-            String freq2 = CPUHelper.getFreqScaling(i + 1) == 0 ? context
-                    .getString(R.string.offline) : String.valueOf(CPUHelper
-                    .getFreqScaling(i + 1) / 1000) + "MHz";
-            mCurFreqTexts[i].setText(CPUHelper.getCoreCount() == 1 ? "Core "
-                    + String.valueOf(i + 1) + ": " + freq1 : "Core "
-                    + String.valueOf(i + 1) + ": " + freq1 + " Core "
-                    + String.valueOf(i + 2) + ": " + freq2);
+            if (context != null) {
+                String freq1 = CPUHelper.getFreqScaling(i) == 0 ? context
+                        .getString(R.string.offline) : String.valueOf(CPUHelper
+                        .getFreqScaling(i) / 1000) + "MHz";
+                String freq2 = CPUHelper.getFreqScaling(i + 1) == 0 ? context
+                        .getString(R.string.offline) : String.valueOf(CPUHelper
+                        .getFreqScaling(i + 1) / 1000) + "MHz";
+                if (mCurFreqTexts[i] != null) mCurFreqTexts[i]
+                        .setText(CPUHelper.getCoreCount() == 1 ? "Core "
+                                + String.valueOf(i + 1) + ": " + freq1
+                                : "Core " + String.valueOf(i + 1) + ": "
+                                        + freq1 + " Core "
+                                        + String.valueOf(i + 2) + ": " + freq2);
+            }
         }
     }
 

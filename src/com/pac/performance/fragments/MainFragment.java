@@ -42,6 +42,7 @@ import android.app.FragmentManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -54,7 +55,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 // Remove this if you build with Eclipse etc.
-import android.preference.PreferenceFrameLayout;
+//import android.preference.PreferenceFrameLayout;
 
 public class MainFragment extends Fragment implements Constants,
         ActionBar.OnNavigationListener, ViewPager.OnPageChangeListener {
@@ -85,6 +86,8 @@ public class MainFragment extends Fragment implements Constants,
     public static boolean IOChange = false;
     public static boolean MinFreeChange = false;
     public static boolean VMChange = false;
+
+    private final Handler hand = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,8 +135,9 @@ public class MainFragment extends Fragment implements Constants,
                         android.R.id.text1, mFragmentNames), this);
 
         // Remove this if you build with Eclipse etc.
-        if (container instanceof PreferenceFrameLayout) ((PreferenceFrameLayout.LayoutParams) rootView
-                .getLayoutParams()).removeBorders = true;
+        // if (container instanceof PreferenceFrameLayout)
+        // ((PreferenceFrameLayout.LayoutParams) rootView
+        // .getLayoutParams()).removeBorders = true;
 
         return rootView;
     }
@@ -288,6 +292,9 @@ public class MainFragment extends Fragment implements Constants,
                         getActivity());
                 setonboot.setChecked(!setonboot.isChecked());
                 break;
+            case R.id.action_refresh_info:
+                InformationFragment.refreshData();
+                break;
             case android.R.id.home:
                 getActivity().finish();
                 break;
@@ -311,5 +318,26 @@ public class MainFragment extends Fragment implements Constants,
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         selectItem(itemPosition);
         return false;
+    }
+
+    @Override
+    public void onResume() {
+        hand.postDelayed(run, 0);
+        super.onResume();
+    }
+
+    Runnable run = new Runnable() {
+        @Override
+        public void run() {
+            CPUFragment.setCurFreq();
+            BatteryFragment.setBatteryVoltage();
+            hand.postDelayed(run, 1000);
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        hand.removeCallbacks(run);
+        super.onDestroy();
     }
 }

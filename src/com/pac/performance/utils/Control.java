@@ -117,6 +117,8 @@ public class Control implements Constants {
         Runnable r = new Runnable() {
             public void run() {
 
+                MainFragment.showButtons(false);
+
                 if (CPUFragment.layout != null && MainFragment.CPUChange) CPUFragment
                         .setValues();
 
@@ -145,8 +147,6 @@ public class Control implements Constants {
                 MainFragment.VoltageChange = MainFragment.IOChange = MainFragment.MinFreeChange = false;
                 MainFragment.VMChange = false;
 
-                MainFragment.showButtons(false);
-
                 CPUCommands.clear();
                 BatteryCommands.clear();
                 AudioCommands.clear();
@@ -158,7 +158,7 @@ public class Control implements Constants {
         };
         Handler handler = new Handler();
         handler.post(r);
-        handler.postDelayed(r, 500);
+        handler.postDelayed(r, 600);
     }
 
     public static void runCPUGeneric(String value, String file) {
@@ -180,13 +180,13 @@ public class Control implements Constants {
                 .remove(AudioCommands.indexOf(file));
 
         if (file.equals(FAUX_HEADPHONE_GAIN)) AudioCommands.add(String
-                .valueOf(file + "::echo " + Integer.parseInt(value) + 40 + " "
-                        + Integer.parseInt(value) + 40 + " > " + file));
+                .valueOf(file + "::echo " + (Integer.parseInt(value) + 40)
+                        + " " + (Integer.parseInt(value) + 40) + " > " + file));
         else if (file.equals(FAUX_HEADPHONE_PA_GAIN)) AudioCommands.add(String
-                .valueOf(file + "::echo " + Integer.parseInt(value) + 12 + " "
-                        + Integer.parseInt(value) + 12 + " > " + file));
+                .valueOf(file + "::echo " + (Integer.parseInt(value) + 12)
+                        + " " + (Integer.parseInt(value) + 12) + " > " + file));
         else AudioCommands.add(String.valueOf(file + "::echo "
-                + Integer.parseInt(value) + 40 + " > " + file));
+                + (Integer.parseInt(value) + 40) + " > " + file));
     }
 
     public static void runVoltageGeneric(String value, String file) {

@@ -16,10 +16,11 @@
 
 package com.pac.performance.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,13 +40,13 @@ import java.util.List;
 
 public class InformationFragment extends Fragment {
 
-    private static Handler hand = new Handler();
-
     private static View rootView;
+    private static Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        context = getActivity();
         setHasOptionsMenu(true);
         rootView = inflater.inflate(R.layout.info, container, false);
 
@@ -74,7 +75,7 @@ public class InformationFragment extends Fragment {
     /**
      * whether or not we're updating the data in the background
      */
-    private boolean _updatingData = false;
+    private static boolean _updatingData = false;
 
     private void CpuSpy(Bundle savedInstanceState) {
         // inflate the view, stash the app context, and get all UI elements
@@ -98,6 +99,12 @@ public class InformationFragment extends Fragment {
                 .findViewById(R.id.ui_total_state_time);
     }
 
+    @Override
+    public void onResume() {
+        refreshData();
+        super.onResume();
+    }
+
     /**
      * When the activity is about to change orientation
      */
@@ -108,32 +115,9 @@ public class InformationFragment extends Fragment {
     }
 
     /**
-     * Update the view when the application regains focus
-     */
-    @Override
-    public void onResume() {
-        hand.postDelayed(run, 0);
-        super.onResume();
-    }
-
-    Runnable run = new Runnable() {
-        @Override
-        public void run() {
-            refreshData();
-            hand.postDelayed(run, 1000);
-        }
-    };
-
-    @Override
-    public void onDestroy() {
-        hand.removeCallbacks(run);
-        super.onDestroy();
-    }
-
-    /**
      * Generate and update all UI elements
      */
-    public void updateView() {
+    public static void updateView() {
         /**
          * Get the CpuStateMonitor from the app, and iterate over all states,
          * creating a row if the duration is > 0 or otherwise marking it in
@@ -144,8 +128,8 @@ public class InformationFragment extends Fragment {
         List<String> extraStates = new ArrayList<String>();
         for (CpuState state : monitor.getStates())
             if (state.duration > 0) generateStateRow(state, _uiStatesView);
-            else if (state.freq == 0) extraStates
-                    .add(getString(R.string.deepsleep));
+            else if (state.freq == 0) extraStates.add(context
+                    .getString(R.string.deepsleep));
             else extraStates.add(state.freq / 1000 + " MHz");
 
         // show the red warning label if no states found
@@ -181,7 +165,7 @@ public class InformationFragment extends Fragment {
     /**
      * Attempt to update the time-in-state info
      */
-    public void refreshData() {
+    public static void refreshData() {
         if (!_updatingData) new RefreshStateDataTask().execute((Void) null);
     }
 
@@ -206,9 +190,9 @@ public class InformationFragment extends Fragment {
      * @return a View that correpsonds to a CPU freq state row as specified by
      *         the state parameter
      */
-    private View generateStateRow(CpuState state, ViewGroup parent) {
+    private static View generateStateRow(CpuState state, ViewGroup parent) {
         // inflate the XML into a view in the parent
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         LinearLayout theRow = (LinearLayout) inflater.inflate(
                 R.layout.state_row, parent, false);
 
@@ -219,8 +203,8 @@ public class InformationFragment extends Fragment {
 
         // state name
         String sFreq;
-        sFreq = state.freq == 0 ? getString(R.string.deepsleep) : state.freq
-                / 1000 + " " + getString(R.string.mhz);
+        sFreq = state.freq == 0 ? context.getString(R.string.deepsleep)
+                : state.freq / 1000 + " " + context.getString(R.string.mhz);
 
         // duration
         long tSec = state.duration / 100;
@@ -248,7 +232,8 @@ public class InformationFragment extends Fragment {
     /**
      * Keep updating the state data off the UI thread for slow devices
      */
-    protected class RefreshStateDataTask extends AsyncTask<Void, Void, Void> {
+    protected static class RefreshStateDataTask extends
+            AsyncTask<Void, Void, Void> {
 
         /**
          * Stuff to do on a seperate thread
@@ -259,7 +244,7 @@ public class InformationFragment extends Fragment {
             try {
                 monitor.updateStates();
             } catch (CpuStateMonitorException e) {
-                Log.e(getString(R.string.pacperformance),
+                Log.e(context.getString(R.string.pacperformance),
                         "Problem getting CPU states");
             }
 
@@ -289,7 +274,8 @@ public class InformationFragment extends Fragment {
     /**
      * logging
      */
-    private void log(String s) {
-        Log.d(getString(R.string.pacperformance), s);
+    private static void log(String s) {
+        if (context != null) Log.d(context.getString(R.string.pacperformance),
+                s);
     }
 }

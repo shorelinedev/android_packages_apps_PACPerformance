@@ -22,6 +22,9 @@
         android:checkable="true"
         android:title="@string/setonboot"/>
     <item
+        android:id="@+id/action_refresh_info"
+        android:title="@string/refresh_info"/>
+    <item
         android:id="@+id/action_apply"
         android:icon="@drawable/navigation_accept"
         android:showAsAction="ifRoom|withText"

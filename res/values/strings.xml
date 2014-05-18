@@ -24,6 +24,7 @@
     <string name="ppbootedup">PACPerformance booted up</string>
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
+    <string name="refresh_info">Refresh Information</string>
 
     <!-- Units -->
     <string name="mhz">MHz</string>

@@ -20,7 +20,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +49,6 @@ public class BatteryFragment extends Fragment implements Constants,
 
     public static LinearLayout layout = null;
 
-    private static Handler hand = new Handler();
     private static TextView mBatteryVoltageTitle;
     private static TextView mBatteryVoltageText;
 
@@ -138,26 +136,10 @@ public class BatteryFragment extends Fragment implements Constants,
                 context);
     }
 
-    @Override
-    public void onResume() {
-        hand.postDelayed(run, 0);
-        super.onResume();
-    }
-
-    Runnable run = new Runnable() {
-        @Override
-        public void run() {
-            mBatteryVoltageText.setText(String.valueOf(BatteryHelper
-                    .getCurBatteryVoltage() / 1000)
-                    + context.getString(R.string.mv));
-            hand.postDelayed(run, 1000);
-        }
-    };
-
-    @Override
-    public void onDestroy() {
-        hand.removeCallbacks(run);
-        super.onDestroy();
+    public static void setBatteryVoltage() {
+        if (context != null && mBatteryVoltageText != null) mBatteryVoltageText
+                .setText(String.valueOf(BatteryHelper.getCurBatteryVoltage() / 1000)
+                        + context.getString(R.string.mv));
     }
 
     @Override
