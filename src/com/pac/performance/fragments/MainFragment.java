@@ -39,8 +39,11 @@ import com.pac.performance.utils.Utils;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -54,16 +57,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
 // Remove this if you build with Eclipse etc.
 import android.preference.PreferenceFrameLayout;
 
 public class MainFragment extends Fragment implements Constants,
         ActionBar.OnNavigationListener, ViewPager.OnPageChangeListener {
 
-    public static ViewPager mViewPager;
-    public static PagerTabStrip mPagerTabStrip;
+    private Context context;
+    private View rootView;
 
-    public static ActionBar actionBar = null;
+    private static ViewPager mViewPager;
+    private static PagerTabStrip mPagerTabStrip;
+
+    private static ActionBar actionBar = null;
 
     private static int currentPage = 0;
 
@@ -72,8 +79,8 @@ public class MainFragment extends Fragment implements Constants,
     public static int mWidth = 1;
     public static int mHeight = 1;
 
-    public static List<Fragment> mFragments = new ArrayList<Fragment>();
-    public static List<String> mFragmentNames = new ArrayList<String>();
+    private static List<Fragment> mFragments = new ArrayList<Fragment>();
+    private static List<String> mFragmentNames = new ArrayList<String>();
 
     private static MenuItem applyButton;
     private static MenuItem cancelButton;
@@ -92,51 +99,21 @@ public class MainFragment extends Fragment implements Constants,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
+        context = getActivity();
 
-        getActionBar().setIcon(
-                getResources().getDrawable(R.drawable.pacperformance_logo));
-
-        if (mWidth == 1 || mHeight == 1) {
-            Display display = getActivity().getWindowManager()
-                    .getDefaultDisplay();
-            mWidth = display.getWidth();
-            mHeight = display.getHeight();
-        }
-
-        View rootView = inflater.inflate(R.layout.fragment_main, container,
-                false);
-
-        CPUChange = BatteryChange = AudioChange = VoltageChange = IOChange = MinFreeChange = VMChange = false;
-
-        Utils.saveString("kernelversion", Utils.getFormattedKernelVersion(),
-                getActivity());
-
-        setPerm();
-
-        setFragments();
-
-        setViewPager(rootView);
-
-        actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-        actionBar.setListNavigationCallbacks(
-                new ArrayAdapter<String>(actionBar.getThemedContext(),
-                        android.R.layout.simple_list_item_1,
-                        android.R.id.text1, mFragmentNames), this);
+        rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Remove this if you build with Eclipse etc.
         if (container instanceof PreferenceFrameLayout) ((PreferenceFrameLayout.LayoutParams) rootView
                 .getLayoutParams()).removeBorders = true;
+
+        new Initialize().execute();
 
         return rootView;
     }
@@ -187,9 +164,7 @@ public class MainFragment extends Fragment implements Constants,
         mFragmentNames.add(getString(R.string.information));
     }
 
-    private void setViewPager(View rootView) {
-        assert rootView != null;
-        mViewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
+    private void setViewPager() {
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(
                 getFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -203,9 +178,18 @@ public class MainFragment extends Fragment implements Constants,
         mPagerTabStrip.setDrawFullUnderline(false);
 
         mViewPager.setOffscreenPageLimit(mFragments.size());
+
+        actionBar = getActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+        actionBar.setListNavigationCallbacks(
+                new ArrayAdapter<String>(actionBar.getThemedContext(),
+                        android.R.layout.simple_list_item_1,
+                        android.R.id.text1, mFragmentNames), this);
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    private class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -338,5 +322,54 @@ public class MainFragment extends Fragment implements Constants,
     public void onDestroy() {
         hand.removeCallbacks(run);
         super.onDestroy();
+    }
+
+    private class Initialize extends AsyncTask<String, Integer, String> {
+
+        private ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            setHasOptionsMenu(true);
+
+            getActionBar().setIcon(
+                    getResources().getDrawable(R.drawable.pacperformance_logo));
+
+            if (mWidth == 1 || mHeight == 1) {
+                Display display = getActivity().getWindowManager()
+                        .getDefaultDisplay();
+                mWidth = display.getWidth();
+                mHeight = display.getHeight();
+            }
+
+            CPUChange = BatteryChange = AudioChange = VoltageChange = IOChange = MinFreeChange = VMChange = false;
+
+            Utils.saveString("kernelversion",
+                    Utils.getFormattedKernelVersion(), getActivity());
+
+            mViewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
+            mViewPager.setVisibility(View.GONE);
+
+            dialog = new ProgressDialog(context);
+            dialog.setMessage(getString(R.string.loading));
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            setViewPager();
+            dialog.dismiss();
+            mViewPager.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            setPerm();
+            setFragments();
+            return null;
+        }
     }
 }

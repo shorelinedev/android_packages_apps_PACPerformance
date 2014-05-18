@@ -18,6 +18,7 @@
 <resources>
 
     <string name="pacperformance">PACPerformance</string>
+    <string name="loading">Loading</string>
     <string name="applysuccessfully">Apply Successfully</string>
     <string name="setonboot">Set on boot</string>
     <string name="newkernel">New Kernel detected. Your values will not get applied.</string>
