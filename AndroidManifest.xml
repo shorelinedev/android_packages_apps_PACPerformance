@@ -15,11 +15,13 @@
 
     <application
         android:allowBackup="true"
+        android:configChanges="keyboardHidden|orientation|screenSize"
         android:icon="@drawable/pacperformance_logo"
         android:label="@string/pacperformance"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.pac.performance.Activity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/pacperformance" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

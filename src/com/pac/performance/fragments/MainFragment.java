@@ -95,25 +95,24 @@ public class MainFragment extends Fragment implements Constants,
     public static boolean VMChange = false;
 
     private final Handler hand = new Handler();
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-    }
+    private ProgressDialog dialog;
+    private Bundle savedInstanceState;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        context = getActivity();
 
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        context = getActivity();
+        this.savedInstanceState = savedInstanceState;
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        new Initialize().execute();
 
         // Remove this if you build with Eclipse etc.
         if (container instanceof PreferenceFrameLayout) ((PreferenceFrameLayout.LayoutParams) rootView
                 .getLayoutParams()).removeBorders = true;
-
-        new Initialize().execute();
 
         return rootView;
     }
@@ -237,6 +236,11 @@ public class MainFragment extends Fragment implements Constants,
 
         if (mPagerTabStrip != null) mPagerTabStrip.setBackgroundColor(color);
         getActionBar().setBackgroundDrawable(new ColorDrawable(color));
+
+        if (savedInstanceState == null) {
+            mViewPager.setVisibility(View.VISIBLE);
+            dialog.dismiss();
+        }
     }
 
     @Override
@@ -326,8 +330,6 @@ public class MainFragment extends Fragment implements Constants,
 
     private class Initialize extends AsyncTask<String, Integer, String> {
 
-        private ProgressDialog dialog;
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -350,19 +352,19 @@ public class MainFragment extends Fragment implements Constants,
                     Utils.getFormattedKernelVersion(), getActivity());
 
             mViewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
-            mViewPager.setVisibility(View.GONE);
+            if (savedInstanceState == null) mViewPager.setVisibility(View.GONE);
 
-            dialog = new ProgressDialog(context);
-            dialog.setMessage(getString(R.string.loading));
-            dialog.show();
+            if (savedInstanceState == null) {
+                dialog = new ProgressDialog(context);
+                dialog.setMessage(getString(R.string.loading));
+                dialog.show();
+            }
         }
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             setViewPager();
-            dialog.dismiss();
-            mViewPager.setVisibility(View.VISIBLE);
         }
 
         @Override
