@@ -16,6 +16,9 @@
 
 package com.pac.performance.helpers;
 
+import android.util.Log;
+
+import com.pac.performance.utils.Constants;
 import com.stericson.roottools.CommandCapture;
 import com.stericson.roottools.RootDeniedException;
 import com.stericson.roottools.RootTools;
@@ -23,12 +26,13 @@ import com.stericson.roottools.RootTools;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-public class RootHelper {
+public class RootHelper implements Constants {
 
     public static void run(String command) {
         try {
             RootTools.getShell().add(new CommandCapture(0, command))
                     .commandCompleted(0, 0);
+            Log.d(TAG, command);
         } catch (IOException ignored) {} catch (TimeoutException ignored) {} catch (RootDeniedException ignored) {}
     }
 

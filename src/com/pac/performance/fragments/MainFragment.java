@@ -289,13 +289,6 @@ public class MainFragment extends Fragment implements Constants,
         return true;
     }
 
-    private void setPerm() {
-        String[] files = { MAX_FREQ, MIN_FREQ, MAX_SCREEN_OFF, MIN_SCREEN_ON,
-                CUR_GOVERNOR };
-        for (String file : files)
-            RootHelper.run("chmod 777 " + file);
-    }
-
     public static void showButtons(boolean show) {
         applyButton.setVisible(show);
         cancelButton.setVisible(show);
@@ -364,13 +357,24 @@ public class MainFragment extends Fragment implements Constants,
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+
             setViewPager();
         }
 
         @Override
         protected String doInBackground(String... params) {
-            setPerm();
-            setFragments();
+            try {
+                String[] files = { MAX_FREQ, MIN_FREQ, MAX_SCREEN_OFF,
+                        MIN_SCREEN_ON, CUR_GOVERNOR };
+                for (String file : files)
+                    RootHelper.run("chmod 777 " + file);
+
+                setFragments();
+
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return null;
         }
     }

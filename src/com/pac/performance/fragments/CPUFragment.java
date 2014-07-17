@@ -39,6 +39,7 @@ import android.widget.TextView;
 import com.pac.performance.R;
 import com.pac.performance.helpers.CPUHelper;
 import com.pac.performance.helpers.LayoutHelper;
+import com.pac.performance.helpers.RootHelper;
 import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.Control;
 import com.pac.performance.utils.InformationDialog;
@@ -277,7 +278,7 @@ public class CPUFragment extends Fragment implements Constants,
         mIntelliPlugLayout.addView(mIntelliPlugBox);
 
         mIntelliPlugEcoModeBox = new CheckBox(context);
-        if (Utils.exist(INTELLIPLUG)) mIntelliPlugLayout
+        if (Utils.exist(INTELLIPLUG_ECO_MODE)) mIntelliPlugLayout
                 .addView(mIntelliPlugEcoModeBox);
 
         setValues();
@@ -400,18 +401,22 @@ public class CPUFragment extends Fragment implements Constants,
                 || (seekBar.equals(mMinFreqScalingBar))
                 || seekBar.equals(mMaxScreenOffFreqScalingBar)
                 || seekBar.equals(mMinScreenOnFreqScalingBar)) {
-            Control.runCPUGeneric(
-                    mAvailableFreqList.get(mMaxFreqScalingBar.getProgress()),
-                    MAX_FREQ);
-            Control.runCPUGeneric(
-                    mAvailableFreqList.get(mMinFreqScalingBar.getProgress()),
-                    MIN_FREQ);
-            Control.runCPUGeneric(mAvailableFreqList
-                    .get(mMaxScreenOffFreqScalingBar.getProgress()),
-                    MAX_SCREEN_OFF);
-            Control.runCPUGeneric(mAvailableFreqList
-                    .get(mMinScreenOnFreqScalingBar.getProgress()),
-                    MIN_SCREEN_ON);
+            for (int i = 0; i < CPUHelper.getCoreCount(); i++) {
+                Control.runCPUGeneric(mAvailableFreqList.get(mMaxFreqScalingBar
+                        .getProgress()), MAX_FREQ.replace("cpu0",
+                        String.valueOf("cpu" + i)));
+                Control.runCPUGeneric(mAvailableFreqList.get(mMinFreqScalingBar
+                        .getProgress()), MIN_FREQ.replace("cpu0",
+                        String.valueOf("cpu" + i)));
+                Control.runCPUGeneric(mAvailableFreqList
+                        .get(mMaxScreenOffFreqScalingBar.getProgress()),
+                        MAX_SCREEN_OFF.replace("cpu0",
+                                String.valueOf("cpu" + i)));
+                Control.runCPUGeneric(
+                        mAvailableFreqList.get(mMinScreenOnFreqScalingBar
+                                .getProgress()),
+                        MIN_SCREEN_ON.replace("cpu0", String.valueOf("cpu" + i)));
+            }
         }
     }
 
@@ -424,8 +429,12 @@ public class CPUFragment extends Fragment implements Constants,
                 MainFragment.showButtons(true);
                 MainFragment.CPUChange = true;
 
-                Control.runCPUGeneric(mAvailableGovernorList.get(arg2),
-                        CUR_GOVERNOR);
+                for (int i = 0; i < CPUHelper.getCoreCount(); i++) {
+                    Control.runCPUGeneric(
+                            mAvailableGovernorList.get(arg2),
+                            CUR_GOVERNOR.replace("cpu0",
+                                    String.valueOf("cpu" + i)));
+                }
             }
         }
     }

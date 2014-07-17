@@ -1,6 +1,8 @@
 package com.pac.performance.utils;
 
 public interface Constants {
+    
+    public static final String TAG = "PACPerformance";
 
     // CPU
     public static final String INTELLIPLUG_ECO_MODE = "/sys/module/intelli_plug/parameters/eco_mode_active";

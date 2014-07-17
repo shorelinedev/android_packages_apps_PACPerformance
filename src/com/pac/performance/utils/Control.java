@@ -18,6 +18,7 @@ package com.pac.performance.utils;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import com.pac.performance.fragments.AudioFragment;
 import com.pac.performance.fragments.BatteryFragment;
@@ -114,10 +115,10 @@ public class Control implements Constants {
 
     public static void reset() {
 
+        MainFragment.showButtons(false);
+
         Runnable r = new Runnable() {
             public void run() {
-
-                MainFragment.showButtons(false);
 
                 if (CPUFragment.layout != null && MainFragment.CPUChange) CPUFragment
                         .setValues();
@@ -156,28 +157,30 @@ public class Control implements Constants {
                 VMCommands.clear();
             }
         };
-        Handler handler = new Handler();
+        final Handler handler = new Handler();
         handler.post(r);
-        handler.postDelayed(r, 600);
     }
 
     public static void runCPUGeneric(String value, String file) {
-        if (CPUCommands.indexOf(file) != -1) CPUCommands.remove(CPUCommands
-                .indexOf(file));
+        if (CPUCommands.indexOf(file + "::echo " + value + " > " + file) != -1) CPUCommands
+                .remove(CPUCommands.indexOf(file + "::echo " + value + " > "
+                        + file));
 
         CPUCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runBatteryGeneric(String value, String file) {
-        if (BatteryCommands.indexOf(file) != -1) BatteryCommands
-                .remove(BatteryCommands.indexOf(file));
+        if (BatteryCommands.indexOf(file + "::echo " + value + " > " + file) != -1) BatteryCommands
+                .remove(BatteryCommands.indexOf(file + "::echo " + value
+                        + " > " + file));
 
         BatteryCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runAudioFaux(String value, String file) {
-        if (AudioCommands.indexOf(file) != -1) AudioCommands
-                .remove(AudioCommands.indexOf(file));
+        if (AudioCommands.indexOf(file + "::echo " + value + " > " + file) != -1) AudioCommands
+                .remove(AudioCommands.indexOf(file + "::echo " + value + " > "
+                        + file));
 
         if (file.equals(FAUX_HEADPHONE_GAIN)) AudioCommands.add(String
                 .valueOf(file + "::echo " + (Integer.parseInt(value) + 40)
@@ -190,29 +193,33 @@ public class Control implements Constants {
     }
 
     public static void runVoltageGeneric(String value, String file) {
-        if (VoltageCommands.indexOf(file) != -1) VoltageCommands
-                .remove(VoltageCommands.indexOf(file));
+        if (VoltageCommands.indexOf(file + "::echo " + value + " > " + file) != -1) VoltageCommands
+                .remove(VoltageCommands.indexOf(file + "::echo " + value
+                        + " > " + file));
 
         VoltageCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runIOGeneric(String value, String file) {
-        if (IOCommands.indexOf(file) != -1) IOCommands.remove(IOCommands
-                .indexOf(file));
+        if (IOCommands.indexOf(file + "::echo " + value + " > " + file) != -1) IOCommands
+                .remove(IOCommands.indexOf(file + "::echo " + value + " > "
+                        + file));
 
         IOCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runMinFreeGeneric(String value, String file) {
-        if (MinFreeCommands.indexOf(file) != -1) MinFreeCommands
-                .remove(MinFreeCommands.indexOf(file));
+        if (MinFreeCommands.indexOf(file + "::echo " + value + " > " + file) != -1) MinFreeCommands
+                .remove(MinFreeCommands.indexOf(file + "::echo " + value
+                        + " > " + file));
 
         MinFreeCommands.add(file + "::echo " + value + " > " + file);
     }
 
     public static void runVMGeneric(String value, String file) {
-        if (VMCommands.indexOf(file) != -1) VMCommands.remove(VMCommands
-                .indexOf(file));
+        if (VMCommands.indexOf(file + "::echo " + value + " > " + file) != -1) VMCommands
+                .remove(VMCommands.indexOf(file + "::echo " + value + " > "
+                        + file));
 
         VMCommands.add(file + "::sysctl -w vm." + file + "=" + value);
     }
