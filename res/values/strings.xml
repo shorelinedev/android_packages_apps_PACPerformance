@@ -1,114 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2014 PAC-man ROM
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
-
 <resources>
 
-    <string name="pacperformance">PACPerformance</string>
+    <string name="app_name">PACPerformance</string>
+    <string name="set_on_boot">Set on boot</string>
+    <string name="booted_up">%s booted up</string>
     <string name="loading">Loading</string>
-    <string name="applysuccessfully">Apply Successfully</string>
-    <string name="setonboot">Set on boot</string>
-    <string name="newkernel">New Kernel detected. Your values will not get applied.</string>
-    <string name="ppbootedup">PACPerformance booted up</string>
-    <string name="apply">Apply</string>
-    <string name="cancel">Cancel</string>
-    <string name="refresh_info">Refresh Information</string>
+    <string name="info">Information</string>
+    <string name="kernel">Kernel</string>
+    <string name="utilities">Utilities</string>
+    <string name="parameters">Parameters</string>
+    <string name="advanced">Advanced</string>
+    <string name="not_tunable">%s is not tunable</string>
+    <string name="add">Add</string>
+    <string name="empty">%s is empty!</string>
+    <string name="delete">Delete</string>
 
-    <!-- Units -->
+    <!-- Unit -->
     <string name="mhz">MHz</string>
-    <string name="mv">mV</string>
     <string name="kb">kB</string>
-    <string name="minus">&lt;</string>
-    <string name="plus">&gt;</string>
-    <string name="db">dB</string>
     <string name="mb">MB</string>
+
+    <!-- Time In State -->
+    <string name="time_in_state">Time In State</string>
+    <string name="unused_cpu_states">Unused CPU states</string>
+    <string name="total_state_time">Total State Time</string>
+    <string name="deep_sleep">Deep Sleep</string>
+    <string name="refresh">Refresh</string>
+    <string name="reset_timer">Reset Timers</string>
+    <string name="restore_timer">Restore Timers</string>
+
+    <!-- Kernel Information -->
+    <string name="kernel_info">Kernel Information</string>
+    <string name="kernel_version">Kernel Version</string>
+    <string name="cpu_info">CPU Information</string>
+    <string name="memory_info">Memory Information</string>
 
     <!-- CPU -->
     <string name="cpu">CPU</string>
-    <string name="currentfreq">Current CPU Frequency</string>
-    <string name="core">Core</string>
+    <string name="cpu_stats">CPU Stats</string>
+    <string name="core">Core %d</string>
     <string name="offline">Offline</string>
-    <string name="maxfreq">CPU Maximum Frequency</string>
-    <string name="maxfreq_summary">Set the maximum frequency the CPU scales up to.</string>
-    <string name="minfreq">CPU Minimum Frequency</string>
-    <string name="minfreq_summary">Set the minimum frequency the CPU scales down to.</string>
-    <string name="maxscreenofffreq">CPU Maximum Frequency Screen Off</string>
-    <string name="maxscreenofffreq_summary">Set the maximum frequency the CPU scales up to when the screen is off.</string>
-    <string name="minscreenonfreq">CPU Minimum Frequency Screen On</string>
-    <string name="minscreenonfreq_summary">Set the minimum frequency the CPU scales down to when the screen is on.</string>
-    <string name="cpugovernor">CPU Governor</string>
-    <string name="cpugovernor_summary">The CPU governor determines how the CPU behaves in response to changes in workload. Changing the governor will impact how the CPU scales through the frequency steps available to you CPU.</string>
-    <string name="intelliplug">IntelliPlug</string>
-    <string name="intelliplugecomode">Eco Mode</string>
+    <string name="turn_off_not_possible">You can\'t turn off core %d</string>
+    <string name="cpu_max_freq">CPU Maximum Frequency</string>
+    <string name="cpu_min_freq">CPU Minimum Frequency</string>
+    <string name="cpu_governor">CPU Governor</string>
+    <string name="cpu_governor_tunables">CPU Governor Tunables</string>
+    <string name="cpu_governor_tunables_summary">The various configuration items which are Governor-dependent.</string>
+    <string name="mc_power_saving">Multicore Power Saving</string>
+    <string name="disabled">Disabled</string>
+    <string name="enabled">Enabled</string>
+    <string name="aggressive">Aggressive</string>
+    <string name="mc_power_saving_summary">Try to group tasks into the least cores possible.</string>
+    <string name="hotplug">Hotplug</string>
+    <string name="mpdecision">MPDecision</string>
+    <string name="mpdecision_summary">QCOM\'s hotplugging solution. You might get problems with changing frequencies when this is enabled.</string>
 
-    <!-- Battery -->
-    <string name="battery">Battery</string>
-    <string name="curbatteryvoltage">Current Battery Voltage</string>
-    <string name="fastcharge">Fast Charge</string>
-    <string name="blx">Battery Life eXtender</string>
-    <string name="blx_summary">Set a limit for the capacity to which the battery will be charged by passing a value between 0 and 100.</string>
+    <!-- GPU -->
+    <string name="gpu">GPU</string>
+    <string name="gpu_stats">GPU Stats</string>
+    <string name="cur_freq">Current Frequency</string>
+    <string name="gpu_max_freq">GPU Maximum Frequency</string>
+    <string name="gpu_governor">GPU Governor</string>
 
-    <!-- Audio -->
-    <string name="audio">Audio</string>
-    <string name="fauxsoundcontrol">Faux Sound Control</string>
-    <string name="headphonegain">Headphone Gain</string>
-    <string name="handsetmicgain">Handset Microphone Gain</string>
-    <string name="cammicgain">Camcorder Microphone Gain</string>
-    <string name="speakergain">Speaker Gain</string>
-    <string name="headphonepagain">Headphone PowerAmp Gain</string>
+    <!-- I/O Scheduler -->
+    <string name="io_scheduler">I/O Scheduler</string>
+    <string name="scheduler">Scheduler</string>
+    <string name="scheduler_summary">Set the active I/O elevator algorithm. The Scheduler decides how to handle I/O requests.</string>
+    <string name="internal_scheduler">Internal Storage Scheduler</string>
+    <string name="external_scheduler">External Storage Scheduler</string>
+    <string name="internal_scheduler_tunable">Internal Storage Scheduler Tunable</string>
+    <string name="external_scheduler_tunable">External Storage Scheduler Tunable</string>
+    <string name="scheduler_tunable_summary">The various configuration items which are Scheduler-dependent.</string>
+    <string name="read_ahead">Read-ahead</string>
+    <string name="read_ahead_summary">The Read-ahead value on the phone memory.</string>
+    <string name="Internal_read_ahead">Internal Storage Read-ahead</string>
+    <string name="External_read_ahead">External Storage Read-ahead</string>
 
-    <!-- Voltage -->
-    <string name="voltage">Voltage</string>
-    <string name="voltagecontrol">Voltage Control</string>
-    <string name="voltagecontrol_summary">Decreasing voltage will lower power consumption of the CPU. Increasing it on overclocked frequencies improves stability. Too low voltage may cause instabilities and freezes.</string>
-    <string name="fauxvoltagecontrol">Faux Voltage Control</string>
+    <!-- Custom Commander -->
+    <string name="custom_commander">Custom Commander</string>
+    <string name="custom_commander_summary">Custom Commander allows you to add your own controls which will be applied after booting. You can add any commands as long they are able to run in shell as well.</string>
+    <string name="name">Name</string>
+    <string name="command">Command</string>
+    <string name="already_exist">A command with the same name already exists. Please delete or modify the old one.</string>
+    <string name="run">Run</string>
+    <string name="edit">Edit</string>
 
-    <!-- IO -->
-    <string name="io">I/O Schedulers</string>
-    <string name="internalstoragescheduler">Internal Storage Scheduler</string>
-    <string name="storagescheduler_summary">Set the active I/O elevator algorithm. The scheduler decides how to handle I/O requests and how to handle them.</string>
-    <string name="externalstoragescheduler">External Storage Scheduler</string>
-    <string name="internalstorageread">Internal Storage Read-ahead</string>
-    <string name="internalstorageread_summary">The read-ahead value on the internal phone memory.</string>
-    <string name="externalstorageread">External Storage Read-ahead</string>
-    <string name="externalstorageread_summary">The read-ahead value on the external phone memory.</string>
+    <!-- Backup -->
+    <string name="backup">Backup</string>
+    <string name="backup_summary">Backup %s partition to internal storage.</string>
+    <string name="boot">Boot</string>
+    <string name="recovery">Recovery</string>
+    <string name="fota">FOTA</string>
+    <string name="backups">Backups</string>
+    <string name="no_backups">No backups found</string>
+    <string name="last_modified">Last modified</string>
+    <string name="name_of_backup">Name of backup</string>
+    <string name="partiton_failed">Getting partition informations failed</string>
+    <string name="backing_up">Backing up</string>
+    <string name="restore">Restore</string>
+    <string name="restoring">Restoring</string>
+    <string name="overwrite">This will overwrite %s</string>
 
-    <!-- MinFree -->
-    <string name="minfree">MinFree</string>
-    <string name="minfreesettings">MinFree Settings</string>
-    <string name="forgroundapplications">Foreground Applications</string>
-    <string name="visbileapplications">Visible Applications</string>
-    <string name="secondaryserver">Secondary Server</string>
-    <string name="hiddenapplications">Hidden Applications</string>
-    <string name="contentproviders">Content Providers</string>
-    <string name="emptyapplications">Empty Applications</string>
-
-    <!-- VM -->
-    <string name="vm">VM</string>
-    <string name="vmtuning">VM Tuning</string>
-    <string name="vmtunig_summary">Tune the operation of the virtual memory (VM) subsystem of the Linux kernel and the writeout of dirty data to disk.</string>
-
-    <!-- Information -->
-    <string name="information">Information</string>
-    <string name="device">Device</string>
-    <string name="codename">Codename</string>
-    <string name="kernelversion">Kernel Version</string>
-    <string name="timeinstate">Time In State</string>
-    <string name="unusedcpustates">Unused CPU states</string>
-    <string name="totalstatetime">Total State Time</string>
-    <string name="deepsleep">Deep Sleep</string>
+    <!-- Build prop -->
+    <string name="build_prop">Build.prop</string>
+    <string name="done_backup">Done. Backup is in %s.</string>
+    <string name="key">Key</string>
+    <string name="value">Value</string>
+    <string name="delete_prop">Delete %s?</string>
 
 </resources>

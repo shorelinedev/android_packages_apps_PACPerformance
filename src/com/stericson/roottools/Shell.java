@@ -21,8 +21,6 @@
  */
 package com.stericson.roottools;
 
-import com.stericson.roottools.RootTools;
-
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
@@ -68,8 +66,6 @@ public class Shell {
     private Shell(String cmd) throws IOException, TimeoutException,
             RootDeniedException {
 
-        RootTools.log("Starting shell: " + cmd);
-
         this.proc = new ProcessBuilder(cmd).redirectErrorStream(true).start();
         this.in = new BufferedReader(new InputStreamReader(
                 this.proc.getInputStream(), "UTF-8"));
@@ -85,7 +81,7 @@ public class Shell {
             /**
              * The flow of execution will wait for the thread to die or wait
              * until the given timeout has expired.
-             *
+             * 
              * The result of the worker, which is determined by the exit code of
              * the worker, will tell us if the operation was completed
              * successfully or it the operation failed.
@@ -126,10 +122,10 @@ public class Shell {
             else {
                 /**
                  * The shell is open.
-                 *
+                 * 
                  * Start two threads, one to handle the input and one to handle
                  * the output.
-                 *
+                 * 
                  * input, and output are runnables that the threads execute.
                  */
                 /*
@@ -158,14 +154,6 @@ public class Shell {
                                 }
 
                                 if (write >= maxCommands) {
-
-                                    /**
-                                     * wait for the read to catch up.
-                                     */
-                                    while (read != write) {
-                                        RootTools
-                                                .log("Waiting for read and write to catch up before cleanup.");
-                                    }
                                     /**
                                      * Clean up the commands, stay neat.
                                      */
@@ -182,8 +170,6 @@ public class Shell {
                                     isExecuting = true;
                                     Command cmd = commands.get(write);
                                     cmd.startExecution();
-                                    RootTools.log("Executing: "
-                                            + cmd.getCommand());
 
                                     out.write(cmd.getCommand());
                                     String line = "\necho " + token + " "
@@ -199,15 +185,10 @@ public class Shell {
                                     isExecuting = false;
                                     out.write("\nexit 0\n");
                                     out.flush();
-                                    RootTools.log("Closing shell");
                                     return;
                                 }
                             }
-                        } catch (IOException e) {
-                            RootTools.log(e.getMessage(), 2, e);
-                        } catch (InterruptedException e) {
-                            RootTools.log(e.getMessage(), 2, e);
-                        } finally {
+                        } catch (IOException e) {} catch (InterruptedException e) {} finally {
                             write = 0;
                             closeQuietly(out);
                         }
@@ -247,7 +228,7 @@ public class Shell {
                                 /**
                                  * trying to determine if all commands have been
                                  * completed.
-                                 *
+                                 * 
                                  * if the token is present then the command has
                                  * finished execution.
                                  */
@@ -298,7 +279,6 @@ public class Shell {
                                 }
                             }
 
-                            RootTools.log("Read all output");
                             try {
                                 proc.waitFor();
                                 proc.destroy();
@@ -306,8 +286,6 @@ public class Shell {
 
                             closeQuietly(out);
                             closeQuietly(in);
-
-                            RootTools.log("Shell destroyed");
 
                             while (read < commands.size()) {
                                 if (command == null) command = commands
@@ -320,9 +298,7 @@ public class Shell {
 
                             read = 0;
 
-                        } catch (IOException e) {
-                            RootTools.log(e.getMessage(), 2, e);
-                        }
+                        } catch (IOException e) {}
                     }
                 };
                 Thread so = new Thread(output, "Shell Output");
@@ -353,7 +329,6 @@ public class Shell {
     private void cleanCommands() {
         this.isCleaning = true;
         int toClean = Math.abs(this.maxCommands - (this.maxCommands / 4));
-        RootTools.log("Cleaning up: " + toClean);
 
         for (int i = 0; i < toClean; i++) {
             this.commands.remove(0);
@@ -438,7 +413,6 @@ public class Shell {
         Shell.shellTimeout = timeout;
 
         if (Shell.rootShell == null) {
-            RootTools.log("Starting Root Shell!");
             String cmd = "su";
             // keep prompting the user until they accept for x amount of
             // times...
@@ -447,15 +421,10 @@ public class Shell {
                 try {
                     Shell.rootShell = new Shell(cmd);
                 } catch (IOException e) {
-                    if (retries++ >= retry) {
-                        RootTools.log("IOException, could not start shell");
-                        throw e;
-                    }
+                    if (retries++ >= retry) { throw e; }
                 }
             }
-        } else {
-            RootTools.log("Using Existing Root Shell!");
-        }
+        } else {}
 
         return Shell.rootShell;
     }
@@ -473,11 +442,11 @@ public class Shell {
 
             /**
              * Trying to open the shell.
-             *
+             * 
              * We echo "Started" and we look for it in the output.
-             *
+             * 
              * If we find the output then the shell is open and we return.
-             *
+             * 
              * If we do not find it then we determine the error and report it by
              * setting the value of the variable exit
              */

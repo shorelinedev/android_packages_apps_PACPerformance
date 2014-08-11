@@ -20,27 +20,29 @@
  * limitations under that License.
  */
 
+// Modified by Willi Ye
+
 package com.stericson.roottools;
 
-import android.util.Log;
-
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-public final class RootTools {
+import android.util.Log;
+
+import com.pac.performance.utils.Constants;
+
+public final class RootTools implements Constants {
 
     // --------------------
     // # Public Variables #
     // --------------------
 
-    public static String TAG = "Custom RootTools";
-
-    public static boolean debugMode = false;
-
     /**
      * Setting this to false will disable the handler that is used by default
      * for the 3 callback methods for Command.
-     *
+     * 
      * By disabling this all callbacks will be called from a thread other than
      * the main UI thread.
      */
@@ -48,7 +50,7 @@ public final class RootTools {
 
     /**
      * Setting this will change the default command timeout.
-     *
+     * 
      * The default is 20000ms
      */
     public static int default_Command_Timeout = 20000;
@@ -65,7 +67,7 @@ public final class RootTools {
      * This will open or return, if one is already open, a shell, you are
      * responsible for managing the shell, reading the output and for closing
      * the shell when you are done using it.
-     *
+     * 
      * @param timeout
      *            an <code>int</code> to Indicate the length of time to wait
      *            before giving up on opening a shell.
@@ -82,7 +84,7 @@ public final class RootTools {
      * This will open or return, if one is already open, a shell, you are
      * responsible for managing the shell, reading the output and for closing
      * the shell when you are done using it.
-     *
+     * 
      * @throws TimeoutException
      * @throws RootDeniedException
      * @throws IOException
@@ -92,55 +94,35 @@ public final class RootTools {
         return RootTools.getShell(25000);
     }
 
-    /**
-     * This method allows you to output debug messages only when debugging is
-     * on. This will allow you to add a debug option to your app, which by
-     * default can be left off for performance. However, when you need debugging
-     * information, a simple switch can enable it and provide you with detailed
-     * logging.
-     *
-     * This method handles whether or not to log the information you pass it
-     * depending whether or not RootTools.debugMode is on. So you can use this
-     * and not have to worry about handling it yourself.
-     *
-     * @param msg
-     *            The message to output.
-     */
-    public static void log(String msg) {
-        log(msg, 3, null);
-    }
+    @SuppressWarnings("deprecation")
+    public static String getOutput(String command) throws IOException,
+            InterruptedException {
+        Process process = Runtime.getRuntime().exec("sh");
+        final DataOutputStream processStream = new DataOutputStream(
+                process.getOutputStream());
+        processStream.writeBytes("exec " + command + "\n");
+        processStream.flush();
 
-    /**
-     * This method allows you to output debug messages only when debugging is
-     * on. This will allow you to add a debug option to your app, which by
-     * default can be left off for performance. However, when you need debugging
-     * information, a simple switch can enable it and provide you with detailed
-     * logging.
-     *
-     * This method handles whether or not to log the information you pass it
-     * depending whether or not RootTools.debugMode is on. So you can use this
-     * and not have to worry about handling it yourself.
-     *
-     * @param msg
-     *            The message to output.
-     * @param type
-     *            The type of log, 1 for verbose, 2 for error, 3 for debug
-     * @param e
-     *            The exception that was thrown (Needed for errors)
-     */
-    public static void log(String msg, int type, Exception e) {
-        if (msg != null && !msg.equals("")) {
-            if (debugMode) switch (type) {
-                case 1:
-                    Log.v(TAG, msg);
-                    break;
-                case 2:
-                    Log.e(TAG, msg, e);
-                    break;
-                case 3:
-                    Log.d(TAG, msg);
-                    break;
+        int exit = 1;
+        String output = null;
+        if (process != null) {
+            exit = process.waitFor();
+
+            StringBuffer buffer = null;
+            final DataInputStream inputStream = new DataInputStream(
+                    process.getInputStream());
+
+            if (inputStream.available() > 0) {
+                buffer = new StringBuffer(inputStream.readLine());
+                while (inputStream.available() > 0)
+                    buffer.append("\n").append(inputStream.readLine());
             }
+            inputStream.close();
+            if (buffer != null) output = buffer.toString();
         }
+
+        Log.d(TAG, "Output of " + command + ": " + output);
+
+        return exit != 1 && exit == 0 ? output : "error";
     }
 }

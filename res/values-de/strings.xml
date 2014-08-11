@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PACPerformance</string>
+    <string name="set_on_boot">Nach starten übernehmen</string>
+    <string name="booted_up">%s is gestartet</string>
+    <string name="loading">Lädt</string>
+    <string name="info">Information</string>
+    <string name="kernel">Kernel</string>
+    <string name="utilities">Werkzeuge</string>
+    <string name="parameters">Parametern</string>
+    <string name="advanced">Fortgeschritten</string>
+    <string name="not_tunable">%s ist nicht einstellbar</string>
+    <string name="add">Hinzufügen</string>
+    <string name="empty">%s ist leer!</string>
+    <string name="delete">Löschen</string>
+
+    <!-- Unit -->
+    <string name="mhz">MHz</string>
+    <string name="kb">kB</string>
+    <string name="mb">MB</string>
+
+    <!-- Time In State -->
+    <string name="time_in_state">Zeit in Status</string>
+    <string name="unused_cpu_states">Unbenutzte Stadien</string>
+    <string name="total_state_time">Gesamte Laufzeit</string>
+    <string name="deep_sleep">Tiefschlaf</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="reset_timer">Zeiten zurücksetzen</string>
+    <string name="restore_timer">Zeiten wiederherstellen</string>
+
+    <!-- Kernel Information -->
+    <string name="kernel_info">Kernel Information</string>
+    <string name="kernel_version">Kernel Version</string>
+    <string name="cpu_info">CPU Information</string>
+    <string name="memory_info">Speicher Information</string>
+
+    <!-- CPU -->
+    <string name="cpu">CPU</string>
+    <string name="cpu_stats">CPU Statistiken</string>
+    <string name="core">Kern %d</string>
+    <string name="offline">Ausgeschaltet</string>
+    <string name="turn_off_not_possible">Sie können Kern %d nicht abschalten</string>
+    <string name="cpu_max_freq">CPU Maximum Frequenz</string>
+    <string name="cpu_min_freq">CPU Minimum Frequenz</string>
+    <string name="cpu_governor">CPU Governor</string>
+    <string name="cpu_governor_tunables">CPU Governor Einstellungen</string>
+    <string name="cpu_governor_tunables_summary">Unterschiedliche Konfiguration, die vom Governor abhängig sind.</string>
+    <string name="mc_power_saving">Energiesparmodus für Mehrkernprozessoren</string>
+    <string name="disabled">Aus</string>
+    <string name="enabled">Ein</string>
+    <string name="aggressive">Aggressiv</string>
+    <string name="mc_power_saving_summary">Gruppiert die Aufgaben möglichst wenigen Kernen zu.</string>
+    <string name="hotplug">Hotplug</string>
+    <string name="mpdecision">MPDecision</string>
+    <string name="mpdecision_summary">QCOM\'s hotplugging Lösung. Sie werden wahrscheinlich Schwierigkeiten mit der Änderung der Frequenzen feststellen, wenn die Funktion aktiv ist.</string>
+
+    <!-- GPU -->
+    <string name="gpu">GPU</string>
+    <string name="gpu_stats">GPU Statistiken</string>
+    <string name="cur_freq">Jetzige Frequenz</string>
+    <string name="gpu_max_freq">GPU Maximum Frequenz</string>
+    <string name="gpu_governor">GPU Governor</string>
+
+    <!-- I/O Scheduler -->
+    <string name="io_scheduler">I/O Scheduler</string>
+    <string name="scheduler">Scheduler</string>
+    <string name="scheduler_summary">Lege ein avtives I/O elevator Algorithmus. Der Scheduler entscheidet wie mit I/O Anfragen umgegangen wird.</string>
+    <string name="internal_scheduler">Interner Speicher Scheduler</string>
+    <string name="external_scheduler">Externer Speicher Scheduler</string>
+    <string name="internal_scheduler_tunable">Interner Speicher Scheduler Tunable</string>
+    <string name="external_scheduler_tunable">Externer Speicher Scheduler Tunable</string>
+    <string name="scheduler_tunable_summary">Unterschiedliche Konfiguration, die vom Scheduler abhängig sind.</string>
+    <string name="read_ahead">Read-ahead</string>
+    <string name="read_ahead_summary">Der Read-ahead Wert auf dem Telefonspeicher.</string>
+    <string name="Internal_read_ahead">Interner Speicher Read-ahead</string>
+    <string name="External_read_ahead">Externer Speicher Read-ahead</string>
+
+    <!-- Custom Commander -->
+    <string name="custom_commander">Custom Commander</string>
+    <string name="custom_commander_summary">Custom Commander erlaubt es Ihnen ihre eigene Befehle nach dem Starten auszuführen. Sie können jede erdenkliche Befehle hinzufügen, solange sie auch in Shell interagieren kann.</string>
+    <string name="name">Name</string>
+    <string name="command">Befehl</string>
+    <string name="already_exist">Ein Befehl mit gleichem Namen existiert bereits. Bitte löschen oder bearbeiten Sie die alte Konfiguration.</string>
+    <string name="run">Ausführen</string>
+    <string name="edit">Bearbeiten</string>
+
+    <!-- Backup -->
+    <string name="backup">Sicherung</string>
+    <string name="backup_summary">Sichert %s Partition zum internen Speicher.</string>
+    <string name="boot">Boot</string>
+    <string name="recovery">Recovery</string>
+    <string name="fota">FOTA</string>
+    <string name="backups">Sicherungen</string>
+    <string name="no_backups">Keine Sicherungen gefunden</string>
+    <string name="last_modified">Zuletzt geändert</string>
+    <string name="name_of_backup">Name der Sicherung</string>
+    <string name="partiton_failed">Die Partitionsinformationen konnten nicht verarbeitet werden</string>
+    <string name="backing_up">Sicherung erstellen</string>
+    <string name="restore">Wiederherstellen</string>
+    <string name="restoring">Wiederstellen</string>
+    <string name="overwrite">%s wird überschrieben</string>
+
+    <!-- Build prop -->
+    <string name="build_prop">Build.prop</string>
+    <string name="done_backup">Fertig. Sicherung befindet sich in %s.</string>
+    <string name="key">Schlüssel</string>
+    <string name="value">Wert</string>
+    <string name="delete_prop">%s löschen?</string>
+
+</resources>

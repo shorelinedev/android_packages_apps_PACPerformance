@@ -7,7 +7,6 @@
 package com.pac.performance.cpuspy;
 
 // imports
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,24 +17,22 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import android.os.SystemClock;
-
 import com.pac.performance.utils.Constants;
+import android.annotation.SuppressLint;
+import android.os.SystemClock;
 
 /**
  * CpuStateMonitor is a class responsible for querying the system and getting
  * the time-in-state information, as well as allowing the user to set/reset
  * offsets to "restart" the state timers
  */
+@SuppressLint("UseValueOf")
 public class CpuStateMonitor implements Constants {
 
     private List<CpuState> _states = new ArrayList<CpuState>();
     private Map<Integer, Long> _offsets = new HashMap<Integer, Long>();
 
-    /**
-     * exception class
-     */
+    /** exception class */
     public class CpuStateMonitorException extends Exception {
         /**
          * 
@@ -51,9 +48,7 @@ public class CpuStateMonitor implements Constants {
      * simple struct for states/time
      */
     public class CpuState implements Comparable<CpuState> {
-        /**
-         * init with freq and duration
-         */
+        /** init with freq and duration */
         public CpuState(int a, long b) {
             freq = a;
             duration = b;
@@ -62,19 +57,15 @@ public class CpuStateMonitor implements Constants {
         public int freq = 0;
         public long duration = 0;
 
-        /**
-         * for sorting, compare the freqs
-         */
+        /** for sorting, compare the freqs */
         public int compareTo(CpuState state) {
-            Integer a = freq;
-            Integer b = state.freq;
+            Integer a = new Integer(freq);
+            Integer b = new Integer(state.freq);
             return a.compareTo(b);
         }
     }
 
-    /**
-     * @return List of CpuState with the offsets applied
-     */
+    /** @return List of CpuState with the offsets applied */
     public List<CpuState> getStates() {
         List<CpuState> states = new ArrayList<CpuState>();
 
@@ -86,8 +77,9 @@ public class CpuStateMonitor implements Constants {
             long duration = state.duration;
             if (_offsets.containsKey(state.freq)) {
                 long offset = _offsets.get(state.freq);
-                if (offset <= duration) duration -= offset;
-                else {
+                if (offset <= duration) {
+                    duration -= offset;
+                } else {
                     /*
                      * offset > duration implies our offsets are now invalid, so
                      * clear and recall this function
@@ -111,13 +103,45 @@ public class CpuStateMonitor implements Constants {
         long sum = 0;
         long offset = 0;
 
-        for (CpuState state : _states)
+        for (CpuState state : _states) {
             sum += state.duration;
+        }
 
-        for (Map.Entry<Integer, Long> entry : _offsets.entrySet())
+        for (Map.Entry<Integer, Long> entry : _offsets.entrySet()) {
             offset += entry.getValue();
+        }
 
         return sum - offset;
+    }
+
+    /**
+     * @return Map of freq->duration of all the offsets
+     */
+    public Map<Integer, Long> getOffsets() {
+        return _offsets;
+    }
+
+    /** Sets the offset map (freq->duration offset) */
+    public void setOffsets(Map<Integer, Long> offsets) {
+        _offsets = offsets;
+    }
+
+    /**
+     * Updates the current time in states and then sets the offset map to the
+     * current duration, effectively "zeroing out" the timers
+     */
+    public void setOffsets() throws CpuStateMonitorException {
+        _offsets.clear();
+        updateStates();
+
+        for (CpuState state : _states) {
+            _offsets.put(state.freq, state.duration);
+        }
+    }
+
+    /** removes state offsets */
+    public void removeOffsets() {
+        _offsets.clear();
     }
 
     /**
@@ -130,7 +154,7 @@ public class CpuStateMonitor implements Constants {
          * read in the states to the class
          */
         try {
-            InputStream is = new FileInputStream(AVAILABLE_FREQ);
+            InputStream is = new FileInputStream(CPU_TIME_STATE);
             InputStreamReader ir = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(ir);
             _states.clear();

@@ -57,7 +57,7 @@ public abstract class Command {
 
     /**
      * Constructor for executing a normal shell command
-     *
+     * 
      * @param id
      *            the id of the command being executed
      * @param command
@@ -90,7 +90,6 @@ public abstract class Command {
                     commandCompleted(id, exitCode);
                 }
 
-                RootTools.log("Command " + id + " finished.");
                 finishCommand();
             }
         }
@@ -101,10 +100,7 @@ public abstract class Command {
         this.handlerEnabled = handlerEnabled;
 
         if (Looper.myLooper() != null && handlerEnabled) {
-            RootTools.log("CommandHandler created");
             mHandler = new CommandHandler();
-        } else {
-            RootTools.log("CommandHandler not created");
         }
     }
 
@@ -151,7 +147,6 @@ public abstract class Command {
     public void terminate(String reason) {
         try {
             Shell.closeAll();
-            RootTools.log("Terminating all shells.");
             terminated(reason);
         } catch (IOException ignored) {}
     }
@@ -171,11 +166,6 @@ public abstract class Command {
                 commandTerminated(id, reason);
             }
 
-            RootTools
-                    .log("Command "
-                            + id
-                            + " did not finish because it was terminated. Termination reason: "
-                            + reason);
             setExitCode(-1);
             terminated = true;
             finishCommand();
@@ -205,10 +195,7 @@ public abstract class Command {
                     } catch (InterruptedException ignored) {}
                 }
 
-                if (!finished) {
-                    RootTools.log("Timeout Exception has occurred.");
-                    terminate("Timeout Exception");
-                }
+                if (!finished) terminate("Timeout Exception");
             }
         }
     }

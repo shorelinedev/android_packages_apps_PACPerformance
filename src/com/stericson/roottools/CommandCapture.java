@@ -22,8 +22,6 @@
 
 package com.stericson.roottools;
 
-import com.stericson.roottools.RootTools;
-
 public class CommandCapture extends Command {
     private StringBuilder sb = new StringBuilder();
 
@@ -34,7 +32,6 @@ public class CommandCapture extends Command {
     @Override
     public void commandOutput(int id, String line) {
         sb.append(line).append('\n');
-        RootTools.log("ID: " + id + ", " + line);
     }
 
     @Override

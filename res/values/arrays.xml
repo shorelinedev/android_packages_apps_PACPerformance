@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- CPU -->
+    <string-array name="mc_power_saving_items">
+        <item>@string/disabled</item>
+        <item>@string/enabled</item>
+        <item>@string/aggressive</item>
+    </string-array>
+
+    <!-- Custom Commander -->
+    <string-array name="custom_commander_menu">
+        <item>@string/run</item>
+        <item>@string/edit</item>
+        <item>@string/delete</item>
+    </string-array>
+
+    <!-- Backup -->
+    <string-array name="backup_menu">
+        <item>@string/restore</item>
+        <item>@string/delete</item>
+    </string-array>
+
+</resources>
