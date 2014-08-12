@@ -1,5 +1,7 @@
 package com.pac.performance.fragments;
 
+import java.util.Locale;
+
 import com.pac.performance.GenericPathReaderActivity;
 import com.pac.performance.R;
 import com.pac.performance.utils.CommandControl.CommandType;
@@ -104,7 +106,7 @@ public class CPUFragment extends PreferenceFragment implements Constants {
 
         if (cpuHelper.hasMpdecision()) {
             mMpdecision = prefHelper.setCheckBoxPreference(
-                    mCommandControl.moduleActive(CPU_MPDEC),
+                    cpuHelper.isMpdecisionActive(),
                     getString(R.string.mpdecision),
                     getString(R.string.mpdecision_summary), getActivity());
 
@@ -120,9 +122,10 @@ public class CPUFragment extends PreferenceFragment implements Constants {
 
         for (int i = 0; i < cpuHelper.getCoreCount(); i++)
             if (preference == mCoreBoxes[i]) {
-                if (i != 0) mCommandControl.runGeneric(
-                        String.format(CPU_CORE_ONLINE, i),
-                        mCoreBoxes[i].isChecked() ? "1" : "0", getActivity());
+                if (i != 0) mCommandControl.runCommand(
+                        mCoreBoxes[i].isChecked() ? "1" : "0",
+                        String.format(CPU_CORE_ONLINE, i), CommandType.GENERIC,
+                        getActivity());
                 else {
                     mCoreBoxes[i].setChecked(true);
                     mUtils.toast(getString(R.string.turn_off_not_possible, i),
@@ -165,11 +168,13 @@ public class CPUFragment extends PreferenceFragment implements Constants {
             args.putString(
                     GenericPathReaderActivity.ARG_TITLE,
                     getString(R.string.cpu_governor_tunables) + ": "
-                            + governor.toUpperCase());
+                            + governor.toUpperCase(Locale.getDefault()));
             args.putString(GenericPathReaderActivity.ARG_PATH,
                     String.format(CPU_GOVERNOR_TUNABLES, governor));
-            args.putString(GenericPathReaderActivity.ARG_ERROR,
-                    getString(R.string.not_tunable, governor.toUpperCase()));
+            args.putString(
+                    GenericPathReaderActivity.ARG_ERROR,
+                    getString(R.string.not_tunable,
+                            governor.toUpperCase(Locale.getDefault())));
             i.putExtras(args);
 
             startActivity(i);

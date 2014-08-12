@@ -1,11 +1,6 @@
 package com.pac.performance.utils;
 
-import java.io.IOException;
-
-import com.stericson.roottools.RootTools;
-
 import android.app.Activity;
-import android.util.Log;
 
 public class CommandControl implements Constants {
 
@@ -28,19 +23,6 @@ public class CommandControl implements Constants {
         rootHelper.runCommand("echo " + value + " > " + file);
 
         commandSaver(file, "echo " + value + " > " + file, activity);
-    }
-
-    public boolean moduleActive(String module) {
-        String output = null;
-        try {
-            output = RootTools.getOutput("echo `ps | grep " + module
-                    + " | grep -v \"grep " + module + "\" | awk '{print $1}'`");
-        } catch (IOException e) {
-            Log.e(TAG, "failed to get status of " + module);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return output != null && output.length() > 0 && !output.equals("error");
     }
 
     public void startModule(String module, boolean save, Activity activity) {
@@ -79,7 +61,7 @@ public class CommandControl implements Constants {
                 new Thread() {
                     public void run() {
                         boolean stoppedMpdec = false;
-                        if (moduleActive(CPU_MPDEC)) {
+                        if (rootHelper.moduleActive(CPU_MPDEC)) {
                             stopModule(CPU_MPDEC, false, activity);
                             stoppedMpdec = true;
                         }

@@ -9,10 +9,12 @@ import com.pac.performance.fragments.CustomCommanderFragment;
 import com.pac.performance.fragments.GPUFragment;
 import com.pac.performance.fragments.IOSchedulerFragment;
 import com.pac.performance.fragments.KernelInformationFragment;
+import com.pac.performance.fragments.LowMemoryKillerFragment;
 import com.pac.performance.fragments.TimeInStateFragment;
 import com.pac.performance.helpers.CPUHelper;
 import com.pac.performance.helpers.GPUHelper;
 import com.pac.performance.helpers.IOHelper;
+import com.pac.performance.helpers.LowMemoryKillerHelper;
 import com.pac.performance.helpers.PreferenceHelper;
 import com.pac.performance.helpers.RootHelper;
 
@@ -40,6 +42,7 @@ public interface Constants {
     public final GPUFragment mGPUFragment = new GPUFragment();
     public final KernelInformationFragment mKernelInformationFragment = new KernelInformationFragment();
     public final IOSchedulerFragment mIOSchedulerFragment = new IOSchedulerFragment();
+    public final LowMemoryKillerFragment mLowMemoryKillerFragment = new LowMemoryKillerFragment();
     public final TimeInStateFragment mTimeInStateFragment = new TimeInStateFragment();
 
     public final CommandControl mCommandControl = new CommandControl();
@@ -49,6 +52,7 @@ public interface Constants {
     public final CPUHelper cpuHelper = new CPUHelper();
     public final GPUHelper gpuHelper = new GPUHelper();
     public final IOHelper ioHelper = new IOHelper();
+    public final LowMemoryKillerHelper lowmemorykillerHelper = new LowMemoryKillerHelper();
     public final PreferenceHelper prefHelper = new PreferenceHelper();
     public final RootHelper rootHelper = new RootHelper();
 
@@ -106,4 +110,5 @@ public interface Constants {
     public final String IO_INTERNAL_READ_AHEAD = "/sys/block/mmcblk0/queue/read_ahead_kb";
     public final String IO_EXTERNAL_READ_AHEAD = "/sys/block/mmcblk1/queue/read_ahead_kb";
 
+    public final String LMK_MINFREE = "/sys/module/lowmemorykiller/parameters/minfree";
 }

@@ -7,6 +7,10 @@ public class CPUHelper implements Constants {
     private String[] mCpuFreqs = null;
     private String[] mCpuGovernors = null;
 
+    public boolean isMpdecisionActive() {
+        return rootHelper.moduleActive(CPU_MPDEC);
+    }
+
     public boolean hasMpdecision() {
         return mUtils.existFile(CPU_MPDECISION_BINARY);
     }

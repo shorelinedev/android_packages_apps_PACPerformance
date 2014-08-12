@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">PACPerformance</string>
+    <string name="no_root">Kein Root Zugriff</string>
+    <string name="no_busybox">Busybox ist nicht installiert</string>
     <string name="set_on_boot">Nach starten übernehmen</string>
     <string name="booted_up">%s is gestartet</string>
     <string name="loading">Lädt</string>
@@ -14,6 +16,9 @@
     <string name="add">Hinzufügen</string>
     <string name="empty">%s ist leer!</string>
     <string name="delete">Löschen</string>
+    <string name="aggressive">Aggressiv</string>
+    <string name="minus">&lt;</string>
+    <string name="plus">&gt;</string>
 
     <!-- Unit -->
     <string name="mhz">MHz</string>
@@ -40,16 +45,15 @@
     <string name="cpu_stats">CPU Statistiken</string>
     <string name="core">Kern %d</string>
     <string name="offline">Ausgeschaltet</string>
-    <string name="turn_off_not_possible">Sie können Kern %d nicht abschalten</string>
-    <string name="cpu_max_freq">CPU Maximum Frequenz</string>
-    <string name="cpu_min_freq">CPU Minimum Frequenz</string>
+    <string name="turn_off_not_possible">Sie können Kern %d nicht ausschalten</string>
+    <string name="cpu_max_freq">CPU Maximale Frequenz</string>
+    <string name="cpu_min_freq">CPU Minimale Frequenz</string>
     <string name="cpu_governor">CPU Governor</string>
     <string name="cpu_governor_tunables">CPU Governor Einstellungen</string>
     <string name="cpu_governor_tunables_summary">Unterschiedliche Konfiguration, die vom Governor abhängig sind.</string>
     <string name="mc_power_saving">Energiesparmodus für Mehrkernprozessoren</string>
     <string name="disabled">Aus</string>
     <string name="enabled">Ein</string>
-    <string name="aggressive">Aggressiv</string>
     <string name="mc_power_saving_summary">Gruppiert die Aufgaben möglichst wenigen Kernen zu.</string>
     <string name="hotplug">Hotplug</string>
     <string name="mpdecision">MPDecision</string>
@@ -58,8 +62,8 @@
     <!-- GPU -->
     <string name="gpu">GPU</string>
     <string name="gpu_stats">GPU Statistiken</string>
-    <string name="cur_freq">Jetzige Frequenz</string>
-    <string name="gpu_max_freq">GPU Maximum Frequenz</string>
+    <string name="cur_freq">Aktuelle Frequenz</string>
+    <string name="gpu_max_freq">GPU Maximale Frequenz</string>
     <string name="gpu_governor">GPU Governor</string>
 
     <!-- I/O Scheduler -->
@@ -75,6 +79,20 @@
     <string name="read_ahead_summary">Der Read-ahead Wert auf dem Telefonspeicher.</string>
     <string name="Internal_read_ahead">Interner Speicher Read-ahead</string>
     <string name="External_read_ahead">Externer Speicher Read-ahead</string>
+
+    <!-- Low Memory Killer -->
+    <string name="low_memory_killer">Mindestverfügbarer Speicher</string>
+    <string name="forground_app">Vordergrund Applikationen</string>
+    <string name="visbile_app">Sichtbare Applikationen</string>
+    <string name="secondary_server">Hintergrund Applikationen</string>
+    <string name="hidden_app">Versteckte Applikationen</string>
+    <string name="content_providers">Inhaltsversorger</string>
+    <string name="empty_app">Leere Applikationen</string>
+    <string name="profiles">Profile</string>
+    <string name="very_light">Sehr Mild</string>
+    <string name="light">Mild</string>
+    <string name="medium">Mittel</string>
+    <string name="very_aggressive">Sehr Aggressiv</string>
 
     <!-- Custom Commander -->
     <string name="custom_commander">Custom Commander</string>

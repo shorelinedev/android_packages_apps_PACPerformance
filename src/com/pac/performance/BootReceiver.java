@@ -11,6 +11,8 @@ public class BootReceiver extends BroadcastReceiver implements Constants {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        if (rootHelper.rootAccess() && rootHelper.busyboxInstalled())
+
         if (mUtils.getBoolean("setonboot", false, context)) {
             String savedCommands = mUtils.getString(COMMAND_NAME, "", context);
 

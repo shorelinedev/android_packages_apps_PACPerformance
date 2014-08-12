@@ -2,6 +2,6 @@
 *~
 bin
 gen
-libs
+libs/android-support-v13.jar
 project.properties
 lint.xml

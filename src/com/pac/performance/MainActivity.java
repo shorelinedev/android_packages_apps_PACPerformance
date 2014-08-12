@@ -45,6 +45,17 @@ public class MainActivity extends Activity implements Constants {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!rootHelper.rootAccess()) {
+            mUtils.toast(getString(R.string.no_root), this);
+            finish();
+        }
+
+        if (!rootHelper.busyboxInstalled()) {
+            mUtils.toast(getString(R.string.no_busybox), this);
+            finish();
+        }
+
         setContentView(R.layout.activity_main);
 
         new Initialize().execute(savedInstanceState);
@@ -116,6 +127,8 @@ public class MainActivity extends Activity implements Constants {
                 mGPUFragment));
         items.add(new ListItem(getString(R.string.io_scheduler),
                 mIOSchedulerFragment));
+        items.add(new ListItem(getString(R.string.low_memory_killer),
+                mLowMemoryKillerFragment));
         items.add(new HeaderItem(getString(R.string.utilities)));
         items.add(new ListItem(getString(R.string.custom_commander),
                 mCustomCommanderFragment));
@@ -125,7 +138,6 @@ public class MainActivity extends Activity implements Constants {
                 .add(new ListItem(getString(R.string.backup), mBackupFragment));
         items.add(new ListItem(getString(R.string.build_prop),
                 mBuildpropFragment));
-
     }
 
     @Override

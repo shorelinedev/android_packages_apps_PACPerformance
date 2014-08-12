@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">PACPerformance</string>
+    <string name="no_root">No Root access</string>
+    <string name="no_busybox">Busybox is not installed</string>
     <string name="set_on_boot">Set on boot</string>
     <string name="booted_up">%s booted up</string>
     <string name="loading">Loading</string>
@@ -14,6 +16,9 @@
     <string name="add">Add</string>
     <string name="empty">%s is empty!</string>
     <string name="delete">Delete</string>
+    <string name="aggressive">Aggressive</string>
+    <string name="minus">&lt;</string>
+    <string name="plus">&gt;</string>
 
     <!-- Unit -->
     <string name="mhz">MHz</string>
@@ -49,7 +54,6 @@
     <string name="mc_power_saving">Multicore Power Saving</string>
     <string name="disabled">Disabled</string>
     <string name="enabled">Enabled</string>
-    <string name="aggressive">Aggressive</string>
     <string name="mc_power_saving_summary">Try to group tasks into the least cores possible.</string>
     <string name="hotplug">Hotplug</string>
     <string name="mpdecision">MPDecision</string>
@@ -75,6 +79,20 @@
     <string name="read_ahead_summary">The Read-ahead value on the phone memory.</string>
     <string name="Internal_read_ahead">Internal Storage Read-ahead</string>
     <string name="External_read_ahead">External Storage Read-ahead</string>
+
+    <!-- Low Memory Killer -->
+    <string name="low_memory_killer">Low Memory Killer</string>
+    <string name="forground_app">Foreground Applications</string>
+    <string name="visbile_app">Visible Applications</string>
+    <string name="secondary_server">Secondary Server</string>
+    <string name="hidden_app">Hidden Applications</string>
+    <string name="content_providers">Content Providers</string>
+    <string name="empty_app">Empty Applications</string>
+    <string name="profiles">Profiles</string>
+    <string name="very_light">Very light</string>
+    <string name="light">Light</string>
+    <string name="medium">Medium</string>
+    <string name="very_aggressive">Very Aggressive</string>
 
     <!-- Custom Commander -->
     <string name="custom_commander">Custom Commander</string>

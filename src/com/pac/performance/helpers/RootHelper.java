@@ -1,15 +1,18 @@
 package com.pac.performance.helpers;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.pac.performance.utils.Constants;
-import com.stericson.roottools.CommandCapture;
-import com.stericson.roottools.RootDeniedException;
-import com.stericson.roottools.RootTools;
+import com.stericson.RootTools.RootTools;
+import com.stericson.RootTools.exceptions.RootDeniedException;
+import com.stericson.RootTools.execution.CommandCapture;
 
 public class RootHelper implements Constants {
 
@@ -27,9 +30,9 @@ public class RootHelper implements Constants {
 
     public void runCommand(String command) {
         try {
-            RootTools.getShell().add(new CommandCapture(0, command))
+            RootTools.getShell(true).add(new CommandCapture(0, command))
                     .commandCompleted(0, 0);
-            if (command.contains("/cache/tmp")) RootTools.getShell()
+            if (command.contains("/cache/tmp")) RootTools.getShell(true)
                     .add(new CommandCapture(0, "chmod 777 /cache"))
                     .commandCompleted(0, 0);
             Log.d(TAG, command);
@@ -40,6 +43,14 @@ public class RootHelper implements Constants {
         } catch (RootDeniedException e) {
             Log.e(TAG, "Root access denied");
         }
+    }
+
+    public boolean rootAccess() {
+        return RootTools.isAccessGiven();
+    }
+
+    public boolean busyboxInstalled() {
+        return RootTools.isBusyboxAvailable();
     }
 
     public void writePartition(String path, String partition) {
@@ -55,6 +66,52 @@ public class RootHelper implements Constants {
                 : "mount -o ro,remount " + mountpoint);
     }
 
+    public boolean moduleActive(String module) {
+        String output = null;
+        try {
+            output = getOutput("echo `ps | grep " + module
+                    + " | grep -v \"grep " + module + "\" | awk '{print $1}'`");
+        } catch (IOException e) {
+            Log.e(TAG, "failed to get status of " + module);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return output != null && output.length() > 0 && !output.equals("error");
+    }
+
+    @SuppressWarnings("deprecation")
+    public String getOutput(String command) throws IOException,
+            InterruptedException {
+        Process process = Runtime.getRuntime().exec("sh");
+        final DataOutputStream processStream = new DataOutputStream(
+                process.getOutputStream());
+        processStream.writeBytes("exec " + command + "\n");
+        processStream.flush();
+
+        int exit = 1;
+        String output = null;
+        if (process != null) {
+            exit = process.waitFor();
+
+            StringBuffer buffer = null;
+            final DataInputStream inputStream = new DataInputStream(
+                    process.getInputStream());
+
+            if (inputStream.available() > 0) {
+                buffer = new StringBuffer(inputStream.readLine());
+                while (inputStream.available() > 0)
+                    buffer.append("\n").append(inputStream.readLine());
+            }
+            inputStream.close();
+            if (buffer != null) output = buffer.toString();
+        }
+
+        Log.d(TAG, "Output of " + command + ": " + output);
+
+        return exit != 1 && exit == 0 ? output : "error";
+    }
+
+    @SuppressLint("DefaultLocale")
     public String getPartitionName(PartitionType partition) {
         if ((partition == PartitionType.BOOT && bootPartition == null)
                 || (partition == PartitionType.RECOVERY && recoveryPartition == null)
