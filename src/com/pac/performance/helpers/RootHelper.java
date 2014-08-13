@@ -66,11 +66,13 @@ public class RootHelper implements Constants {
                 : "mount -o ro,remount " + mountpoint);
     }
 
+    // Thanks to Performance Control creators for this code!
     public boolean moduleActive(String module) {
         String output = null;
         try {
             output = getOutput("echo `ps | grep " + module
-                    + " | grep -v \"grep " + module + "\" | awk '{print $1}'`");
+                    + " | grep -v \"grep " + module + "\" | awk '{print $1}'`",
+                    true);
         } catch (IOException e) {
             Log.e(TAG, "failed to get status of " + module);
         } catch (InterruptedException e) {
@@ -79,8 +81,9 @@ public class RootHelper implements Constants {
         return output != null && output.length() > 0 && !output.equals("error");
     }
 
+    // Thanks to Performance Control creators for this code!
     @SuppressWarnings("deprecation")
-    public String getOutput(String command) throws IOException,
+    public String getOutput(String command, boolean debug) throws IOException,
             InterruptedException {
         Process process = Runtime.getRuntime().exec("sh");
         final DataOutputStream processStream = new DataOutputStream(
@@ -106,13 +109,17 @@ public class RootHelper implements Constants {
             if (buffer != null) output = buffer.toString();
         }
 
-        Log.d(TAG, "Output of " + command + ": " + output);
+        if (debug) Log.d(TAG, "Output of " + command + ": " + output);
 
         return exit != 1 && exit == 0 ? output : "error";
     }
 
     @SuppressLint("DefaultLocale")
     public String getPartitionName(PartitionType partition) {
+        /*
+         * Read out partitions from /dev/block/platform. That is the easiest way
+         * and reading fstab is not always possible.
+         */
         if ((partition == PartitionType.BOOT && bootPartition == null)
                 || (partition == PartitionType.RECOVERY && recoveryPartition == null)
                 || (partition == PartitionType.FOTA && fotaPartition == null)) {
@@ -131,25 +138,28 @@ public class RootHelper implements Constants {
             }
 
             if (partitionNames != null) {
-                File[] platforms = new File(mUtils.existFile(PARTITON_PATH
-                        + "/omap") ? PARTITON_PATH + "/omap" : PARTITON_PATH)
-                        .listFiles();
-                for (File platform : platforms)
-                    if (platform.isDirectory()) for (File emmc : platform
-                            .listFiles())
-                        if (emmc.getName().equals("by-name")) for (File part : emmc
+                String path = mUtils.existFile(PARTITON_PATH + "/omap") ? PARTITON_PATH
+                        + "/omap"
+                        : PARTITON_PATH;
+                if (mUtils.existFile(path)) {
+                    File[] platforms = new File(path).listFiles();
+                    if (platforms.length > 0) for (File platform : platforms)
+                        if (platform.isDirectory()) for (File emmc : platform
                                 .listFiles())
-                            for (String names : partitionNames)
-                                if (names.equals(part.getName())
-                                        || names.toUpperCase().equals(
-                                                part.getName())) {
-                                    if (partition == PartitionType.BOOT) bootPartition = part
-                                            .getAbsolutePath();
-                                    if (partition == PartitionType.RECOVERY) recoveryPartition = part
-                                            .getAbsolutePath();
-                                    if (partition == PartitionType.FOTA) fotaPartition = part
-                                            .getAbsolutePath();
-                                }
+                            if (emmc.getName().equals("by-name")) for (File part : emmc
+                                    .listFiles())
+                                for (String names : partitionNames)
+                                    if (names.equals(part.getName())
+                                            || names.toUpperCase().equals(
+                                                    part.getName())) {
+                                        if (partition == PartitionType.BOOT) bootPartition = part
+                                                .getAbsolutePath();
+                                        if (partition == PartitionType.RECOVERY) recoveryPartition = part
+                                                .getAbsolutePath();
+                                        if (partition == PartitionType.FOTA) fotaPartition = part
+                                                .getAbsolutePath();
+                                    }
+                }
             }
         }
 

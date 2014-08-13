@@ -25,6 +25,16 @@
     <string name="kb">kB</string>
     <string name="mb">MB</string>
 
+    <!-- Fancy Stats -->
+    <string name="fancy_stats">Fancy Stats</string>
+    <string name="usage">Usage</string>
+
+    <!-- Fancy Memory Stats -->
+    <string name="memory_stats">Memory Stats</string>
+    <string name="available">Available</string>
+    <string name="in_use">In use</string>
+    <string name="total">Total</string>
+
     <!-- Time In State -->
     <string name="time_in_state">Time In State</string>
     <string name="unused_cpu_states">Unused CPU states</string>

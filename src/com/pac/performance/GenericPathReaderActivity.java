@@ -55,6 +55,7 @@ public class GenericPathReaderActivity extends Activity implements Constants {
         });
         setContentView(list);
 
+        // Use Asynctask to speed up launching
         new Initialize().execute();
     }
 
@@ -81,6 +82,7 @@ public class GenericPathReaderActivity extends Activity implements Constants {
         protected void onPreExecute() {
             getActionBar().setDisplayHomeAsUpEnabled(true);
 
+            // Get args
             getActionBar().setTitle(
                     getIntent().getExtras().getString(ARG_TITLE));
             path = getIntent().getExtras().getString(ARG_PATH);
@@ -90,10 +92,12 @@ public class GenericPathReaderActivity extends Activity implements Constants {
     }
 
     private boolean refresh() {
+        // Remove all items first otherwise we will get duplicated items
         files.clear();
         values.clear();
         filesString.clear();
 
+        // Collecting all files and add them to Lists
         File[] fileArray = new File(path).listFiles();
         if (fileArray != null) {
             for (File file : fileArray) {
@@ -104,6 +108,7 @@ public class GenericPathReaderActivity extends Activity implements Constants {
                     filesString.add(file.getName());
                 }
             }
+            // Setup adapter
             if (files.size() > 0) {
                 adapter = new GenericListView(GenericPathReaderActivity.this,
                         filesString, values);
@@ -115,11 +120,13 @@ public class GenericPathReaderActivity extends Activity implements Constants {
         return false;
     }
 
+    // Path does not contain any files
     private void finishHim() {
         mUtils.toast(getIntent().getExtras().getString(ARG_ERROR), this);
         finish();
     }
 
+    // Overwrite onBackPressed for animation
     @Override
     public void onBackPressed() {
         super.onBackPressed();

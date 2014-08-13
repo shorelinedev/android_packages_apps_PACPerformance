@@ -159,6 +159,7 @@ public class BuildpropFragment extends Fragment implements Constants {
                     rootHelper.runCommand("echo " + key + "=" + value + " >> "
                             + BUILD_PROP);
                     rootHelper.mount(false, "/system");
+                    // Create a tmp file so we know when it is finished
                     rootHelper.runCommand("touch /cache/tmp");
                     while (true) {
                         if (mUtils.existFile("/cache/tmp")) {
@@ -187,10 +188,15 @@ public class BuildpropFragment extends Fragment implements Constants {
                     rootHelper.runCommand("rm -f /cache/tmp");
                     rootHelper.mount(true, "/system");
                     Thread.sleep(10);
+                    /*
+                     * Use sed command to overwrite props. setprop is not
+                     * reliable enough
+                     */
                     rootHelper.runCommand("sed 's|" + oldkey + "=" + oldValue
                             + "|" + newKey + "=" + newValue
                             + "|g' -i /system/build.prop");
                     rootHelper.mount(false, "/system");
+                    // Create a tmp file so we know when it is finished
                     rootHelper.runCommand("touch /cache/tmp");
                     while (true) {
                         if (mUtils.existFile("/cache/tmp")) {

@@ -10,11 +10,11 @@ import android.view.View;
 import android.widget.TextView;
 
 public class ListItem implements Item {
-    private final String str1;
+    private final String text;
     private final Fragment fragment;
 
-    public ListItem(String text1, Fragment fragment) {
-        this.str1 = text1;
+    public ListItem(String text, Fragment fragment) {
+        this.text = text;
         this.fragment = fragment;
     }
 
@@ -28,7 +28,7 @@ public class ListItem implements Item {
         View view = convertView == null ? (View) inflater.inflate(
                 R.layout.list_item, null) : convertView;
 
-        ((TextView) view.findViewById(R.id.list_item_title)).setText(str1);
+        ((TextView) view.findViewById(R.id.list_item_title)).setText(text);
 
         return view;
     }
@@ -39,7 +39,7 @@ public class ListItem implements Item {
 
     @Override
     public String getTitle() {
-        return str1;
+        return text;
     }
 
     @Override

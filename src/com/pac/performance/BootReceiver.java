@@ -11,8 +11,10 @@ public class BootReceiver extends BroadcastReceiver implements Constants {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if (rootHelper.rootAccess() && rootHelper.busyboxInstalled())
+        // Check first if root is accessable and busyox is installed
+        if (rootHelper.rootAccess() && rootHelper.busyboxInstalled()) return;
 
+        // Run set on boot
         if (mUtils.getBoolean("setonboot", false, context)) {
             String savedCommands = mUtils.getString(COMMAND_NAME, "", context);
 
@@ -28,6 +30,7 @@ public class BootReceiver extends BroadcastReceiver implements Constants {
                             context.getString(R.string.app_name)), context);
         }
 
+        // Run custom commander
         if (mUtils.getBoolean("customcommander", false, context)) {
             String savedCommands = mUtils.getString(
                     mCustomCommanderFragment.prefName, "", context);

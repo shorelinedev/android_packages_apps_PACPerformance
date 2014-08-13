@@ -1,5 +1,8 @@
 package com.pac.performance.helpers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pac.performance.utils.Constants;
 
 public class CPUHelper implements Constants {
@@ -51,6 +54,15 @@ public class CPUHelper implements Constants {
                 mCpuFreqs = new String[valueArray.length];
                 for (int i = 0; i < valueArray.length; i++)
                     mCpuFreqs[i] = valueArray[i].split(" ")[0];
+
+                if (Integer.parseInt(mCpuFreqs[0]) > Integer
+                        .parseInt(mCpuFreqs[mCpuFreqs.length - 1])) {
+                    List<String> freqs = new ArrayList<String>();
+                    for (int x = mCpuFreqs.length - 1; x >= 0; x--)
+                        freqs.add(mCpuFreqs[x]);
+                    for (int i = 0; i < mCpuFreqs.length; i++)
+                        mCpuFreqs[i] = freqs.get(i);
+                }
             }
         }
         return mCpuFreqs;

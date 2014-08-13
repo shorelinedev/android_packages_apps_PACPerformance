@@ -83,6 +83,7 @@ public class BackupFragment extends PreferenceFragment implements Constants {
         if (backups.length < 1) root.addPreference(prefHelper.setPreference(
                 null, getString(R.string.no_backups), getActivity()));
         else {
+            // Date formater
             DateFormat f = DateFormat.getDateTimeInstance(DateFormat.SHORT,
                     DateFormat.SHORT, Locale.getDefault());
 
@@ -184,8 +185,13 @@ public class BackupFragment extends PreferenceFragment implements Constants {
             public void run() {
                 rootHelper.runCommand("rm -f /cache/tmp");
                 rootHelper.getPartition(
-                        PAC_BACKUP.replace(EXTERNAL_STORAGE_DIRECTORY,
-                                "/sdcard") + "/" + name, partition);
+                /*
+                 * On device it is only possible /sdcard as external path when
+                 * running as root
+                 */
+                PAC_BACKUP.replace(EXTERNAL_STORAGE_DIRECTORY, "/sdcard") + "/"
+                        + name, partition);
+                // Create a tmp file so we know when it is finished
                 rootHelper.runCommand("touch /cache/tmp");
                 while (true) {
                     if (mUtils.existFile("/cache/tmp")) {
@@ -272,8 +278,13 @@ public class BackupFragment extends PreferenceFragment implements Constants {
             public void run() {
                 rootHelper.runCommand("rm -f /cache/tmp");
                 rootHelper.writePartition(
-                        PAC_BACKUP.replace(EXTERNAL_STORAGE_DIRECTORY,
-                                "/sdcard") + "/" + name, partition);
+                /*
+                 * On device it is only possible /sdcard as external path when
+                 * running as root
+                 */
+                PAC_BACKUP.replace(EXTERNAL_STORAGE_DIRECTORY, "/sdcard") + "/"
+                        + name, partition);
+                // Create a tmp file so we know when it is finished
                 rootHelper.runCommand("touch /cache/tmp");
                 while (true) {
                     if (mUtils.existFile("/cache/tmp")) {

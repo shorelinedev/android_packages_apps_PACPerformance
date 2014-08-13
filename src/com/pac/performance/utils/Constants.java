@@ -6,10 +6,12 @@ import com.pac.performance.fragments.BackupFragment;
 import com.pac.performance.fragments.BuildpropFragment;
 import com.pac.performance.fragments.CPUFragment;
 import com.pac.performance.fragments.CustomCommanderFragment;
+import com.pac.performance.fragments.CpuStatsFragment;
 import com.pac.performance.fragments.GPUFragment;
 import com.pac.performance.fragments.IOSchedulerFragment;
 import com.pac.performance.fragments.KernelInformationFragment;
 import com.pac.performance.fragments.LowMemoryKillerFragment;
+import com.pac.performance.fragments.MemoryStatsFragment;
 import com.pac.performance.fragments.TimeInStateFragment;
 import com.pac.performance.helpers.CPUHelper;
 import com.pac.performance.helpers.GPUHelper;
@@ -27,6 +29,7 @@ public interface Constants {
     public final String PROC_VERSION = "/proc/version";
     public final String PROC_CPUINFO = "/proc/cpuinfo";
     public final String PROC_MEMINFO = "/proc/meminfo";
+    public final String PROC_STAT = "/proc/stat";
 
     public final String EXTERNAL_STORAGE_DIRECTORY = Environment
             .getExternalStorageDirectory().toString();
@@ -38,11 +41,13 @@ public interface Constants {
     public final BackupFragment mBackupFragment = new BackupFragment();
     public final BuildpropFragment mBuildpropFragment = new BuildpropFragment();
     public final CPUFragment mCPUFragment = new CPUFragment();
+    public final CpuStatsFragment mCpuStatsFragment = new CpuStatsFragment();
     public final CustomCommanderFragment mCustomCommanderFragment = new CustomCommanderFragment();
     public final GPUFragment mGPUFragment = new GPUFragment();
     public final KernelInformationFragment mKernelInformationFragment = new KernelInformationFragment();
     public final IOSchedulerFragment mIOSchedulerFragment = new IOSchedulerFragment();
     public final LowMemoryKillerFragment mLowMemoryKillerFragment = new LowMemoryKillerFragment();
+    public final MemoryStatsFragment mMemoryStatsFragment = new MemoryStatsFragment();
     public final TimeInStateFragment mTimeInStateFragment = new TimeInStateFragment();
 
     public final CommandControl mCommandControl = new CommandControl();

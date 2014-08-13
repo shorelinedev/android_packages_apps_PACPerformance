@@ -25,6 +25,16 @@
     <string name="kb">kB</string>
     <string name="mb">MB</string>
 
+    <!-- Fancy Stats -->
+    <string name="fancy_stats">Schicke Statistiken</string>
+    <string name="usage">Verbrauch</string>
+
+    <!-- Fancy Memory Stats -->
+    <string name="memory_stats">Speicher Statistiken</string>
+    <string name="available">Verfügbar</string>
+    <string name="in_use">In Verwendung</string>
+    <string name="total">Insgesamt</string>
+
     <!-- Time In State -->
     <string name="time_in_state">Zeit in Status</string>
     <string name="unused_cpu_states">Unbenutzte Stadien</string>

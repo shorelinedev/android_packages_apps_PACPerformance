@@ -28,6 +28,9 @@ import android.widget.Switch;
 
 public class MainActivity extends Activity implements Constants {
 
+    public static int displayHeight;
+    public static int displayWidth;
+
     private ProgressDialog progress;
 
     private DrawerLayout mDrawerLayout;
@@ -46,11 +49,13 @@ public class MainActivity extends Activity implements Constants {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Check root access
         if (!rootHelper.rootAccess()) {
             mUtils.toast(getString(R.string.no_root), this);
             finish();
         }
 
+        // Check busybox installation
         if (!rootHelper.busyboxInstalled()) {
             mUtils.toast(getString(R.string.no_busybox), this);
             finish();
@@ -58,9 +63,11 @@ public class MainActivity extends Activity implements Constants {
 
         setContentView(R.layout.activity_main);
 
+        // Use Asynctask to speed up launching
         new Initialize().execute(savedInstanceState);
     }
 
+    // Initialize all views
     private void setDrawer() {
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -108,19 +115,33 @@ public class MainActivity extends Activity implements Constants {
         });
     }
 
+    // Use list to collect all fragments so we can easily organize them
     private void setFragments() {
         items.clear();
 
+        // Check GPU controls are supported
         boolean addGpu = false;
         for (String[] array : GPU_ARRAY)
             for (String file : array)
                 if (!addGpu) if (mUtils.existFile(file)) addGpu = true;
 
+        // Information
         items.add(new HeaderItem(getString(R.string.info)));
         items.add(new ListItem(getString(R.string.time_in_state),
                 mTimeInStateFragment));
         items.add(new ListItem(getString(R.string.kernel_info),
                 mKernelInformationFragment));
+
+        // Fancy Stats
+        if (mMemoryStatsFragment.hasSupport() || cpuHelper.getCoreCount() < 9) items
+                .add(new HeaderItem(getString(R.string.fancy_stats)));
+        // Cpu stats only supports max. 8 cores
+        if (cpuHelper.getCoreCount() < 9) items.add(new ListItem(
+                getString(R.string.cpu_stats), mCpuStatsFragment));
+        if (mMemoryStatsFragment.hasSupport()) items.add(new ListItem(
+                getString(R.string.memory_stats), mMemoryStatsFragment));
+
+        // Kernel
         items.add(new HeaderItem(getString(R.string.kernel)));
         items.add(new ListItem(getString(R.string.cpu), mCPUFragment));
         if (addGpu) items.add(new ListItem(getString(R.string.gpu),
@@ -129,6 +150,8 @@ public class MainActivity extends Activity implements Constants {
                 mIOSchedulerFragment));
         items.add(new ListItem(getString(R.string.low_memory_killer),
                 mLowMemoryKillerFragment));
+
+        // Utilities
         items.add(new HeaderItem(getString(R.string.utilities)));
         items.add(new ListItem(getString(R.string.custom_commander),
                 mCustomCommanderFragment));
@@ -146,6 +169,7 @@ public class MainActivity extends Activity implements Constants {
     }
 
     private void selectItem(int position) {
+        // Hide custom command switch
         if (mCustomCommanderFragment.actionBarSwitch != null) mCustomCommanderFragment.actionBarSwitch
                 .setVisibility(items.get(position).getFragment() == mCustomCommanderFragment ? View.VISIBLE
                         : View.GONE);
