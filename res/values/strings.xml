@@ -104,6 +104,9 @@
     <string name="medium">Medium</string>
     <string name="very_aggressive">Very Aggressive</string>
 
+    <!-- Virtual Machine -->
+    <string name="virtual_machine">Virtual Machine</string>
+
     <!-- Custom Commander -->
     <string name="custom_commander">Custom Commander</string>
     <string name="custom_commander_summary">Custom Commander allows you to add your own controls which will be applied after booting. You can add any commands as long they are able to run in shell as well.</string>

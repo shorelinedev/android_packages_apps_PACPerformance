@@ -104,6 +104,9 @@
     <string name="medium">Mittel</string>
     <string name="very_aggressive">Sehr Aggressiv</string>
 
+    <!-- Virtual Machine -->
+    <string name="virtual_machine">Virtuelle Maschine</string>
+
     <!-- Custom Commander -->
     <string name="custom_commander">Custom Commander</string>
     <string name="custom_commander_summary">Custom Commander erlaubt es Ihnen ihre eigene Befehle nach dem Starten auszuführen. Sie können jede erdenkliche Befehle hinzufügen, solange sie auch in Shell interagieren kann.</string>

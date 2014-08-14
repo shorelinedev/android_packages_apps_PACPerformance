@@ -234,7 +234,7 @@ public class CpuStatsFragment extends Fragment implements Constants {
                     series[i].resetData(data);
                 }
             }
-            hand.postDelayed(run2, 2000);
+            hand.postDelayed(run2, 1000);
         }
     };
 

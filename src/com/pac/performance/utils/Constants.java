@@ -13,12 +13,14 @@ import com.pac.performance.fragments.KernelInformationFragment;
 import com.pac.performance.fragments.LowMemoryKillerFragment;
 import com.pac.performance.fragments.MemoryStatsFragment;
 import com.pac.performance.fragments.TimeInStateFragment;
+import com.pac.performance.fragments.VirtualMachineFragment;
 import com.pac.performance.helpers.CPUHelper;
 import com.pac.performance.helpers.GPUHelper;
 import com.pac.performance.helpers.IOHelper;
 import com.pac.performance.helpers.LowMemoryKillerHelper;
 import com.pac.performance.helpers.PreferenceHelper;
 import com.pac.performance.helpers.RootHelper;
+import com.pac.performance.helpers.VirtualMachineHelper;
 
 public interface Constants {
 
@@ -49,6 +51,7 @@ public interface Constants {
     public final LowMemoryKillerFragment mLowMemoryKillerFragment = new LowMemoryKillerFragment();
     public final MemoryStatsFragment mMemoryStatsFragment = new MemoryStatsFragment();
     public final TimeInStateFragment mTimeInStateFragment = new TimeInStateFragment();
+    public final VirtualMachineFragment mVirtualMachineFragment = new VirtualMachineFragment();
 
     public final CommandControl mCommandControl = new CommandControl();
     public final Dialog mDialog = new Dialog();
@@ -60,6 +63,7 @@ public interface Constants {
     public final LowMemoryKillerHelper lowmemorykillerHelper = new LowMemoryKillerHelper();
     public final PreferenceHelper prefHelper = new PreferenceHelper();
     public final RootHelper rootHelper = new RootHelper();
+    public final VirtualMachineHelper virtualmachineHelper = new VirtualMachineHelper();
 
     public final String PARTITON_PATH = "/dev/block/platform";
     public final String BUILD_PROP = "/system/build.prop";
@@ -116,4 +120,6 @@ public interface Constants {
     public final String IO_EXTERNAL_READ_AHEAD = "/sys/block/mmcblk1/queue/read_ahead_kb";
 
     public final String LMK_MINFREE = "/sys/module/lowmemorykiller/parameters/minfree";
+
+    public final String VM_PATH = "/proc/sys/vm";
 }
