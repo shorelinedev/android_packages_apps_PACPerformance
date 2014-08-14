@@ -12,7 +12,7 @@ public class BootReceiver extends BroadcastReceiver implements Constants {
     public void onReceive(Context context, Intent intent) {
 
         // Check first if root is accessable and busyox is installed
-        if (rootHelper.rootAccess() && rootHelper.busyboxInstalled()) return;
+        if (!rootHelper.rootAccess() || !rootHelper.busyboxInstalled()) return;
 
         // Run set on boot
         if (mUtils.getBoolean("setonboot", false, context)) {
