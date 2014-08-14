@@ -72,9 +72,12 @@
     <!-- GPU -->
     <string name="gpu">GPU</string>
     <string name="gpu_stats">GPU Statistiken</string>
-    <string name="cur_freq">Aktuelle Frequenz</string>
-    <string name="gpu_max_freq">GPU Maximale Frequenz</string>
-    <string name="gpu_governor">GPU Governor</string>
+    <string name="gpu_2d_cur_freq">GPU 2D Aktuelle Frequenz</string>
+    <string name="gpu_3d_cur_freq">GPU 3D Aktuelle Frequenz</string>
+    <string name="gpu_2d_max_freq">GPU 2D Maximale Frequenz</string>
+    <string name="gpu_3d_max_freq">GPU 3D Maximale Frequenz</string>
+    <string name="gpu_2d_governor">GPU 2D Governor</string>
+    <string name="gpu_3d_governor">GPU 3D Governor</string>
 
     <!-- I/O Scheduler -->
     <string name="io_scheduler">I/O Scheduler</string>
