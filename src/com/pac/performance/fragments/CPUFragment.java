@@ -134,7 +134,7 @@ public class CPUFragment extends PreferenceFragment implements Constants {
                 if (i != 0) mCommandControl.runCommand(
                         mCoreBoxes[i].isChecked() ? "1" : "0",
                         String.format(CPU_CORE_ONLINE, i), CommandType.GENERIC,
-                        getActivity());
+                        -1, getActivity());
                 else {
                     mCoreBoxes[i].setChecked(true);
                     mUtils.toast(getString(R.string.turn_off_not_possible, i),
@@ -149,7 +149,7 @@ public class CPUFragment extends PreferenceFragment implements Constants {
                     public void dialogReturn(String value) {
                         preference.setSummary(value);
                     }
-                }, CommandType.CPU, getActivity());
+                }, CommandType.CPU, -1, getActivity());
 
         if (preference == mCpuMinScaling) mDialog.showDialogList(
                 mAvailableFreqs, cpuHelper.getCpuFreqs(), CPU_MIN_FREQ,
@@ -158,7 +158,7 @@ public class CPUFragment extends PreferenceFragment implements Constants {
                     public void dialogReturn(String value) {
                         preference.setSummary(value);
                     }
-                }, CommandType.CPU, getActivity());
+                }, CommandType.CPU, -1, getActivity());
 
         if (preference == mGovernorScaling) mDialog.showDialogList(
                 cpuHelper.getCpuGovernors(), null, CPU_SCALING_GOVERNOR,
@@ -167,7 +167,7 @@ public class CPUFragment extends PreferenceFragment implements Constants {
                     public void dialogReturn(String value) {
                         preference.setSummary(value);
                     }
-                }, CommandType.CPU, getActivity());
+                }, CommandType.CPU, -1, getActivity());
 
         if (preference == mGovernorTunables) {
             String governor = cpuHelper.getGovernor(0);
@@ -199,7 +199,7 @@ public class CPUFragment extends PreferenceFragment implements Constants {
                         .setSummary(getString(R.string.mc_power_saving_summary)
                                 + ": " + value);
             }
-        }, CommandType.GENERIC, getActivity());
+        }, CommandType.GENERIC, -1, getActivity());
 
         if (preference == mMpdecision) {
             if (mMpdecision.isChecked()) mCommandControl.startModule(CPU_MPDEC,

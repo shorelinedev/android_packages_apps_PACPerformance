@@ -208,20 +208,22 @@ public class MainActivity extends Activity implements Constants {
 
         @Override
         protected void onPostExecute(final Bundle result) {
-            /* TODO: cover all cores when setting file permissions.
-             * This provides coverage only for the first CPU, which
-             * may or may not be sufficient depending on the device.
-             */
             new Thread() {
                 public void run() {
 
+                    /*
+                     * Save kernel version to make sure the user still using the
+                     * current kernel on boot
+                     */
+                    mUtils.saveString("kernel_version",
+                            mUtils.readFile(PROC_VERSION), MainActivity.this);
+
                     String[] files = { String.format(CPU_MAX_FREQ, 0),
-                            String.format(CPU_MIN_FREQ, 0) };
-                    String govFile = String.format(CPU_SCALING_GOVERNOR, 0);
+                            String.format(CPU_MIN_FREQ, 0),
+                            String.format(CPU_SCALING_GOVERNOR, 0) };
 
                     for (String file : files)
                         rootHelper.runCommand("chmod 444 " + file);
-                    rootHelper.runCommand("chmod 664 " + govFile);
 
                     setFragments();
 

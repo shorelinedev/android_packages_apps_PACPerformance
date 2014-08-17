@@ -50,7 +50,7 @@ public class GenericPathReaderActivity extends Activity implements Constants {
                             public void dialogReturn(String value) {
                                 refresh();
                             }
-                        }, true, 0, CommandType.GENERIC,
+                        }, 0, CommandType.GENERIC, -1,
                         GenericPathReaderActivity.this);
             }
         });

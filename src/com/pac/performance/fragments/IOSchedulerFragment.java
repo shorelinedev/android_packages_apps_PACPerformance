@@ -1,5 +1,7 @@
 package com.pac.performance.fragments;
 
+import java.util.Locale;
+
 import com.pac.performance.GenericPathReaderActivity;
 import com.pac.performance.R;
 import com.pac.performance.helpers.IOHelper.StorageType;
@@ -119,7 +121,7 @@ public class IOSchedulerFragment extends PreferenceFragment implements
                             e.printStackTrace();
                         }
                     }
-                }, CommandType.GENERIC, getActivity());
+                }, CommandType.GENERIC, -1, getActivity());
 
         if (preference == mExternalScheduler) mDialog.showDialogList(
                 ioHelper.getSchedulers(StorageType.EXTERNAL), null,
@@ -134,7 +136,7 @@ public class IOSchedulerFragment extends PreferenceFragment implements
                             e.printStackTrace();
                         }
                     }
-                }, CommandType.GENERIC, getActivity());
+                }, CommandType.GENERIC, -1, getActivity());
 
         if (preference == mInternalSchedulerTunable) {
             String scheduler = ioHelper.getScheduler(StorageType.INTERNAL);
@@ -143,11 +145,13 @@ public class IOSchedulerFragment extends PreferenceFragment implements
             Bundle args = new Bundle();
             args.putString(GenericPathReaderActivity.ARG_TITLE,
                     getString(R.string.internal_scheduler_tunable) + ": "
-                            + scheduler.toUpperCase());
+                            + scheduler.toUpperCase(Locale.getDefault()));
             args.putString(GenericPathReaderActivity.ARG_PATH,
                     IO_INTERNAL_SCHEDULER_TUNABLE);
-            args.putString(GenericPathReaderActivity.ARG_ERROR,
-                    getString(R.string.not_tunable, scheduler.toUpperCase()));
+            args.putString(
+                    GenericPathReaderActivity.ARG_ERROR,
+                    getString(R.string.not_tunable,
+                            scheduler.toUpperCase(Locale.getDefault())));
             i.putExtras(args);
 
             startActivity(i);
@@ -161,11 +165,13 @@ public class IOSchedulerFragment extends PreferenceFragment implements
             Bundle args = new Bundle();
             args.putString(GenericPathReaderActivity.ARG_TITLE,
                     getString(R.string.external_scheduler_tunable) + ": "
-                            + scheduler.toUpperCase());
+                            + scheduler.toUpperCase(Locale.getDefault()));
             args.putString(GenericPathReaderActivity.ARG_PATH,
                     IO_EXTERNAL_SCHEDULER_TUNABLE);
-            args.putString(GenericPathReaderActivity.ARG_ERROR,
-                    getString(R.string.not_tunable, scheduler.toUpperCase()));
+            args.putString(
+                    GenericPathReaderActivity.ARG_ERROR,
+                    getString(R.string.not_tunable,
+                            scheduler.toUpperCase(Locale.getDefault())));
             i.putExtras(args);
 
             startActivity(i);
@@ -187,7 +193,7 @@ public class IOSchedulerFragment extends PreferenceFragment implements
                             e.printStackTrace();
                         }
                     }
-                }, CommandType.GENERIC, getActivity());
+                }, CommandType.GENERIC, -1, getActivity());
 
         if (preference == mExternalReadahead) mDialog.showDialogList(
                 readaheadValues, readaheadValuesOriginal,
@@ -204,7 +210,7 @@ public class IOSchedulerFragment extends PreferenceFragment implements
                             e.printStackTrace();
                         }
                     }
-                }, CommandType.GENERIC, getActivity());
+                }, CommandType.GENERIC, -1, getActivity());
 
         return true;
     }

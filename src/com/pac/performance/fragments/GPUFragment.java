@@ -132,7 +132,7 @@ public class GPUFragment extends PreferenceFragment implements Constants {
                             public void dialogReturn(String value) {
                                 preference.setSummary(value);
                             }
-                        }, CommandType.GENERIC, getActivity());
+                        }, CommandType.GENERIC, -1, getActivity());
 
         if (preference == mGpu2dGovernor) mDialog.showDialogList(
                 gpuHelper.getGpu2dGovernors(), null,
@@ -146,7 +146,7 @@ public class GPUFragment extends PreferenceFragment implements Constants {
                             e.printStackTrace();
                         }
                     }
-                }, CommandType.GENERIC, getActivity());
+                }, CommandType.GENERIC, -1, getActivity());
 
         if (preference == mGpu3dMaxFreq && gpuHelper.hasGpu3dFreqs()) mDialog
                 .showDialogList(mAvailable3dFreqs, gpuHelper.getGpu3dFreqs(),
@@ -155,7 +155,7 @@ public class GPUFragment extends PreferenceFragment implements Constants {
                             public void dialogReturn(String value) {
                                 preference.setSummary(value);
                             }
-                        }, CommandType.GENERIC, getActivity());
+                        }, CommandType.GENERIC, -1, getActivity());
 
         if (preference == mGpu3dGovernor) mDialog.showDialogList(
                 gpuHelper.getGpu3dGovernors(), null,
@@ -169,7 +169,7 @@ public class GPUFragment extends PreferenceFragment implements Constants {
                             e.printStackTrace();
                         }
                     }
-                }, CommandType.GENERIC, getActivity());
+                }, CommandType.GENERIC, -1, getActivity());
 
         return true;
     }

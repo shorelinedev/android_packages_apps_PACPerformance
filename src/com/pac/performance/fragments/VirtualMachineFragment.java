@@ -46,9 +46,8 @@ public class VirtualMachineFragment extends PreferenceFragment implements
                 public void dialogReturn(String value) {
                     preference.setSummary(value);
                 }
-            }, true, 0, CommandType.GENERIC, getActivity());
+            }, 0, CommandType.GENERIC, -1, getActivity());
 
         return true;
     }
-
 }

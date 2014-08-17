@@ -52,7 +52,8 @@ public class KernelInformationFragment extends Fragment implements Constants {
                     @Override
                     public void run() {
                         header.setText(getString(R.string.kernel_version));
-                        kernelVersion.setText(mUtils.readFile(PROC_VERSION));
+                        kernelVersion.setText(mUtils.getString(
+                                "kernel_version", "unknown", getActivity()));
                         header1.setText(getString(R.string.cpu_info));
                         cpuInfo.setText(mUtils.readFile(PROC_CPUINFO));
                         header2.setText(getString(R.string.memory_info));

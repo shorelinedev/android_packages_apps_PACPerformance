@@ -19,6 +19,7 @@
     <string name="aggressive">Aggressiv</string>
     <string name="minus">&lt;</string>
     <string name="plus">&gt;</string>
+    <string name="new_kernel">Neuer Kernel entdeckt! %s wird ihre Werte nicht übernehmen.</string>
 
     <!-- Unit -->
     <string name="mhz">MHz</string>

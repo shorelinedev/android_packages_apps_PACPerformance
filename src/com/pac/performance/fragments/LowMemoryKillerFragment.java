@@ -86,7 +86,7 @@ public class LowMemoryKillerFragment extends PreferenceFragment implements
                                     : command;
                         }
                         mCommandControl.runCommand(commandvalue, LMK_MINFREE,
-                                CommandType.GENERIC, getActivity());
+                                CommandType.GENERIC, position, getActivity());
                         refresh();
                     }
                 }, getActivity());
@@ -94,8 +94,13 @@ public class LowMemoryKillerFragment extends PreferenceFragment implements
 
         for (int i = 0; i < mProfileValues.length; i++)
             if (preference == mProfile[i]) {
-                mCommandControl.runCommand(preference.getSummary().toString(),
-                        LMK_MINFREE, CommandType.GENERIC, getActivity());
+                /*
+                 * We do not use our common way to apply a change, because those
+                 * profiles could break the minfree settings by the user.
+                 */
+                rootHelper.runCommand("echo "
+                        + preference.getSummary().toString() + " > "
+                        + LMK_MINFREE);
                 refresh();
             }
 

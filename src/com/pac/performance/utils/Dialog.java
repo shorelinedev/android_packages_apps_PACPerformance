@@ -23,21 +23,22 @@ public class Dialog implements Constants {
     public void showDialogList(final String[] modifiedItems,
             final String[] items, final String file,
             final DialogReturn dialogreturn, final CommandType command,
-            final Activity activity) {
+            final int customID, final Activity activity) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setItems(modifiedItems, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, final int item) {
                 mCommandControl.runCommand(items == null ? modifiedItems[item]
-                        : items[item], file, command, activity);
+                        : items[item], file, command, customID, activity);
                 dialogreturn.dialogReturn(modifiedItems[item]);
             }
         }).show();
     }
 
     public void showDialogGeneric(final String file, String value,
-            final DialogReturn dialogreturn, final boolean apply, int input,
-            final CommandType command, final Activity activity) {
+            final DialogReturn dialogreturn, int input,
+            final CommandType command, final int customID,
+            final Activity activity) {
 
         LinearLayout layout = new LinearLayout(activity);
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -62,8 +63,9 @@ public class Dialog implements Constants {
                 .setPositiveButton(android.R.string.ok, new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (apply) mCommandControl.runCommand(editor.getText()
-                                .toString(), file, command, activity);
+                        if (command != null) mCommandControl.runCommand(editor
+                                .getText().toString(), file, command, customID,
+                                activity);
                         dialogreturn.dialogReturn(editor.getText().toString());
                     }
                 }).show();

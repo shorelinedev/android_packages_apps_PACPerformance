@@ -47,10 +47,8 @@ public class CPUVoltageFragment extends PreferenceFragment implements Constants 
         for (int i = 0; i < cpuVoltageHelper.getFreqs().length; i++)
             if (preference == mVoltage[i]) {
                 final int position = i;
-                mDialog.showDialogGeneric(
-                        CPU_VOLTAGE,
-                        cpuVoltageHelper.getVoltages()[i],
-                        new DialogReturn() {
+                mDialog.showDialogGeneric(CPU_VOLTAGE,
+                        cpuVoltageHelper.getVoltages()[i], new DialogReturn() {
                             @Override
                             public void dialogReturn(String value) {
                                 String commandvalue = "";
@@ -65,7 +63,7 @@ public class CPUVoltageFragment extends PreferenceFragment implements Constants 
                                             : command;
                                 }
                                 mCommandControl.runCommand(commandvalue,
-                                        CPU_VOLTAGE, CommandType.CPU,
+                                        CPU_VOLTAGE, CommandType.CPU, position,
                                         getActivity());
 
                                 new Thread() {
@@ -91,8 +89,7 @@ public class CPUVoltageFragment extends PreferenceFragment implements Constants 
                                     }
                                 }.start();
                             }
-                        }, false, InputType.TYPE_CLASS_NUMBER, null,
-                        getActivity());
+                        }, InputType.TYPE_CLASS_NUMBER, null, -1, getActivity());
             }
 
         return true;
