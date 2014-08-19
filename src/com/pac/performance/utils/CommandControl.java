@@ -1,6 +1,7 @@
 package com.pac.performance.utils;
 
 import android.app.Activity;
+import android.content.Context;
 
 public class CommandControl implements Constants {
 
@@ -12,47 +13,46 @@ public class CommandControl implements Constants {
     }
 
     public void commandSaver(String file, String value, int customID,
-            Activity activity) {
-        mUtils.saveString(file, value, activity);
+            Context context) {
+        mUtils.saveString(file, value, context);
 
-        String saved = mUtils
-                .getString(COMMAND_NAME, "nothing_found", activity);
+        String saved = mUtils.getString(COMMAND_NAME, "nothing_found", context);
         if (customID > -1) {
-            mUtils.saveString(file + idSplit + customID, value, activity);
+            mUtils.saveString(file + idSplit + customID, value, context);
 
             if (!saved.contains(file + idSplit + customID)) mUtils.saveString(
                     COMMAND_NAME, saved.equals("nothing_found") ? file
                             + idSplit + customID : saved + fileSplit + file
-                            + idSplit + customID, activity);
+                            + idSplit + customID, context);
         } else {
-            mUtils.saveString(file, value, activity);
+            mUtils.saveString(file, value, context);
 
             String name = mUtils.getString(COMMAND_NAME, "nothing_found",
-                    activity);
+                    context);
             if (!name.contains(file)) mUtils.saveString(COMMAND_NAME,
                     name.equals("nothing_found") ? file : name + fileSplit
-                            + file, activity);
+                            + file, context);
         }
     }
 
     public void runGeneric(String file, String value, int customID,
-            Activity activity) {
+            Context context) {
         rootHelper.runCommand("echo " + value + " > " + file);
 
-        commandSaver(file, "echo " + value + " > " + file, customID, activity);
+        commandSaver(file, "echo " + value + " > " + file, customID, context);
     }
 
-    public void startModule(String module, boolean save, Activity activity) {
+    public void startModule(String module, boolean save, Context context) {
         rootHelper.runCommand("start " + module);
 
-        if (save) commandSaver(module, "start " + module, -1, activity);
+        if (save) commandSaver(module, "start " + module, -1, context);
     }
 
-    public void stopModule(String module, boolean save, Activity activity) {
+    public void stopModule(String module, boolean save, Context context) {
         rootHelper.runCommand("stop " + module);
         if (module.equals(CPU_MPDEC)) bringCoresOnline();
 
-        if (save) commandSaver(module, "stop " + module, -1, activity);
+        if (save) commandSaver(module, "stop " + module, -1, context);
     }
 
     public void bringCoresOnline() {

@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -36,8 +35,8 @@ public class Utils implements Constants {
                 defaults);
     }
 
-    public void saveString(String name, String value, Activity activity) {
-        activity.getSharedPreferences(PREF_NAME, 0).edit()
+    public void saveString(String name, String value, Context context) {
+        context.getSharedPreferences(PREF_NAME, 0).edit()
                 .putString(name, value).commit();
     }
 

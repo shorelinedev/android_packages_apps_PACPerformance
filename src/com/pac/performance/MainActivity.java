@@ -12,6 +12,7 @@ import com.pac.performance.utils.views.ListItem;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -159,6 +160,7 @@ public class MainActivity extends Activity implements Constants {
                 .add(new ListItem(getString(R.string.backup), mBackupFragment));
         items.add(new ListItem(getString(R.string.build_prop),
                 mBuildpropFragment));
+        items.add(new ListItem(getString(R.string.per_app_mode), null));
     }
 
     @Override
@@ -167,24 +169,34 @@ public class MainActivity extends Activity implements Constants {
     }
 
     private void selectItem(int position) {
-        // Hide custom command switch
-        if (mCustomCommanderFragment.actionBarSwitch != null) mCustomCommanderFragment.actionBarSwitch
-                .setVisibility(items.get(position).getFragment() == mCustomCommanderFragment ? View.VISIBLE
-                        : View.GONE);
-
-        mDrawerList.setItemChecked(curposition, true);
-
         if (items.get(position).isHeader()) return;
 
-        getFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, items.get(position).getFragment())
-                .commit();
+        if (items.get(position).getTitle()
+                .equals(getString(R.string.per_app_mode))) {
+            startActivity(new Intent(this, PerAppModeActivity.class));
+            overridePendingTransition(enter_anim, exit_anim);
+            return;
+        }
 
-        mDrawerList.setItemChecked(position, true);
-        setTitle(items.get(position).getTitle());
+        if (curposition != position || position == 1) {
+
+            if (mCustomCommanderFragment.actionBarSwitch != null) mCustomCommanderFragment.actionBarSwitch
+                    .setVisibility(items.get(position).getFragment() == mCustomCommanderFragment ? View.VISIBLE
+                            : View.GONE);
+
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_frame,
+                            items.get(position).getFragment()).commit();
+
+            mDrawerList.setItemChecked(curposition, true);
+
+            setTitle(items.get(position).getTitle());
+            mDrawerList.setItemChecked(position, true);
+
+            curposition = position;
+        }
         mDrawerLayout.closeDrawer(mDrawer);
-
-        curposition = position;
     }
 
     @Override
@@ -223,7 +235,7 @@ public class MainActivity extends Activity implements Constants {
                             String.format(CPU_SCALING_GOVERNOR, 0) };
 
                     for (String file : files)
-                        rootHelper.runCommand("chmod 444 " + file);
+                        rootHelper.runCommand("chmod 644 " + file);
 
                     setFragments();
 

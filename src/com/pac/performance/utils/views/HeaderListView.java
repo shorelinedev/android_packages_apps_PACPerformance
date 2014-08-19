@@ -25,7 +25,6 @@ public class HeaderListView extends ArrayAdapter<Item> {
     @Override
     public int getViewTypeCount() {
         return RowType.values().length;
-
     }
 
     @Override

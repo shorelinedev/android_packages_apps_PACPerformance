@@ -61,8 +61,7 @@ public class BuildpropFragment extends Fragment implements Constants {
     }
 
     private void refresh() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
+        new Thread() {
             public void run() {
                 keys.clear();
                 values.clear();
@@ -79,12 +78,17 @@ public class BuildpropFragment extends Fragment implements Constants {
                             values.add(value + "\n");
                         }
 
-                    ArrayAdapter<String> adapter = new GenericListView(
+                    final ArrayAdapter<String> adapter = new GenericListView(
                             getActivity(), keys, values);
-                    list.setAdapter(adapter);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            list.setAdapter(adapter);
+                        }
+                    });
                 }
             }
-        });
+        }.start();
     }
 
     private void backup() {
@@ -169,7 +173,8 @@ public class BuildpropFragment extends Fragment implements Constants {
                     rootHelper.runCommand("touch " + Constants.TMP_FILE);
                     while (true) {
                         if (mUtils.existFile(Constants.TMP_FILE)) {
-                            rootHelper.runCommand("rm -f " + Constants.TMP_FILE);
+                            rootHelper
+                                    .runCommand("rm -f " + Constants.TMP_FILE);
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -206,7 +211,8 @@ public class BuildpropFragment extends Fragment implements Constants {
                     rootHelper.runCommand("touch " + Constants.TMP_FILE);
                     while (true) {
                         if (mUtils.existFile(Constants.TMP_FILE)) {
-                            rootHelper.runCommand("rm -f " + Constants.TMP_FILE);
+                            rootHelper
+                                    .runCommand("rm -f " + Constants.TMP_FILE);
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

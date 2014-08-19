@@ -38,4 +38,14 @@
         <item>@string/delete</item>
     </string-array>
 
+    <!-- Per App mode -->
+    <string-array name="per_app_mode_tab">
+        <item>@string/apps</item>
+        <item>@string/profiles</item>
+    </string-array>
+    <string-array name="per_app_mode_profile">
+        <item>@string/edit</item>
+        <item>@string/delete</item>
+    </string-array>
+
 </resources>

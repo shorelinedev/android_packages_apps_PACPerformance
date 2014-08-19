@@ -1,5 +1,6 @@
 package com.pac.performance;
 
+import com.pac.performance.services.PerAppModesService;
 import com.pac.performance.utils.Constants;
 
 import android.content.BroadcastReceiver;
@@ -23,6 +24,10 @@ public class BootReceiver extends BroadcastReceiver implements Constants {
             context.getSharedPreferences(PREF_NAME, 0).edit().clear().commit();
             return;
         }
+
+        // Start Per App Mode if activated
+        if (mUtils.getBoolean("perappmode", false, context)) context
+                .startService(new Intent(context, PerAppModesService.class));
 
         // Run set on boot
         if (mUtils.getBoolean("setonboot", false, context)) {

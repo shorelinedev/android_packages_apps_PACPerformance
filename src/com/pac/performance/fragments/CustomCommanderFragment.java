@@ -212,7 +212,8 @@ public class CustomCommanderFragment extends Fragment implements Constants {
         String saved = mUtils.getString(prefName, "", getActivity());
 
         if (alreadyExists(name, saved)) {
-            mUtils.toast(getString(R.string.already_exist), getActivity());
+            mUtils.toast(getString(R.string.custom_commander_already_exist),
+                    getActivity());
             return;
         }
 
@@ -229,7 +230,8 @@ public class CustomCommanderFragment extends Fragment implements Constants {
         if (saved.isEmpty()) return;
 
         if (alreadyExists(newName, saved)) {
-            mUtils.toast(getString(R.string.already_exist), getActivity());
+            mUtils.toast(getString(R.string.custom_commander_already_exist),
+                    getActivity());
             return;
         }
 

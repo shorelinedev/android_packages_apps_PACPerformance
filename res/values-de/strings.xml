@@ -120,7 +120,7 @@
     <string name="custom_commander_summary">Custom Commander erlaubt es Ihnen ihre eigene Befehle nach dem Starten auszuführen. Sie können jede erdenkliche Befehle hinzufügen, solange sie auch in Shell interagieren kann.</string>
     <string name="name">Name</string>
     <string name="command">Befehl</string>
-    <string name="already_exist">Ein Befehl mit gleichem Namen existiert bereits. Bitte löschen oder bearbeiten Sie die alte Konfiguration.</string>
+    <string name="custom_commander_already_exist">Ein Befehl mit gleichem Namen existiert bereits. Bitte löschen oder bearbeiten Sie die alte Konfiguration.</string>
     <string name="run">Ausführen</string>
     <string name="edit">Bearbeiten</string>
 
@@ -146,5 +146,17 @@
     <string name="key">Schlüssel</string>
     <string name="value">Wert</string>
     <string name="delete_prop">%s löschen?</string>
+
+    <!-- Per App Mode -->
+    <string name="per_app_mode">Per App Mode</string>
+    <string name="apps">Applikationen</string>
+    <string name="no_profiles">Keine Profile gefunden.</string>
+    <string name="per_app_mode_already_exist">%s existiert bereits. Bitte löschen Sie die alte zuerst.</string>
+    <string name="delete_profile">Profil löschen</string>
+    <string name="start_per_app_mode">Starte Per App Mode</string>
+    <string name="stop_per_app_mode">Stoppe Per App Mode</string>
+    <string name="active_per_app_mode">Per App Mode ist aktiv</string>
+    <string name="apply_profile">Werte von %s werden übernommen</string>
+    <string name="reset_profile_change">Setze %s Werte zurück</string>
 
 </resources>

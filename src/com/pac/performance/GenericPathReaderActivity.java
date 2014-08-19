@@ -62,7 +62,10 @@ public class GenericPathReaderActivity extends Activity implements Constants {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) finish();
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            overridePendingTransition(enter_anim, exit_anim);
+        }
         return true;
     }
 

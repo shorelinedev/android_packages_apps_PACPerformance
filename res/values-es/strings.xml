@@ -115,7 +115,7 @@
     <string name="custom_commander_summary">Esto permite que usted agregue sus propios controles que se aplicarán después de arrancar. Usted puede agregar cualquier comando, siempre que sean capaces de funcionar en terminal también</string>
     <string name="name">Nombre</string>
     <string name="command">Comando</string>
-    <string name="already_exist">Un comando con el mismo nombre ya existe. Por favor, elimine o modifique el anterior</string>
+    <string name="custom_commander_already_exist">Un comando con el mismo nombre ya existe. Por favor, elimine o modifique el anterior</string>
     <string name="run">Ejecutar</string>
     <string name="edit">Editar</string>
 

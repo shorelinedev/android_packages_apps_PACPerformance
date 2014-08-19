@@ -120,7 +120,7 @@
     <string name="custom_commander_summary">Custom Commander allows you to add your own controls which will be applied after booting. You can add any commands as long they are able to run in shell as well.</string>
     <string name="name">Name</string>
     <string name="command">Command</string>
-    <string name="already_exist">A command with the same name already exists. Please delete or modify the old one.</string>
+    <string name="custom_commander_already_exist">A command with the same name already exists. Please delete or modify the old one.</string>
     <string name="run">Run</string>
     <string name="edit">Edit</string>
 
@@ -146,5 +146,17 @@
     <string name="key">Key</string>
     <string name="value">Value</string>
     <string name="delete_prop">Delete %s?</string>
+
+    <!-- Per App Mode -->
+    <string name="per_app_mode">Per App Mode</string>
+    <string name="apps">Applications</string>
+    <string name="no_profiles">No profiles found.</string>
+    <string name="per_app_mode_already_exist">%s exists already. Please delete the old one first.</string>
+    <string name="delete_profile">Delete profile</string>
+    <string name="start_per_app_mode">Start Per App Mode</string>
+    <string name="stop_per_app_mode">Stop Per App Mode</string>
+    <string name="active_per_app_mode">Per App Mode is active</string>
+    <string name="apply_profile">Apply profile %s</string>
+    <string name="reset_profile_change">Reset %s changes</string>
 
 </resources>
