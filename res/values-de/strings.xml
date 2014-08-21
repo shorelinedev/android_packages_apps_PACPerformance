@@ -4,7 +4,10 @@
     <string name="app_name">PACPerformance</string>
     <string name="no_root">Kein Root Zugriff</string>
     <string name="no_busybox">Busybox ist nicht installiert</string>
+    <string name="settings">Einstellungen</string>
     <string name="set_on_boot">Nach starten übernehmen</string>
+    <string name="delay">Verzögerung</string>
+    <string name="seconds">%d Sekunde/n</string>
     <string name="booted_up">%s hat ihre Werte übernohmen</string>
     <string name="loading">Lädt</string>
     <string name="info">Information</string>

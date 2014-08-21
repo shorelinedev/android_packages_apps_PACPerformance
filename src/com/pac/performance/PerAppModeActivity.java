@@ -57,6 +57,7 @@ public class PerAppModeActivity extends Activity implements Constants {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(enter_anim, exit_anim);
         setContentView(R.layout.per_app_mode_main);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);

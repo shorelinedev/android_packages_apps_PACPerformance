@@ -187,7 +187,6 @@ public class CPUFragment extends PreferenceFragment implements Constants {
             i.putExtras(args);
 
             startActivity(i);
-            getActivity().overridePendingTransition(enter_anim, exit_anim);
         }
 
         if (preference == mMcPowerSaving) mDialog.showDialogList(getResources()

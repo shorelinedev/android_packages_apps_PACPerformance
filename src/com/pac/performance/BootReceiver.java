@@ -11,7 +11,7 @@ import android.util.Log;
 public class BootReceiver extends BroadcastReceiver implements Constants {
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, Intent intent) {
 
         String kernelVersion = mUtils.getString("kernel_version", "", context);
         if (kernelVersion.isEmpty()
@@ -35,8 +35,16 @@ public class BootReceiver extends BroadcastReceiver implements Constants {
                     .getString(COMMAND_NAME, null, context);
 
             if (savedCommands != null) {
-                // Check first if root is accessable and busyox is installed
+                // Check first if root is accessable and busyox is
+                // installed
                 if (!rootHelper.rootAccess() || !rootHelper.busyboxInstalled()) return;
+
+                try {
+                    Thread.sleep(mUtils
+                            .getInteger("setonbootdelay", 0, context) * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 String[] files = savedCommands.split(mCommandControl.fileSplit);
                 for (String file : files)
@@ -55,7 +63,8 @@ public class BootReceiver extends BroadcastReceiver implements Constants {
                     mCustomCommanderFragment.prefName, null, context);
 
             if (savedCommands != null) {
-                // Check first if root is accessable and busyox is installed
+                // Check first if root is accessable and busyox is
+                // installed
                 if (!rootHelper.rootAccess() || !rootHelper.busyboxInstalled()) return;
 
                 for (String command : mCustomCommanderFragment

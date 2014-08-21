@@ -44,62 +44,68 @@ public class BackupFragment extends PreferenceFragment implements Constants {
     }
 
     private void refresh() {
-        root.removeAll();
+        new Thread() {
+            public void run() {
+                root.removeAll();
 
-        if (rootHelper.getPartitionName(PartitionType.BOOT) != null) {
-            mBoot = prefHelper
-                    .setPreference(
+                if (rootHelper.getPartitionName(PartitionType.BOOT) != null) {
+                    mBoot = prefHelper.setPreference(
                             getString(R.string.boot),
                             getString(R.string.backup_summary,
                                     getString(R.string.boot)), getActivity());
 
-            root.addPreference(mBoot);
-        }
+                    root.addPreference(mBoot);
+                }
 
-        if (rootHelper.getPartitionName(PartitionType.RECOVERY) != null) {
-            mRecovery = prefHelper.setPreference(
-                    getString(R.string.recovery),
-                    getString(R.string.backup_summary,
-                            getString(R.string.recovery)), getActivity());
+                if (rootHelper.getPartitionName(PartitionType.RECOVERY) != null) {
+                    mRecovery = prefHelper.setPreference(
+                            getString(R.string.recovery),
+                            getString(R.string.backup_summary,
+                                    getString(R.string.recovery)),
+                            getActivity());
 
-            root.addPreference(mRecovery);
-        }
+                    root.addPreference(mRecovery);
+                }
 
-        if (rootHelper.getPartitionName(PartitionType.FOTA) != null) {
-            mFota = prefHelper
-                    .setPreference(
+                if (rootHelper.getPartitionName(PartitionType.FOTA) != null) {
+                    mFota = prefHelper.setPreference(
                             getString(R.string.fota),
                             getString(R.string.backup_summary,
                                     getString(R.string.fota)), getActivity());
 
-            root.addPreference(mFota);
-        }
+                    root.addPreference(mFota);
+                }
 
-        root.addPreference(prefHelper.setPreferenceCategory(
-                getString(R.string.backups), getActivity()));
+                root.addPreference(prefHelper.setPreferenceCategory(
+                        getString(R.string.backups), getActivity()));
 
-        File[] backups = new File(PAC_BACKUP).listFiles();
+                File[] backups = new File(PAC_BACKUP).listFiles();
 
-        if (backups.length < 1) root.addPreference(prefHelper.setPreference(
-                null, getString(R.string.no_backups), getActivity()));
-        else {
-            // Date formater
-            DateFormat f = DateFormat.getDateTimeInstance(DateFormat.SHORT,
-                    DateFormat.SHORT, Locale.getDefault());
+                if (backups.length < 1) root.addPreference(prefHelper
+                        .setPreference(null, getString(R.string.no_backups),
+                                getActivity()));
+                else {
+                    // Date formater
+                    DateFormat f = DateFormat.getDateTimeInstance(
+                            DateFormat.SHORT, DateFormat.SHORT,
+                            Locale.getDefault());
 
-            mBackups = new Preference[backups.length];
-            for (int i = 0; i < backups.length; i++) {
-                mBackups[i] = prefHelper.setPreference(
-                        backups[i].getName().split(nameSplit)[0],
-                        backups[i].getName().split(nameSplit)[1] + " "
-                                + (backups[i].length() / 1024 / 1024)
-                                + getString(R.string.mb) + ", "
-                                + getString(R.string.last_modified) + ": "
-                                + f.format(backups[i].lastModified()),
-                        getActivity());
-                root.addPreference(mBackups[i]);
+                    mBackups = new Preference[backups.length];
+                    for (int i = 0; i < backups.length; i++) {
+                        mBackups[i] = prefHelper.setPreference(
+                                backups[i].getName().split(nameSplit)[0],
+                                backups[i].getName().split(nameSplit)[1] + " "
+                                        + (backups[i].length() / 1024 / 1024)
+                                        + getString(R.string.mb) + ", "
+                                        + getString(R.string.last_modified)
+                                        + ": "
+                                        + f.format(backups[i].lastModified()),
+                                getActivity());
+                        root.addPreference(mBackups[i]);
+                    }
+                }
             }
-        }
+        }.start();
     }
 
     @Override

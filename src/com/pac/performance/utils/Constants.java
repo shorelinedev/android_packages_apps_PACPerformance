@@ -39,8 +39,8 @@ public interface Constants {
             .getExternalStorageDirectory().toString();
     public final String PAC_BACKUP = EXTERNAL_STORAGE_DIRECTORY + "/PACBackup";
 
-    public final int enter_anim = android.R.anim.fade_in;
-    public final int exit_anim = android.R.anim.fade_out;
+    public final int enter_anim = android.R.anim.slide_in_left;
+    public final int exit_anim = android.R.anim.slide_out_right;
 
     public final BackupFragment mBackupFragment = new BackupFragment();
     public final BuildpropFragment mBuildpropFragment = new BuildpropFragment();

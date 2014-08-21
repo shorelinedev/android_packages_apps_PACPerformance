@@ -22,7 +22,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -35,12 +38,12 @@ public class MainActivity extends Activity implements Constants {
     private ProgressDialog progress;
 
     private DrawerLayout mDrawerLayout;
-    private LinearLayout mDrawer;
-    private ListView mDrawerList;
+    private ListView mLeftDrawer;
+    private LinearLayout mRightDrawer;
     private Switch mDrawerSwitch;
     private ActionBarDrawerToggle mDrawerToggle;
+    private Spinner mDrawerSpinner;
 
-    private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
     private final List<Item> items = new ArrayList<Item>();
@@ -70,18 +73,19 @@ public class MainActivity extends Activity implements Constants {
 
     // Initialize all views
     private void setDrawer() {
-        mTitle = mDrawerTitle = getTitle();
+        mTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawer = (LinearLayout) findViewById(R.id.drawer);
-        mDrawerList = (ListView) findViewById(R.id.drawer_list);
+        mRightDrawer = (LinearLayout) findViewById(R.id.right_drawer);
+        mLeftDrawer = (ListView) findViewById(R.id.left_drawer);
         mDrawerSwitch = (Switch) findViewById(R.id.drawer_switch);
+        mDrawerSpinner = (Spinner) findViewById(R.id.drawer_spinner);
 
         HeaderListView adapter = new HeaderListView(this, items);
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
-        mDrawerList.setAdapter(adapter);
-        mDrawerList.setOnItemClickListener(new OnItemClickListener() {
+        mLeftDrawer.setAdapter(adapter);
+        mLeftDrawer.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                     int position, long id) {
@@ -96,12 +100,10 @@ public class MainActivity extends Activity implements Constants {
                 R.drawable.ic_drawer, 0, 0) {
             public void onDrawerClosed(View view) {
                 getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu();
+                getActionBar().setTitle(getString(R.string.app_name));
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -113,6 +115,31 @@ public class MainActivity extends Activity implements Constants {
                 mUtils.saveBoolean("setonboot", mDrawerSwitch.isEnabled(),
                         MainActivity.this);
             }
+        });
+
+        List<String> delays = new ArrayList<String>();
+
+        ArrayAdapter<String> delayAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, delays);
+        delayAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        for (int i = 0; i < 11; i++)
+            delays.add(getString(R.string.seconds, i));
+
+        mDrawerSpinner.setAdapter(delayAdapter);
+        mDrawerSpinner.setSelection(mUtils
+                .getInteger("setonbootdelay", 0, this));
+        mDrawerSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                    int position, long id) {
+                mUtils.saveInteger("setonbootdelay", position,
+                        MainActivity.this);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -152,6 +179,7 @@ public class MainActivity extends Activity implements Constants {
 
         // Utilities
         items.add(new HeaderItem(getString(R.string.utilities)));
+        items.add(new ListItem(getString(R.string.per_app_mode), null));
         items.add(new ListItem(getString(R.string.custom_commander),
                 mCustomCommanderFragment));
         if (rootHelper.getPartitionName(PartitionType.BOOT) != null
@@ -160,21 +188,28 @@ public class MainActivity extends Activity implements Constants {
                 .add(new ListItem(getString(R.string.backup), mBackupFragment));
         items.add(new ListItem(getString(R.string.build_prop),
                 mBuildpropFragment));
-        items.add(new ListItem(getString(R.string.per_app_mode), null));
+
+        items.add(new ListItem(getString(R.string.settings), null));
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        mDrawerLayout.closeDrawer(mRightDrawer);
         return mDrawerToggle.onOptionsItemSelected(item);
     }
 
-    private void selectItem(int position) {
+    private void selectItem(final int position) {
         if (items.get(position).isHeader()) return;
 
         if (items.get(position).getTitle()
                 .equals(getString(R.string.per_app_mode))) {
             startActivity(new Intent(this, PerAppModeActivity.class));
-            overridePendingTransition(enter_anim, exit_anim);
+            return;
+        }
+
+        if (items.get(position).getTitle().equals(getString(R.string.settings))) {
+            mDrawerLayout.openDrawer(mRightDrawer);
+            mDrawerLayout.closeDrawer(mLeftDrawer);
             return;
         }
 
@@ -184,19 +219,31 @@ public class MainActivity extends Activity implements Constants {
                     .setVisibility(items.get(position).getFragment() == mCustomCommanderFragment ? View.VISIBLE
                             : View.GONE);
 
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_frame,
-                            items.get(position).getFragment()).commit();
+            new Thread() {
+                public void run() {
+                    new Thread() {
+                        public void run() {}
+                    }.start();
 
-            mDrawerList.setItemChecked(curposition, true);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.content_frame,
+                                    items.get(position).getFragment()).commit();
 
-            setTitle(items.get(position).getTitle());
-            mDrawerList.setItemChecked(position, true);
+                    curposition = position;
 
-            curposition = position;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setTitle(items.get(position).getTitle());
+                            mLeftDrawer.setItemChecked(curposition, true);
+                        }
+                    });
+                }
+            }.start();
         }
-        mDrawerLayout.closeDrawer(mDrawer);
+
+        mDrawerLayout.closeDrawer(mLeftDrawer);
     }
 
     @Override
@@ -245,12 +292,10 @@ public class MainActivity extends Activity implements Constants {
 
                             if (result == null) selectItem(curposition);
 
-                            mDrawer.setBackgroundColor(getResources().getColor(
-                                    android.R.color.background_dark));
                             getActionBar().show();
 
                             mDrawerToggle.syncState();
-                            mDrawerLayout.openDrawer(mDrawer);
+                            mDrawerLayout.openDrawer(mLeftDrawer);
 
                             progress.hide();
                         }

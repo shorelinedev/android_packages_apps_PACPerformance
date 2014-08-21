@@ -18,18 +18,24 @@ public class VirtualMachineFragment extends PreferenceFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PreferenceScreen root = getPreferenceManager().createPreferenceScreen(
-                getActivity());
+        final PreferenceScreen root = getPreferenceManager()
+                .createPreferenceScreen(getActivity());
 
-        mVMs = new Preference[virtualmachineHelper.getVMfiles().size()];
-        for (int i = 0; i < virtualmachineHelper.getVMfiles().size(); i++) {
-            mVMs[i] = prefHelper.setPreference(virtualmachineHelper
-                    .getVMfiles().get(i).replace("_", " "),
-                    virtualmachineHelper.getVMValue(virtualmachineHelper
-                            .getVMfiles().get(i)), getActivity());
+        new Thread() {
+            public void run() {
+                mVMs = new Preference[virtualmachineHelper.getVMfiles().size()];
+                for (int i = 0; i < virtualmachineHelper.getVMfiles().size(); i++) {
+                    mVMs[i] = prefHelper.setPreference(virtualmachineHelper
+                            .getVMfiles().get(i).replace("_", " "),
+                            virtualmachineHelper
+                                    .getVMValue(virtualmachineHelper
+                                            .getVMfiles().get(i)),
+                            getActivity());
 
-            root.addPreference(mVMs[i]);
-        }
+                    root.addPreference(mVMs[i]);
+                }
+            }
+        }.start();
 
         setPreferenceScreen(root);
     }

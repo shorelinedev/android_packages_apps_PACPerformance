@@ -36,6 +36,7 @@ public class GenericPathReaderActivity extends Activity implements Constants {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(enter_anim, exit_anim);
 
         list = new ListView(this);
         list.setOnItemClickListener(new OnItemClickListener() {
