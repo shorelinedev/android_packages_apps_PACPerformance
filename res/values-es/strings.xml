@@ -19,11 +19,13 @@
     <string name="aggressive">Agresivo</string>
     <string name="minus">&lt;</string>
     <string name="plus">&gt;</string>
+    <string name="new_kernel">Nuevo kernel detectado! %s no se aplicarán los valores</string>
 
     <!-- Unidades -->
     <string name="mhz">MHz</string>
     <string name="kb">kB</string>
     <string name="mb">MB</string>
+    <string name="mv">mV</string>
 
     <!-- Estadísticas -->
     <string name="fancy_stats">Estadísticas</string>
@@ -68,6 +70,9 @@
     <string name="hotplug">Hotplug</string>
     <string name="mpdecision">MPDecision</string>
     <string name="mpdecision_summary">QCOM\'s solución de conexión en caliente. Usted puede tener problemas con las frecuencias cambiantes cuando está habilitado</string>
+
+    <!-- CPU Voltage -->
+    <string name="cpu_voltage">CPU Voltage</string>
 
     <!-- GPU -->
     <string name="gpu">GPU</string>
@@ -121,7 +126,7 @@
 
     <!-- Copia de seguridad -->
     <string name="backup">Copia de seguridad</string>
-    <string name="backup_summary">Realizando Copia de seguridad de %s partition to internal storage.</string>
+    <string name="backup_summary">Realizando Copia de seguridad de %s partición a almacenamiento interno</string>
     <string name="boot">Boot</string>
     <string name="recovery">Recovery</string>
     <string name="fota">FOTA</string>
@@ -129,7 +134,7 @@
     <string name="no_backups">No se econtraron copias de seguridad</string>
     <string name="last_modified">Última modificación</string>
     <string name="name_of_backup">Nombre de la copia de seguridad</string>
-    <string name="partiton_failed">Obtener Información de la partición, ha fallado</string>
+    <string name="partiton_failed">Obtener la Información de la partición, ha fallado</string>
     <string name="backing_up">Copia de seguridad</string>
     <string name="restore">Restaurar</string>
     <string name="restoring">Restaurando</string>
@@ -141,5 +146,17 @@
     <string name="key">Clave</string>
     <string name="value">Valor</string>
     <string name="delete_prop">Eliminar %s?</string>
+
+    <!-- Per App Mode -->
+    <string name="per_app_mode">Per App Mode</string>
+    <string name="apps">Aplicaciones</string>
+    <string name="no_profiles">No hay ningún perfil</string>
+    <string name="per_app_mode_already_exist">%s ya existe. Por favor, elimine el anterior</string>
+    <string name="delete_profile">Borrar perfil</string>
+    <string name="start_per_app_mode">Iniciar Per App Mode</string>
+    <string name="stop_per_app_mode">Detener Per App Mode</string>
+    <string name="active_per_app_mode">Per App Mode esta activo</string>
+    <string name="apply_profile">Aplicar perfil %s</string>
+    <string name="reset_profile_change">Reajustar %s cambios</string>
 
 </resources>
