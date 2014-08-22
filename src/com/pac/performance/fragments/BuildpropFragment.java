@@ -30,6 +30,7 @@ import android.widget.ListView;
 public class BuildpropFragment extends Fragment implements Constants {
 
     private ListView list;
+    private ArrayAdapter<String> adapter;
 
     private final List<String> keys = new ArrayList<String>();
     private final List<String> values = new ArrayList<String>();
@@ -55,14 +56,16 @@ public class BuildpropFragment extends Fragment implements Constants {
                 return true;
             }
         });
-        refresh();
+        create();
 
         return list;
     }
 
     private void refresh() {
-        new Thread() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
             public void run() {
+                // Remove all items first otherwise we will get duplicated items
                 keys.clear();
                 values.clear();
 
@@ -78,17 +81,35 @@ public class BuildpropFragment extends Fragment implements Constants {
                             values.add(value + "\n");
                         }
 
-                    final ArrayAdapter<String> adapter = new GenericListView(
-                            getActivity(), keys, values);
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            list.setAdapter(adapter);
-                        }
-                    });
+                    adapter.notifyDataSetChanged();
+                    list.invalidateViews();
+                    list.refreshDrawableState();
                 }
             }
-        }.start();
+        });
+    }
+
+    private void create() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String[] props = mUtils.readFile(BUILD_PROP).split("\\r?\\n");
+
+                if (props.length > 1) {
+                    for (String prop : props)
+                        if (!prop.isEmpty() && !prop.startsWith("#")) {
+                            String[] propArray = prop.split("=");
+                            keys.add(propArray[0]);
+                            String value = propArray.length < 2 ? ""
+                                    : propArray[1];
+                            values.add(value + "\n");
+                        }
+
+                    adapter = new GenericListView(getActivity(), keys, values);
+                    list.setAdapter(adapter);
+                }
+            }
+        });
     }
 
     private void backup() {

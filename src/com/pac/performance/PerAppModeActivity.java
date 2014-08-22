@@ -331,12 +331,13 @@ public class PerAppModeActivity extends Activity implements Constants {
         public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
                 Preference preference) {
 
-            for (int i = 0; i < mProfiles.length; i++)
+            if (mProfiles != null) for (int i = 0; i < mProfiles.length; i++)
                 if (preference == mProfiles[i]) menuDialog(
                         getContent(getActivity(), ProfileType.NAME).get(i),
                         getContent(getActivity(), ProfileType.MAXCPU).get(i),
                         getContent(getActivity(), ProfileType.MINCPU).get(i),
-                        getContent(getActivity(), ProfileType.GOVERNOR).get(i));
+                        getContent(getActivity(), ProfileType.GOVERNOR).get(i),
+                        preference);
 
             return true;
         }
@@ -446,7 +447,8 @@ public class PerAppModeActivity extends Activity implements Constants {
         }
 
         private void menuDialog(final String name, final String maxCpu,
-                final String minCpu, final String governor) {
+                final String minCpu, final String governor,
+                final Preference preference) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setItems(
                     getResources().getStringArray(R.array.per_app_mode_profile),

@@ -33,10 +33,14 @@ public class CustomCommanderFragment extends Fragment implements Constants {
 
     public Switch actionBarSwitch;
     private ListView list;
+    private ArrayAdapter<String> adapter;
 
     public final String prefName = "customcommands";
     public final String splitName = "qwertyuioasdfghjk";
     public final String splitCommand = "poiuytrescvbnmkhg";
+
+    private List<String> names = new ArrayList<String>();
+    private List<String> commands = new ArrayList<String>();;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -84,24 +88,50 @@ public class CustomCommanderFragment extends Fragment implements Constants {
         });
         layout.addView(list);
 
-        refresh();
+        create();
         return layout;
     }
 
     private void refresh() {
-        String saved = mUtils.getString(prefName, "", getActivity());
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String saved = mUtils.getString(prefName, "", getActivity());
 
-        List<String> names = getSavedNames(saved);
-        List<String> commands = getSavedCommands(saved);
+                names = getSavedNames(saved);
+                commands = getSavedCommands(saved);
 
-        if (names.size() < 1 || commands.size() < 1) list
-                .setVisibility(View.GONE);
-        else {
-            list.setVisibility(View.VISIBLE);
-            ArrayAdapter<String> adapter = new GenericListView(getActivity(),
-                    names, commands);
-            list.setAdapter(adapter);
-        }
+                if (names.size() < 1 || commands.size() < 1) list
+                        .setVisibility(View.GONE);
+                else {
+                    list.setVisibility(View.VISIBLE);
+                    adapter.notifyDataSetChanged();
+                    list.invalidateViews();
+                    list.refreshDrawableState();
+                }
+            }
+        });
+    }
+
+    private void create() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String saved = mUtils.getString(prefName, "", getActivity());
+
+                names = getSavedNames(saved);
+                commands = getSavedCommands(saved);
+
+                if (names.size() < 1 || commands.size() < 1) list
+                        .setVisibility(View.GONE);
+                else {
+                    list.setVisibility(View.VISIBLE);
+                    adapter = new GenericListView(getActivity(), names,
+                            commands);
+                    list.setAdapter(adapter);
+                }
+            }
+        });
     }
 
     private List<String> getSavedNames(String saved) {

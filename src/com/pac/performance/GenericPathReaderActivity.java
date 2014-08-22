@@ -74,7 +74,7 @@ public class GenericPathReaderActivity extends Activity implements Constants {
 
         @Override
         protected void onPostExecute(String result) {
-            if (!refresh()) finishHim();
+            if (!create()) finishHim();
             super.onPostExecute(result);
         }
 
@@ -96,12 +96,35 @@ public class GenericPathReaderActivity extends Activity implements Constants {
 
     }
 
-    private boolean refresh() {
-        // Remove all items first otherwise we will get duplicated items
-        files.clear();
-        values.clear();
-        filesString.clear();
+    private void refresh() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Remove all items first otherwise we will get duplicated items
+                files.clear();
+                values.clear();
+                filesString.clear();
 
+                File[] fileArray = new File(path).listFiles();
+                if (fileArray != null) {
+                    for (File file : fileArray) {
+                        String value = mUtils.readFile(file.getAbsolutePath());
+                        if (value != null) {
+                            files.add(file);
+                            values.add(value);
+                            filesString.add(file.getName());
+                        }
+                    }
+
+                    adapter.notifyDataSetChanged();
+                    list.invalidateViews();
+                    list.refreshDrawableState();
+                }
+            }
+        });
+    }
+
+    private boolean create() {
         // Collecting all files and add them to Lists
         File[] fileArray = new File(path).listFiles();
         if (fileArray != null) {
@@ -121,7 +144,6 @@ public class GenericPathReaderActivity extends Activity implements Constants {
                 return true;
             }
         }
-
         return false;
     }
 
