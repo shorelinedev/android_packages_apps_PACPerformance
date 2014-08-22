@@ -4,7 +4,10 @@
     <string name="app_name">PACPerformance</string>
     <string name="no_root">No hay acceso Root</string>
     <string name="no_busybox">Busybox no está instalado</string>
+    <string name="settings">Ajustes</string>
     <string name="set_on_boot">Establecer en el arranque</string>
+    <string name="delay">Retraso</string>
+    <string name="seconds">%d segundos/s</string>
     <string name="booted_up">%s aplicado</string>
     <string name="loading">Cargando</string>
     <string name="info">Información</string>
@@ -44,7 +47,7 @@
     <string name="deep_sleep">Sueño Profundo</string>
     <string name="refresh">Actualizar</string>
     <string name="reset_timer">Reiniciar los cronómetros</string>
-    <string name="restore_timer">Restaurar los Cronómetros</string>
+    <string name="restore_timer">Restaurar los cronómetros</string>
 
     <!-- Información del Kernel -->
     <string name="kernel_info">Información del Kernel</string>
@@ -57,7 +60,7 @@
     <string name="cpu_stats">Estadísticas de CPU</string>
     <string name="core">Nucleo %d</string>
     <string name="offline">Desconectado</string>
-    <string name="turn_off_not_possible">No puedes desactivar núcleo %d</string>
+    <string name="turn_off_not_possible">No puedes desactivar el núcleo %d</string>
     <string name="cpu_max_freq">Frecuencia máxima de CPU</string>
     <string name="cpu_min_freq">Frecuencia minima de CPU</string>
     <string name="cpu_governor">Gobernador de CPU</string>
@@ -92,7 +95,7 @@
     <string name="external_scheduler">Planificador de almacenamiento externo</string>
     <string name="internal_scheduler_tunable">Configurar el Planificador de almacenamiento interno</string>
     <string name="external_scheduler_tunable">Configurar el Planificador de almacenamiento externo</string>
-    <string name="scheduler_tunable_summary">Los diversos elementos de configuración que son dependiente del Planificador</string>
+    <string name="scheduler_tunable_summary">Esto permite que usted modifique los valores por defecto, tenga precaución con esto</string>
     <string name="read_ahead">Prelectura</string>
     <string name="read_ahead_summary">El valor Prelectura en la memoria del teléfono</string>
     <string name="Internal_read_ahead">Prelectura de almacenamiento interno</string>
@@ -117,7 +120,7 @@
 
     <!-- Comandos personalizados -->
     <string name="custom_commander">Comandos personalizados</string>
-    <string name="custom_commander_summary">Esto permite que usted agregue sus propios controles que se aplicarán después de arrancar. Usted puede agregar cualquier comando, siempre que sean capaces de funcionar en terminal también</string>
+    <string name="custom_commander_summary">Esto permite que usted agregue sus propios controles que se aplicarán después de arrancar. Usted puede agregar cualquier comando, siempre que sean capaces de funcionar en el terminal también</string>
     <string name="name">Nombre</string>
     <string name="command">Comando</string>
     <string name="custom_commander_already_exist">Un comando con el mismo nombre ya existe. Por favor, elimine o modifique el anterior</string>
@@ -126,7 +129,7 @@
 
     <!-- Copia de seguridad -->
     <string name="backup">Copia de seguridad</string>
-    <string name="backup_summary">Realizando Copia de seguridad de %s partición a almacenamiento interno</string>
+    <string name="backup_summary">Copia de seguridad de la partición %s al almacenamiento interno</string>
     <string name="boot">Boot</string>
     <string name="recovery">Recovery</string>
     <string name="fota">FOTA</string>
@@ -134,7 +137,7 @@
     <string name="no_backups">No se econtraron copias de seguridad</string>
     <string name="last_modified">Última modificación</string>
     <string name="name_of_backup">Nombre de la copia de seguridad</string>
-    <string name="partiton_failed">Obtener la Información de la partición, ha fallado</string>
+    <string name="partiton_failed">No se ha podido obtener la información de la partición</string>
     <string name="backing_up">Copia de seguridad</string>
     <string name="restore">Restaurar</string>
     <string name="restoring">Restaurando</string>
@@ -147,15 +150,15 @@
     <string name="value">Valor</string>
     <string name="delete_prop">Eliminar %s?</string>
 
-    <!-- Per App Mode -->
-    <string name="per_app_mode">Per App Mode</string>
+    <!-- Modo Por Aplicación -->
+    <string name="per_app_mode">Modo Por Aplicación</string>
     <string name="apps">Aplicaciones</string>
     <string name="no_profiles">No hay ningún perfil</string>
     <string name="per_app_mode_already_exist">%s ya existe. Por favor, elimine el anterior</string>
     <string name="delete_profile">Borrar perfil</string>
-    <string name="start_per_app_mode">Iniciar Per App Mode</string>
-    <string name="stop_per_app_mode">Detener Per App Mode</string>
-    <string name="active_per_app_mode">Per App Mode esta activo</string>
+    <string name="start_per_app_mode">Iniciando Modo Por Aplicación</string>
+    <string name="stop_per_app_mode">Deteniendo Modo Por Aplicación</string>
+    <string name="active_per_app_mode">Modo Por Aplicación esta activo</string>
     <string name="apply_profile">Aplicar perfil %s</string>
     <string name="reset_profile_change">Reajustar %s cambios</string>
 
