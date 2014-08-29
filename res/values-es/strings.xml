@@ -4,24 +4,24 @@
     <string name="app_name">PACPerformance</string>
     <string name="no_root">No hay acceso Root</string>
     <string name="no_busybox">Busybox no está instalado</string>
+    <string name="loading">Cargando</string>
+    <string name="add">Añadir</string>
+    <string name="empty">%s está vacío!</string>
+    <string name="delete">Eliminar</string>
+    <string name="minus">&lt;</string>
+    <string name="plus">&gt;</string>
+
+    <!-- Tabs -->
+    <string name="info">Información</string>
+    <string name="kernel">Kernel</string>
+    <string name="utilities">Utilidades</string>
     <string name="settings">Ajustes</string>
+
+    <!-- Set On Boot -->
     <string name="set_on_boot">Establecer en el arranque</string>
     <string name="delay">Retraso</string>
     <string name="seconds">%d segundos/s</string>
     <string name="booted_up">%s aplicado</string>
-    <string name="loading">Cargando</string>
-    <string name="info">Información</string>
-    <string name="kernel">Kernel</string>
-    <string name="utilities">Utilidades</string>
-    <string name="parameters">Parámetros</string>
-    <string name="advanced">Avanzado</string>
-    <string name="not_tunable">%s no se puede ajustar</string>
-    <string name="add">Añadir</string>
-    <string name="empty">%s está vacío!</string>
-    <string name="delete">Eliminar</string>
-    <string name="aggressive">Agresivo</string>
-    <string name="minus">&lt;</string>
-    <string name="plus">&gt;</string>
     <string name="new_kernel">Nuevo kernel detectado! %s no se aplicarán los valores</string>
 
     <!-- Unidades -->
@@ -62,10 +62,12 @@
     <string name="offline">Desconectado</string>
     <string name="turn_off_not_possible">No puedes desactivar el núcleo %d</string>
     <string name="cpu_max_freq">Frecuencia máxima de CPU</string>
-    <string name="cpu_min_freq">Frecuencia minima de CPU</string>
+    <string name="cpu_min_freq">Frecuencia mínima de CPU</string>
     <string name="cpu_governor">Gobernador de CPU</string>
+    <string name="advanced">Avanzado</string>
     <string name="cpu_governor_tunables">Optimizar gobernador de CPU</string>
     <string name="cpu_governor_tunables_summary">Usted puede ajustar los parámetros de CPU a su gusto</string>
+    <string name="not_tunable">%s no se puede ajustar</string>
     <string name="mc_power_saving">Multinucleo, Ahorro de energía</string>
     <string name="disabled">Desactivado</string>
     <string name="enabled">Activado</string>
@@ -113,6 +115,7 @@
     <string name="very_light">Muy Ligero</string>
     <string name="light">Ligero</string>
     <string name="medium">Medio</string>
+    <string name="aggressive">Agresivo</string>
     <string name="very_aggressive">Muy agresivo</string>
 
     <!-- Máquina Virtual -->
