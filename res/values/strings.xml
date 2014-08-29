@@ -90,6 +90,13 @@
     <string name="gpu_2d_governor">GPU 2D Governor</string>
     <string name="gpu_3d_governor">GPU 3D Governor</string>
 
+    <!-- Screen -->
+    <string name="screen">Screen</string>
+    <string name="color_calibration">Color Calibration</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
+
     <!-- I/O Scheduler -->
     <string name="io_scheduler">I/O Scheduler</string>
     <string name="scheduler">Scheduler</string>

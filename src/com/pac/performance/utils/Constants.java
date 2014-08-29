@@ -13,6 +13,7 @@ import com.pac.performance.fragments.IOSchedulerFragment;
 import com.pac.performance.fragments.KernelInformationFragment;
 import com.pac.performance.fragments.LowMemoryKillerFragment;
 import com.pac.performance.fragments.MemoryStatsFragment;
+import com.pac.performance.fragments.ScreenFragment;
 import com.pac.performance.fragments.TimeInStateFragment;
 import com.pac.performance.fragments.VirtualMachineFragment;
 import com.pac.performance.helpers.CPUHelper;
@@ -22,6 +23,7 @@ import com.pac.performance.helpers.IOHelper;
 import com.pac.performance.helpers.LowMemoryKillerHelper;
 import com.pac.performance.helpers.PreferenceHelper;
 import com.pac.performance.helpers.RootHelper;
+import com.pac.performance.helpers.ScreenHelper;
 import com.pac.performance.helpers.VirtualMachineHelper;
 
 public interface Constants {
@@ -53,6 +55,7 @@ public interface Constants {
     public final IOSchedulerFragment mIOSchedulerFragment = new IOSchedulerFragment();
     public final LowMemoryKillerFragment mLowMemoryKillerFragment = new LowMemoryKillerFragment();
     public final MemoryStatsFragment mMemoryStatsFragment = new MemoryStatsFragment();
+    public final ScreenFragment mScreenFragment = new ScreenFragment();
     public final TimeInStateFragment mTimeInStateFragment = new TimeInStateFragment();
     public final VirtualMachineFragment mVirtualMachineFragment = new VirtualMachineFragment();
 
@@ -63,6 +66,7 @@ public interface Constants {
     public final CPUHelper cpuHelper = new CPUHelper();
     public final CPUVoltageHelper cpuVoltageHelper = new CPUVoltageHelper();
     public final GPUHelper gpuHelper = new GPUHelper();
+    public final ScreenHelper screenHelper = new ScreenHelper();
     public final IOHelper ioHelper = new IOHelper();
     public final LowMemoryKillerHelper lowmemorykillerHelper = new LowMemoryKillerHelper();
     public final PreferenceHelper prefHelper = new PreferenceHelper();
@@ -138,6 +142,22 @@ public interface Constants {
             GPU_3D_MAX_FREQ_ARRAY, GPU_3D_AVAILABLE_FREQS_ARRAY,
             GPU_3D_SCALING_GOVERNOR_ARRAY };
 
+    // Screen
+    public final String SCREEN_KCAL_CTRL = "/sys/devices/platform/kcal_ctrl.0/kcal";
+    public final String SCREEN_KCAL_CTRL_CTRL = "/sys/devices/platform/kcal_ctrl.0/kcal_ctrl";
+
+    public final String SCREEN_DIAG0_POWER = "/sys/devices/platform/DIAG0.0/power_rail";
+    public final String SCREEN_DIAG0_POWER_CTRL = "/sys/devices/platform/DIAG0.0/power_rail_ctrl";
+
+    public final String[] SCREEN_KCAL_ARRAY = { SCREEN_KCAL_CTRL,
+            SCREEN_DIAG0_POWER };
+
+    public final String[] SCREEN_KCAL_CTRL_ARRAY = { SCREEN_KCAL_CTRL_CTRL,
+            SCREEN_DIAG0_POWER_CTRL };
+
+    public final String[][] SCREEN_ARRAY = { SCREEN_KCAL_ARRAY,
+            SCREEN_KCAL_CTRL_ARRAY };
+
     // I/O
     public final String IO_INTERNAL_SCHEDULER = "/sys/block/mmcblk0/queue/scheduler";
     public final String IO_EXTERNAL_SCHEDULER = "/sys/block/mmcblk1/queue/scheduler";
@@ -152,5 +172,5 @@ public interface Constants {
     // Virtual Machine
     public final String VM_PATH = "/proc/sys/vm";
 
-    public final String TMP_FILE = "/data/local/tmp/pacperformance.tmp";
+    public final String TMP_FILE = "/data/local/pacperformance.tmp";
 }

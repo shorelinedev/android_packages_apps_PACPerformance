@@ -172,6 +172,8 @@ public class MainActivity extends Activity implements Constants {
                 getString(R.string.cpu_voltage), mCPUVoltageFragment));
         if (gpuHelper.hasGpu()) items.add(new ListItem(getString(R.string.gpu),
                 mGPUFragment));
+        if (screenHelper.hasScreen()) items.add(new ListItem(
+                getString(R.string.screen), mScreenFragment));
         items.add(new ListItem(getString(R.string.io_scheduler),
                 mIOSchedulerFragment));
         items.add(new ListItem(getString(R.string.low_memory_killer),

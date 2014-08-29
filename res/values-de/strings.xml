@@ -90,6 +90,13 @@
     <string name="gpu_2d_governor">GPU 2D Governor</string>
     <string name="gpu_3d_governor">GPU 3D Governor</string>
 
+    <!-- Screen -->
+    <string name="screen">Bildschirm</string>
+    <string name="color_calibration">Farbkalibration</string>
+    <string name="red">Rot</string>
+    <string name="green">Grün</string>
+    <string name="blue">Blau</string>
+
     <!-- I/O Scheduler -->
     <string name="io_scheduler">I/O Scheduler</string>
     <string name="scheduler">Scheduler</string>
@@ -122,8 +129,8 @@
     <string name="virtual_machine">Virtuelle Maschine</string>
 
     <!-- Custom Commander -->
-    <string name="custom_commander">Custom Commander</string>
-    <string name="custom_commander_summary">Custom Commander erlaubt es Ihnen ihre eigene Befehle nach dem Starten auszuführen. Sie können jede erdenkliche Befehle hinzufügen, solange sie auch in Shell interagieren kann.</string>
+    <string name="custom_commander">Eigene Befehle</string>
+    <string name="custom_commander_summary">Eigene Befehle erlaubt es Ihnen ihre eigene Befehle nach dem Starten auszuführen. Sie können jede erdenkliche Befehle hinzufügen, solange sie auch in Shell interagieren kann.</string>
     <string name="name">Name</string>
     <string name="command">Befehl</string>
     <string name="custom_commander_already_exist">Ein Befehl mit gleichem Namen existiert bereits. Bitte löschen oder bearbeiten Sie die alte Konfiguration.</string>
@@ -154,7 +161,7 @@
     <string name="delete_prop">%s löschen?</string>
 
     <!-- Per App Mode -->
-    <string name="per_app_mode">Per App Mode</string>
+    <string name="per_app_mode">Per App Modus</string>
     <string name="apps">Applikationen</string>
     <string name="no_profiles">Keine Profile gefunden.</string>
     <string name="per_app_mode_already_exist">%s existiert bereits. Bitte löschen Sie die alte zuerst.</string>
