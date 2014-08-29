@@ -203,11 +203,8 @@ public class MainActivity extends Activity implements Constants {
     }
 
     private void selectItem(final int position) {
-        if (items.get(position).isHeader()) return;
-
-        if (items.get(position).getTitle()
-                .equals(getString(R.string.per_app_mode))) {
-            startActivity(new Intent(this, PerAppModeActivity.class));
+        if (items.get(position).isHeader()) {
+            mLeftDrawer.setItemChecked(curposition, true);
             return;
         }
 
@@ -223,31 +220,29 @@ public class MainActivity extends Activity implements Constants {
                     .setVisibility(items.get(position).getFragment() == mCustomCommanderFragment ? View.VISIBLE
                             : View.GONE);
 
-            new Thread() {
+            runOnUiThread(new Runnable() {
+                @Override
                 public void run() {
-                    new Thread() {
-                        public void run() {}
-                    }.start();
-
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.content_frame,
-                                    items.get(position).getFragment()).commit();
+                    if (items.get(position).getTitle()
+                            .equals(getString(R.string.per_app_mode))) {
+                        startActivity(new Intent(MainActivity.this,
+                                PerAppModeActivity.class));
+                    } else {
+                        getFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.content_frame,
+                                        items.get(position).getFragment())
+                                .commit();
+                        mDrawerLayout.closeDrawer(mLeftDrawer);
+                    }
 
                     curposition = position;
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setTitle(items.get(position).getTitle());
-                            mLeftDrawer.setItemChecked(curposition, true);
-                        }
-                    });
+                    setTitle(items.get(position).getTitle());
+                    mLeftDrawer.setItemChecked(curposition, true);
                 }
-            }.start();
+            });
         }
-
-        mDrawerLayout.closeDrawer(mLeftDrawer);
     }
 
     @Override
