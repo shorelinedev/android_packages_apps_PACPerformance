@@ -57,12 +57,14 @@ public class MainActivity extends Activity implements Constants {
         if (!rootHelper.rootAccess()) {
             mUtils.toast(getString(R.string.no_root), this);
             finish();
+            return;
         }
 
         // Check busybox installation
         if (!rootHelper.busyboxInstalled()) {
             mUtils.toast(getString(R.string.no_busybox), this);
             finish();
+            return;
         }
 
         setContentView(R.layout.activity_main);

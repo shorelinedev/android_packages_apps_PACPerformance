@@ -73,6 +73,9 @@
     <string name="hotplug">Hotplug</string>
     <string name="mpdecision">MPDecision</string>
     <string name="mpdecision_summary">QCOM\'s hotplugging solution. You might get problems with changing frequencies when this is enabled.</string>
+    <string name="intelliplug">IntelliPlug</string>
+    <string name="intelliplug_summary">A MPDecision replacement by faux123.</string>
+    <string name="intelliplug_eco_mode">IntelliPlug Eco Mode</string>
 
     <!-- CPU Voltage -->
     <string name="cpu_voltage">CPU Voltage</string>

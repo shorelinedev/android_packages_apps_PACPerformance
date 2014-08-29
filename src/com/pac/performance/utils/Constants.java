@@ -84,6 +84,8 @@ public interface Constants {
     public final String CPU_MC_POWER_SAVING = "/sys/devices/system/cpu/sched_mc_power_savings";
     public final String CPU_MPDECISION_BINARY = "/system/bin/mpdecision";
     public final String CPU_MPDEC = "mpdecision";
+    public final String CPU_INTELLI_PLUG = "/sys/module/intelli_plug/parameters/intelli_plug_active";
+    public final String CPU_INTELLI_PLUG_ECO = "/sys/module/intelli_plug/parameters/eco_mode_active";
 
     // CPU Voltage
     public final String CPU_VOLTAGE = "/sys/devices/system/cpu/cpu%d/cpufreq/UV_mV_table";

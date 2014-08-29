@@ -28,21 +28,28 @@ public class RootHelper implements Constants {
     private String[] recoveryPartitionNames = new String[] { "recovery", "SS" };
     private String[] fotaPartitionNames = new String[] { "FOTAKernel" };
 
-    public void runCommand(String command) {
-        try {
-            RootTools.getShell(true).add(new CommandCapture(0, command))
-                    .commandCompleted(0, 0);
-            if (command.contains(Constants.TMP_FILE)) RootTools.getShell(true)
-                    .add(new CommandCapture(0, "chmod 777 " + Constants.TMP_FILE))
-                    .commandCompleted(0, 0);
-            Log.d(TAG, command);
-        } catch (IOException e) {
-            Log.e(TAG, "failed to run " + command);
-        } catch (TimeoutException ignored) {
-            Log.e(TAG, "Timeout: Cannot gain root access");
-        } catch (RootDeniedException e) {
-            Log.e(TAG, "Root access denied");
-        }
+    public void runCommand(final String command) {
+        new Thread() {
+            public void run() {
+                try {
+                    RootTools.getShell(true)
+                            .add(new CommandCapture(0, command))
+                            .commandCompleted(0, 0);
+                    if (command.contains(Constants.TMP_FILE)) RootTools
+                            .getShell(true)
+                            .add(new CommandCapture(0, "chmod 777 "
+                                    + Constants.TMP_FILE))
+                            .commandCompleted(0, 0);
+                    Log.d(TAG, command);
+                } catch (IOException e) {
+                    Log.e(TAG, "failed to run " + command);
+                } catch (TimeoutException ignored) {
+                    Log.e(TAG, "Timeout: Cannot gain root access");
+                } catch (RootDeniedException e) {
+                    Log.e(TAG, "Root access denied");
+                }
+            }
+        }.start();
     }
 
     public boolean rootAccess() {

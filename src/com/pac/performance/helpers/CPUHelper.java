@@ -10,6 +10,22 @@ public class CPUHelper implements Constants {
     private String[] mCpuFreqs = null;
     private String[] mCpuGovernors = null;
 
+    public boolean isIntelliPlugEcoActive() {
+        return mUtils.readFile(CPU_INTELLI_PLUG_ECO).equals("1");
+    }
+
+    public boolean hasIntelliPlugEco() {
+        return mUtils.existFile(CPU_INTELLI_PLUG_ECO);
+    }
+
+    public boolean isIntelliPlugActive() {
+        return mUtils.readFile(CPU_INTELLI_PLUG).equals("1");
+    }
+
+    public boolean hasIntelliPlug() {
+        return mUtils.existFile(CPU_INTELLI_PLUG);
+    }
+
     public boolean isMpdecisionActive() {
         return rootHelper.moduleActive(CPU_MPDEC);
     }

@@ -98,17 +98,21 @@ public class CustomCommanderFragment extends Fragment implements Constants {
             public void run() {
                 String saved = mUtils.getString(prefName, "", getActivity());
 
-                names = getSavedNames(saved);
-                commands = getSavedCommands(saved);
+                names.clear();
+                commands.clear();
 
-                if (names.size() < 1 || commands.size() < 1) list
-                        .setVisibility(View.GONE);
-                else {
-                    list.setVisibility(View.VISIBLE);
-                    adapter.notifyDataSetChanged();
-                    list.invalidateViews();
-                    list.refreshDrawableState();
-                }
+                for (String name : getSavedNames(saved))
+                    names.add(name);
+
+                for (String command : getSavedCommands(saved))
+                    commands.add(command);
+
+                list.setVisibility(names.size() < 1 || commands.size() < 1 ? View.GONE
+                        : View.VISIBLE);
+
+                adapter.notifyDataSetChanged();
+                list.invalidateViews();
+                list.refreshDrawableState();
             }
         });
     }
@@ -122,14 +126,11 @@ public class CustomCommanderFragment extends Fragment implements Constants {
                 names = getSavedNames(saved);
                 commands = getSavedCommands(saved);
 
-                if (names.size() < 1 || commands.size() < 1) list
-                        .setVisibility(View.GONE);
-                else {
-                    list.setVisibility(View.VISIBLE);
-                    adapter = new GenericListView(getActivity(), names,
-                            commands);
-                    list.setAdapter(adapter);
-                }
+                list.setVisibility(names.size() < 1 || commands.size() < 1 ? View.GONE
+                        : View.VISIBLE);
+
+                adapter = new GenericListView(getActivity(), names, commands);
+                list.setAdapter(adapter);
             }
         });
     }

@@ -24,7 +24,7 @@ public class CPUFragment extends PreferenceFragment implements Constants {
     private Preference mCpuMaxScaling, mCpuMinScaling;
     private Preference mGovernorScaling, mGovernorTunables;
     private Preference mMcPowerSaving;
-    private CheckBoxPreference mMpdecision;
+    private CheckBoxPreference mMpdecision, mIntelliPlug, mIntelliPlugEco;
 
     private String[] mAvailableFreqs;
 
@@ -119,6 +119,25 @@ public class CPUFragment extends PreferenceFragment implements Constants {
 
                     root.addPreference(mMpdecision);
                 }
+
+                if (cpuHelper.hasIntelliPlug()) {
+                    mIntelliPlug = prefHelper.setCheckBoxPreference(
+                            cpuHelper.isIntelliPlugActive(),
+                            getString(R.string.intelliplug),
+                            getString(R.string.intelliplug_summary),
+                            getActivity());
+
+                    root.addPreference(mIntelliPlug);
+                }
+
+                if (cpuHelper.hasIntelliPlugEco()) {
+                    mIntelliPlugEco = prefHelper.setCheckBoxPreference(
+                            cpuHelper.isIntelliPlugEcoActive(),
+                            getString(R.string.intelliplug_eco_mode), null,
+                            getActivity());
+
+                    root.addPreference(mIntelliPlugEco);
+                }
             }
         }.start();
 
@@ -205,6 +224,20 @@ public class CPUFragment extends PreferenceFragment implements Constants {
                     true, getActivity());
             else mCommandControl.stopModule(CPU_MPDEC, true, getActivity());
         }
+
+        if (preference == mIntelliPlug) {
+            if (mIntelliPlug.isChecked()) mCommandControl.runGeneric(
+                    CPU_INTELLI_PLUG, "1", -1, getActivity());
+            else {
+                mCommandControl.runGeneric(CPU_INTELLI_PLUG, "0", -1,
+                        getActivity());
+                mCommandControl.bringCoresOnline();
+            }
+        }
+
+        if (preference == mIntelliPlugEco) mCommandControl.runGeneric(
+                CPU_INTELLI_PLUG_ECO, mIntelliPlugEco.isChecked() ? "1" : "0",
+                -1, getActivity());
 
         return true;
     }
