@@ -173,6 +173,7 @@ public class PerAppModeActivity extends Activity implements Constants {
 
             final PreferenceScreen root = getPreferenceManager()
                     .createPreferenceScreen(getActivity());
+            setPreferenceScreen(root);
 
             new Thread() {
                 public void run() {
@@ -232,7 +233,6 @@ public class PerAppModeActivity extends Activity implements Constants {
                 }
             }.start();
 
-            setPreferenceScreen(root);
         }
 
         @Override

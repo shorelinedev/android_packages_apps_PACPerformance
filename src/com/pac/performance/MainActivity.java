@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,16 +54,26 @@ public class MainActivity extends Activity implements Constants {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Check root access
-        if (!rootHelper.rootAccess()) {
-            mUtils.toast(getString(R.string.no_root), this);
-            finish();
-            return;
-        }
+        getActionBar().hide();
+        progress = new ProgressDialog(this);
+        progress.setMessage(getString(R.string.loading));
+        progress.show();
 
-        // Check busybox installation
-        if (!rootHelper.busyboxInstalled()) {
-            mUtils.toast(getString(R.string.no_busybox), this);
+        // Check root access and busybox installation
+        boolean hasRoot = rootHelper.rootAccess();
+        boolean hasBusybox = rootHelper.busyboxInstalled();
+
+        if (!hasRoot || !hasBusybox) {
+            Intent i = new Intent(this, TextActivity.class);
+            Bundle args = new Bundle();
+            args.putString(TextActivity.ARG_TEXT,
+                    !hasRoot ? getString(R.string.no_root)
+                            : getString(R.string.no_busybox));
+            Log.d(TAG, !hasRoot ? getString(R.string.no_root)
+                    : getString(R.string.no_busybox));
+            i.putExtras(args);
+            startActivity(i);
+
             finish();
             return;
         }
@@ -214,35 +225,31 @@ public class MainActivity extends Activity implements Constants {
             return;
         }
 
-        if (curposition != position || position == 1) {
+        if (mCustomCommanderFragment.actionBarSwitch != null) mCustomCommanderFragment.actionBarSwitch
+                .setVisibility(items.get(position).getFragment() == mCustomCommanderFragment ? View.VISIBLE
+                        : View.GONE);
 
-            if (mCustomCommanderFragment.actionBarSwitch != null) mCustomCommanderFragment.actionBarSwitch
-                    .setVisibility(items.get(position).getFragment() == mCustomCommanderFragment ? View.VISIBLE
-                            : View.GONE);
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (items.get(position).getTitle()
-                            .equals(getString(R.string.per_app_mode))) {
-                        startActivity(new Intent(MainActivity.this,
-                                PerAppModeActivity.class));
-                    } else {
-                        getFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.content_frame,
-                                        items.get(position).getFragment())
-                                .commit();
-                        mDrawerLayout.closeDrawer(mLeftDrawer);
-                    }
-
-                    curposition = position;
-
-                    setTitle(items.get(position).getTitle());
-                    mLeftDrawer.setItemChecked(curposition, true);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (items.get(position).getTitle()
+                        .equals(getString(R.string.per_app_mode))) {
+                    startActivity(new Intent(MainActivity.this,
+                            PerAppModeActivity.class));
+                } else {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.content_frame,
+                                    items.get(position).getFragment()).commit();
+                    mDrawerLayout.closeDrawer(mLeftDrawer);
                 }
-            });
-        }
+
+                curposition = position;
+
+                setTitle(items.get(position).getTitle());
+                mLeftDrawer.setItemChecked(curposition, true);
+            }
+        });
     }
 
     @Override
@@ -252,17 +259,6 @@ public class MainActivity extends Activity implements Constants {
     }
 
     private class Initialize extends AsyncTask<Bundle, Void, Bundle> {
-
-        @Override
-        protected void onPreExecute() {
-            getActionBar().hide();
-
-            progress = new ProgressDialog(MainActivity.this);
-            progress.setMessage(getString(R.string.loading));
-            progress.show();
-
-            super.onPreExecute();
-        }
 
         @Override
         protected void onPostExecute(final Bundle result) {

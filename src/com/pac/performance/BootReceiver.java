@@ -13,21 +13,13 @@ public class BootReceiver extends BroadcastReceiver implements Constants {
     @Override
     public void onReceive(final Context context, Intent intent) {
 
-        String kernelVersion = mUtils.getString("kernel_version", "", context);
-        if (kernelVersion.isEmpty()
-                || !mUtils.readFile(PROC_VERSION).equals(kernelVersion)) {
-            Log.d(TAG, "new kernel!");
-            mUtils.toast(
-                    context.getString(R.string.new_kernel,
-                            context.getString(R.string.app_name)), context);
-
-            context.getSharedPreferences(PREF_NAME, 0).edit().clear().commit();
-            return;
-        }
+        Log.i(TAG, "Bootreceiver: starting");
 
         // Start Per App Mode if activated
-        if (mUtils.getBoolean("perappmode", false, context)) context
-                .startService(new Intent(context, PerAppModesService.class));
+        if (mUtils.getBoolean("perappmode", false, context)) {
+            Log.i(TAG, "Bootreceiver: starting Per app mode");
+            context.startService(new Intent(context, PerAppModesService.class));
+        }
 
         // Run set on boot
         if (mUtils.getBoolean("setonboot", false, context)) {
@@ -35,21 +27,47 @@ public class BootReceiver extends BroadcastReceiver implements Constants {
                     .getString(COMMAND_NAME, null, context);
 
             if (savedCommands != null) {
-                // Check first if root is accessable and busyox is
-                // installed
-                if (!rootHelper.rootAccess() || !rootHelper.busyboxInstalled()) return;
+
+                Log.i(TAG, "Bootreceiver: set on boot");
+
+                // Check first if root is accessable and busybox is installed
+                if (!rootHelper.rootAccess() || !rootHelper.busyboxInstalled()) {
+                    Log.i(TAG, "Bootreceiver: root or busybox failed");
+                    return;
+                }
+
+                // Check if kernel is still the same
+                String kernelVersion = mUtils.getString("kernel_version", "",
+                        context);
+                if (kernelVersion.isEmpty()
+                        || !mUtils.readFile(PROC_VERSION).equals(kernelVersion)) {
+                    Log.i(TAG, "Bootreceiver: new kernel detected");
+                    mUtils.toast(
+                            context.getString(R.string.new_kernel,
+                                    context.getString(R.string.app_name)),
+                            context);
+
+                    context.getSharedPreferences(PREF_NAME, 0).edit().clear()
+                            .commit();
+                    return;
+                }
 
                 try {
-                    Thread.sleep(mUtils
-                            .getInteger("setonbootdelay", 0, context) * 1000);
+                    int delay = mUtils.getInteger("setonbootdelay", 0, context);
+                    Log.i(TAG, "Bootreceiver: set on boot delay " + delay
+                            + "sec");
+                    Thread.sleep(delay * 1000);
+
+                    String[] files = savedCommands
+                            .split(mCommandControl.fileSplit);
+                    for (String file : files)
+                        rootHelper.runCommand(mUtils.getString(file, "ls",
+                                context));
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                String[] files = savedCommands.split(mCommandControl.fileSplit);
-                for (String file : files)
-                    rootHelper
-                            .runCommand(mUtils.getString(file, "ls", context));
             }
 
             mUtils.toast(
@@ -63,9 +81,14 @@ public class BootReceiver extends BroadcastReceiver implements Constants {
                     mCustomCommanderFragment.prefName, null, context);
 
             if (savedCommands != null) {
-                // Check first if root is accessable and busyox is
-                // installed
-                if (!rootHelper.rootAccess() || !rootHelper.busyboxInstalled()) return;
+
+                Log.i(TAG, "Bootreceiver: custom commander");
+
+                // Check first if root is accessable and busybox is installed
+                if (!rootHelper.rootAccess() || !rootHelper.busyboxInstalled()) {
+                    Log.i(TAG, "Bootreceiver: root or busybox failed");
+                    return;
+                }
 
                 for (String command : mCustomCommanderFragment
                         .getSavedCommands(savedCommands))

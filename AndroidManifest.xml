@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pac.performance"
     android:versionCode="1"
-    android:versionName="1.4" >
+    android:versionName="1.4.1" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -32,6 +32,9 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name="PerAppModeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="TextActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <receiver android:name="BootReceiver" >
