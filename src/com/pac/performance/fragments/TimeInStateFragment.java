@@ -222,7 +222,7 @@ public class TimeInStateFragment extends Fragment implements Constants {
         // state name
         String sFreq;
         if (state.freq == 0) {
-            sFreq = "Deep Sleep";
+            sFreq = getString(R.string.deep_sleep);
         } else {
             sFreq = state.freq / 1000 + " MHz";
         }
