@@ -306,4 +306,12 @@ public class MainActivity extends Activity implements Constants {
             return params[0];
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(progress != null) {
+            progress.dismiss();
+        }
+    }
 }
