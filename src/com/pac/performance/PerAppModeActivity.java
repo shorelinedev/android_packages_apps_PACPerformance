@@ -3,6 +3,7 @@ package com.pac.performance;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import com.pac.performance.R;
 import com.pac.performance.services.PerAppModesService;
@@ -23,7 +24,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -180,55 +180,45 @@ public class PerAppModeActivity extends Activity implements Constants {
                     PackageManager packageManager = getActivity()
                             .getPackageManager();
 
-                    ArrayList<ApplicationInfo> appsUnsorted = new ArrayList<ApplicationInfo>();
+                    final List<ApplicationInfo> appsUnsorted = new ArrayList<ApplicationInfo>();
                     for (ApplicationInfo info : getActivity()
                             .getPackageManager().getInstalledApplications(
                                     PackageManager.GET_META_DATA))
-                        try {
-                            if (null != getActivity()
-                                    .getPackageManager()
-                                    .getLaunchIntentForPackage(info.packageName)) appsUnsorted
-                                    .add(info);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        if (getActivity().getPackageManager()
+                                .getLaunchIntentForPackage(info.packageName) != null) appsUnsorted
+                                .add(info);
 
                     List<String> sorting = new ArrayList<String>();
                     for (ApplicationInfo app : appsUnsorted)
-                        sorting.add(app.loadLabel(packageManager).toString());
-
+                        sorting.add(app.loadLabel(packageManager).toString()
+                                .toUpperCase(Locale.getDefault())
+                                + " " + app.packageName);
                     Collections.sort(sorting);
 
                     List<ApplicationInfo> apps = new ArrayList<ApplicationInfo>();
                     for (String appName : sorting)
                         for (ApplicationInfo app : appsUnsorted)
-                            if (appName.equals(app.loadLabel(packageManager)
-                                    .toString())) apps.add(app);
+                            if (app.packageName.equals(appName.split(" ")[1])) apps
+                                    .add(app);
 
-                    final List<String> titles = new ArrayList<String>();
-                    final List<String> summaries = new ArrayList<String>();
-                    final List<Drawable> icons = new ArrayList<Drawable>();
-
+                    mApps = new Preference[apps.size()];
                     String pack = "";
-                    for (ApplicationInfo app : apps)
-                        if (!app.packageName.equals(getActivity()
+                    for (int i = 0; i < apps.size(); i++) {
+                        if (!apps.get(i).packageName.equals(getActivity()
                                 .getPackageName())
-                                && !pack.contains(app.packageName)) {
-                            pack = pack + app.packageName;
-                            titles.add(app.loadLabel(packageManager).toString());
-                            summaries.add(mUtils.getString(app.packageName, "",
-                                    getActivity()));
-                            packages.add(app.packageName);
-                            icons.add(app.loadIcon(packageManager));
+                                && !pack.contains(apps.get(i).packageName)) {
+                            pack = pack + apps.get(i).packageName;
+                            packages.add(apps.get(i).packageName);
                         }
 
-                    mApps = new Preference[titles.size()];
-                    for (int i = 0; i < titles.size(); i++) {
-                        mApps[i] = prefHelper.setPreference(titles.get(i),
-                                summaries.get(i), getActivity());
-                        mApps[i].setIcon(icons.get(i));
+                        mApps[i] = prefHelper.setPreference(apps.get(i)
+                                .loadLabel(packageManager).toString(), mUtils
+                                .getString(apps.get(i).packageName, "",
+                                        getActivity()), getActivity());
+                        mApps[i].setIcon(apps.get(i).loadIcon(packageManager));
                         root.addPreference(mApps[i]);
                     }
+
                     progress.dismiss();
                 }
             }.start();
