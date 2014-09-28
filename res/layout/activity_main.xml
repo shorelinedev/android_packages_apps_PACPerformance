@@ -32,7 +32,7 @@
             android:text="@string/set_on_boot" />
 
         <Switch
-            android:id="@+id/drawer_switch"
+            android:id="@+id/setonboot_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -46,9 +46,23 @@
             android:text="@string/delay" />
 
         <Spinner
-            android:id="@+id/drawer_spinner"
+            android:id="@+id/delay_spinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
+
+        <TextView
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/noti_stats" />
+
+        <Switch
+            android:id="@+id/noti_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp" />
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

@@ -73,6 +73,9 @@ public interface Constants {
     public final RootHelper rootHelper = new RootHelper();
     public final VirtualMachineHelper virtualmachineHelper = new VirtualMachineHelper();
 
+    public final int NOTI_STATS_ID = 0;
+    public final int PER_APP_MODE_ID = 1;
+
     public final String PARTITON_PATH = "/dev/block/platform";
     public final String BUILD_PROP = "/system/build.prop";
 

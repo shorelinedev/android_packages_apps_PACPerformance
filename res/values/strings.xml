@@ -23,6 +23,9 @@
     <string name="seconds">%d second/s</string>
     <string name="booted_up">%s applied your values</string>
     <string name="new_kernel">New kernel detected! %s will not apply your values.</string>
+    
+    <!-- Notification Stats -->
+    <string name="noti_stats">Notification Stats</string>
 
     <!-- Unit -->
     <string name="mhz">MHz</string>

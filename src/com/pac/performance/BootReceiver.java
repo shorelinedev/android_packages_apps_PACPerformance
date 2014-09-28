@@ -1,5 +1,6 @@
 package com.pac.performance;
 
+import com.pac.performance.services.NotificationStatsService;
 import com.pac.performance.services.PerAppModesService;
 import com.pac.performance.utils.Constants;
 
@@ -14,6 +15,13 @@ public class BootReceiver extends BroadcastReceiver implements Constants {
     public void onReceive(final Context context, Intent intent) {
 
         Log.i(TAG, "Bootreceiver: starting");
+
+        // Start Notification Stats if activated
+        if (mUtils.getBoolean("notistats", false, context)) {
+            Log.i(TAG, "Bootreceiver: starting Notification Stats");
+            context.startService(new Intent(context,
+                    NotificationStatsService.class));
+        }
 
         // Start Per App Mode if activated
         if (mUtils.getBoolean("perappmode", false, context)) {

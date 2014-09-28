@@ -3,11 +3,13 @@ package com.pac.performance.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pac.performance.PerAppModeActivity;
 import com.pac.performance.R;
 import com.pac.performance.utils.Constants;
 
 import android.app.ActivityManager;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -79,7 +81,8 @@ public class PerAppModesService extends Service implements Constants {
                 } else if (originalMaxCpu != null) {
                     mBuilder.setTicker(getString(R.string.reset_profile_change,
                             profile));
-                    mNotificationManager.notify(0, mBuilder.build());
+                    mNotificationManager.notify(PER_APP_MODE_ID,
+                            mBuilder.build());
 
                     applyMaxCpu(originalMaxCpu);
                     applyMinCpu(originalMinCpu);
@@ -146,17 +149,23 @@ public class PerAppModesService extends Service implements Constants {
     public void onDestroy() {
         mUtils.toast(getString(R.string.stop_per_app_mode), this);
         if (hand != null) hand.removeCallbacks(run);
-        if (mNotificationManager != null) mNotificationManager.cancel(0);
+        if (mNotificationManager != null) mNotificationManager
+                .cancel(PER_APP_MODE_ID);
         super.onDestroy();
     }
 
     private void buildNotification() {
+        Intent resultIntent = new Intent(this, PerAppModeActivity.class);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0,
+                resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle(getString(R.string.app_name)).setOngoing(true)
-                .setContentText(getString(R.string.active_per_app_mode));
+                .setContentText(getString(R.string.active_per_app_mode))
+                .setContentIntent(resultPendingIntent);
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(0, mBuilder.build());
+        mNotificationManager.notify(PER_APP_MODE_ID, mBuilder.build());
     }
 
 }

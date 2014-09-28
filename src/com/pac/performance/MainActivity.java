@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.pac.performance.helpers.RootHelper.PartitionType;
+import com.pac.performance.services.NotificationStatsService;
 import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.interfaces.Item;
 import com.pac.performance.utils.views.HeaderItem;
@@ -41,9 +42,10 @@ public class MainActivity extends Activity implements Constants {
     private DrawerLayout mDrawerLayout;
     private ListView mLeftDrawer;
     private LinearLayout mRightDrawer;
-    private Switch mDrawerSwitch;
     private ActionBarDrawerToggle mDrawerToggle;
-    private Spinner mDrawerSpinner;
+    private Switch mSetonbootSwitch;
+    private Spinner mDelaySpinner;
+    private Switch mNotiSwitch;
 
     private CharSequence mTitle;
 
@@ -90,8 +92,9 @@ public class MainActivity extends Activity implements Constants {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mRightDrawer = (LinearLayout) findViewById(R.id.right_drawer);
         mLeftDrawer = (ListView) findViewById(R.id.left_drawer);
-        mDrawerSwitch = (Switch) findViewById(R.id.drawer_switch);
-        mDrawerSpinner = (Spinner) findViewById(R.id.drawer_spinner);
+        mSetonbootSwitch = (Switch) findViewById(R.id.setonboot_switch);
+        mDelaySpinner = (Spinner) findViewById(R.id.delay_spinner);
+        mNotiSwitch = (Switch) findViewById(R.id.noti_switch);
 
         HeaderListView adapter = new HeaderListView(this, items);
 
@@ -121,11 +124,12 @@ public class MainActivity extends Activity implements Constants {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        mDrawerSwitch.setChecked(mUtils.getBoolean("setonboot", false, this));
-        mDrawerSwitch.setOnClickListener(new OnClickListener() {
+        mSetonbootSwitch
+                .setChecked(mUtils.getBoolean("setonboot", false, this));
+        mSetonbootSwitch.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mUtils.saveBoolean("setonboot", mDrawerSwitch.isEnabled(),
+                mUtils.saveBoolean("setonboot", mSetonbootSwitch.isChecked(),
                         MainActivity.this);
             }
         });
@@ -140,10 +144,10 @@ public class MainActivity extends Activity implements Constants {
         for (int i = 0; i < 11; i++)
             delays.add(getString(R.string.seconds, i));
 
-        mDrawerSpinner.setAdapter(delayAdapter);
-        mDrawerSpinner.setSelection(mUtils
-                .getInteger("setonbootdelay", 0, this));
-        mDrawerSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+        mDelaySpinner.setAdapter(delayAdapter);
+        mDelaySpinner
+                .setSelection(mUtils.getInteger("setonbootdelay", 0, this));
+        mDelaySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                     int position, long id) {
@@ -153,6 +157,21 @@ public class MainActivity extends Activity implements Constants {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        mNotiSwitch.setChecked(mUtils.getBoolean("notistats", false, this));
+        mNotiSwitch.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mUtils.saveBoolean("notistats", mNotiSwitch.isChecked(),
+                        MainActivity.this);
+
+                Intent i = new Intent(MainActivity.this,
+                        NotificationStatsService.class);
+
+                if (mNotiSwitch.isChecked()) startService(i);
+                else stopService(i);
+            }
         });
     }
 
@@ -310,7 +329,7 @@ public class MainActivity extends Activity implements Constants {
     @Override
     public void onPause() {
         super.onPause();
-        if(progress != null) {
+        if (progress != null) {
             progress.dismiss();
         }
     }
