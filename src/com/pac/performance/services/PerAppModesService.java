@@ -53,7 +53,7 @@ public class PerAppModesService extends Service implements Constants {
                 if (!savedApps.isEmpty()) {
                     mBuilder.setTicker(getString(R.string.apply_profile,
                             savedApps));
-                    mNotificationManager.notify(0, mBuilder.build());
+                    mNotificationManager.notify(PER_APP_MODE_ID, mBuilder.build());
 
                     profile = savedApps;
                     originalMaxCpu = String.valueOf(cpuHelper.getMaxFreq(0));
