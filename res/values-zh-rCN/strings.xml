@@ -8,6 +8,8 @@
   <string name="add">添加</string>
   <string name="empty">%s 是空的 ！</string>
   <string name="delete">删除</string>
+  <string name="minus">&lt;</string>
+  <string name="plus">&gt;</string>
   <string name="info">信息</string>
   <string name="kernel">内核</string>
   <string name="utilities">实用程序</string>
@@ -17,6 +19,7 @@
   <string name="seconds">%d 秒</string>
   <string name="booted_up">%s 已应用您的数值</string>
   <string name="new_kernel">检测到新的内核 ！%s 将不应用您的数值。</string>
+  <string name="noti_stats">Notification Stats</string>
   <string name="mhz">MHz</string>
   <string name="kb">kB</string>
   <string name="mb">MB</string>

@@ -8,6 +8,7 @@
   <string name="add">Hozzáad</string>
   <string name="empty">%s üres!</string>
   <string name="delete">Törlés</string>
+  <string name="minus">&lt;</string>
   <string name="plus">&gt;</string>
   <string name="info">Információ</string>
   <string name="kernel">Kernel</string>
@@ -18,6 +19,7 @@
   <string name="seconds">%d másodperc</string>
   <string name="booted_up">%s beállította az értékeket</string>
   <string name="new_kernel">Új kernel észlelve! %s nem alkalmazza a beállított értékeket.</string>
+  <string name="noti_stats">Notification Stats</string>
   <string name="mhz">MHz</string>
   <string name="kb">kB</string>
   <string name="mb">MB</string>

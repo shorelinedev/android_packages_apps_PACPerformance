@@ -8,6 +8,8 @@
   <string name="add">Hinzufügen</string>
   <string name="empty">%s ist leer!</string>
   <string name="delete">Löschen</string>
+  <string name="minus">&lt;</string>
+  <string name="plus">&gt;</string>
   <string name="info">Information</string>
   <string name="kernel">Kernel</string>
   <string name="utilities">Werkzeuge</string>
@@ -17,6 +19,7 @@
   <string name="seconds">%d Sekunde/n</string>
   <string name="booted_up">%s hat ihre Werte übernohmen</string>
   <string name="new_kernel">Neuer Kernel entdeckt! %s wird ihre Werte nicht übernehmen.</string>
+  <string name="noti_stats">Notification Stats</string>
   <string name="mhz">MHz</string>
   <string name="kb">kB</string>
   <string name="mb">MB</string>
