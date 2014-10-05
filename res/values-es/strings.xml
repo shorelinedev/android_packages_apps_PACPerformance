@@ -19,6 +19,7 @@
   <string name="seconds">%d segundos</string>
   <string name="booted_up">%s aplicado</string>
   <string name="new_kernel">Nuevo kernel detectado! %s no aplicará sus valores.</string>
+  <string name="noti_stats">Estadísticas de notificación</string>
   <string name="mhz">MHz</string>
   <string name="kb">KB</string>
   <string name="mb">MB</string>

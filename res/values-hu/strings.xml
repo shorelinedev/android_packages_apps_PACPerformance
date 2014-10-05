@@ -8,7 +8,6 @@
   <string name="add">Hozzáad</string>
   <string name="empty">%s üres!</string>
   <string name="delete">Törlés</string>
-  <string name="minus">&lt;</string>
   <string name="plus">&gt;</string>
   <string name="info">Információ</string>
   <string name="kernel">Kernel</string>
