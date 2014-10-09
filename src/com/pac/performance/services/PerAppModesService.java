@@ -25,15 +25,19 @@ public class PerAppModesService extends Service implements Constants {
     private NotificationManager mNotificationManager;
 
     private final String prefName = "perappmodes";
-    private final String nameSplit = "qwdwqfwefew";
-    private final String cpuMaxSplit = "gsgerherer";
-    private final String cpuMinSplit = "sdfafwefwe";
-    private final String governorSplit = "rherhtrjtr";
+    private final String nameSplit = "wegerhasdasfa";
+    private final String cpuMaxSplit = "ksdnfweknwef";
+    private final String cpuMinSplit = "geargergerger";
+    private final String governorSplit = "sdgerhrehresdf";
+    private final String gpuMax2dSplit = "wefewgerhrths";
+    private final String gpuMax3dSplit = "fwefewfwegrehh";
 
     private String profile;
     private String originalMaxCpu;
     private String originalMinCpu;
     private String originalGovernor;
+    private String originalMaxGpu2d;
+    private String originalMaxGpu3d;
 
     Runnable run = new Runnable() {
         @Override
@@ -53,20 +57,25 @@ public class PerAppModesService extends Service implements Constants {
                 if (!savedApps.isEmpty()) {
                     mBuilder.setTicker(getString(R.string.apply_profile,
                             savedApps));
-                    mNotificationManager.notify(PER_APP_MODE_ID, mBuilder.build());
+                    mNotificationManager.notify(PER_APP_MODE_ID,
+                            mBuilder.build());
 
                     profile = savedApps;
                     originalMaxCpu = String.valueOf(cpuHelper.getMaxFreq(0));
                     originalMinCpu = String.valueOf(cpuHelper.getMinFreq(0));
                     originalGovernor = cpuHelper.getGovernor(0);
+                    originalMaxGpu2d = gpuHelper.hasGpu2dFreqs() ? String
+                            .valueOf(gpuHelper.getGpu2dCurFreq()) : "0";
+                    originalMaxGpu3d = gpuHelper.hasGpu3dFreqs() ? String
+                            .valueOf(gpuHelper.getGpu3dCurFreq()) : "0";
 
                     String savedProfiles = mUtils.getString(prefName, "",
                             PerAppModesService.this);
                     if (!savedProfiles.isEmpty()) {
                         List<String> contents = new ArrayList<String>();
                         for (String content : savedProfiles
-                                .split(governorSplit))
-                            contents.add(content + governorSplit);
+                                .split(gpuMax3dSplit))
+                            contents.add(content + gpuMax3dSplit);
 
                         for (String content : contents)
                             if (savedApps.equals(content.split(nameSplit)[0])) {
@@ -76,6 +85,10 @@ public class PerAppModesService extends Service implements Constants {
                                         .split(cpuMinSplit)[0]);
                                 applyGovernor(content.split(cpuMinSplit)[1]
                                         .split(governorSplit)[0]);
+                                applyMaxGpu2d(content.split(governorSplit)[1]
+                                        .split(gpuMax2dSplit)[0]);
+                                applyMaxGpu3d(content.split(gpuMax2dSplit)[1]
+                                        .split(gpuMax3dSplit)[0]);
                             }
                     }
                 } else if (originalMaxCpu != null) {
@@ -87,10 +100,14 @@ public class PerAppModesService extends Service implements Constants {
                     applyMaxCpu(originalMaxCpu);
                     applyMinCpu(originalMinCpu);
                     applyGovernor(originalGovernor);
+                    applyMaxGpu2d(originalMaxGpu2d);
+                    applyMaxGpu3d(originalMaxGpu3d);
                     profile = null;
                     originalMaxCpu = null;
                     originalMinCpu = null;
                     originalGovernor = null;
+                    originalMaxGpu2d = null;
+                    originalMaxGpu3d = null;
                 }
             }
 
@@ -99,37 +116,49 @@ public class PerAppModesService extends Service implements Constants {
     };
 
     private void applyMaxCpu(String freq) {
-        apply(CPU_MAX_FREQ, freq);
+        apply(CPU_MAX_FREQ, freq, true);
     }
 
     private void applyMinCpu(String freq) {
-        apply(CPU_MIN_FREQ, freq);
+        apply(CPU_MIN_FREQ, freq, true);
     }
 
     private void applyGovernor(String gov) {
-        apply(CPU_SCALING_GOVERNOR, gov);
+        apply(CPU_SCALING_GOVERNOR, gov, true);
     }
 
-    private void apply(String file, String value) {
-        if (cpuHelper.getCoreCount() > 1) {
-            boolean stoppedMpdec = false;
-            if (rootHelper.moduleActive(CPU_MPDEC)) {
-                mCommandControl.stopModule(CPU_MPDEC, false, this);
-                stoppedMpdec = true;
+    private void applyMaxGpu2d(String freq) {
+        apply(gpuHelper.getGpu2dFreqFile(), freq, false);
+    }
+
+    private void applyMaxGpu3d(String freq) {
+        apply(gpuHelper.getGpu3dFreqFile(), freq, false);
+    }
+
+    private void apply(String file, String value, boolean isCpu) {
+        if (file == null || value == null) return;
+
+        if (isCpu) {
+            if (cpuHelper.getCoreCount() > 1) {
+                boolean stoppedMpdec = false;
+                if (rootHelper.moduleActive(CPU_MPDEC)) {
+                    mCommandControl.stopModule(CPU_MPDEC, false, this);
+                    stoppedMpdec = true;
+                }
+
+                for (int i = 0; i < cpuHelper.getCoreCount(); i++)
+                    // Check if core is online with a while loop
+                    while (true)
+                        if (mUtils.existFile(String.format(file, i))) {
+                            rootHelper.runCommand("echo " + value + " > "
+                                    + String.format(file, i));
+                            break;
+                        }
+
+                if (stoppedMpdec) mCommandControl.startModule(CPU_MPDEC, false,
+                        this);
             }
-
-            for (int i = 0; i < cpuHelper.getCoreCount(); i++)
-                // Check if core is online with a while loop
-                while (true)
-                    if (mUtils.existFile(String.format(file, i))) {
-                        rootHelper.runCommand("echo " + value + " > "
-                                + String.format(file, i));
-                        break;
-                    }
-
-            if (stoppedMpdec) mCommandControl.startModule(CPU_MPDEC, false,
-                    this);
-        }
+        } else rootHelper.runCommand("echo " + value + " > " + file);
     }
 
     @Override

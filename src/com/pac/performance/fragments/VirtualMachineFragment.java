@@ -2,7 +2,7 @@ package com.pac.performance.fragments;
 
 import com.pac.performance.utils.CommandControl.CommandType;
 import com.pac.performance.utils.Constants;
-import com.pac.performance.utils.interfaces.DialogReturn;
+import com.pac.performance.utils.Dialog.DialogReturn;
 
 import android.os.Bundle;
 import android.preference.Preference;

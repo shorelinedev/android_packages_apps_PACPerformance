@@ -3,7 +3,7 @@ package com.pac.performance.fragments;
 import com.pac.performance.R;
 import com.pac.performance.utils.Constants;
 import com.pac.performance.utils.CommandControl.CommandType;
-import com.pac.performance.utils.interfaces.DialogReturn;
+import com.pac.performance.utils.Dialog.DialogReturn;
 
 import android.os.Bundle;
 import android.preference.Preference;
@@ -84,11 +84,11 @@ public class ScreenFragment extends PreferenceFragment implements Constants {
                                     : command;
                         }
                         mCommandControl.runCommand(commandvalue,
-                                screenHelper.SCREEN_CALIBRATION,
+                                screenHelper.getColorCalibrationFile(),
                                 CommandType.GENERIC, position, getActivity());
                         if (screenHelper.hasColorCalibrationCtrl()) mCommandControl
-                                .runCommand("1",
-                                        screenHelper.SCREEN_CALIBRATION_CTRL,
+                                .runCommand("1", screenHelper
+                                        .getColorCalibrationCtrlFile(),
                                         CommandType.GENERIC, position,
                                         getActivity());
                         preference.setSummary(value);

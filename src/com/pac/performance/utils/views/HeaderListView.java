@@ -2,7 +2,7 @@ package com.pac.performance.utils.views;
 
 import java.util.List;
 
-import com.pac.performance.utils.interfaces.Item;
+import com.pac.performance.utils.views.ListItems.Item;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

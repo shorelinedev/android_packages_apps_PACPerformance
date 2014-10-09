@@ -4,8 +4,16 @@ import com.pac.performance.utils.Constants;
 
 public class ScreenHelper implements Constants {
 
-    public String SCREEN_CALIBRATION;
-    public String SCREEN_CALIBRATION_CTRL;
+    private String SCREEN_CALIBRATION;
+    private String SCREEN_CALIBRATION_CTRL;
+
+    public String getColorCalibrationCtrlFile() {
+        return SCREEN_CALIBRATION_CTRL == null ? "" : SCREEN_CALIBRATION_CTRL;
+    }
+
+    public String getColorCalibrationFile() {
+        return SCREEN_CALIBRATION == null ? "" : SCREEN_CALIBRATION;
+    }
 
     public String[] getColorCalibration() {
         if (SCREEN_CALIBRATION != null) if (mUtils

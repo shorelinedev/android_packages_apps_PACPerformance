@@ -7,7 +7,7 @@ import com.pac.performance.R;
 import com.pac.performance.helpers.IOHelper.StorageType;
 import com.pac.performance.utils.CommandControl.CommandType;
 import com.pac.performance.utils.Constants;
-import com.pac.performance.utils.interfaces.DialogReturn;
+import com.pac.performance.utils.Dialog.DialogReturn;
 
 import android.content.Intent;
 import android.os.Bundle;

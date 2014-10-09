@@ -45,7 +45,7 @@ import android.widget.TextView;
 public class PerAppModeActivity extends Activity implements Constants {
 
     private enum ProfileType {
-        NAME, MAXCPU, MINCPU, GOVERNOR
+        NAME, MAXCPU, MINCPU, CPUGOVERNOR, MAXGPU2D, MAXGPU3D
     }
 
     public Switch actionBarSwitch;
@@ -287,10 +287,12 @@ public class PerAppModeActivity extends Activity implements Constants {
         private Preference[] mProfiles;
 
         private final String prefName = "perappmodes";
-        private final String nameSplit = "qwdwqfwefew";
-        private final String cpuMaxSplit = "gsgerherer";
-        private final String cpuMinSplit = "sdfafwefwe";
-        private final String governorSplit = "rherhtrjtr";
+        private final String nameSplit = "wegerhasdasfa";
+        private final String cpuMaxSplit = "ksdnfweknwef";
+        private final String cpuMinSplit = "geargergerger";
+        private final String governorSplit = "sdgerhrehresdf";
+        private final String gpuMax2dSplit = "wefewgerhrths";
+        private final String gpuMax3dSplit = "fwefewfwegrehh";
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -326,14 +328,21 @@ public class PerAppModeActivity extends Activity implements Constants {
                         getContent(getActivity(), ProfileType.NAME).get(i),
                         getContent(getActivity(), ProfileType.MAXCPU).get(i),
                         getContent(getActivity(), ProfileType.MINCPU).get(i),
-                        getContent(getActivity(), ProfileType.GOVERNOR).get(i),
+                        getContent(getActivity(), ProfileType.CPUGOVERNOR).get(
+                                i),
+                        getContent(getActivity(), ProfileType.MAXGPU2D).get(i),
+                        getContent(getActivity(), ProfileType.MAXGPU3D).get(i),
                         preference);
 
             return true;
         }
 
+        Spinner maxGpu2dSpinner = null;
+        Spinner maxGpu3dSpinner = null;
+
         private void addDialog(final boolean modify, final String name,
-                String maxCpu, String minCpu, String governor) {
+                String maxCpu, String minCpu, String governor, String maxGpu2d,
+                String maxGpu3d) {
             LinearLayout layout = new LinearLayout(getActivity());
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setPadding(10, 10, 10, 10);
@@ -374,24 +383,70 @@ public class PerAppModeActivity extends Activity implements Constants {
                     .parseInt(minCpu) / 1000) + getString(R.string.mhz)));
             layout.addView(minCpuSpinner);
 
-            TextView governorText = new TextView(getActivity());
-            governorText.setText(getString(R.string.cpu_governor));
-            layout.addView(governorText);
+            TextView cpuGovernorText = new TextView(getActivity());
+            cpuGovernorText.setText(getString(R.string.cpu_governor));
+            layout.addView(cpuGovernorText);
 
-            List<String> governors = new ArrayList<String>();
+            List<String> cpuGovernors = new ArrayList<String>();
 
             for (String gov : cpuHelper.getCpuGovernors())
-                governors.add(gov);
+                cpuGovernors.add(gov);
 
             adapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_spinner_item, governors);
+                    android.R.layout.simple_spinner_item, cpuGovernors);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             final Spinner governorSpinner = new Spinner(getActivity());
             governorSpinner.setAdapter(adapter);
-            if (modify) governorSpinner.setSelection(governors
+            if (modify) governorSpinner.setSelection(cpuGovernors
                     .indexOf(governor));
             layout.addView(governorSpinner);
+
+            if (gpuHelper.hasGpu2dFreqs()) {
+                TextView maxGpu2dText = new TextView(getActivity());
+                maxGpu2dText.setText(getString(R.string.gpu_2d_max_freq));
+                layout.addView(maxGpu2dText);
+
+                List<String> maxGpu2dFreqs = new ArrayList<String>();
+
+                for (String freq : gpuHelper.getGpu2dFreqs())
+                    maxGpu2dFreqs.add((Integer.parseInt(freq) / 1000000)
+                            + getString(R.string.mhz));
+
+                adapter = new ArrayAdapter<String>(getActivity(),
+                        android.R.layout.simple_spinner_item, maxGpu2dFreqs);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                maxGpu2dSpinner = new Spinner(getActivity());
+                maxGpu2dSpinner.setAdapter(adapter);
+                if (modify) maxGpu2dSpinner.setSelection(maxGpu2dFreqs
+                        .indexOf((Integer.parseInt(maxGpu2d) / 1000000)
+                                + getString(R.string.mhz)));
+                layout.addView(maxGpu2dSpinner);
+            }
+
+            if (gpuHelper.hasGpu3dFreqs()) {
+                TextView maxGpu3dText = new TextView(getActivity());
+                maxGpu3dText.setText(getString(R.string.gpu_3d_max_freq));
+                layout.addView(maxGpu3dText);
+
+                List<String> maxGpu3dFreqs = new ArrayList<String>();
+
+                for (String freq : gpuHelper.getGpu3dFreqs())
+                    maxGpu3dFreqs.add((Integer.parseInt(freq) / 1000000)
+                            + getString(R.string.mhz));
+
+                adapter = new ArrayAdapter<String>(getActivity(),
+                        android.R.layout.simple_spinner_item, maxGpu3dFreqs);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                maxGpu3dSpinner = new Spinner(getActivity());
+                maxGpu3dSpinner.setAdapter(adapter);
+                if (modify) maxGpu3dSpinner.setSelection(maxGpu3dFreqs
+                        .indexOf((Integer.parseInt(maxGpu3d) / 1000000)
+                                + getString(R.string.mhz)));
+                layout.addView(maxGpu3dSpinner);
+            }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setView(layout)
@@ -415,29 +470,33 @@ public class PerAppModeActivity extends Activity implements Constants {
                                         return;
                                     }
 
-                                    if (modify) overwrite(
-                                            name,
-                                            nameEditor.getText().toString(),
-                                            cpuHelper.getCpuFreqs()[maxCpuSpinner
-                                                    .getSelectedItemPosition()],
-                                            cpuHelper.getCpuFreqs()[minCpuSpinner
-                                                    .getSelectedItemPosition()],
-                                            governorSpinner.getSelectedItem()
-                                                    .toString());
-                                    else saveProfile(
-                                            nameEditor.getText().toString(),
-                                            cpuHelper.getCpuFreqs()[maxCpuSpinner
-                                                    .getSelectedItemPosition()],
-                                            cpuHelper.getCpuFreqs()[minCpuSpinner
-                                                    .getSelectedItemPosition()],
-                                            governorSpinner.getSelectedItem()
-                                                    .toString());
+                                    String mName = nameEditor.getText()
+                                            .toString();
+                                    String maxCpu = cpuHelper.getCpuFreqs()[maxCpuSpinner
+                                            .getSelectedItemPosition()];
+                                    String minCpu = cpuHelper.getCpuFreqs()[minCpuSpinner
+                                            .getSelectedItemPosition()];
+                                    String cpuGovernor = governorSpinner
+                                            .getSelectedItem().toString();
+                                    String maxGpu2d = maxGpu2dSpinner == null ? "0"
+                                            : gpuHelper.getGpu2dFreqs()[maxGpu2dSpinner
+                                                    .getSelectedItemPosition()];
+                                    String maxGpu3d = maxGpu3dSpinner == null ? "0"
+                                            : gpuHelper.getGpu3dFreqs()[maxGpu3dSpinner
+                                                    .getSelectedItemPosition()];
+
+                                    if (modify) overwrite(name, mName, maxCpu,
+                                            minCpu, cpuGovernor, maxGpu2d,
+                                            maxGpu3d);
+                                    else saveProfile(mName, maxCpu, minCpu,
+                                            cpuGovernor, maxGpu2d, maxGpu3d);
                                 }
                             }).show();
         }
 
         private void menuDialog(final String name, final String maxCpu,
-                final String minCpu, final String governor,
+                final String minCpu, final String cpugovernor,
+                final String maxGpu2d, final String maxGpu3d,
                 final Preference preference) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setItems(
@@ -448,7 +507,7 @@ public class PerAppModeActivity extends Activity implements Constants {
                             switch (which) {
                                 case 0:
                                     addDialog(true, name, maxCpu, minCpu,
-                                            governor);
+                                            cpugovernor, maxGpu2d, maxGpu3d);
                                     break;
                                 case 1:
                                     deleteProfile(getActivity(), name);
@@ -459,7 +518,7 @@ public class PerAppModeActivity extends Activity implements Constants {
         }
 
         private void saveProfile(String name, String maxCpu, String minCpu,
-                String governor) {
+                String governor, String maxGpu2d, String maxGpu3d) {
             String saved = mUtils.getString(prefName, "", getActivity());
 
             if (saved.contains(name + nameSplit)) {
@@ -469,26 +528,28 @@ public class PerAppModeActivity extends Activity implements Constants {
                 return;
             }
 
-            mUtils.saveString(prefName, saved.isEmpty() ? name + nameSplit
-                    + maxCpu + cpuMaxSplit + minCpu + cpuMinSplit + governor
-                    + governorSplit : saved + name + nameSplit + maxCpu
-                    + cpuMaxSplit + minCpu + cpuMinSplit + governor
-                    + governorSplit, getActivity());
+            String profile = name + nameSplit + maxCpu + cpuMaxSplit + minCpu
+                    + cpuMinSplit + governor + governorSplit + maxGpu2d
+                    + gpuMax2dSplit + maxGpu3d + gpuMax3dSplit;
+            mUtils.saveString(prefName, saved.isEmpty() ? profile : saved
+                    + profile, getActivity());
 
             refresh();
         }
 
         private void overwrite(String oldname, String name, String maxCpu,
-                String minCpu, String governor) {
+                String minCpu, String governor, String maxGpu2d, String maxGpu3d) {
             String saved = mUtils.getString(prefName, "", getActivity());
 
             List<String> contents = new ArrayList<String>();
 
-            for (String content : saved.split(governorSplit))
+            for (String content : saved.split(gpuMax3dSplit))
                 if (content.split(nameSplit)[0].equals(oldname)) contents
                         .add(name + nameSplit + maxCpu + cpuMaxSplit + minCpu
-                                + cpuMinSplit + governor + governorSplit);
-                else contents.add(content + governorSplit);
+                                + cpuMinSplit + governor + governorSplit
+                                + maxGpu2d + gpuMax2dSplit + maxGpu3d
+                                + gpuMax3dSplit);
+                else contents.add(content + gpuMax3dSplit);
 
             String finalContent = "";
             for (String content : contents)
@@ -504,9 +565,9 @@ public class PerAppModeActivity extends Activity implements Constants {
 
             List<String> contents = new ArrayList<String>();
 
-            for (String content : saved.split(governorSplit))
+            for (String content : saved.split(gpuMax3dSplit))
                 if (!content.split(nameSplit)[0].equals(name)) contents
-                        .add(content + governorSplit);
+                        .add(content + gpuMax3dSplit);
 
             String finalContent = "";
             for (String content : contents)
@@ -522,8 +583,8 @@ public class PerAppModeActivity extends Activity implements Constants {
 
             String saved = mUtils.getString(prefName, "", context);
 
-            for (String config : saved.split(governorSplit))
-                if (saved.split(governorSplit).length > 0) switch (profile) {
+            for (String config : saved.split(gpuMax3dSplit))
+                if (saved.split(gpuMax3dSplit).length > 0) switch (profile) {
                     case NAME:
                         content.add(config.split(nameSplit)[0]);
                         break;
@@ -535,9 +596,17 @@ public class PerAppModeActivity extends Activity implements Constants {
                         content.add(config.split(cpuMaxSplit)[1]
                                 .split(cpuMinSplit)[0]);
                         break;
-                    case GOVERNOR:
+                    case CPUGOVERNOR:
                         content.add(config.split(cpuMinSplit)[1]
                                 .split(governorSplit)[0]);
+                        break;
+                    case MAXGPU2D:
+                        content.add(config.split(governorSplit)[1]
+                                .split(gpuMax2dSplit)[0]);
+                        break;
+                    case MAXGPU3D:
+                        content.add(config.split(gpuMax2dSplit)[1]
+                                .split(gpuMax3dSplit)[0]);
                         break;
                 }
 
@@ -553,7 +622,7 @@ public class PerAppModeActivity extends Activity implements Constants {
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             if (item.getItemId() == R.id.menu_add) addDialog(false, null, null,
-                    null, null);
+                    null, null, null, null);
             if (item.getItemId() == android.R.id.home) {
                 finish();
                 overridePendingTransition(enter_anim, exit_anim);

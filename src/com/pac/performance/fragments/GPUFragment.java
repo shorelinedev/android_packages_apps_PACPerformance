@@ -3,7 +3,7 @@ package com.pac.performance.fragments;
 import com.pac.performance.R;
 import com.pac.performance.utils.CommandControl.CommandType;
 import com.pac.performance.utils.Constants;
-import com.pac.performance.utils.interfaces.DialogReturn;
+import com.pac.performance.utils.Dialog.DialogReturn;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -127,7 +127,7 @@ public class GPUFragment extends PreferenceFragment implements Constants {
 
         if (preference == mGpu2dMaxFreq && gpuHelper.hasGpu2dFreqs()) mDialog
                 .showDialogList(mAvailable2dFreqs, gpuHelper.getGpu2dFreqs(),
-                        gpuHelper.GPU_2D_MAX_FREQ, new DialogReturn() {
+                        gpuHelper.getGpu2dFreqFile(), new DialogReturn() {
                             @Override
                             public void dialogReturn(String value) {
                                 preference.setSummary(value);
@@ -136,7 +136,7 @@ public class GPUFragment extends PreferenceFragment implements Constants {
 
         if (preference == mGpu2dGovernor) mDialog.showDialogList(
                 gpuHelper.getGpu2dGovernors(), null,
-                gpuHelper.GPU_2D_SCALING_GOVERNOR, new DialogReturn() {
+                gpuHelper.getGpu2dGovernorFile(), new DialogReturn() {
                     @Override
                     public void dialogReturn(String value) {
                         try {
@@ -150,7 +150,7 @@ public class GPUFragment extends PreferenceFragment implements Constants {
 
         if (preference == mGpu3dMaxFreq && gpuHelper.hasGpu3dFreqs()) mDialog
                 .showDialogList(mAvailable3dFreqs, gpuHelper.getGpu3dFreqs(),
-                        gpuHelper.GPU_3D_MAX_FREQ, new DialogReturn() {
+                        gpuHelper.getGpu3dFreqFile(), new DialogReturn() {
                             @Override
                             public void dialogReturn(String value) {
                                 preference.setSummary(value);
@@ -159,7 +159,7 @@ public class GPUFragment extends PreferenceFragment implements Constants {
 
         if (preference == mGpu3dGovernor) mDialog.showDialogList(
                 gpuHelper.getGpu3dGovernors(), null,
-                gpuHelper.GPU_3D_SCALING_GOVERNOR, new DialogReturn() {
+                gpuHelper.getGpu3dGovernorFile(), new DialogReturn() {
                     @Override
                     public void dialogReturn(String value) {
                         try {

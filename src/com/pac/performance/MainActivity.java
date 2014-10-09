@@ -6,10 +6,10 @@ import java.util.List;
 import com.pac.performance.helpers.RootHelper.PartitionType;
 import com.pac.performance.services.NotificationStatsService;
 import com.pac.performance.utils.Constants;
-import com.pac.performance.utils.interfaces.Item;
 import com.pac.performance.utils.views.HeaderItem;
 import com.pac.performance.utils.views.HeaderListView;
-import com.pac.performance.utils.views.ListItem;
+import com.pac.performance.utils.views.ListItems.Item;
+import com.pac.performance.utils.views.ListItems.ListItem;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

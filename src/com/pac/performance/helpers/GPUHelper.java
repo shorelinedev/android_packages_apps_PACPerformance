@@ -5,19 +5,23 @@ import com.pac.performance.utils.Constants;
 public class GPUHelper implements Constants {
 
     private String GPU_2D_CUR_FREQ;
-    public String GPU_2D_MAX_FREQ;
+    private String GPU_2D_MAX_FREQ;
     private String GPU_2D_AVAILABLE_FREQS;
-    public String GPU_2D_SCALING_GOVERNOR;
+    private String GPU_2D_SCALING_GOVERNOR;
 
-    public String[] mGpu2dFreqs;
+    private String[] mGpu2dFreqs;
 
     private String GPU_3D_CUR_FREQ;
-    public String GPU_3D_MAX_FREQ;
+    private String GPU_3D_MAX_FREQ;
     private String GPU_3D_AVAILABLE_FREQS;
-    public String GPU_3D_SCALING_GOVERNOR;
+    private String GPU_3D_SCALING_GOVERNOR;
     private String[] GPU_3D_AVAILABLE_GOVERNORS;
 
-    public String[] mGpu3dFreqs;
+    private String[] mGpu3dFreqs;
+
+    public String getGpu2dGovernorFile() {
+        return GPU_2D_SCALING_GOVERNOR == null ? "" : GPU_2D_SCALING_GOVERNOR;
+    }
 
     public String[] getGpu2dGovernors() {
         return GPU_GENERIC_GOVERNORS.split(" ");
@@ -36,6 +40,10 @@ public class GPUHelper implements Constants {
         if (GPU_2D_SCALING_GOVERNOR == null) for (String file : GPU_2D_SCALING_GOVERNOR_ARRAY)
             if (mUtils.existFile(file)) GPU_2D_SCALING_GOVERNOR = file;
         return GPU_2D_SCALING_GOVERNOR != null;
+    }
+
+    public String getGpu2dFreqFile() {
+        return GPU_2D_MAX_FREQ == null ? "" : GPU_2D_MAX_FREQ;
     }
 
     public String[] getGpu2dFreqs() {
@@ -87,6 +95,10 @@ public class GPUHelper implements Constants {
         return GPU_2D_CUR_FREQ != null;
     }
 
+    public String getGpu3dGovernorFile() {
+        return GPU_3D_SCALING_GOVERNOR == null ? "" : GPU_3D_SCALING_GOVERNOR;
+    }
+
     public String[] getGpu3dGovernors() {
         if (GPU_3D_AVAILABLE_GOVERNORS == null) for (String file : GPU_3D_AVAILABLE_GOVERNORS_ARRAY)
             if (GPU_3D_AVAILABLE_GOVERNORS == null) if (mUtils.existFile(file)) {
@@ -111,6 +123,10 @@ public class GPUHelper implements Constants {
         if (GPU_3D_SCALING_GOVERNOR == null) for (String file : GPU_3D_SCALING_GOVERNOR_ARRAY)
             if (mUtils.existFile(file)) GPU_3D_SCALING_GOVERNOR = file;
         return GPU_3D_SCALING_GOVERNOR != null;
+    }
+
+    public String getGpu3dFreqFile() {
+        return GPU_3D_MAX_FREQ == null ? "" : GPU_3D_MAX_FREQ;
     }
 
     public String[] getGpu3dFreqs() {

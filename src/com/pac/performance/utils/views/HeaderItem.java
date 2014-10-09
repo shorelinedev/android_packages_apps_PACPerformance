@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.pac.performance.R;
-import com.pac.performance.utils.interfaces.Item;
 import com.pac.performance.utils.views.HeaderListView.RowType;
+import com.pac.performance.utils.views.ListItems.Item;
 
 public class HeaderItem implements Item {
     private final String name;

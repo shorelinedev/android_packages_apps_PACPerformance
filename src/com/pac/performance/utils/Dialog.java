@@ -2,7 +2,6 @@ package com.pac.performance.utils;
 
 import com.pac.performance.R;
 import com.pac.performance.utils.CommandControl.CommandType;
-import com.pac.performance.utils.interfaces.DialogReturn;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,6 +32,12 @@ public class Dialog implements Constants {
                 dialogreturn.dialogReturn(modifiedItems[item]);
             }
         }).show();
+    }
+
+    public interface DialogReturn {
+
+        public void dialogReturn(String value);
+
     }
 
     public void showDialogGeneric(final String file, String value,
