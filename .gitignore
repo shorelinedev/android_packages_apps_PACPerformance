@@ -5,3 +5,4 @@ gen
 libs/android-support-v13.jar
 project.properties
 lint.xml
+.settings
