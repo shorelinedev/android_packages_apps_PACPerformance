@@ -47,6 +47,7 @@
     <string name="kb">kB</string>
     <string name="mb">MB</string>
     <string name="mv">mV</string>
+    <string name="ms">ms</string>
 
     <!-- Fancy Stats -->
     <string name="fancy_stats">Fancy Stats</string>
@@ -131,6 +132,19 @@
     <string name="read_ahead_summary">The Read-ahead value on the phone memory.</string>
     <string name="Internal_read_ahead">Internal Storage Read-ahead</string>
     <string name="External_read_ahead">External Storage Read-ahead</string>
+
+    <!-- Kernel Samepage Merging -->
+    <string name="ksm">Kernel Samepage Merging</string>
+    <string name="ksm_stats">KSM Stats</string>
+    <string name="ksm_full_scans">Full scans</string>
+    <string name="ksm_pages_shared">Pages shared</string>
+    <string name="ksm_pages_sharing">Pages sharing</string>
+    <string name="ksm_pages_unshared">Pages unshared</string>
+    <string name="ksm_pages_volatile">Pages volatile</string>
+    <string name="ksm_enable">Enable KSM</string>
+    <string name="ksm_enable_summary">Reduces memory usage but has an impact on the CPU usage.</string>
+    <string name="ksm_pages_to_scan">Pages to scan</string>
+    <string name="ksm_sleep_milliseconds">Sleep between scans</string>
 
     <!-- Low Memory Killer -->
     <string name="low_memory_killer">Low Memory Killer</string>

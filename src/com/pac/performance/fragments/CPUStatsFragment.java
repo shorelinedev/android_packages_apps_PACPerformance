@@ -287,6 +287,7 @@ public class CPUStatsFragment extends Fragment implements Constants {
         }
     };
 
+    @Override
     public void onDestroy() {
         hand.removeCallbacks(run);
         hand.removeCallbacks(run2);

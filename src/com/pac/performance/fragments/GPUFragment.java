@@ -198,6 +198,7 @@ public class GPUFragment extends PreferenceFragment implements Constants {
         }
     };
 
+    @Override
     public void onDestroy() {
         hand.removeCallbacks(run);
         super.onDestroy();

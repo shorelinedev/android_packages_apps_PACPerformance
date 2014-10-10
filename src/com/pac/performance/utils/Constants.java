@@ -11,6 +11,7 @@ import com.pac.performance.fragments.CPUStatsFragment;
 import com.pac.performance.fragments.GPUFragment;
 import com.pac.performance.fragments.IOSchedulerFragment;
 import com.pac.performance.fragments.KernelInformationFragment;
+import com.pac.performance.fragments.KernelSamepageMerging;
 import com.pac.performance.fragments.LowMemoryKillerFragment;
 import com.pac.performance.fragments.MemoryStatsFragment;
 import com.pac.performance.fragments.ScreenFragment;
@@ -20,6 +21,7 @@ import com.pac.performance.helpers.CPUHelper;
 import com.pac.performance.helpers.CPUVoltageHelper;
 import com.pac.performance.helpers.GPUHelper;
 import com.pac.performance.helpers.IOHelper;
+import com.pac.performance.helpers.KernelSamepageMergingHelper;
 import com.pac.performance.helpers.LowMemoryKillerHelper;
 import com.pac.performance.helpers.PreferenceHelper;
 import com.pac.performance.helpers.RootHelper;
@@ -52,6 +54,7 @@ public interface Constants {
     public final CustomCommanderFragment mCustomCommanderFragment = new CustomCommanderFragment();
     public final GPUFragment mGPUFragment = new GPUFragment();
     public final KernelInformationFragment mKernelInformationFragment = new KernelInformationFragment();
+    public final KernelSamepageMerging mKernelSamepageMerging = new KernelSamepageMerging();
     public final IOSchedulerFragment mIOSchedulerFragment = new IOSchedulerFragment();
     public final LowMemoryKillerFragment mLowMemoryKillerFragment = new LowMemoryKillerFragment();
     public final MemoryStatsFragment mMemoryStatsFragment = new MemoryStatsFragment();
@@ -68,11 +71,13 @@ public interface Constants {
     public final GPUHelper gpuHelper = new GPUHelper();
     public final ScreenHelper screenHelper = new ScreenHelper();
     public final IOHelper ioHelper = new IOHelper();
+    public final KernelSamepageMergingHelper kernelsamepagemergingHelper = new KernelSamepageMergingHelper();
     public final LowMemoryKillerHelper lowmemorykillerHelper = new LowMemoryKillerHelper();
     public final PreferenceHelper prefHelper = new PreferenceHelper();
     public final RootHelper rootHelper = new RootHelper();
     public final VirtualMachineHelper virtualmachineHelper = new VirtualMachineHelper();
 
+    // Services
     public final int NOTI_STATS_ID = 0;
     public final int PER_APP_MODE_ID = 1;
 
@@ -168,6 +173,22 @@ public interface Constants {
     public final String IO_EXTERNAL_SCHEDULER_TUNABLE = "/sys/block/mmcblk1/queue/iosched";
     public final String IO_INTERNAL_READ_AHEAD = "/sys/block/mmcblk0/queue/read_ahead_kb";
     public final String IO_EXTERNAL_READ_AHEAD = "/sys/block/mmcblk1/queue/read_ahead_kb";
+
+    // Kernel Samepage Merging
+    public final String KSM_FOLDER = "/sys/kernel/mm/ksm";
+    public final String KSM_FULL_SCANS = KSM_FOLDER + "/full_scans";
+    public final String KSM_PAGES_SHARED = KSM_FOLDER + "/pages_shared";
+    public final String KSM_PAGES_SHARING = KSM_FOLDER + "/pages_sharing";
+    public final String KSM_PAGES_UNSHARED = KSM_FOLDER + "/pages_unshared";
+    public final String KSM_PAGES_VOLATILE = KSM_FOLDER + "/pages_volatile";
+    public final String KSM_RUN = KSM_FOLDER + "/run";
+    public final String KSM_PAGES_TO_SCAN = KSM_FOLDER + "/pages_to_scan";
+    public final String KSM_SLEEP_MILLISECONDS = KSM_FOLDER
+            + "/sleep_millisecs";
+
+    public final String[] KSM_INFOS = new String[] { KSM_FULL_SCANS,
+            KSM_PAGES_SHARED, KSM_PAGES_SHARING, KSM_PAGES_UNSHARED,
+            KSM_PAGES_VOLATILE, };
 
     // Low Memory Killer
     public final String LMK_MINFREE = "/sys/module/lowmemorykiller/parameters/minfree";

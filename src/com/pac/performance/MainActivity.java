@@ -206,6 +206,8 @@ public class MainActivity extends Activity implements Constants {
                 getString(R.string.screen), mScreenFragment));
         items.add(new ListItem(getString(R.string.io_scheduler),
                 mIOSchedulerFragment));
+        if (kernelsamepagemergingHelper.hasKsm()) items.add(new ListItem(
+                getString(R.string.ksm), mKernelSamepageMerging));
         items.add(new ListItem(getString(R.string.low_memory_killer),
                 mLowMemoryKillerFragment));
         items.add(new ListItem(getString(R.string.virtual_machine),
