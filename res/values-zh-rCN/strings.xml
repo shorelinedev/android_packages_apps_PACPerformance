@@ -37,6 +37,7 @@
   <string name="kb">kB</string>
   <string name="mb">MB</string>
   <string name="mv">mV</string>
+  <string name="ms">ms</string>
   <string name="fancy_stats">花样统计</string>
   <string name="usage">统计</string>
   <string name="memory_stats">内存统计</string>
@@ -103,6 +104,17 @@
   <string name="read_ahead_summary">手机内存预读值。</string>
   <string name="Internal_read_ahead">内部存储预读</string>
   <string name="External_read_ahead">外部存储预读</string>
+  <string name="ksm">KSM</string>
+  <string name="ksm_stats">KSM 统计</string>
+  <string name="ksm_full_scans">完全扫描</string>
+  <string name="ksm_pages_shared">已共享的页面</string>
+  <string name="ksm_pages_sharing">可共享的页面</string>
+  <string name="ksm_pages_unshared">未共享的页面</string>
+  <string name="ksm_pages_volatile">不稳定的页面</string>
+  <string name="ksm_enable">启用 KSM</string>
+  <string name="ksm_enable_summary">减少内存使用，但对 CPU 使用率有影响。</string>
+  <string name="ksm_pages_to_scan">要扫描的页面</string>
+  <string name="ksm_sleep_milliseconds">扫描间隔</string>
   <string name="low_memory_killer">LMK</string>
   <string name="forground_app">前台的应用</string>
   <string name="visbile_app">可见的应用</string>

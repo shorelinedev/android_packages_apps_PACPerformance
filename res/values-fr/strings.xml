@@ -34,6 +34,7 @@
   <string name="seconds">%d seconde/s</string>
   <string name="booted_up">%s de vos valeurs</string>
   <string name="new_kernel">Nouveau kernel détecté! %s ne s\'appliquent pas vos valeurs.</string>
+  <string name="noti_stats">Statistiques des notifications</string>
   <string name="mhz">MHz</string>
   <string name="kb">Ko</string>
   <string name="mb"> MO</string>
@@ -63,6 +64,7 @@
   <string name="parameters">Paramètres</string>
   <string name="cpu_max_freq">La Fréquence Maximale du PROCESSEUR</string>
   <string name="cpu_min_freq">La Fréquence Manimale du PROCESSEUR</string>
+  <string name="cpu_governor">CPU Profil</string>
   <string name="advanced">Avancée</string>
   <string name="not_tunable">%s n\'est pas accordable</string>
   <string name="aggressive">Aggresif</string>

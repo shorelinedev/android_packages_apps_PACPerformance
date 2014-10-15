@@ -37,6 +37,7 @@
   <string name="kb">kB</string>
   <string name="mb">MB</string>
   <string name="mv">mV</string>
+  <string name="ms">ms</string>
   <string name="fancy_stats">Díszes Statisztika</string>
   <string name="usage">Használat</string>
   <string name="memory_stats">Memória Statisztika</string>
@@ -103,6 +104,17 @@
   <string name="read_ahead_summary">Az előreolvasás értéke a telefon memóriáján.</string>
   <string name="Internal_read_ahead">Belső tároló előreolvasás</string>
   <string name="External_read_ahead">Külső tároló előreolvasás</string>
+  <string name="ksm">KSM</string>
+  <string name="ksm_stats">KSM Statisztika</string>
+  <string name="ksm_full_scans">Teljes vizsgálat</string>
+  <string name="ksm_pages_shared">Megosztott oldalak</string>
+  <string name="ksm_pages_sharing">Oldalak megosztása</string>
+  <string name="ksm_pages_unshared">Nem megosztott oldalak</string>
+  <string name="ksm_pages_volatile">Illékony oldalak</string>
+  <string name="ksm_enable">KSM engedélyezése</string>
+  <string name="ksm_enable_summary">Csökkenti a memória használatot, de hatással van a CPU-használatra.</string>
+  <string name="ksm_pages_to_scan">Oldalak beolvasása</string>
+  <string name="ksm_sleep_milliseconds">Alvás keresések között</string>
   <string name="low_memory_killer">Alacsony Memória Gyilkos</string>
   <string name="forground_app">Előtér alkalmazások</string>
   <string name="visbile_app">Látható alkalmazások</string>
