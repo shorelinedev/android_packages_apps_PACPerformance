@@ -56,61 +56,57 @@ public class BuildpropFragment extends Fragment implements Constants {
                 return true;
             }
         });
-        create();
+        getActivity().runOnUiThread(create);
 
         return list;
     }
 
-    private void refresh() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // Remove all items first otherwise we will get duplicated items
-                keys.clear();
-                values.clear();
+    private final Runnable refresh = new Runnable() {
 
-                String[] props = mUtils.readFile(BUILD_PROP).split("\\r?\\n");
+        @Override
+        public void run() {
+            // Remove all items first otherwise we will get duplicated items
+            keys.clear();
+            values.clear();
 
-                if (props.length > 1) {
-                    for (String prop : props)
-                        if (!prop.isEmpty() && !prop.startsWith("#")) {
-                            String[] propArray = prop.split("=");
-                            keys.add(propArray[0]);
-                            String value = propArray.length < 2 ? ""
-                                    : propArray[1];
-                            values.add(value + "\n");
-                        }
+            String[] props = mUtils.readFile(BUILD_PROP).split("\\r?\\n");
 
-                    adapter.notifyDataSetChanged();
-                    list.invalidateViews();
-                    list.refreshDrawableState();
-                }
+            if (props.length > 1) {
+                for (String prop : props)
+                    if (!prop.isEmpty() && !prop.startsWith("#")) {
+                        String[] propArray = prop.split("=");
+                        keys.add(propArray[0]);
+                        String value = propArray.length < 2 ? "" : propArray[1];
+                        values.add(value + "\n");
+                    }
+
+                adapter.notifyDataSetChanged();
+                list.invalidateViews();
+                list.refreshDrawableState();
             }
-        });
-    }
+        }
+    };
 
-    private void create() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                String[] props = mUtils.readFile(BUILD_PROP).split("\\r?\\n");
+    private final Runnable create = new Runnable() {
 
-                if (props.length > 1) {
-                    for (String prop : props)
-                        if (!prop.isEmpty() && !prop.startsWith("#")) {
-                            String[] propArray = prop.split("=");
-                            keys.add(propArray[0]);
-                            String value = propArray.length < 2 ? ""
-                                    : propArray[1];
-                            values.add(value + "\n");
-                        }
+        @Override
+        public void run() {
+            String[] props = mUtils.readFile(BUILD_PROP).split("\\r?\\n");
 
-                    adapter = new GenericListView(getActivity(), keys, values);
-                    list.setAdapter(adapter);
-                }
+            if (props.length > 1) {
+                for (String prop : props)
+                    if (!prop.isEmpty() && !prop.startsWith("#")) {
+                        String[] propArray = prop.split("=");
+                        keys.add(propArray[0]);
+                        String value = propArray.length < 2 ? "" : propArray[1];
+                        values.add(value + "\n");
+                    }
+
+                adapter = new GenericListView(getActivity(), keys, values);
+                list.setAdapter(adapter);
             }
-        });
-    }
+        }
+    };
 
     private void backup() {
         rootHelper.mount(true, "/system");
@@ -199,7 +195,7 @@ public class BuildpropFragment extends Fragment implements Constants {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    refresh();
+                                    getActivity().runOnUiThread(refresh);
                                 }
                             });
                             break;
@@ -237,7 +233,7 @@ public class BuildpropFragment extends Fragment implements Constants {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    refresh();
+                                    getActivity().runOnUiThread(refresh);
                                 }
                             });
                             break;

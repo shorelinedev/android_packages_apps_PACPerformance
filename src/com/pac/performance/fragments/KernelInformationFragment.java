@@ -46,22 +46,18 @@ public class KernelInformationFragment extends Fragment implements Constants {
         layout.addView(header2);
         layout.addView(memInfo);
 
-        new Thread() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
             public void run() {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        header.setText(getString(R.string.kernel_version));
-                        kernelVersion.setText(mUtils.getString(
-                                "kernel_version", "unknown", getActivity()));
-                        header1.setText(getString(R.string.cpu_info));
-                        cpuInfo.setText(mUtils.readFile(PROC_CPUINFO));
-                        header2.setText(getString(R.string.memory_info));
-                        memInfo.setText(mUtils.readFile(PROC_MEMINFO));
-                    }
-                });
+                header.setText(getString(R.string.kernel_version));
+                kernelVersion.setText(mUtils.getString("kernel_version",
+                        "unknown", getActivity()));
+                header1.setText(getString(R.string.cpu_info));
+                cpuInfo.setText(mUtils.readFile(PROC_CPUINFO));
+                header2.setText(getString(R.string.memory_info));
+                memInfo.setText(mUtils.readFile(PROC_MEMINFO));
             }
-        }.start();
+        });
 
         return scroll;
     }

@@ -13,6 +13,8 @@ import android.preference.PreferenceScreen;
 public class LowMemoryKillerFragment extends PreferenceFragment implements
         Constants {
 
+    private PreferenceScreen root;
+
     private Preference[] mMinFree;
     private Preference[] mProfile;
 
@@ -28,34 +30,41 @@ public class LowMemoryKillerFragment extends PreferenceFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PreferenceScreen root = getPreferenceManager().createPreferenceScreen(
-                getActivity());
-
-        String[] minfrees = lowmemorykillerHelper.getMinFrees();
-        mMinFree = new Preference[minfrees.length];
-        for (int i = 0; i < minfrees.length; i++) {
-            mMinFree[i] = prefHelper.setPreference(getResources()
-                    .getStringArray(R.array.lmk_names)[i],
-                    lowmemorykillerHelper.getMinFree(i) / 256
-                            + getString(R.string.mb), getActivity());
-
-            root.addPreference(mMinFree[i]);
-        }
-
-        root.addPreference(prefHelper.setPreferenceCategory(
-                getString(R.string.profiles), getActivity()));
-
-        mProfile = new Preference[mProfileValues.length];
-        for (int i = 0; i < mProfileValues.length; i++) {
-            mProfile[i] = prefHelper.setPreference(getResources()
-                    .getStringArray(R.array.lmk_profiles)[i],
-                    mProfileValues[i], getActivity());
-
-            root.addPreference(mProfile[i]);
-        }
+        root = getPreferenceManager().createPreferenceScreen(getActivity());
 
         setPreferenceScreen(root);
+
+        getActivity().runOnUiThread(run);
     }
+
+    private final Runnable run = new Runnable() {
+
+        @Override
+        public void run() {
+            String[] minfrees = lowmemorykillerHelper.getMinFrees();
+            mMinFree = new Preference[minfrees.length];
+            for (int i = 0; i < minfrees.length; i++) {
+                mMinFree[i] = prefHelper.setPreference(getResources()
+                        .getStringArray(R.array.lmk_names)[i],
+                        lowmemorykillerHelper.getMinFree(i) / 256
+                                + getString(R.string.mb), getActivity());
+
+                root.addPreference(mMinFree[i]);
+            }
+
+            root.addPreference(prefHelper.setPreferenceCategory(
+                    getString(R.string.profiles), getActivity()));
+
+            mProfile = new Preference[mProfileValues.length];
+            for (int i = 0; i < mProfileValues.length; i++) {
+                mProfile[i] = prefHelper.setPreference(getResources()
+                        .getStringArray(R.array.lmk_profiles)[i],
+                        mProfileValues[i], getActivity());
+
+                root.addPreference(mProfile[i]);
+            }
+        }
+    };
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,

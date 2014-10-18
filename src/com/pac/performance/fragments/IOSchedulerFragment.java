@@ -18,6 +18,8 @@ import android.preference.PreferenceScreen;
 public class IOSchedulerFragment extends PreferenceFragment implements
         Constants {
 
+    private PreferenceScreen root;
+
     private String[] readaheadValues;
     private String[] readaheadValuesOriginal;
 
@@ -29,80 +31,89 @@ public class IOSchedulerFragment extends PreferenceFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readaheadValues = new String[32];
-        readaheadValuesOriginal = new String[32];
-        for (int i = 0; i < 32; i++) {
-            readaheadValues[i] = (i * 128 + 128) + getString(R.string.kb);
-            readaheadValuesOriginal[i] = String.valueOf(i * 128 + 128);
-        }
-
-        PreferenceScreen root = getPreferenceManager().createPreferenceScreen(
-                getActivity());
-
-        root.addPreference(prefHelper.setPreferenceCategory(
-                getString(R.string.scheduler), getActivity()));
-
-        root.addPreference(prefHelper.setPreference(null,
-                getString(R.string.scheduler_summary), getActivity()));
-
-        mInternalScheduler = prefHelper.setPreference(
-                getString(R.string.internal_scheduler),
-                ioHelper.getScheduler(StorageType.INTERNAL), getActivity());
-
-        root.addPreference(mInternalScheduler);
-
-        if (ioHelper.hasExternalStorage()) {
-            mExternalScheduler = prefHelper.setPreference(
-                    getString(R.string.external_scheduler),
-                    ioHelper.getScheduler(StorageType.EXTERNAL), getActivity());
-
-            root.addPreference(mExternalScheduler);
-        }
-
-        root.addPreference(prefHelper.setPreferenceCategory(
-                getString(R.string.advanced), getActivity()));
-
-        root.addItemFromInflater(prefHelper.setPreference(null,
-                getString(R.string.scheduler_tunable_summary), getActivity()));
-
-        mInternalSchedulerTunable = prefHelper.setPreference(
-                getString(R.string.internal_scheduler_tunable), null,
-                getActivity());
-
-        root.addPreference(mInternalSchedulerTunable);
-
-        if (ioHelper.hasExternalStorage()) {
-            mExternalSchedulerTunable = prefHelper.setPreference(
-                    getString(R.string.external_scheduler_tunable), null,
-                    getActivity());
-
-            root.addPreference(mExternalSchedulerTunable);
-        }
-
-        root.addPreference(prefHelper.setPreferenceCategory(
-                getString(R.string.read_ahead), getActivity()));
-
-        root.addPreference(prefHelper.setPreference(null,
-                getString(R.string.read_ahead_summary), getActivity()));
-
-        mInternalReadahead = prefHelper.setPreference(
-                getString(R.string.internal_scheduler),
-                ioHelper.getReadahead(StorageType.INTERNAL)
-                        + getString(R.string.kb), getActivity());
-
-        root.addPreference(mInternalReadahead);
-
-        if (ioHelper.hasExternalStorage()) {
-            mExternalReadahead = prefHelper.setPreference(
-                    getString(R.string.external_scheduler),
-                    ioHelper.getReadahead(StorageType.EXTERNAL)
-                            + getString(R.string.kb), getActivity());
-
-            root.addPreference(mExternalReadahead);
-        }
+        root = getPreferenceManager().createPreferenceScreen(getActivity());
 
         setPreferenceScreen(root);
+
+        getActivity().runOnUiThread(run);
     }
+
+    private final Runnable run = new Runnable() {
+
+        @Override
+        public void run() {
+            readaheadValues = new String[32];
+            readaheadValuesOriginal = new String[32];
+            for (int i = 0; i < 32; i++) {
+                readaheadValues[i] = (i * 128 + 128) + getString(R.string.kb);
+                readaheadValuesOriginal[i] = String.valueOf(i * 128 + 128);
+            }
+
+            root.addPreference(prefHelper.setPreferenceCategory(
+                    getString(R.string.scheduler), getActivity()));
+
+            root.addPreference(prefHelper.setPreference(null,
+                    getString(R.string.scheduler_summary), getActivity()));
+
+            mInternalScheduler = prefHelper.setPreference(
+                    getString(R.string.internal_scheduler),
+                    ioHelper.getScheduler(StorageType.INTERNAL), getActivity());
+
+            root.addPreference(mInternalScheduler);
+
+            if (ioHelper.hasExternalStorage()) {
+                mExternalScheduler = prefHelper.setPreference(
+                        getString(R.string.external_scheduler),
+                        ioHelper.getScheduler(StorageType.EXTERNAL),
+                        getActivity());
+
+                root.addPreference(mExternalScheduler);
+            }
+
+            root.addPreference(prefHelper.setPreferenceCategory(
+                    getString(R.string.advanced), getActivity()));
+
+            root.addItemFromInflater(prefHelper.setPreference(null,
+                    getString(R.string.scheduler_tunable_summary),
+                    getActivity()));
+
+            mInternalSchedulerTunable = prefHelper.setPreference(
+                    getString(R.string.internal_scheduler_tunable), null,
+                    getActivity());
+
+            root.addPreference(mInternalSchedulerTunable);
+
+            if (ioHelper.hasExternalStorage()) {
+                mExternalSchedulerTunable = prefHelper.setPreference(
+                        getString(R.string.external_scheduler_tunable), null,
+                        getActivity());
+
+                root.addPreference(mExternalSchedulerTunable);
+            }
+
+            root.addPreference(prefHelper.setPreferenceCategory(
+                    getString(R.string.read_ahead), getActivity()));
+
+            root.addPreference(prefHelper.setPreference(null,
+                    getString(R.string.read_ahead_summary), getActivity()));
+
+            mInternalReadahead = prefHelper.setPreference(
+                    getString(R.string.internal_scheduler),
+                    ioHelper.getReadahead(StorageType.INTERNAL)
+                            + getString(R.string.kb), getActivity());
+
+            root.addPreference(mInternalReadahead);
+
+            if (ioHelper.hasExternalStorage()) {
+                mExternalReadahead = prefHelper.setPreference(
+                        getString(R.string.external_scheduler),
+                        ioHelper.getReadahead(StorageType.EXTERNAL)
+                                + getString(R.string.kb), getActivity());
+
+                root.addPreference(mExternalReadahead);
+            }
+        }
+    };
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,

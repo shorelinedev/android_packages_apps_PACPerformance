@@ -14,8 +14,8 @@ import com.pac.performance.utils.views.ListItems.ListItem;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -55,36 +55,63 @@ public class MainActivity extends Activity implements Constants {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        getActionBar().hide();
         progress = new ProgressDialog(this);
         progress.setMessage(getString(R.string.loading));
         progress.show();
 
-        // Check root access and busybox installation
-        boolean hasRoot = rootHelper.rootAccess();
-        boolean hasBusybox = rootHelper.busyboxInstalled();
-
-        if (!hasRoot || !hasBusybox) {
-            Intent i = new Intent(this, TextActivity.class);
-            Bundle args = new Bundle();
-            args.putString(TextActivity.ARG_TEXT,
-                    !hasRoot ? getString(R.string.no_root)
-                            : getString(R.string.no_busybox));
-            Log.d(TAG, !hasRoot ? getString(R.string.no_root)
-                    : getString(R.string.no_busybox));
-            i.putExtras(args);
-            startActivity(i);
-
-            finish();
-            return;
-        }
-
-        setContentView(R.layout.activity_main);
-
-        // Use Asynctask to speed up launching
-        new Initialize().execute(savedInstanceState);
+        new Handler().postDelayed(run, 200);
     }
+
+    private final Runnable run = new Runnable() {
+
+        @Override
+        public void run() {
+
+            // Check root access and busybox installation
+            boolean hasRoot = rootHelper.rootAccess();
+            boolean hasBusybox = rootHelper.busyboxInstalled();
+
+            if (!hasRoot || !hasBusybox) {
+                Intent i = new Intent(MainActivity.this, TextActivity.class);
+                Bundle args = new Bundle();
+                args.putString(TextActivity.ARG_TEXT,
+                        !hasRoot ? getString(R.string.no_root)
+                                : getString(R.string.no_busybox));
+                Log.d(TAG, !hasRoot ? getString(R.string.no_root)
+                        : getString(R.string.no_busybox));
+                i.putExtras(args);
+                startActivity(i);
+
+                finish();
+                return;
+            }
+
+            /*
+             * Save kernel version to make sure the user still using the current
+             * kernel on boot
+             */
+            mUtils.saveString("kernel_version", mUtils.readFile(PROC_VERSION),
+                    MainActivity.this);
+
+            String[] files = { String.format(CPU_MAX_FREQ, 0),
+                    String.format(CPU_MIN_FREQ, 0),
+                    String.format(CPU_SCALING_GOVERNOR, 0) };
+
+            for (String file : files)
+                rootHelper.runCommand("chmod 644 " + file);
+
+            setFragments();
+
+            setDrawer();
+            selectItem(curposition);
+
+            mDrawerToggle.syncState();
+
+            progress.dismiss();
+        }
+    };
 
     // Initialize all views
     private void setDrawer() {
@@ -250,27 +277,22 @@ public class MainActivity extends Activity implements Constants {
                 .setVisibility(items.get(position).getFragment() == mCustomCommanderFragment ? View.VISIBLE
                         : View.GONE);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (items.get(position).getTitle()
-                        .equals(getString(R.string.per_app_mode))) {
-                    startActivity(new Intent(MainActivity.this,
-                            PerAppModeActivity.class));
-                } else {
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.content_frame,
-                                    items.get(position).getFragment()).commit();
-                    mDrawerLayout.closeDrawer(mLeftDrawer);
-                }
+        if (items.get(position).getTitle()
+                .equals(getString(R.string.per_app_mode))) {
+            startActivity(new Intent(MainActivity.this,
+                    PerAppModeActivity.class));
+        } else {
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_frame,
+                            items.get(position).getFragment()).commit();
+            mDrawerLayout.closeDrawer(mLeftDrawer);
+        }
 
-                curposition = position;
+        curposition = position;
 
-                setTitle(items.get(position).getTitle());
-                mLeftDrawer.setItemChecked(curposition, true);
-            }
-        });
+        setTitle(items.get(position).getTitle());
+        mLeftDrawer.setItemChecked(curposition, true);
     }
 
     @Override
@@ -279,60 +301,4 @@ public class MainActivity extends Activity implements Constants {
         getActionBar().setTitle(mTitle);
     }
 
-    private class Initialize extends AsyncTask<Bundle, Void, Bundle> {
-
-        @Override
-        protected void onPostExecute(final Bundle result) {
-            new Thread() {
-                public void run() {
-
-                    /*
-                     * Save kernel version to make sure the user still using the
-                     * current kernel on boot
-                     */
-                    mUtils.saveString("kernel_version",
-                            mUtils.readFile(PROC_VERSION), MainActivity.this);
-
-                    String[] files = { String.format(CPU_MAX_FREQ, 0),
-                            String.format(CPU_MIN_FREQ, 0),
-                            String.format(CPU_SCALING_GOVERNOR, 0) };
-
-                    for (String file : files)
-                        rootHelper.runCommand("chmod 644 " + file);
-
-                    setFragments();
-
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            setDrawer();
-
-                            if (result == null) selectItem(curposition);
-
-                            getActionBar().show();
-
-                            mDrawerToggle.syncState();
-                            mDrawerLayout.openDrawer(mLeftDrawer);
-
-                            progress.hide();
-                        }
-                    });
-                }
-            }.start();
-
-            super.onPostExecute(result);
-        }
-
-        @Override
-        protected Bundle doInBackground(Bundle... params) {
-            return params[0];
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (progress != null) {
-            progress.dismiss();
-        }
-    }
 }

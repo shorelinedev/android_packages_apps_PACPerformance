@@ -12,33 +12,35 @@ import android.preference.PreferenceScreen;
 public class VirtualMachineFragment extends PreferenceFragment implements
         Constants {
 
+    private PreferenceScreen root;
     private Preference[] mVMs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final PreferenceScreen root = getPreferenceManager()
-                .createPreferenceScreen(getActivity());
-
-        new Thread() {
-            public void run() {
-                mVMs = new Preference[virtualmachineHelper.getVMfiles().size()];
-                for (int i = 0; i < virtualmachineHelper.getVMfiles().size(); i++) {
-                    mVMs[i] = prefHelper.setPreference(virtualmachineHelper
-                            .getVMfiles().get(i).replace("_", " "),
-                            virtualmachineHelper
-                                    .getVMValue(virtualmachineHelper
-                                            .getVMfiles().get(i)),
-                            getActivity());
-
-                    root.addPreference(mVMs[i]);
-                }
-            }
-        }.start();
+        root = getPreferenceManager().createPreferenceScreen(getActivity());
 
         setPreferenceScreen(root);
+
+        getActivity().runOnUiThread(run);
     }
+
+    private final Runnable run = new Runnable() {
+
+        @Override
+        public void run() {
+            mVMs = new Preference[virtualmachineHelper.getVMfiles().size()];
+            for (int i = 0; i < virtualmachineHelper.getVMfiles().size(); i++) {
+                mVMs[i] = prefHelper.setPreference(virtualmachineHelper
+                        .getVMfiles().get(i).replace("_", " "),
+                        virtualmachineHelper.getVMValue(virtualmachineHelper
+                                .getVMfiles().get(i)), getActivity());
+
+                root.addPreference(mVMs[i]);
+            }
+        }
+    };
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,

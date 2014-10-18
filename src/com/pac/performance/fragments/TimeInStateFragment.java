@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -54,16 +55,26 @@ public class TimeInStateFragment extends Fragment implements Constants {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+
         setHasOptionsMenu(true);
         activity = getActivity();
 
-        // inflate the view, stash the app context, and get all UI elements
+        // inflate the view, stash the app context, and get all UI
+        // elements
         rootView = inflater.inflate(R.layout.info, container, false);
         findViews();
 
-        // see if we're updating data during a config change (rotate screen)
+        // see if we're updating data during a config change (rotate
+        // screen)
         if (savedInstanceState != null) _updatingData = savedInstanceState
                 .getBoolean("updatingData");
+
+        if (isAdded()) new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshData();
+            }
+        }, 200);
 
         return rootView;
     }
@@ -73,13 +84,6 @@ public class TimeInStateFragment extends Fragment implements Constants {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("updatingData", _updatingData);
-    }
-
-    /** Update the view when the application regains focus */
-    @Override
-    public void onResume() {
-        refreshData();
-        super.onResume();
     }
 
     /** Map all of the UI elements to member variables */

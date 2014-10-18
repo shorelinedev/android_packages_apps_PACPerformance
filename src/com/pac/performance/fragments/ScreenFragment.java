@@ -12,50 +12,52 @@ import android.preference.PreferenceScreen;
 
 public class ScreenFragment extends PreferenceFragment implements Constants {
 
+    private PreferenceScreen root;
     private Preference[] mScreenCalibration;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final PreferenceScreen root = getPreferenceManager()
-                .createPreferenceScreen(getActivity());
-
-        new Thread() {
-            public void run() {
-
-                if (screenHelper.hasColorCalibration()) {
-                    root.addPreference(prefHelper.setPreferenceCategory(
-                            getString(R.string.color_calibration),
-                            getActivity()));
-
-                    mScreenCalibration = new Preference[screenHelper
-                            .getColorCalibration().length];
-                    for (int i = 0; i < mScreenCalibration.length; i++) {
-                        String title = "";
-                        switch (i) {
-                            case 0:
-                                title = getString(R.string.red);
-                                break;
-                            case 1:
-                                title = getString(R.string.green);
-                                break;
-                            case 2:
-                                title = getString(R.string.blue);
-                                break;
-                        }
-                        mScreenCalibration[i] = prefHelper.setPreference(title,
-                                screenHelper.getColorCalibration()[i],
-                                getActivity());
-
-                        root.addPreference(mScreenCalibration[i]);
-                    }
-                }
-            }
-        }.start();
+        root = getPreferenceManager().createPreferenceScreen(getActivity());
 
         setPreferenceScreen(root);
+
+        getActivity().runOnUiThread(run);
     }
+
+    private final Runnable run = new Runnable() {
+
+        @Override
+        public void run() {
+            if (screenHelper.hasColorCalibration()) {
+                root.addPreference(prefHelper.setPreferenceCategory(
+                        getString(R.string.color_calibration), getActivity()));
+
+                mScreenCalibration = new Preference[screenHelper
+                        .getColorCalibration().length];
+                for (int i = 0; i < mScreenCalibration.length; i++) {
+                    String title = "";
+                    switch (i) {
+                        case 0:
+                            title = getString(R.string.red);
+                            break;
+                        case 1:
+                            title = getString(R.string.green);
+                            break;
+                        case 2:
+                            title = getString(R.string.blue);
+                            break;
+                    }
+                    mScreenCalibration[i] = prefHelper.setPreference(title,
+                            screenHelper.getColorCalibration()[i],
+                            getActivity());
+
+                    root.addPreference(mScreenCalibration[i]);
+                }
+            }
+        }
+    };
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,

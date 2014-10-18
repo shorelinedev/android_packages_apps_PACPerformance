@@ -16,6 +16,8 @@ public class KernelSamepageMerging extends PreferenceFragment implements
 
     private final Handler hand = new Handler();
 
+    private PreferenceScreen root;
+
     private Preference[] mInfos;
 
     private CheckBoxPreference mEnableKsm;
@@ -24,47 +26,64 @@ public class KernelSamepageMerging extends PreferenceFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final PreferenceScreen root = getPreferenceManager()
-                .createPreferenceScreen(getActivity());
+
+        root = getPreferenceManager().createPreferenceScreen(getActivity());
+
         setPreferenceScreen(root);
 
-        new Thread() {
-            public void run() {
-                root.addPreference(prefHelper.setPreferenceCategory(
-                        getString(R.string.ksm_stats), getActivity()));
-
-                mInfos = new Preference[KSM_INFOS.length];
-                for (int i = 0; i < KSM_INFOS.length; i++) {
-                    mInfos[i] = prefHelper.setPreference(getResources()
-                            .getStringArray(R.array.ksm_infos)[i], String
-                            .valueOf(kernelsamepagemergingHelper.getInfos(i)),
-                            getActivity());
-                    root.addPreference(mInfos[i]);
-                }
-
-                root.addPreference(prefHelper.setPreferenceCategory(
-                        getString(R.string.parameters), getActivity()));
-
-                mEnableKsm = prefHelper.setCheckBoxPreference(
-                        kernelsamepagemergingHelper.isKsmActive(),
-                        getString(R.string.ksm_enable),
-                        getString(R.string.ksm_enable_summary), getActivity());
-                root.addPreference(mEnableKsm);
-
-                mPagesToScan = prefHelper.setPreference(
-                        getString(R.string.ksm_pages_to_scan), String
-                                .valueOf(kernelsamepagemergingHelper
-                                        .getPagesToScan()), getActivity());
-                root.addPreference(mPagesToScan);
-
-                mSleepMilliseconds = prefHelper.setPreference(
-                        getString(R.string.ksm_sleep_milliseconds),
-                        kernelsamepagemergingHelper.getSleepMilliseconds()
-                                + getString(R.string.ms), getActivity());
-                root.addPreference(mSleepMilliseconds);
-            }
-        }.start();
+        getActivity().runOnUiThread(run);
+        hand.post(run2);
     }
+
+    private final Runnable run = new Runnable() {
+
+        @Override
+        public void run() {
+            root.addPreference(prefHelper.setPreferenceCategory(
+                    getString(R.string.ksm_stats), getActivity()));
+
+            mInfos = new Preference[KSM_INFOS.length];
+            for (int i = 0; i < KSM_INFOS.length; i++) {
+                mInfos[i] = prefHelper.setPreference(getResources()
+                        .getStringArray(R.array.ksm_infos)[i], String
+                        .valueOf(kernelsamepagemergingHelper.getInfos(i)),
+                        getActivity());
+                root.addPreference(mInfos[i]);
+            }
+
+            root.addPreference(prefHelper.setPreferenceCategory(
+                    getString(R.string.parameters), getActivity()));
+
+            mEnableKsm = prefHelper.setCheckBoxPreference(
+                    kernelsamepagemergingHelper.isKsmActive(),
+                    getString(R.string.ksm_enable),
+                    getString(R.string.ksm_enable_summary), getActivity());
+            root.addPreference(mEnableKsm);
+
+            mPagesToScan = prefHelper.setPreference(
+                    getString(R.string.ksm_pages_to_scan), String
+                            .valueOf(kernelsamepagemergingHelper
+                                    .getPagesToScan()), getActivity());
+            root.addPreference(mPagesToScan);
+
+            mSleepMilliseconds = prefHelper.setPreference(
+                    getString(R.string.ksm_sleep_milliseconds),
+                    kernelsamepagemergingHelper.getSleepMilliseconds()
+                            + getString(R.string.ms), getActivity());
+            root.addPreference(mSleepMilliseconds);
+        }
+    };
+
+    private final Runnable run2 = new Runnable() {
+        @Override
+        public void run() {
+            for (int i = 0; i < KSM_INFOS.length; i++)
+                mInfos[i].setSummary(String.valueOf(kernelsamepagemergingHelper
+                        .getInfos(i)));
+
+            hand.postDelayed(run2, 1000);
+        }
+    };
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
@@ -113,33 +132,8 @@ public class KernelSamepageMerging extends PreferenceFragment implements
     }
 
     @Override
-    public void onResume() {
-        hand.post(run);
-        super.onResume();
-    }
-
-    Runnable run = new Runnable() {
-        @Override
-        public void run() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    for (int i = 0; i < KSM_INFOS.length; i++)
-                        mInfos[i].setSummary(String
-                                .valueOf(kernelsamepagemergingHelper
-                                        .getInfos(i)));
-
-                    hand.postDelayed(run, 1000);
-                }
-            });
-
-        }
-    };
-
-    @Override
     public void onDestroy() {
-        hand.removeCallbacks(run);
+        hand.removeCallbacks(run2);
         super.onDestroy();
     };
 }

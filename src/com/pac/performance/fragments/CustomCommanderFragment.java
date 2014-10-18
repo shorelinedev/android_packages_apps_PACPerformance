@@ -88,52 +88,50 @@ public class CustomCommanderFragment extends Fragment implements Constants {
         });
         layout.addView(list);
 
-        create();
+        getActivity().runOnUiThread(create);
         return layout;
     }
 
-    private void refresh() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                String saved = mUtils.getString(prefName, "", getActivity());
+    private final Runnable refresh = new Runnable() {
 
-                names.clear();
-                commands.clear();
+        @Override
+        public void run() {
+            String saved = mUtils.getString(prefName, "", getActivity());
 
-                for (String name : getSavedNames(saved))
-                    names.add(name);
+            names.clear();
+            commands.clear();
 
-                for (String command : getSavedCommands(saved))
-                    commands.add(command);
+            for (String name : getSavedNames(saved))
+                names.add(name);
 
-                list.setVisibility(names.size() < 1 || commands.size() < 1 ? View.GONE
-                        : View.VISIBLE);
+            for (String command : getSavedCommands(saved))
+                commands.add(command);
 
-                adapter.notifyDataSetChanged();
-                list.invalidateViews();
-                list.refreshDrawableState();
-            }
-        });
-    }
+            list.setVisibility(names.size() < 1 || commands.size() < 1 ? View.GONE
+                    : View.VISIBLE);
 
-    private void create() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                String saved = mUtils.getString(prefName, "", getActivity());
+            adapter.notifyDataSetChanged();
+            list.invalidateViews();
+            list.refreshDrawableState();
+        }
+    };
 
-                names = getSavedNames(saved);
-                commands = getSavedCommands(saved);
+    private final Runnable create = new Runnable() {
 
-                list.setVisibility(names.size() < 1 || commands.size() < 1 ? View.GONE
-                        : View.VISIBLE);
+        @Override
+        public void run() {
+            String saved = mUtils.getString(prefName, "", getActivity());
 
-                adapter = new GenericListView(getActivity(), names, commands);
-                list.setAdapter(adapter);
-            }
-        });
-    }
+            names = getSavedNames(saved);
+            commands = getSavedCommands(saved);
+
+            list.setVisibility(names.size() < 1 || commands.size() < 1 ? View.GONE
+                    : View.VISIBLE);
+
+            adapter = new GenericListView(getActivity(), names, commands);
+            list.setAdapter(adapter);
+        }
+    };
 
     private List<String> getSavedNames(String saved) {
         List<String> List = new ArrayList<String>();
@@ -253,7 +251,7 @@ public class CustomCommanderFragment extends Fragment implements Constants {
         else mUtils.saveString(prefName, saved + name + splitName + command
                 + splitCommand, getActivity());
 
-        refresh();
+        getActivity().runOnUiThread(refresh);
     }
 
     private void overwriteCommand(String oldName, String newName, String command) {
@@ -275,7 +273,7 @@ public class CustomCommanderFragment extends Fragment implements Constants {
                 saved.replace(oldCommand, newName + splitName + command),
                 getActivity());
 
-        refresh();
+        getActivity().runOnUiThread(refresh);
     }
 
     private void deleteCommand(String name) {
@@ -290,7 +288,7 @@ public class CustomCommanderFragment extends Fragment implements Constants {
         mUtils.saveString(prefName,
                 saved.replace(oldCommand + splitCommand, ""), getActivity());
 
-        refresh();
+        getActivity().runOnUiThread(refresh);;
     }
 
     private boolean alreadyExists(String name, String saved) {

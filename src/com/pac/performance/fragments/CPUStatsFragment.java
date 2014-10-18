@@ -54,6 +54,9 @@ public class CPUStatsFragment extends Fragment implements Constants {
 
         recreate();
 
+        hand.post(run);
+        hand.post(run2);
+
         return rootView;
     }
 
@@ -193,13 +196,6 @@ public class CPUStatsFragment extends Fragment implements Constants {
     public void onConfigurationChanged(Configuration newConfig) {
         recreate();
         super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public void onResume() {
-        hand.post(run);
-        hand.post(run2);
-        super.onResume();
     }
 
     Runnable run2 = new Runnable() {

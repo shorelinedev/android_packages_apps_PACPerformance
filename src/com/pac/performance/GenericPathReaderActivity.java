@@ -10,8 +10,8 @@ import com.pac.performance.utils.Dialog.DialogReturn;
 import com.pac.performance.utils.views.GenericListView;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class GenericPathReaderActivity extends Activity implements Constants {
+
+    private Handler hand = new Handler();
 
     public static final String ARG_TITLE = "title";
     public static final String ARG_PATH = "path";
@@ -49,7 +51,7 @@ public class GenericPathReaderActivity extends Activity implements Constants {
                         values.get(position), new DialogReturn() {
                             @Override
                             public void dialogReturn(String value) {
-                                refresh();
+                                hand.postDelayed(refresh, 50);
                             }
                         }, 0, CommandType.GENERIC, -1,
                         GenericPathReaderActivity.this);
@@ -57,8 +59,72 @@ public class GenericPathReaderActivity extends Activity implements Constants {
         });
         setContentView(list);
 
-        // Use Asynctask to speed up launching
-        new Initialize().execute();
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Get args
+        getActionBar().setTitle(getIntent().getExtras().getString(ARG_TITLE));
+        path = getIntent().getExtras().getString(ARG_PATH);
+
+        hand.postDelayed(create, 50);
+    }
+
+    private final Runnable create = new Runnable() {
+
+        @Override
+        public void run() {
+            // Collecting all files and add them to Lists
+            File[] fileArray = new File(path).listFiles();
+            if (fileArray != null) {
+                for (File file : fileArray) {
+                    String value = mUtils.readFile(file.getAbsolutePath());
+                    if (value != null) {
+                        files.add(file);
+                        values.add(value);
+                        filesString.add(file.getName());
+                    }
+                }
+                // Setup adapter
+                if (files.size() > 0) {
+                    adapter = new GenericListView(
+                            GenericPathReaderActivity.this, filesString, values);
+                    list.setAdapter(adapter);
+                }
+            }
+        }
+    };
+
+    private final Runnable refresh = new Runnable() {
+
+        @Override
+        public void run() {
+            // Remove all items first otherwise we will get duplicated items
+            files.clear();
+            values.clear();
+            filesString.clear();
+
+            File[] fileArray = new File(path).listFiles();
+            if (fileArray != null) {
+                for (File file : fileArray) {
+                    String value = mUtils.readFile(file.getAbsolutePath());
+                    if (value != null) {
+                        files.add(file);
+                        values.add(value);
+                        filesString.add(file.getName());
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+                list.invalidateViews();
+                list.refreshDrawableState();
+            }
+        }
+    };
+
+    // Overwrite onBackPressed for animation
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(enter_anim, exit_anim);
     }
 
     @Override
@@ -68,96 +134,6 @@ public class GenericPathReaderActivity extends Activity implements Constants {
             overridePendingTransition(enter_anim, exit_anim);
         }
         return true;
-    }
-
-    private class Initialize extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected void onPostExecute(String result) {
-            if (!create()) finishHim();
-            super.onPostExecute(result);
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-
-            // Get args
-            getActionBar().setTitle(
-                    getIntent().getExtras().getString(ARG_TITLE));
-            path = getIntent().getExtras().getString(ARG_PATH);
-            super.onPreExecute();
-        }
-
-    }
-
-    private void refresh() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // Remove all items first otherwise we will get duplicated items
-                files.clear();
-                values.clear();
-                filesString.clear();
-
-                File[] fileArray = new File(path).listFiles();
-                if (fileArray != null) {
-                    for (File file : fileArray) {
-                        String value = mUtils.readFile(file.getAbsolutePath());
-                        if (value != null) {
-                            files.add(file);
-                            values.add(value);
-                            filesString.add(file.getName());
-                        }
-                    }
-
-                    adapter.notifyDataSetChanged();
-                    list.invalidateViews();
-                    list.refreshDrawableState();
-                }
-            }
-        });
-    }
-
-    private boolean create() {
-        // Collecting all files and add them to Lists
-        File[] fileArray = new File(path).listFiles();
-        if (fileArray != null) {
-            for (File file : fileArray) {
-                String value = mUtils.readFile(file.getAbsolutePath());
-                if (value != null) {
-                    files.add(file);
-                    values.add(value);
-                    filesString.add(file.getName());
-                }
-            }
-            // Setup adapter
-            if (files.size() > 0) {
-                adapter = new GenericListView(GenericPathReaderActivity.this,
-                        filesString, values);
-                list.setAdapter(adapter);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Path does not contain any files
-    private void finishHim() {
-        mUtils.toast(getIntent().getExtras().getString(ARG_ERROR), this);
-        finish();
-    }
-
-    // Overwrite onBackPressed for animation
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(enter_anim, exit_anim);
     }
 
 }

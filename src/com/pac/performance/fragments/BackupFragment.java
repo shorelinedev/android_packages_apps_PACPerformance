@@ -38,75 +38,72 @@ public class BackupFragment extends PreferenceFragment implements Constants {
 
         root = getPreferenceManager().createPreferenceScreen(getActivity());
 
-        refresh();
-
         setPreferenceScreen(root);
+
+        getActivity().runOnUiThread(run);
     }
 
-    private void refresh() {
-        new Thread() {
-            public void run() {
-                root.removeAll();
+    private final Runnable run = new Runnable() {
 
-                if (rootHelper.getPartitionName(PartitionType.BOOT) != null) {
-                    mBoot = prefHelper.setPreference(
-                            getString(R.string.boot),
-                            getString(R.string.backup_summary,
-                                    getString(R.string.boot)), getActivity());
+        @Override
+        public void run() {
+            root.removeAll();
 
-                    root.addPreference(mBoot);
-                }
+            if (rootHelper.getPartitionName(PartitionType.BOOT) != null) {
+                mBoot = prefHelper.setPreference(
+                        getString(R.string.boot),
+                        getString(R.string.backup_summary,
+                                getString(R.string.boot)), getActivity());
 
-                if (rootHelper.getPartitionName(PartitionType.RECOVERY) != null) {
-                    mRecovery = prefHelper.setPreference(
-                            getString(R.string.recovery),
-                            getString(R.string.backup_summary,
-                                    getString(R.string.recovery)),
+                root.addPreference(mBoot);
+            }
+
+            if (rootHelper.getPartitionName(PartitionType.RECOVERY) != null) {
+                mRecovery = prefHelper.setPreference(
+                        getString(R.string.recovery),
+                        getString(R.string.backup_summary,
+                                getString(R.string.recovery)), getActivity());
+
+                root.addPreference(mRecovery);
+            }
+
+            if (rootHelper.getPartitionName(PartitionType.FOTA) != null) {
+                mFota = prefHelper.setPreference(
+                        getString(R.string.fota),
+                        getString(R.string.backup_summary,
+                                getString(R.string.fota)), getActivity());
+
+                root.addPreference(mFota);
+            }
+
+            root.addPreference(prefHelper.setPreferenceCategory(
+                    getString(R.string.backups), getActivity()));
+
+            File[] backups = new File(PAC_BACKUP).listFiles();
+
+            if (backups.length < 1) root.addPreference(prefHelper
+                    .setPreference(null, getString(R.string.no_backups),
+                            getActivity()));
+            else {
+                // Date formater
+                DateFormat f = DateFormat.getDateTimeInstance(DateFormat.SHORT,
+                        DateFormat.SHORT, Locale.getDefault());
+
+                mBackups = new Preference[backups.length];
+                for (int i = 0; i < backups.length; i++) {
+                    mBackups[i] = prefHelper.setPreference(backups[i].getName()
+                            .split(nameSplit)[0],
+                            backups[i].getName().split(nameSplit)[1] + " "
+                                    + (backups[i].length() / 1024 / 1024)
+                                    + getString(R.string.mb) + ", "
+                                    + getString(R.string.last_modified) + ": "
+                                    + f.format(backups[i].lastModified()),
                             getActivity());
-
-                    root.addPreference(mRecovery);
-                }
-
-                if (rootHelper.getPartitionName(PartitionType.FOTA) != null) {
-                    mFota = prefHelper.setPreference(
-                            getString(R.string.fota),
-                            getString(R.string.backup_summary,
-                                    getString(R.string.fota)), getActivity());
-
-                    root.addPreference(mFota);
-                }
-
-                root.addPreference(prefHelper.setPreferenceCategory(
-                        getString(R.string.backups), getActivity()));
-
-                File[] backups = new File(PAC_BACKUP).listFiles();
-
-                if (backups.length < 1) root.addPreference(prefHelper
-                        .setPreference(null, getString(R.string.no_backups),
-                                getActivity()));
-                else {
-                    // Date formater
-                    DateFormat f = DateFormat.getDateTimeInstance(
-                            DateFormat.SHORT, DateFormat.SHORT,
-                            Locale.getDefault());
-
-                    mBackups = new Preference[backups.length];
-                    for (int i = 0; i < backups.length; i++) {
-                        mBackups[i] = prefHelper.setPreference(
-                                backups[i].getName().split(nameSplit)[0],
-                                backups[i].getName().split(nameSplit)[1] + " "
-                                        + (backups[i].length() / 1024 / 1024)
-                                        + getString(R.string.mb) + ", "
-                                        + getString(R.string.last_modified)
-                                        + ": "
-                                        + f.format(backups[i].lastModified()),
-                                getActivity());
-                        root.addPreference(mBackups[i]);
-                    }
+                    root.addPreference(mBackups[i]);
                 }
             }
-        }.start();
-    }
+        }
+    };
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
@@ -206,7 +203,7 @@ public class BackupFragment extends PreferenceFragment implements Constants {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                refresh();
+                                getActivity().runOnUiThread(run);
                             }
                         });
                         break;
@@ -232,7 +229,7 @@ public class BackupFragment extends PreferenceFragment implements Constants {
                                 break;
                             case 1:
                                 new File(PAC_BACKUP + "/" + file).delete();
-                                refresh();
+                                getActivity().runOnUiThread(run);
                                 break;
                         }
                     }

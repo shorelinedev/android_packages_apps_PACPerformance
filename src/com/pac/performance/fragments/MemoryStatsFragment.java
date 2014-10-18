@@ -50,6 +50,8 @@ public class MemoryStatsFragment extends Fragment implements Constants {
 
         recreate();
 
+        hand.post(run);
+
         return rootView;
     }
 
@@ -161,12 +163,6 @@ public class MemoryStatsFragment extends Fragment implements Constants {
                     && value.contains("Active");
         }
         return support;
-    }
-
-    @Override
-    public void onResume() {
-        hand.post(run);
-        super.onResume();
     }
 
     Runnable run = new Runnable() {

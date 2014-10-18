@@ -13,32 +13,36 @@ import android.text.InputType;
 
 public class CPUVoltageFragment extends PreferenceFragment implements Constants {
 
+    private PreferenceScreen root;
     private Preference[] mVoltage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final PreferenceScreen root = getPreferenceManager()
-                .createPreferenceScreen(getActivity());
-
-        new Thread() {
-            public void run() {
-                mVoltage = new Preference[cpuVoltageHelper.getFreqs().length];
-                for (int i = 0; i < cpuVoltageHelper.getFreqs().length; i++) {
-                    mVoltage[i] = prefHelper.setPreference(
-                            cpuVoltageHelper.getFreqs()[i]
-                                    + getString(R.string.mhz),
-                            cpuVoltageHelper.getVoltages()[i]
-                                    + getString(R.string.mv), getActivity());
-
-                    root.addPreference(mVoltage[i]);
-                }
-            }
-        }.start();
+        root = getPreferenceManager().createPreferenceScreen(getActivity());
 
         setPreferenceScreen(root);
+
+        getActivity().runOnUiThread(run);
     }
+
+    private final Runnable run = new Runnable() {
+
+        @Override
+        public void run() {
+            mVoltage = new Preference[cpuVoltageHelper.getFreqs().length];
+            for (int i = 0; i < cpuVoltageHelper.getFreqs().length; i++) {
+                mVoltage[i] = prefHelper.setPreference(
+                        cpuVoltageHelper.getFreqs()[i]
+                                + getString(R.string.mhz),
+                        cpuVoltageHelper.getVoltages()[i]
+                                + getString(R.string.mv), getActivity());
+
+                root.addPreference(mVoltage[i]);
+            }
+        }
+    };
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
