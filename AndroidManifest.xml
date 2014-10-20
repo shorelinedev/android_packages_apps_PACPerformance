@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pac.performance"
+    package="com.pacman.performance"
     android:versionCode="4"
     android:versionName="1.6.1" >
 
@@ -43,8 +43,8 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".services.NotificationStatsService" />
-        <service android:name=".services.PerAppModesService" />
+        <service android:name="com.pacman.performance.services.NotificationStatsService" />
+        <service android:name="com.pacman.performance.services.PerAppModesService" />
     </application>
 
 </manifest>
