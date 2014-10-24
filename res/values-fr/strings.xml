@@ -39,6 +39,7 @@
   <string name="kb">Ko</string>
   <string name="mb"> MO</string>
   <string name="mv">mV</string>
+  <string name="ms">ms</string>
   <string name="fancy_stats">Stats fantaisies</string>
   <string name="usage">Usage</string>
   <string name="memory_stats">Stats de la mémoire</string>
@@ -66,7 +67,19 @@
   <string name="cpu_min_freq">La Fréquence Manimale du PROCESSEUR</string>
   <string name="cpu_governor">CPU Profil</string>
   <string name="advanced">Avancée</string>
+  <string name="cpu_governor_tunables_summary">Configurations indépendantes du profil.</string>
   <string name="not_tunable">%s n\'est pas accordable</string>
+  <string name="disabled">Désactivé</string>
+  <string name="enabled">Activé</string>
+  <string name="mpdecision">MPDécision</string>
+  <string name="cpu_voltage">Voltage du CPU</string>
+  <string name="gpu">GPU</string>
+  <string name="gpu_stats">Statistiques du GPU</string>
+  <string name="screen">Écran</string>
+  <string name="red">Rouge</string>
+  <string name="green">Vert</string>
+  <string name="blue">Bleu</string>
+  <string name="io_scheduler">Ordonnanceur d\'I/O</string>
   <string name="aggressive">Aggresif</string>
   <string name="edit">Modifier</string>
   <string name="backup">Sauvegarder</string>
