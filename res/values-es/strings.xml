@@ -39,6 +39,7 @@
   <string name="kb">KB</string>
   <string name="mb">MB</string>
   <string name="mv">mV</string>
+  <string name="ms">ms</string>
   <string name="fancy_stats">Estadísticas</string>
   <string name="usage">Uso</string>
   <string name="memory_stats">Estadísticas de memoria</string>
@@ -105,6 +106,17 @@
   <string name="read_ahead_summary">El valor Prelectura en la memoria del teléfono</string>
   <string name="Internal_read_ahead">Prelectura de almacenamiento interno</string>
   <string name="External_read_ahead">Prelectura de almacenamiento externo</string>
+  <string name="ksm">Memoria compartida del Kernel (KMS)</string>
+  <string name="ksm_stats">Estadísticas de KSM</string>
+  <string name="ksm_full_scans">Análisis completo</string>
+  <string name="ksm_pages_shared">Páginas compartidas</string>
+  <string name="ksm_pages_sharing">Compartir páginas</string>
+  <string name="ksm_pages_unshared">Páginas no compartidas</string>
+  <string name="ksm_pages_volatile">Páginas volátiles</string>
+  <string name="ksm_enable">Habilitar KSM</string>
+  <string name="ksm_enable_summary">Reduce el uso de la memoria, pero tiene un impacto en el uso de la CPU.</string>
+  <string name="ksm_pages_to_scan">Páginas a escanear</string>
+  <string name="ksm_sleep_milliseconds">Sueño entre las exploraciones</string>
   <string name="low_memory_killer">Asesino de memoria baja</string>
   <string name="forground_app">Aplicaciones de primer plano</string>
   <string name="visbile_app">Aplicaciones visibles</string>
