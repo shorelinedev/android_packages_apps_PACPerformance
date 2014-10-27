@@ -29,8 +29,8 @@ public class VirtualMachineHelper implements Constants {
             if (files.length > 0) {
                 for (String supported : supportedVM)
                     for (int i = 0; i < files.length; i++)
-                        if (files[i].getName().equals(supported)) vmFiles
-                                .add(files[i].getName());
+                        if (files[i].getName().equals(supported))
+                            vmFiles.add(files[i].getName());
             }
         }
         return vmFiles;

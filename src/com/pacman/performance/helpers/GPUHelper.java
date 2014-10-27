@@ -28,17 +28,18 @@ public class GPUHelper implements Constants {
     }
 
     public String getGpu2dGovernor() {
-        if (GPU_2D_SCALING_GOVERNOR != null) if (mUtils
-                .existFile(GPU_2D_SCALING_GOVERNOR)) {
-            String value = mUtils.readFile(GPU_2D_SCALING_GOVERNOR);
-            if (value != null) return value;
-        }
+        if (GPU_2D_SCALING_GOVERNOR != null)
+            if (mUtils.existFile(GPU_2D_SCALING_GOVERNOR)) {
+                String value = mUtils.readFile(GPU_2D_SCALING_GOVERNOR);
+                if (value != null) return value;
+            }
         return "";
     }
 
     public boolean hasGpu2dGovernor() {
-        if (GPU_2D_SCALING_GOVERNOR == null) for (String file : GPU_2D_SCALING_GOVERNOR_ARRAY)
-            if (mUtils.existFile(file)) GPU_2D_SCALING_GOVERNOR = file;
+        if (GPU_2D_SCALING_GOVERNOR == null)
+            for (String file : GPU_2D_SCALING_GOVERNOR_ARRAY)
+                if (mUtils.existFile(file)) GPU_2D_SCALING_GOVERNOR = file;
         return GPU_2D_SCALING_GOVERNOR != null;
     }
 
@@ -47,11 +48,12 @@ public class GPUHelper implements Constants {
     }
 
     public String[] getGpu2dFreqs() {
-        if (GPU_2D_AVAILABLE_FREQS != null) if (mGpu2dFreqs == null) if (mUtils
-                .existFile(GPU_2D_AVAILABLE_FREQS)) {
-            String value = mUtils.readFile(GPU_2D_AVAILABLE_FREQS);
-            if (value != null) return value.split(" ");
-        }
+        if (GPU_2D_AVAILABLE_FREQS != null)
+            if (mGpu2dFreqs == null)
+                if (mUtils.existFile(GPU_2D_AVAILABLE_FREQS)) {
+                    String value = mUtils.readFile(GPU_2D_AVAILABLE_FREQS);
+                    if (value != null) return value.split(" ");
+                }
         return mGpu2dFreqs;
     }
 
@@ -100,28 +102,31 @@ public class GPUHelper implements Constants {
     }
 
     public String[] getGpu3dGovernors() {
-        if (GPU_3D_AVAILABLE_GOVERNORS == null) for (String file : GPU_3D_AVAILABLE_GOVERNORS_ARRAY)
-            if (GPU_3D_AVAILABLE_GOVERNORS == null) if (mUtils.existFile(file)) {
-                String value = mUtils.readFile(file);
-                if (value != null) GPU_3D_AVAILABLE_GOVERNORS = value
-                        .split(" ");
-            }
+        if (GPU_3D_AVAILABLE_GOVERNORS == null)
+            for (String file : GPU_3D_AVAILABLE_GOVERNORS_ARRAY)
+                if (GPU_3D_AVAILABLE_GOVERNORS == null)
+                    if (mUtils.existFile(file)) {
+                        String value = mUtils.readFile(file);
+                        if (value != null)
+                            GPU_3D_AVAILABLE_GOVERNORS = value.split(" ");
+                    }
         return GPU_3D_AVAILABLE_GOVERNORS == null ? GPU_GENERIC_GOVERNORS
                 .split(" ") : GPU_3D_AVAILABLE_GOVERNORS;
     }
 
     public String getGpu3dGovernor() {
-        if (GPU_3D_SCALING_GOVERNOR != null) if (mUtils
-                .existFile(GPU_3D_SCALING_GOVERNOR)) {
-            String value = mUtils.readFile(GPU_3D_SCALING_GOVERNOR);
-            if (value != null) return value;
-        }
+        if (GPU_3D_SCALING_GOVERNOR != null)
+            if (mUtils.existFile(GPU_3D_SCALING_GOVERNOR)) {
+                String value = mUtils.readFile(GPU_3D_SCALING_GOVERNOR);
+                if (value != null) return value;
+            }
         return "";
     }
 
     public boolean hasGpu3dGovernor() {
-        if (GPU_3D_SCALING_GOVERNOR == null) for (String file : GPU_3D_SCALING_GOVERNOR_ARRAY)
-            if (mUtils.existFile(file)) GPU_3D_SCALING_GOVERNOR = file;
+        if (GPU_3D_SCALING_GOVERNOR == null)
+            for (String file : GPU_3D_SCALING_GOVERNOR_ARRAY)
+                if (mUtils.existFile(file)) GPU_3D_SCALING_GOVERNOR = file;
         return GPU_3D_SCALING_GOVERNOR != null;
     }
 
@@ -130,11 +135,12 @@ public class GPUHelper implements Constants {
     }
 
     public String[] getGpu3dFreqs() {
-        if (GPU_3D_AVAILABLE_FREQS != null) if (mGpu3dFreqs == null) if (mUtils
-                .existFile(GPU_3D_AVAILABLE_FREQS)) {
-            String value = mUtils.readFile(GPU_3D_AVAILABLE_FREQS);
-            if (value != null) return value.split(" ");
-        }
+        if (GPU_3D_AVAILABLE_FREQS != null)
+            if (mGpu3dFreqs == null)
+                if (mUtils.existFile(GPU_3D_AVAILABLE_FREQS)) {
+                    String value = mUtils.readFile(GPU_3D_AVAILABLE_FREQS);
+                    if (value != null) return value.split(" ");
+                }
         return mGpu3dFreqs;
     }
 

@@ -20,18 +20,20 @@ public class CommandControl implements Constants {
         if (customID > -1) {
             mUtils.saveString(file + idSplit + customID, value, context);
 
-            if (!saved.contains(file + idSplit + customID)) mUtils.saveString(
-                    COMMAND_NAME, saved.equals("nothing_found") ? file
-                            + idSplit + customID : saved + fileSplit + file
-                            + idSplit + customID, context);
+            if (!saved.contains(file + idSplit + customID))
+                mUtils.saveString(COMMAND_NAME,
+                        saved.equals("nothing_found") ? file + idSplit
+                                + customID : saved + fileSplit + file + idSplit
+                                + customID, context);
         } else {
             mUtils.saveString(file, value, context);
 
             String name = mUtils.getString(COMMAND_NAME, "nothing_found",
                     context);
-            if (!name.contains(file)) mUtils.saveString(COMMAND_NAME,
-                    name.equals("nothing_found") ? file : name + fileSplit
-                            + file, context);
+            if (!name.contains(file))
+                mUtils.saveString(COMMAND_NAME,
+                        name.equals("nothing_found") ? file : name + fileSplit
+                                + file, context);
         }
     }
 
@@ -92,8 +94,8 @@ public class CommandControl implements Constants {
                                     break;
                                 }
 
-                        if (stoppedMpdec) startModule(CPU_MPDEC, false,
-                                activity);
+                        if (stoppedMpdec)
+                            startModule(CPU_MPDEC, false, activity);
                     }
                 }.start();
             }

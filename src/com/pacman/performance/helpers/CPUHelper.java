@@ -47,9 +47,10 @@ public class CPUHelper implements Constants {
     }
 
     public String[] getCpuGovernors() {
-        if (mCpuGovernors == null) if (mUtils
-                .existFile(CPU_AVAILABLE_GOVERNORS)) mCpuGovernors = mUtils
-                .readFile(CPU_AVAILABLE_GOVERNORS).split(" ");
+        if (mCpuGovernors == null)
+            if (mUtils.existFile(CPU_AVAILABLE_GOVERNORS))
+                mCpuGovernors = mUtils.readFile(CPU_AVAILABLE_GOVERNORS).split(
+                        " ");
         return mCpuGovernors;
     }
 
@@ -63,24 +64,25 @@ public class CPUHelper implements Constants {
     }
 
     public String[] getCpuFreqs() {
-        if (mCpuFreqs == null) if (mUtils.existFile(CPU_TIME_STATE)) {
-            String values = mUtils.readFile(CPU_TIME_STATE);
-            if (values != null) {
-                String[] valueArray = values.split("\\r?\\n");
-                mCpuFreqs = new String[valueArray.length];
-                for (int i = 0; i < valueArray.length; i++)
-                    mCpuFreqs[i] = valueArray[i].split(" ")[0];
+        if (mCpuFreqs == null)
+            if (mUtils.existFile(CPU_TIME_STATE)) {
+                String values = mUtils.readFile(CPU_TIME_STATE);
+                if (values != null) {
+                    String[] valueArray = values.split("\\r?\\n");
+                    mCpuFreqs = new String[valueArray.length];
+                    for (int i = 0; i < valueArray.length; i++)
+                        mCpuFreqs[i] = valueArray[i].split(" ")[0];
 
-                if (Integer.parseInt(mCpuFreqs[0]) > Integer
-                        .parseInt(mCpuFreqs[mCpuFreqs.length - 1])) {
-                    List<String> freqs = new ArrayList<String>();
-                    for (int x = mCpuFreqs.length - 1; x >= 0; x--)
-                        freqs.add(mCpuFreqs[x]);
-                    for (int i = 0; i < mCpuFreqs.length; i++)
-                        mCpuFreqs[i] = freqs.get(i);
+                    if (Integer.parseInt(mCpuFreqs[0]) > Integer
+                            .parseInt(mCpuFreqs[mCpuFreqs.length - 1])) {
+                        List<String> freqs = new ArrayList<String>();
+                        for (int x = mCpuFreqs.length - 1; x >= 0; x--)
+                            freqs.add(mCpuFreqs[x]);
+                        for (int i = 0; i < mCpuFreqs.length; i++)
+                            mCpuFreqs[i] = freqs.get(i);
+                    }
                 }
             }
-        }
         return mCpuFreqs;
     }
 

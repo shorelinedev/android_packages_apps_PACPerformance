@@ -4,6 +4,8 @@ import com.pacman.performance.R;
 import com.pacman.performance.utils.Constants;
 import com.pacman.performance.utils.CommandControl.CommandType;
 import com.pacman.performance.utils.Dialog.DialogReturn;
+import com.pacman.performance.utils.views.PreferenceView.CustomCategory;
+import com.pacman.performance.utils.views.PreferenceView.CustomPreference;
 
 import android.os.Bundle;
 import android.preference.Preference;
@@ -11,135 +13,135 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 
 public class LowMemoryKillerFragment extends PreferenceFragment implements
-		Constants {
+        Constants {
 
-	private PreferenceScreen root;
+    private PreferenceScreen root;
 
-	private Preference[] mMinFree;
-	private Preference[] mProfile;
+    private CustomPreference[] mMinFree;
+    private CustomPreference[] mProfile;
 
-	private int maxValue = 200;
+    private int maxValue = 200;
 
-	private String[] mProfileValues = new String[] {
-			"512,1024,1280,2048,3072,4096", "1024,2048,2560,4096,6144,8192",
-			"1024,2048,4096,8192,12288,16384",
-			"2048,4096,8192,16384,24576,32768",
-			"4096,8192,16384,32768,49152,65536" };
+    private String[] mProfileValues = new String[] {
+            "512,1024,1280,2048,3072,4096", "1024,2048,2560,4096,6144,8192",
+            "1024,2048,4096,8192,12288,16384",
+            "2048,4096,8192,16384,24576,32768",
+            "4096,8192,16384,32768,49152,65536" };
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		root = getPreferenceManager().createPreferenceScreen(getActivity());
+        root = getPreferenceManager().createPreferenceScreen(getActivity());
 
-		setPreferenceScreen(root);
+        setPreferenceScreen(root);
 
-		getActivity().runOnUiThread(run);
-	}
+        getActivity().runOnUiThread(run);
+    }
 
-	private final Runnable run = new Runnable() {
+    private final Runnable run = new Runnable() {
 
-		@Override
-		public void run() {
-			String[] minfrees = lowmemorykillerHelper.getMinFrees();
-			mMinFree = new Preference[minfrees.length];
-			for (int i = 0; i < minfrees.length; i++) {
-				mMinFree[i] = prefHelper.setPreference(getResources()
-						.getStringArray(R.array.lmk_names)[i],
-						lowmemorykillerHelper.getMinFree(i) / 256
-								+ getString(R.string.mb), getActivity());
+        @Override
+        public void run() {
+            String[] minfrees = lowmemorykillerHelper.getMinFrees();
+            mMinFree = new CustomPreference[minfrees.length];
+            for (int i = 0; i < minfrees.length; i++) {
+                mMinFree[i] = new CustomPreference(getActivity(),
+                        getResources().getStringArray(R.array.lmk_names)[i],
+                        lowmemorykillerHelper.getMinFree(i) / 256
+                                + getString(R.string.mb));
 
-				root.addPreference(mMinFree[i]);
-			}
+                root.addPreference(mMinFree[i]);
+            }
 
-			root.addPreference(prefHelper.setPreferenceCategory(
-					getString(R.string.profiles), getActivity()));
+            root.addPreference(new CustomCategory(getActivity(),
+                    getString(R.string.profiles)));
 
-			mProfile = new Preference[mProfileValues.length];
-			for (int i = 0; i < mProfileValues.length; i++) {
-				mProfile[i] = prefHelper.setPreference(getResources()
-						.getStringArray(R.array.lmk_profiles)[i],
-						mProfileValues[i], getActivity());
+            mProfile = new CustomPreference[mProfileValues.length];
+            for (int i = 0; i < mProfileValues.length; i++) {
+                mProfile[i] = new CustomPreference(getActivity(),
+                        getResources().getStringArray(R.array.lmk_profiles)[i],
+                        mProfileValues[i]);
 
-				root.addPreference(mProfile[i]);
-			}
-		}
-	};
+                root.addPreference(mProfile[i]);
+            }
+        }
+    };
 
-	@Override
-	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-			final Preference preference) {
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
+            final Preference preference) {
 
-		for (int i = 0; i < lowmemorykillerHelper.getMinFrees().length; i++)
-			if (preference == mMinFree[i]) {
-				final int position = i;
-				String[] modifiedvalues = new String[maxValue + 1];
-				String[] values = new String[maxValue + 1];
-				for (int x = 0; x <= maxValue; x++) {
-					modifiedvalues[x] = x + getString(R.string.mb);
-					values[x] = String.valueOf(x * 256);
-				}
-				mDialog.showSeekBarDialog(modifiedvalues, values, mMinFree[i]
-						.getSummary().toString(), new DialogReturn() {
-					@Override
-					public void dialogReturn(String value) {
-						String commandvalue = "";
-						String[] currentvalue = lowmemorykillerHelper
-								.getMinFrees();
-						for (int i = 0; i < currentvalue.length; i++) {
-							String command = i == position ? value
-									: currentvalue[i];
+        for (int i = 0; i < lowmemorykillerHelper.getMinFrees().length; i++)
+            if (preference == mMinFree[i]) {
+                final int position = i;
+                String[] modifiedvalues = new String[maxValue + 1];
+                String[] values = new String[maxValue + 1];
+                for (int x = 0; x <= maxValue; x++) {
+                    modifiedvalues[x] = x + getString(R.string.mb);
+                    values[x] = String.valueOf(x * 256);
+                }
+                mDialog.showSeekBarDialog(modifiedvalues, values, mMinFree[i]
+                        .getSummary().toString(), new DialogReturn() {
+                    @Override
+                    public void dialogReturn(String value) {
+                        String commandvalue = "";
+                        String[] currentvalue = lowmemorykillerHelper
+                                .getMinFrees();
+                        for (int i = 0; i < currentvalue.length; i++) {
+                            String command = i == position ? value
+                                    : currentvalue[i];
 
-							commandvalue = !commandvalue.isEmpty() ? commandvalue
-									+ "," + command
-									: command;
-						}
-						mCommandControl.runCommand(commandvalue, LMK_MINFREE,
-								CommandType.GENERIC, position, getActivity());
-						refresh();
-					}
-				}, getActivity());
-			}
+                            commandvalue = !commandvalue.isEmpty() ? commandvalue
+                                    + "," + command
+                                    : command;
+                        }
+                        mCommandControl.runCommand(commandvalue, LMK_MINFREE,
+                                CommandType.GENERIC, position, getActivity());
+                        refresh();
+                    }
+                }, getActivity());
+            }
 
-		for (int i = 0; i < mProfileValues.length; i++)
-			if (preference == mProfile[i]) {
-				/*
-				 * We do not use our common way to apply a change, because those
-				 * profiles could break the minfree settings by the user.
-				 */
-				rootHelper.runCommand("echo "
-						+ preference.getSummary().toString() + " > "
-						+ LMK_MINFREE);
-				refresh();
-			}
+        for (int i = 0; i < mProfileValues.length; i++)
+            if (preference == mProfile[i]) {
+                /*
+                 * We do not use our common way to apply a change, because those
+                 * profiles could break the minfree settings by the user.
+                 */
+                rootHelper.runCommand("echo "
+                        + preference.getSummary().toString() + " > "
+                        + LMK_MINFREE);
+                refresh();
+            }
 
-		return true;
-	}
+        return true;
+    }
 
-	private void refresh() {
-		new Thread() {
-			public void run() {
-				try {
-					Thread.sleep(10);
-					getActivity().runOnUiThread(new Runnable() {
+    private void refresh() {
+        new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(10);
+                    getActivity().runOnUiThread(new Runnable() {
 
-						@Override
-						public void run() {
-							String[] minfrees = lowmemorykillerHelper
-									.getMinFrees();
-							for (int i = 0; i < minfrees.length; i++) {
-								mMinFree[i].setSummary(lowmemorykillerHelper
-										.getMinFree(i)
-										/ 256
-										+ getString(R.string.mb));
-							}
-						}
-					});
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+                        @Override
+                        public void run() {
+                            String[] minfrees = lowmemorykillerHelper
+                                    .getMinFrees();
+                            for (int i = 0; i < minfrees.length; i++) {
+                                mMinFree[i].setSummary(lowmemorykillerHelper
+                                        .getMinFree(i)
+                                        / 256
+                                        + getString(R.string.mb));
+                            }
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-			}
-		}.start();
-	}
+            }
+        }.start();
+    }
 }

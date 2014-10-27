@@ -7,8 +7,8 @@ public class LowMemoryKillerHelper implements Constants {
     public int getMinFree(int position) {
         if (mUtils.existFile(LMK_MINFREE)) {
             String value = mUtils.readFile(LMK_MINFREE);
-            if (value != null) return Integer
-                    .parseInt(value.split(",")[position]);
+            if (value != null)
+                return Integer.parseInt(value.split(",")[position]);
         }
         return 0;
     }
