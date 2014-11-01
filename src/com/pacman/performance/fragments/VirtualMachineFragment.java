@@ -1,65 +1,71 @@
 package com.pacman.performance.fragments;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pacman.performance.utils.Constants;
 import com.pacman.performance.utils.CommandControl.CommandType;
-import com.pacman.performance.utils.Dialog.DialogReturn;
-import com.pacman.performance.utils.views.PreferenceView.CustomPreference;
+import com.pacman.performance.utils.views.EditTextView;
+import com.pacman.performance.utils.views.EditTextView.OnApplyListener;
+import com.pacman.performance.utils.views.GenericView.GenericAdapter;
+import com.pacman.performance.utils.views.GenericView.Item;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
+import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 
-public class VirtualMachineFragment extends PreferenceFragment implements
-        Constants {
+public class VirtualMachineFragment extends Fragment implements Constants,
+        OnApplyListener {
 
-    private PreferenceScreen root;
-    private CustomPreference[] mVMs;
+    private ListView list;
+    private List<Item> views = new ArrayList<Item>();
+
+    private EditTextView[] mVMs;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 
-        root = getPreferenceManager().createPreferenceScreen(getActivity());
-
-        setPreferenceScreen(root);
+        list = new ListView(getActivity());
+        list.setPadding(20, 0, 20, 0);
 
         getActivity().runOnUiThread(run);
+        return list;
     }
 
     private final Runnable run = new Runnable() {
 
         @Override
         public void run() {
-            mVMs = new CustomPreference[virtualmachineHelper.getVMfiles()
-                    .size()];
-            for (int i = 0; i < virtualmachineHelper.getVMfiles().size(); i++) {
-                mVMs[i] = new CustomPreference(getActivity(),
-                        virtualmachineHelper.getVMfiles().get(i)
-                                .replace("_", " "),
-                        virtualmachineHelper.getVMValue(virtualmachineHelper
-                                .getVMfiles().get(i)));
+            views.clear();
 
-                root.addPreference(mVMs[i]);
+            mVMs = new EditTextView[virtualmachineHelper.getVMfiles().size()];
+            for (int i = 0; i < virtualmachineHelper.getVMfiles().size(); i++) {
+                mVMs[i] = new EditTextView();
+                mVMs[i].setTitle(virtualmachineHelper.getVMfiles().get(i)
+                        .replace("_", " "));
+                mVMs[i].setValue(virtualmachineHelper
+                        .getVMValue(virtualmachineHelper.getVMfiles().get(i)));
+                mVMs[i].setInputType(InputType.TYPE_CLASS_NUMBER);
+                mVMs[i].setOnApplyListener(VirtualMachineFragment.this);
+                views.add(mVMs[i]);
             }
+
+            list.setAdapter(new GenericAdapter(getActivity(), views));
         }
     };
 
     @Override
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-            final Preference preference) {
-
+    public void onApply(EditTextView edittextView, String value) {
         for (int i = 0; i < virtualmachineHelper.getVMfiles().size(); i++)
-            if (preference == mVMs[i])
-                mDialog.showDialogGeneric(VM_PATH + "/"
-                        + virtualmachineHelper.getVMfiles().get(i), preference
-                        .getSummary().toString(), new DialogReturn() {
-                    @Override
-                    public void dialogReturn(String value) {
-                        preference.setSummary(value);
-                    }
-                }, 0, CommandType.GENERIC, -1, getActivity());
-
-        return true;
+            if (edittextView == mVMs[i])
+                mCommandControl.runCommand(value, VM_PATH + "/"
+                        + virtualmachineHelper.getVMfiles().get(i),
+                        CommandType.GENERIC, -1, getActivity());
     }
+
 }

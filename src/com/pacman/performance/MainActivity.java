@@ -8,9 +8,9 @@ import com.pacman.performance.helpers.RootHelper.PartitionType;
 import com.pacman.performance.services.NotificationStatsService;
 import com.pacman.performance.utils.Constants;
 import com.pacman.performance.utils.views.HeaderItem;
-import com.pacman.performance.utils.views.HeaderListView;
-import com.pacman.performance.utils.views.ListItems.Item;
-import com.pacman.performance.utils.views.ListItems.ListItem;
+import com.pacman.performance.utils.views.GenericView.GenericAdapter;
+import com.pacman.performance.utils.views.GenericView.Item;
+import com.pacman.performance.utils.views.ListItem;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -125,7 +125,7 @@ public class MainActivity extends Activity implements Constants {
         mDelaySpinner = (Spinner) findViewById(R.id.delay_spinner);
         mNotiSwitch = (Switch) findViewById(R.id.noti_switch);
 
-        HeaderListView adapter = new HeaderListView(this, items);
+        GenericAdapter adapter = new GenericAdapter(this, items);
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
                 GravityCompat.START);
@@ -308,4 +308,12 @@ public class MainActivity extends Activity implements Constants {
         getActionBar().setTitle(mTitle);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(mLeftDrawer)) {
+            super.onBackPressed();
+        } else {
+            mDrawerLayout.openDrawer(mLeftDrawer);
+        }
+    }
 }

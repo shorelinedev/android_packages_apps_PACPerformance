@@ -1,102 +1,101 @@
 package com.pacman.performance.fragments;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pacman.performance.R;
-import com.pacman.performance.utils.Constants;
 import com.pacman.performance.utils.CommandControl.CommandType;
-import com.pacman.performance.utils.Dialog.DialogReturn;
-import com.pacman.performance.utils.views.PreferenceView.CustomPreference;
+import com.pacman.performance.utils.Constants;
+import com.pacman.performance.utils.views.EditTextView;
+import com.pacman.performance.utils.views.EditTextView.OnApplyListener;
+import com.pacman.performance.utils.views.GenericView.GenericAdapter;
+import com.pacman.performance.utils.views.GenericView.Item;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
 import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 
-public class CPUVoltageFragment extends PreferenceFragment implements Constants {
+public class CPUVoltageFragment extends Fragment implements Constants,
+        OnApplyListener {
 
-    private PreferenceScreen root;
-    private CustomPreference[] mVoltage;
+    private ListView list;
+    private List<Item> views = new ArrayList<Item>();
+
+    private EditTextView[] mVoltage;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 
-        root = getPreferenceManager().createPreferenceScreen(getActivity());
-
-        setPreferenceScreen(root);
+        list = new ListView(getActivity());
+        list.setPadding(20, 0, 20, 0);
 
         getActivity().runOnUiThread(run);
+        return list;
     }
 
     private final Runnable run = new Runnable() {
 
         @Override
         public void run() {
-            mVoltage = new CustomPreference[cpuVoltageHelper.getFreqs().length];
-            for (int i = 0; i < cpuVoltageHelper.getFreqs().length; i++) {
-                mVoltage[i] = new CustomPreference(getActivity(),
-                        cpuVoltageHelper.getFreqs()[i]
-                                + getString(R.string.mhz),
-                        cpuVoltageHelper.getVoltages()[i]
-                                + getString(R.string.mv));
+            views.clear();
 
-                root.addPreference(mVoltage[i]);
+            if (cpuVoltageHelper.hasCpuVoltage()) {
+                mVoltage = new EditTextView[cpuVoltageHelper.getFreqs().length];
+                for (int i = 0; i < cpuVoltageHelper.getFreqs().length; i++) {
+                    mVoltage[i] = new EditTextView();
+                    mVoltage[i].setTitle(cpuVoltageHelper.getFreqs()[i]
+                            + getString(R.string.mhz));
+                    mVoltage[i].setValue(cpuVoltageHelper.getVoltages()[i]);
+                    mVoltage[i].setInputType(InputType.TYPE_CLASS_NUMBER);
+                    mVoltage[i].setOnApplyListener(CPUVoltageFragment.this);
+
+                    views.add(mVoltage[i]);
+                }
             }
+
+            list.setAdapter(new GenericAdapter(getActivity(), views));
         }
     };
 
     @Override
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-            Preference preference) {
-
+    public void onApply(EditTextView edittextView, String value) {
         for (int i = 0; i < cpuVoltageHelper.getFreqs().length; i++)
-            if (preference == mVoltage[i]) {
-                final int position = i;
-                mDialog.showDialogGeneric(CPU_VOLTAGE,
-                        cpuVoltageHelper.getVoltages()[i], new DialogReturn() {
+            if (edittextView == mVoltage[i]) {
+                String commandvalue = "";
+                String[] currentvalue = cpuVoltageHelper.getVoltages();
+                for (int x = 0; x < currentvalue.length; x++) {
+                    String command = x == i ? value : currentvalue[x];
+
+                    commandvalue = !commandvalue.isEmpty() ? commandvalue + " "
+                            + command : command;
+                }
+                mCommandControl.runCommand(commandvalue, CPU_VOLTAGE,
+                        CommandType.CPU, i, getActivity());
+
+                new Thread() {
+                    public void run() {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        getActivity().runOnUiThread(new Runnable() {
                             @Override
-                            public void dialogReturn(String value) {
-                                String commandvalue = "";
-                                String[] currentvalue = cpuVoltageHelper
-                                        .getVoltages();
-                                for (int i = 0; i < currentvalue.length; i++) {
-                                    String command = i == position ? value
-                                            : currentvalue[i];
-
-                                    commandvalue = !commandvalue.isEmpty() ? commandvalue
-                                            + " " + command
-                                            : command;
-                                }
-                                mCommandControl.runCommand(commandvalue,
-                                        CPU_VOLTAGE, CommandType.CPU, position,
-                                        getActivity());
-
-                                new Thread() {
-                                    public void run() {
-                                        try {
-                                            Thread.sleep(100);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        getActivity().runOnUiThread(
-                                                new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        for (int i = 0; i < cpuVoltageHelper
-                                                                .getFreqs().length; i++)
-                                                            mVoltage[i]
-                                                                    .setSummary(cpuVoltageHelper
-                                                                            .getVoltages()[i]
-                                                                            + getString(R.string.mv));
-                                                    }
-                                                });
-                                    }
-                                }.start();
+                            public void run() {
+                                for (int i = 0; i < cpuVoltageHelper.getFreqs().length; i++)
+                                    mVoltage[i].setValue(cpuVoltageHelper
+                                            .getVoltages()[i]);
                             }
-                        }, InputType.TYPE_CLASS_NUMBER, null, -1, getActivity());
+                        });
+                    }
+                }.start();
             }
-
-        return true;
     }
+
 }

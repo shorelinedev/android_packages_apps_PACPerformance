@@ -61,7 +61,7 @@ public class TimeInStateFragment extends Fragment implements Constants {
 
         // inflate the view, stash the app context, and get all UI
         // elements
-        rootView = inflater.inflate(R.layout.info, container, false);
+        rootView = inflater.inflate(R.layout.time_in_state, container, false);
         findViews();
 
         // see if we're updating data during a config change (rotate

@@ -26,7 +26,7 @@ public class KernelInformationFragment extends Fragment implements Constants {
                 ViewGroup.LayoutParams.FILL_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(10, 0, 10, 0);
+        layout.setPadding(20, 0, 20, 0);
         scroll.addView(layout);
 
         final TextView header = (TextView) inflater.inflate(

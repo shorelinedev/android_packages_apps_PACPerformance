@@ -37,7 +37,7 @@ public class CommandControl implements Constants {
         }
     }
 
-    public void runGeneric(String file, String value, int customID,
+    private void runGeneric(String file, String value, int customID,
             Context context) {
         rootHelper.runCommand("echo " + value + " > " + file);
 

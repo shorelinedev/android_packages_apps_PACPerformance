@@ -7,6 +7,13 @@ public class ScreenHelper implements Constants {
     private String SCREEN_CALIBRATION;
     private String SCREEN_CALIBRATION_CTRL;
 
+    public String[] getLimits() {
+        String[] values = new String[226];
+        for (int i = 0; i < values.length; i++)
+            values[i] = String.valueOf(i + 30);
+        return values;
+    }
+
     public String getColorCalibrationCtrlFile() {
         return SCREEN_CALIBRATION_CTRL == null ? "" : SCREEN_CALIBRATION_CTRL;
     }
