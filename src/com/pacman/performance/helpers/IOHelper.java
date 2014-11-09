@@ -45,8 +45,8 @@ public class IOHelper implements Constants {
                 String[] valueArray = values.split(" ");
 
                 for (String value : valueArray)
-                    if (value.contains("[")) return value.replace("[", "")
-                            .replace("]", "");
+                    if (value.contains("["))
+                        return value.replace("[", "").replace("]", "");
             }
         }
         return "";

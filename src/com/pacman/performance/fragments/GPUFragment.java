@@ -1,218 +1,193 @@
 package com.pacman.performance.fragments;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pacman.performance.R;
 import com.pacman.performance.utils.Constants;
 import com.pacman.performance.utils.CommandControl.CommandType;
-import com.pacman.performance.utils.Dialog.DialogReturn;
+import com.pacman.performance.utils.views.CommonView;
+import com.pacman.performance.utils.views.GenericView.GenericAdapter;
+import com.pacman.performance.utils.views.GenericView.Item;
+import com.pacman.performance.utils.views.HeaderItem;
+import com.pacman.performance.utils.views.PopupView;
+import com.pacman.performance.utils.views.PopupView.OnItemClickListener;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 
-public class GPUFragment extends PreferenceFragment implements Constants {
+public class GPUFragment extends Fragment implements Constants,
+        OnItemClickListener {
 
-	private final Handler hand = new Handler();
+    private final Handler hand = new Handler();
 
-	private PreferenceScreen root;
+    private ListView list;
+    private List<Item> views = new ArrayList<Item>();
 
-	private Preference mGpu2dCurFreq;
-	private Preference mGpu2dMaxFreq;
-	private Preference mGpu2dGovernor;
+    private CommonView mGpu2dCurFreq;
+    private PopupView mGpu2dMaxFreq, mGpu2dGovernor;
+    private String[] mAvailable2dFreqs;
 
-	private String[] mAvailable2dFreqs;
+    private CommonView mGpu3dCurFreq;
+    private PopupView mGpu3dMaxFreq, mGpu3dGovernor;
+    private String[] mAvailable3dFreqs;
 
-	private Preference mGpu3dCurFreq;
-	private Preference mGpu3dMaxFreq;
-	private Preference mGpu3dGovernor;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 
-	private String[] mAvailable3dFreqs;
+        list = new ListView(getActivity());
+        list.setPadding(20, 0, 20, 0);
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        getActivity().runOnUiThread(run);
+        hand.post(run2);
+        return list;
+    }
 
-		root = getPreferenceManager().createPreferenceScreen(getActivity());
+    private final Runnable run = new Runnable() {
 
-		setPreferenceScreen(root);
+        @Override
+        public void run() {
+            views.clear();
 
-		getActivity().runOnUiThread(run);
-		hand.post(run2);
-	}
+            if (gpuHelper.hasGpu2dFreqs()) {
+                mAvailable2dFreqs = new String[gpuHelper.getGpu2dFreqs().length];
+                for (int i = 0; i < gpuHelper.getGpu2dFreqs().length; i++)
+                    mAvailable2dFreqs[i] = (Integer.parseInt(gpuHelper
+                            .getGpu2dFreqs()[i]) / 1000000)
+                            + getString(R.string.mhz);
+            }
 
-	private final Runnable run = new Runnable() {
+            if (gpuHelper.hasGpu3dFreqs()) {
+                mAvailable3dFreqs = new String[gpuHelper.getGpu3dFreqs().length];
+                for (int i = 0; i < gpuHelper.getGpu3dFreqs().length; i++)
+                    mAvailable3dFreqs[i] = (Integer.parseInt(gpuHelper
+                            .getGpu3dFreqs()[i]) / 1000000)
+                            + getString(R.string.mhz);
+            }
 
-		@Override
-		public void run() {
-			if (gpuHelper.hasGpu2dFreqs()) {
-				mAvailable2dFreqs = new String[gpuHelper.getGpu2dFreqs().length];
-				for (int i = 0; i < gpuHelper.getGpu2dFreqs().length; i++)
-					mAvailable2dFreqs[i] = (Integer.parseInt(gpuHelper
-							.getGpu2dFreqs()[i]) / 1000000)
-							+ getString(R.string.mhz);
-			}
+            if (gpuHelper.hasGpu2dCurFreq() || gpuHelper.hasGpu3dCurFreq())
+                views.add(new HeaderItem(getString(R.string.gpu_stats)));
 
-			if (gpuHelper.hasGpu3dFreqs()) {
-				mAvailable3dFreqs = new String[gpuHelper.getGpu3dFreqs().length];
-				for (int i = 0; i < gpuHelper.getGpu3dFreqs().length; i++)
-					mAvailable3dFreqs[i] = (Integer.parseInt(gpuHelper
-							.getGpu3dFreqs()[i]) / 1000000)
-							+ getString(R.string.mhz);
-			}
+            if (gpuHelper.hasGpu2dCurFreq()) {
+                mGpu2dCurFreq = new CommonView();
+                mGpu2dCurFreq.setTitle(getString(R.string.gpu_2d_cur_freq));
+                mGpu2dCurFreq
+                        .setSummary((gpuHelper.getGpu2dCurFreq() / 1000000)
+                                + getString(R.string.mhz));
+                views.add(mGpu2dCurFreq);
+            }
 
-			if (gpuHelper.hasGpu2dCurFreq()) {
-				root.addPreference(prefHelper.setPreferenceCategory(
-						getString(R.string.gpu_stats), getActivity()));
+            if (gpuHelper.hasGpu3dCurFreq()) {
+                mGpu3dCurFreq = new CommonView();
+                mGpu3dCurFreq.setTitle(getString(R.string.gpu_3d_cur_freq));
+                mGpu3dCurFreq
+                        .setSummary((gpuHelper.getGpu3dCurFreq() / 1000000)
+                                + getString(R.string.mhz));
+                views.add(mGpu3dCurFreq);
+            }
 
-				mGpu2dCurFreq = prefHelper.setPreference(
-						getString(R.string.gpu_2d_cur_freq),
-						(gpuHelper.getGpu2dCurFreq() / 1000000)
-								+ getString(R.string.mhz), getActivity());
+            if (gpuHelper.hasGpu2dMaxFreq() || gpuHelper.hasGpu2dGovernor()
+                    || gpuHelper.hasGpu3dMaxFreq()
+                    || gpuHelper.hasGpu3dGovernor())
+                views.add(new HeaderItem(getString(R.string.parameters)));
 
-				root.addPreference(mGpu2dCurFreq);
-			}
+            if (gpuHelper.hasGpu2dMaxFreq()) {
+                mGpu2dMaxFreq = new PopupView(getActivity(), mAvailable2dFreqs);
+                mGpu2dMaxFreq.setTitle(getString(R.string.gpu_2d_max_freq));
+                mGpu2dMaxFreq.setItem((gpuHelper.getGpu2dMaxFreq() / 1000000)
+                        + getString(R.string.mhz));
+                mGpu2dMaxFreq.setOnItemClickListener(GPUFragment.this);
+                views.add(mGpu2dMaxFreq);
+            }
 
-			if (gpuHelper.hasGpu3dCurFreq()) {
-				root.addPreference(prefHelper.setPreferenceCategory(
-						getString(R.string.gpu_stats), getActivity()));
+            if (gpuHelper.hasGpu3dMaxFreq()) {
+                mGpu3dMaxFreq = new PopupView(getActivity(), mAvailable3dFreqs);
+                mGpu3dMaxFreq.setTitle(getString(R.string.gpu_3d_max_freq));
+                mGpu3dMaxFreq.setItem((gpuHelper.getGpu3dMaxFreq() / 1000000)
+                        + getString(R.string.mhz));
+                mGpu3dMaxFreq.setOnItemClickListener(GPUFragment.this);
+                views.add(mGpu3dMaxFreq);
+            }
 
-				mGpu3dCurFreq = prefHelper.setPreference(
-						getString(R.string.gpu_3d_cur_freq),
-						(gpuHelper.getGpu3dCurFreq() / 1000000)
-								+ getString(R.string.mhz), getActivity());
+            if (gpuHelper.hasGpu2dGovernor()) {
+                mGpu2dGovernor = new PopupView(getActivity(),
+                        gpuHelper.getGpu2dGovernors());
+                mGpu2dGovernor.setTitle(getString(R.string.gpu_2d_governor));
+                mGpu2dGovernor.setItem(gpuHelper.getGpu2dGovernor());
+                mGpu2dGovernor.setOnItemClickListener(GPUFragment.this);
+                views.add(mGpu2dGovernor);
+            }
 
-				root.addPreference(mGpu3dCurFreq);
-			}
+            if (gpuHelper.hasGpu3dGovernor()) {
+                mGpu3dGovernor = new PopupView(getActivity(),
+                        gpuHelper.getGpu3dGovernors());
+                mGpu3dGovernor.setTitle(getString(R.string.gpu_3d_governor));
+                mGpu3dGovernor.setItem(gpuHelper.getGpu3dGovernor());
+                mGpu3dGovernor.setOnItemClickListener(GPUFragment.this);
+                views.add(mGpu3dGovernor);
+            }
 
-			if (gpuHelper.hasGpu2dMaxFreq() || gpuHelper.hasGpu2dGovernor()
-					|| gpuHelper.hasGpu3dMaxFreq()
-					|| gpuHelper.hasGpu3dGovernor())
-				root.addPreference(prefHelper.setPreferenceCategory(
-						getString(R.string.parameters), getActivity()));
+            list.setAdapter(new GenericAdapter(getActivity(), views));
+        }
+    };
 
-			if (gpuHelper.hasGpu2dMaxFreq()) {
-				mGpu2dMaxFreq = prefHelper.setPreference(
-						getString(R.string.gpu_2d_max_freq),
-						(gpuHelper.getGpu2dMaxFreq() / 1000000)
-								+ getString(R.string.mhz), getActivity());
+    @Override
+    public void onItemClick(PopupView popupView, int item) {
+        if (popupView == mGpu2dMaxFreq)
+            mCommandControl.runCommand(gpuHelper.getGpu2dFreqs()[item],
+                    gpuHelper.getGpu2dFreqFile(), CommandType.GENERIC, -1,
+                    getActivity());
 
-				root.addPreference(mGpu2dMaxFreq);
-			}
+        if (popupView == mGpu2dGovernor)
+            mCommandControl.runCommand(gpuHelper.getGpu2dGovernors()[item],
+                    gpuHelper.getGpu2dGovernorFile(), CommandType.GENERIC, -1,
+                    getActivity());
 
-			if (gpuHelper.hasGpu3dMaxFreq()) {
-				mGpu3dMaxFreq = prefHelper.setPreference(
-						getString(R.string.gpu_3d_max_freq),
-						(gpuHelper.getGpu3dMaxFreq() / 1000000)
-								+ getString(R.string.mhz), getActivity());
+        if (popupView == mGpu3dMaxFreq)
+            mCommandControl.runCommand(gpuHelper.getGpu3dFreqs()[item],
+                    gpuHelper.getGpu3dFreqFile(), CommandType.GENERIC, -1,
+                    getActivity());
 
-				root.addPreference(mGpu3dMaxFreq);
-			}
+        if (popupView == mGpu3dGovernor)
+            mCommandControl.runCommand(gpuHelper.getGpu3dGovernors()[item],
+                    gpuHelper.getGpu3dGovernorFile(), CommandType.GENERIC, -1,
+                    getActivity());
+    }
 
-			if (gpuHelper.hasGpu2dGovernor()) {
-				mGpu2dGovernor = prefHelper.setPreference(
-						getString(R.string.gpu_2d_governor),
-						gpuHelper.getGpu2dGovernor(), getActivity());
+    private final Runnable run2 = new Runnable() {
+        @Override
+        public void run() {
 
-				root.addPreference(mGpu2dGovernor);
-			}
+            if (mGpu2dCurFreq != null)
+                mGpu2dCurFreq
+                        .setSummary((gpuHelper.getGpu2dCurFreq() / 1000000)
+                                + getString(R.string.mhz));
+            if (mGpu2dMaxFreq != null)
+                mGpu2dMaxFreq.setItem((gpuHelper.getGpu2dMaxFreq() / 1000000)
+                        + getString(R.string.mhz));
 
-			if (gpuHelper.hasGpu3dGovernor()) {
-				mGpu3dGovernor = prefHelper.setPreference(
-						getString(R.string.gpu_3d_governor),
-						gpuHelper.getGpu3dGovernor(), getActivity());
+            if (mGpu3dCurFreq != null)
+                mGpu3dCurFreq
+                        .setSummary((gpuHelper.getGpu3dCurFreq() / 1000000)
+                                + getString(R.string.mhz));
+            if (mGpu3dMaxFreq != null)
+                mGpu3dMaxFreq.setItem((gpuHelper.getGpu3dMaxFreq() / 1000000)
+                        + getString(R.string.mhz));
 
-				root.addPreference(mGpu3dGovernor);
-			}
-		}
-	};
+            hand.postDelayed(run2, 1000);
+        }
+    };
 
-	private final Runnable run2 = new Runnable() {
-		@Override
-		public void run() {
+    @Override
+    public void onDestroy() {
+        hand.removeCallbacks(run2);
+        super.onDestroy();
+    };
 
-			if (mGpu2dCurFreq != null)
-				mGpu2dCurFreq
-						.setSummary((gpuHelper.getGpu2dCurFreq() / 1000000)
-								+ getString(R.string.mhz));
-			if (mGpu2dMaxFreq != null)
-				mGpu2dMaxFreq
-						.setSummary((gpuHelper.getGpu2dMaxFreq() / 1000000)
-								+ getString(R.string.mhz));
-
-			if (mGpu3dCurFreq != null)
-				mGpu3dCurFreq
-						.setSummary((gpuHelper.getGpu3dCurFreq() / 1000000)
-								+ getString(R.string.mhz));
-			if (mGpu3dMaxFreq != null)
-				mGpu3dMaxFreq
-						.setSummary((gpuHelper.getGpu3dMaxFreq() / 1000000)
-								+ getString(R.string.mhz));
-
-			hand.postDelayed(run2, 1000);
-		}
-	};
-
-	@Override
-	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-			final Preference preference) {
-
-		if (preference == mGpu2dMaxFreq && gpuHelper.hasGpu2dFreqs())
-			mDialog.showDialogList(mAvailable2dFreqs,
-					gpuHelper.getGpu2dFreqs(), gpuHelper.getGpu2dFreqFile(),
-					new DialogReturn() {
-						@Override
-						public void dialogReturn(String value) {
-							preference.setSummary(value);
-						}
-					}, CommandType.GENERIC, -1, getActivity());
-
-		if (preference == mGpu2dGovernor)
-			mDialog.showDialogList(gpuHelper.getGpu2dGovernors(), null,
-					gpuHelper.getGpu2dGovernorFile(), new DialogReturn() {
-						@Override
-						public void dialogReturn(String value) {
-							try {
-								Thread.sleep(10);
-								preference.setSummary(gpuHelper
-										.getGpu2dGovernor());
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						}
-					}, CommandType.GENERIC, -1, getActivity());
-
-		if (preference == mGpu3dMaxFreq && gpuHelper.hasGpu3dFreqs())
-			mDialog.showDialogList(mAvailable3dFreqs,
-					gpuHelper.getGpu3dFreqs(), gpuHelper.getGpu3dFreqFile(),
-					new DialogReturn() {
-						@Override
-						public void dialogReturn(String value) {
-							preference.setSummary(value);
-						}
-					}, CommandType.GENERIC, -1, getActivity());
-
-		if (preference == mGpu3dGovernor)
-			mDialog.showDialogList(gpuHelper.getGpu3dGovernors(), null,
-					gpuHelper.getGpu3dGovernorFile(), new DialogReturn() {
-						@Override
-						public void dialogReturn(String value) {
-							try {
-								Thread.sleep(10);
-								preference.setSummary(gpuHelper
-										.getGpu3dGovernor());
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						}
-					}, CommandType.GENERIC, -1, getActivity());
-
-		return true;
-	}
-
-	@Override
-	public void onDestroy() {
-		hand.removeCallbacks(run2);
-		super.onDestroy();
-	};
 }

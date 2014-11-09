@@ -46,7 +46,6 @@
     <string name="mhz">MHz</string>
     <string name="kb">kB</string>
     <string name="mb">MB</string>
-    <string name="mv">mV</string>
     <string name="ms">ms</string>
 
     <!-- Fancy Stats -->
@@ -82,8 +81,11 @@
     <string name="turn_off_not_possible">You can\'t turn off core %d</string>
     <string name="parameters">Parameters</string>
     <string name="cpu_max_freq">CPU Maximum Frequency</string>
+    <string name="cpu_max_freq_summary">Set the maximum frequency the CPU scales up to.</string>
     <string name="cpu_min_freq">CPU Minimum Frequency</string>
+    <string name="cpu_min_freq_summary">Set the minimum frequency the CPU scales down to.</string>
     <string name="cpu_governor">CPU Governor</string>
+    <string name="cpu_governor_summary">The CPU governor determines how the CPU behaves in response to changes in workload. Changing the governor will impact how the CPU scales through the frequency steps available to you CPU.</string>
     <string name="advanced">Advanced</string>
     <string name="cpu_governor_tunables">CPU Governor Tunables</string>
     <string name="cpu_governor_tunables_summary">The various configuration items which are Governor-dependent.</string>
@@ -101,6 +103,7 @@
 
     <!-- CPU Voltage -->
     <string name="cpu_voltage">CPU Voltage</string>
+    <string name="apply">Apply</string>
 
     <!-- GPU -->
     <string name="gpu">GPU</string>
@@ -130,8 +133,8 @@
     <string name="scheduler_tunable_summary">The various configuration items which are Scheduler-dependent.</string>
     <string name="read_ahead">Read-ahead</string>
     <string name="read_ahead_summary">The Read-ahead value on the phone memory.</string>
-    <string name="Internal_read_ahead">Internal Storage Read-ahead</string>
-    <string name="External_read_ahead">External Storage Read-ahead</string>
+    <string name="internal_read_ahead">Internal Storage Read-ahead</string>
+    <string name="external_read_ahead">External Storage Read-ahead</string>
 
     <!-- Kernel Samepage Merging -->
     <string name="ksm">Kernel Samepage Merging</string>

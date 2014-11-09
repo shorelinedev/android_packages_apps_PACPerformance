@@ -1,283 +1,279 @@
 package com.pacman.performance.fragments;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
-import com.pacman.performance.R;
 import com.pacman.performance.GenericPathReaderActivity;
-import com.pacman.performance.utils.Constants;
+import com.pacman.performance.R;
 import com.pacman.performance.utils.CommandControl.CommandType;
-import com.pacman.performance.utils.Dialog.DialogReturn;
+import com.pacman.performance.utils.Constants;
+import com.pacman.performance.utils.views.CheckBoxView;
+import com.pacman.performance.utils.views.CheckBoxView.OnCheckBoxListener;
+import com.pacman.performance.utils.views.CommonView;
+import com.pacman.performance.utils.views.CommonView.OnClickListener;
+import com.pacman.performance.utils.views.GenericView.GenericAdapter;
+import com.pacman.performance.utils.views.GenericView.Item;
+import com.pacman.performance.utils.views.HeaderItem;
+import com.pacman.performance.utils.views.PopupView;
+import com.pacman.performance.utils.views.PopupView.OnItemClickListener;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 
-public class CPUFragment extends PreferenceFragment implements Constants {
+public class CPUFragment extends Fragment implements Constants,
+        OnCheckBoxListener, OnItemClickListener, OnClickListener {
 
-	private final Handler hand = new Handler();
+    private final Handler hand = new Handler();
 
-	private PreferenceScreen root;
-	private CheckBoxPreference[] mCoreBoxes;
-	private Preference mCpuMaxScaling, mCpuMinScaling;
-	private Preference mGovernorScaling, mGovernorTunables;
-	private Preference mMcPowerSaving;
-	private CheckBoxPreference mMpdecision, mIntelliPlug, mIntelliPlugEco;
+    private ListView list;
+    private List<Item> views = new ArrayList<Item>();
 
-	private String[] mAvailableFreqs;
+    private List<String> mAvailableFreqs = new ArrayList<String>();
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    private CheckBoxView[] mCoreBoxes;
+    private PopupView mCpuMaxScaling, mCpuMinScaling;
+    private PopupView mGovernorScaling;
+    private CommonView mGovernorTunables;
+    private PopupView mMcPowerSaving;
+    private CheckBoxView mMpdecision, mIntelliPlug, mIntelliPlugEco;
 
-		root = getPreferenceManager().createPreferenceScreen(getActivity());
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 
-		setPreferenceScreen(root);
+        list = new ListView(getActivity());
+        list.setPadding(20, 0, 20, 0);
 
-		getActivity().runOnUiThread(run);
-		hand.post(run2);
-	}
+        getActivity().runOnUiThread(run);
+        hand.post(run2);
+        return list;
+    }
 
-	private final Runnable run = new Runnable() {
+    private final Runnable run = new Runnable() {
 
-		@Override
-		public void run() {
-			mAvailableFreqs = new String[cpuHelper.getCpuFreqs().length];
-			for (int i = 0; i < cpuHelper.getCpuFreqs().length; i++)
-				mAvailableFreqs[i] = (Integer
-						.parseInt(cpuHelper.getCpuFreqs()[i]) / 1000)
-						+ getString(R.string.mhz);
+        @Override
+        public void run() {
+            views.clear();
+            mAvailableFreqs.clear();
 
-			root.addPreference(prefHelper.setPreferenceCategory(
-					getString(R.string.cpu_stats), getActivity()));
+            for (String freq : cpuHelper.getCpuFreqs())
+                mAvailableFreqs.add((Integer.parseInt(freq) / 1000)
+                        + getString(R.string.mhz));
 
-			mCoreBoxes = new CheckBoxPreference[cpuHelper.getCoreCount()];
-			for (int i = 0; i < cpuHelper.getCoreCount(); i++) {
-				final int mCoreFreq = cpuHelper.getCurFreq(i);
-				mCoreBoxes[i] = prefHelper.setCheckBoxPreference(
-						mCoreFreq != 0,
-						getString(R.string.core, i),
-						mCoreFreq == 0 ? getString(R.string.offline) : String
-								.valueOf(mCoreFreq / 1000)
-								+ getString(R.string.mhz), getActivity());
-				root.addPreference(mCoreBoxes[i]);
-			}
+            views.add(new HeaderItem(getString(R.string.cpu_stats)));
 
-			root.addPreference(prefHelper.setPreferenceCategory(
-					getString(R.string.parameters), getActivity()));
+            mCoreBoxes = new CheckBoxView[cpuHelper.getCoreCount()];
+            for (int i = 0; i < cpuHelper.getCoreCount(); i++) {
+                final int mCoreFreq = cpuHelper.getCurFreq(i);
+                mCoreBoxes[i] = new CheckBoxView();
+                mCoreBoxes[i].setTitle(getString(R.string.core, i));
+                mCoreBoxes[i]
+                        .setSummary(mCoreFreq == 0 ? getString(R.string.offline)
+                                : String.valueOf(mCoreFreq / 1000)
+                                        + getString(R.string.mhz));
+                mCoreBoxes[i].setChecked(mCoreFreq != 0);
+                mCoreBoxes[i].setOnCheckBoxListener(CPUFragment.this);
 
-			mCpuMaxScaling = prefHelper.setPreference(
-					getString(R.string.cpu_max_freq),
-					(cpuHelper.getMaxFreq(0) / 1000) + getString(R.string.mhz),
-					getActivity());
+                views.add(mCoreBoxes[i]);
+            }
 
-			root.addPreference(mCpuMaxScaling);
+            views.add(new HeaderItem(getString(R.string.parameters)));
 
-			mCpuMinScaling = prefHelper.setPreference(
-					getString(R.string.cpu_min_freq),
-					(cpuHelper.getMinFreq(0) / 1000) + getString(R.string.mhz),
-					getActivity());
+            mCpuMaxScaling = new PopupView(getActivity(), mAvailableFreqs);
+            mCpuMaxScaling.setTitle(getString(R.string.cpu_max_freq));
+            mCpuMaxScaling.setSummary(getString(R.string.cpu_max_freq_summary));
+            mCpuMaxScaling.setItem(mAvailableFreqs.indexOf((cpuHelper
+                    .getMaxFreq(0) / 1000) + getString(R.string.mhz)));
+            mCpuMaxScaling.setOnItemClickListener(CPUFragment.this);
+            views.add(mCpuMaxScaling);
 
-			root.addPreference(mCpuMinScaling);
+            mCpuMinScaling = new PopupView(getActivity(), mAvailableFreqs);
+            mCpuMinScaling.setTitle(getString(R.string.cpu_min_freq));
+            mCpuMinScaling.setSummary(getString(R.string.cpu_min_freq_summary));
+            mCpuMinScaling.setItem(mAvailableFreqs.indexOf((cpuHelper
+                    .getMinFreq(0) / 1000) + getString(R.string.mhz)));
+            mCpuMinScaling.setOnItemClickListener(CPUFragment.this);
+            views.add(mCpuMinScaling);
 
-			mGovernorScaling = prefHelper.setPreference(
-					getString(R.string.cpu_governor), cpuHelper.getGovernor(0),
-					getActivity());
+            mGovernorScaling = new PopupView(getActivity(),
+                    cpuHelper.getCpuGovernors());
+            mGovernorScaling.setTitle(getString(R.string.cpu_governor));
+            mGovernorScaling
+                    .setSummary(getString(R.string.cpu_governor_summary));
+            mGovernorScaling.setItem(cpuHelper.getGovernor(0));
+            mGovernorScaling.setOnItemClickListener(CPUFragment.this);
+            views.add(mGovernorScaling);
 
-			root.addPreference(mGovernorScaling);
+            mGovernorTunables = new CommonView();
+            mGovernorTunables
+                    .setTitle(getString(R.string.cpu_governor_tunables));
+            mGovernorTunables
+                    .setSummary(getString(R.string.cpu_governor_tunables_summary));
+            mGovernorTunables.setOnClickListener(CPUFragment.this);
+            views.add(mGovernorTunables);
 
-			root.addPreference(prefHelper.setPreferenceCategory(
-					getString(R.string.advanced), getActivity()));
+            if (cpuHelper.hasMcPowerSaving()) {
+                mMcPowerSaving = new PopupView(getActivity(), getResources()
+                        .getStringArray(R.array.mc_power_saving_items));
+                mMcPowerSaving.setTitle(getString(R.string.mc_power_saving));
+                mMcPowerSaving
+                        .setSummary(getString(R.string.mc_power_saving_summary));
+                mMcPowerSaving.setItem(getResources().getStringArray(
+                        R.array.mc_power_saving_items)[cpuHelper
+                        .getMcPowerSaving()]);
+                mMcPowerSaving.setOnItemClickListener(CPUFragment.this);
+                views.add(mMcPowerSaving);
+            }
 
-			mGovernorTunables = prefHelper.setPreference(
-					getString(R.string.cpu_governor_tunables),
-					getString(R.string.cpu_governor_tunables_summary),
-					getActivity());
+            if (cpuHelper.hasMpdecision() || cpuHelper.hasIntelliPlug())
+                views.add(new HeaderItem(getString(R.string.hotplug)));
 
-			root.addPreference(mGovernorTunables);
+            if (cpuHelper.hasMpdecision()) {
+                mMpdecision = new CheckBoxView();
+                mMpdecision.setChecked(cpuHelper.isMpdecisionActive());
+                mMpdecision.setTitle(getString(R.string.mpdecision));
+                mMpdecision.setSummary(getString(R.string.mpdecision_summary));
+                mMpdecision.setOnCheckBoxListener(CPUFragment.this);
+                views.add(mMpdecision);
+            }
 
-			if (cpuHelper.hasMcPowerSaving()) {
-				mMcPowerSaving = prefHelper
-						.setPreference(
-								getString(R.string.mc_power_saving),
-								getString(R.string.mc_power_saving_summary)
-										+ ": "
-										+ getResources().getStringArray(
-												R.array.mc_power_saving_items)[cpuHelper
-												.getMcPowerSaving()],
-								getActivity());
+            if (cpuHelper.hasIntelliPlug()) {
+                mIntelliPlug = new CheckBoxView();
+                mIntelliPlug.setChecked(cpuHelper.isIntelliPlugActive());
+                mIntelliPlug.setTitle(getString(R.string.intelliplug));
+                mIntelliPlug
+                        .setSummary(getString(R.string.intelliplug_summary));
+                mIntelliPlug.setOnCheckBoxListener(CPUFragment.this);
+                views.add(mIntelliPlug);
+            }
 
-				root.addPreference(mMcPowerSaving);
-			}
+            if (cpuHelper.hasIntelliPlugEco()) {
+                mIntelliPlugEco = new CheckBoxView();
+                mIntelliPlugEco.setChecked(cpuHelper.isIntelliPlugEcoActive());
+                mIntelliPlugEco
+                        .setTitle(getString(R.string.intelliplug_eco_mode));
+                mIntelliPlugEco.setOnCheckBoxListener(CPUFragment.this);
+                views.add(mIntelliPlugEco);
+            }
 
-			if (cpuHelper.hasMpdecision())
-				root.addPreference(prefHelper.setPreferenceCategory(
-						getString(R.string.hotplug), getActivity()));
+            list.setAdapter(new GenericAdapter(getActivity(), views));
+        }
+    };
 
-			if (cpuHelper.hasMpdecision()) {
-				mMpdecision = prefHelper.setCheckBoxPreference(
-						cpuHelper.isMpdecisionActive(),
-						getString(R.string.mpdecision),
-						getString(R.string.mpdecision_summary), getActivity());
+    @Override
+    public void onClick(CheckBoxView checkBoxView, boolean checked) {
+        for (int i = 0; i < cpuHelper.getCoreCount(); i++)
+            if (checkBoxView == mCoreBoxes[i]) {
+                if (i != 0) mCommandControl.runCommand(checked ? "1" : "0",
+                        String.format(CPU_CORE_ONLINE, i), CommandType.GENERIC,
+                        -1, getActivity());
+                else {
+                    mCoreBoxes[i].setChecked(true);
+                    mUtils.toast(getString(R.string.turn_off_not_possible, i),
+                            getActivity());
+                }
+            }
 
-				root.addPreference(mMpdecision);
-			}
+        if (checkBoxView == mMpdecision)
+            if (checked) mCommandControl.startModule(CPU_MPDEC, true,
+                    getActivity());
+            else mCommandControl.stopModule(CPU_MPDEC, true, getActivity());
 
-			if (cpuHelper.hasIntelliPlug()) {
-				mIntelliPlug = prefHelper.setCheckBoxPreference(
-						cpuHelper.isIntelliPlugActive(),
-						getString(R.string.intelliplug),
-						getString(R.string.intelliplug_summary), getActivity());
+        if (checkBoxView == mIntelliPlug) {
+            if (checked) mCommandControl.runCommand("1", CPU_INTELLI_PLUG,
+                    CommandType.GENERIC, -1, getActivity());
+            else {
+                mCommandControl.runCommand("0", CPU_INTELLI_PLUG,
+                        CommandType.GENERIC, -1, getActivity());
+                mCommandControl.bringCoresOnline();
+            }
+        }
 
-				root.addPreference(mIntelliPlug);
-			}
+        if (checkBoxView == mIntelliPlugEco)
+            mCommandControl.runCommand(checked ? "1" : "0",
+                    CPU_INTELLI_PLUG_ECO, CommandType.GENERIC, -1,
+                    getActivity());
+    };
 
-			if (cpuHelper.hasIntelliPlugEco()) {
-				mIntelliPlugEco = prefHelper.setCheckBoxPreference(
-						cpuHelper.isIntelliPlugEcoActive(),
-						getString(R.string.intelliplug_eco_mode), null,
-						getActivity());
+    @Override
+    public void onItemClick(PopupView popupView, int item) {
+        if (popupView == mCpuMaxScaling)
+            mCommandControl.runCommand(cpuHelper.getCpuFreqs()[item],
+                    CPU_MAX_FREQ, CommandType.CPU, -1, getActivity());
 
-				root.addPreference(mIntelliPlugEco);
-			}
-		}
-	};
+        if (popupView == mCpuMinScaling)
+            mCommandControl.runCommand(cpuHelper.getCpuFreqs()[item],
+                    CPU_MIN_FREQ, CommandType.CPU, -1, getActivity());
 
-	private final Runnable run2 = new Runnable() {
-		@Override
-		public void run() {
-			for (int i = 0; i < cpuHelper.getCoreCount(); i++) {
-				final int mCoreFreq = cpuHelper.getCurFreq(i);
-				if (mCoreBoxes != null) {
-					mCoreBoxes[i]
-							.setSummary(mCoreFreq == 0 ? getString(R.string.offline)
-									: String.valueOf(mCoreFreq / 1000)
-											+ getString(R.string.mhz));
-					mCoreBoxes[i].setChecked(mCoreFreq != 0);
-				}
-			}
+        if (popupView == mGovernorScaling)
+            mCommandControl.runCommand(cpuHelper.getCpuGovernors()[item],
+                    CPU_SCALING_GOVERNOR, CommandType.CPU, -1, getActivity());
 
-			if (mCpuMaxScaling != null && mCpuMinScaling != null) {
-				mCpuMaxScaling.setSummary((cpuHelper.getMaxFreq(0) / 1000)
-						+ getString(R.string.mhz));
-				mCpuMinScaling.setSummary((cpuHelper.getMinFreq(0) / 1000)
-						+ getString(R.string.mhz));
-			}
+        if (popupView == mMcPowerSaving)
+            mCommandControl
+                    .runCommand(String.valueOf(item), CPU_MC_POWER_SAVING,
+                            CommandType.GENERIC, -1, getActivity());
+    }
 
-			hand.postDelayed(run2, 500);
-		}
-	};
+    @Override
+    public void onClick(CommonView commonView) {
+        if (commonView == mGovernorTunables) {
+            String governor = cpuHelper.getGovernor(0);
+            Intent i = new Intent(getActivity(),
+                    GenericPathReaderActivity.class);
+            Bundle args = new Bundle();
+            args.putString(
+                    GenericPathReaderActivity.ARG_TITLE,
+                    getString(R.string.cpu_governor_tunables) + ": "
+                            + governor.toUpperCase(Locale.getDefault()));
+            args.putString(GenericPathReaderActivity.ARG_PATH,
+                    String.format(CPU_GOVERNOR_TUNABLES, governor));
+            args.putString(
+                    GenericPathReaderActivity.ARG_ERROR,
+                    getString(R.string.not_tunable,
+                            governor.toUpperCase(Locale.getDefault())));
+            i.putExtras(args);
 
-	@Override
-	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-			final Preference preference) {
+            startActivity(i);
+        }
+    }
 
-		for (int i = 0; i < cpuHelper.getCoreCount(); i++)
-			if (preference == mCoreBoxes[i]) {
-				if (i != 0)
-					mCommandControl.runCommand(mCoreBoxes[i].isChecked() ? "1"
-							: "0", String.format(CPU_CORE_ONLINE, i),
-							CommandType.GENERIC, -1, getActivity());
-				else {
-					mCoreBoxes[i].setChecked(true);
-					mUtils.toast(getString(R.string.turn_off_not_possible, i),
-							getActivity());
-				}
-			}
+    private final Runnable run2 = new Runnable() {
+        @Override
+        public void run() {
+            for (int i = 0; i < cpuHelper.getCoreCount(); i++) {
+                final int mCoreFreq = cpuHelper.getCurFreq(i);
+                if (mCoreBoxes != null) {
+                    mCoreBoxes[i]
+                            .setSummary(mCoreFreq == 0 ? getString(R.string.offline)
+                                    : String.valueOf(mCoreFreq / 1000)
+                                            + getString(R.string.mhz));
+                    mCoreBoxes[i].setChecked(mCoreFreq != 0);
+                }
+            }
 
-		if (preference == mCpuMaxScaling)
-			mDialog.showDialogList(mAvailableFreqs, cpuHelper.getCpuFreqs(),
-					CPU_MAX_FREQ, new DialogReturn() {
-						@Override
-						public void dialogReturn(String value) {
-							preference.setSummary(value);
-						}
-					}, CommandType.CPU, -1, getActivity());
+            if (mCpuMaxScaling != null && mCpuMinScaling != null) {
+                mCpuMaxScaling.setItem(mAvailableFreqs.indexOf((cpuHelper
+                        .getMaxFreq(0) / 1000) + getString(R.string.mhz)));
+                mCpuMinScaling.setItem(mAvailableFreqs.indexOf((cpuHelper
+                        .getMinFreq(0) / 1000) + getString(R.string.mhz)));
+            }
 
-		if (preference == mCpuMinScaling)
-			mDialog.showDialogList(mAvailableFreqs, cpuHelper.getCpuFreqs(),
-					CPU_MIN_FREQ, new DialogReturn() {
-						@Override
-						public void dialogReturn(String value) {
-							preference.setSummary(value);
-						}
-					}, CommandType.CPU, -1, getActivity());
+            hand.postDelayed(run2, 500);
+        }
+    };
 
-		if (preference == mGovernorScaling)
-			mDialog.showDialogList(cpuHelper.getCpuGovernors(), null,
-					CPU_SCALING_GOVERNOR, new DialogReturn() {
-						@Override
-						public void dialogReturn(String value) {
-							preference.setSummary(value);
-						}
-					}, CommandType.CPU, -1, getActivity());
-
-		if (preference == mGovernorTunables) {
-			String governor = cpuHelper.getGovernor(0);
-			Intent i = new Intent(getActivity(),
-					GenericPathReaderActivity.class);
-			Bundle args = new Bundle();
-			args.putString(
-					GenericPathReaderActivity.ARG_TITLE,
-					getString(R.string.cpu_governor_tunables) + ": "
-							+ governor.toUpperCase(Locale.getDefault()));
-			args.putString(GenericPathReaderActivity.ARG_PATH,
-					String.format(CPU_GOVERNOR_TUNABLES, governor));
-			args.putString(
-					GenericPathReaderActivity.ARG_ERROR,
-					getString(R.string.not_tunable,
-							governor.toUpperCase(Locale.getDefault())));
-			i.putExtras(args);
-
-			startActivity(i);
-		}
-
-		if (preference == mMcPowerSaving)
-			mDialog.showDialogList(
-					getResources()
-							.getStringArray(R.array.mc_power_saving_items),
-					new String[] { "0", "1", "2" }, CPU_MC_POWER_SAVING,
-					new DialogReturn() {
-						@Override
-						public void dialogReturn(String value) {
-							preference
-									.setSummary(getString(R.string.mc_power_saving_summary)
-											+ ": " + value);
-						}
-					}, CommandType.GENERIC, -1, getActivity());
-
-		if (preference == mMpdecision) {
-			if (mMpdecision.isChecked())
-				mCommandControl.startModule(CPU_MPDEC, true, getActivity());
-			else
-				mCommandControl.stopModule(CPU_MPDEC, true, getActivity());
-		}
-
-		if (preference == mIntelliPlug) {
-			if (mIntelliPlug.isChecked())
-				mCommandControl.runGeneric(CPU_INTELLI_PLUG, "1", -1,
-						getActivity());
-			else {
-				mCommandControl.runGeneric(CPU_INTELLI_PLUG, "0", -1,
-						getActivity());
-				mCommandControl.bringCoresOnline();
-			}
-		}
-
-		if (preference == mIntelliPlugEco)
-			mCommandControl.runGeneric(CPU_INTELLI_PLUG_ECO,
-					mIntelliPlugEco.isChecked() ? "1" : "0", -1, getActivity());
-
-		return true;
-	}
-
-	@Override
-	public void onDestroy() {
-		hand.removeCallbacks(run2);
-		super.onDestroy();
-	};
+    @Override
+    public void onDestroy() {
+        hand.removeCallbacks(run2);
+        super.onDestroy();
+    }
 
 }

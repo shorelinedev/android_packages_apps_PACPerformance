@@ -23,7 +23,6 @@ import com.pacman.performance.helpers.GPUHelper;
 import com.pacman.performance.helpers.IOHelper;
 import com.pacman.performance.helpers.KernelSamepageMergingHelper;
 import com.pacman.performance.helpers.LowMemoryKillerHelper;
-import com.pacman.performance.helpers.PreferenceHelper;
 import com.pacman.performance.helpers.RootHelper;
 import com.pacman.performance.helpers.ScreenHelper;
 import com.pacman.performance.helpers.VirtualMachineHelper;
@@ -73,7 +72,6 @@ public interface Constants {
     public final IOHelper ioHelper = new IOHelper();
     public final KernelSamepageMergingHelper kernelsamepagemergingHelper = new KernelSamepageMergingHelper();
     public final LowMemoryKillerHelper lowmemorykillerHelper = new LowMemoryKillerHelper();
-    public final PreferenceHelper prefHelper = new PreferenceHelper();
     public final RootHelper rootHelper = new RootHelper();
     public final VirtualMachineHelper virtualmachineHelper = new VirtualMachineHelper();
 

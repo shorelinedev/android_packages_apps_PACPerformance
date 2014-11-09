@@ -164,8 +164,8 @@ public class RootHelper implements Constants {
                                         if (partition == PartitionType.RECOVERY) recoveryPartition = part
                                                 .getAbsolutePath();
                                         if (partition == PartitionType.FOTA) fotaPartition = part
-                                                .getAbsolutePath();
-                                    }
+                                                                .getAbsolutePath();
+                                                }
                 }
             }
         }

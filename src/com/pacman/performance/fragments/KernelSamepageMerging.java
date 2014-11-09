@@ -1,140 +1,142 @@
 package com.pacman.performance.fragments;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pacman.performance.R;
 import com.pacman.performance.utils.Constants;
-import com.pacman.performance.utils.Dialog.DialogReturn;
+import com.pacman.performance.utils.CommandControl.CommandType;
+import com.pacman.performance.utils.views.CheckBoxView;
+import com.pacman.performance.utils.views.CheckBoxView.OnCheckBoxListener;
+import com.pacman.performance.utils.views.CommonView;
+import com.pacman.performance.utils.views.GenericView.GenericAdapter;
+import com.pacman.performance.utils.views.GenericView.Item;
+import com.pacman.performance.utils.views.HeaderItem;
+import com.pacman.performance.utils.views.SeekBarView;
+import com.pacman.performance.utils.views.SeekBarView.OnSeekBarListener;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 
-public class KernelSamepageMerging extends PreferenceFragment implements
-		Constants {
+public class KernelSamepageMerging extends Fragment implements Constants,
+        OnCheckBoxListener, OnSeekBarListener {
 
-	private final Handler hand = new Handler();
+    private final Handler hand = new Handler();
 
-	private PreferenceScreen root;
+    private ListView list;
+    private List<Item> views = new ArrayList<Item>();
 
-	private Preference[] mInfos;
+    private CommonView[] mInfos;
 
-	private CheckBoxPreference mEnableKsm;
-	private Preference mPagesToScan, mSleepMilliseconds;
+    private String[] mPagesToScanValues;
+    private String[] mSleepMillisecondsValues;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    private CheckBoxView mEnableKsm;
+    private SeekBarView mPagesToScan, mSleepMilliseconds;
 
-		root = getPreferenceManager().createPreferenceScreen(getActivity());
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 
-		setPreferenceScreen(root);
+        list = new ListView(getActivity());
+        list.setPadding(20, 0, 20, 0);
 
-		getActivity().runOnUiThread(run);
-		hand.post(run2);
-	}
+        getActivity().runOnUiThread(run);
+        hand.post(run2);
+        return list;
+    }
 
-	private final Runnable run = new Runnable() {
+    private final Runnable run = new Runnable() {
 
-		@Override
-		public void run() {
-			root.addPreference(prefHelper.setPreferenceCategory(
-					getString(R.string.ksm_stats), getActivity()));
+        @Override
+        public void run() {
+            views.clear();
 
-			mInfos = new Preference[KSM_INFOS.length];
-			for (int i = 0; i < KSM_INFOS.length; i++) {
-				mInfos[i] = prefHelper.setPreference(getResources()
-						.getStringArray(R.array.ksm_infos)[i], String
-						.valueOf(kernelsamepagemergingHelper.getInfos(i)),
-						getActivity());
-				root.addPreference(mInfos[i]);
-			}
+            views.add(new HeaderItem(getString(R.string.ksm_stats)));
 
-			root.addPreference(prefHelper.setPreferenceCategory(
-					getString(R.string.parameters), getActivity()));
+            mInfos = new CommonView[KSM_INFOS.length];
+            for (int i = 0; i < KSM_INFOS.length; i++) {
+                mInfos[i] = new CommonView();
+                mInfos[i].setTitle(getResources().getStringArray(
+                        R.array.ksm_infos)[i]);
+                mInfos[i].setSummary(String.valueOf(kernelsamepagemergingHelper
+                        .getInfos(i)));
+                views.add(mInfos[i]);
+            }
 
-			mEnableKsm = prefHelper.setCheckBoxPreference(
-					kernelsamepagemergingHelper.isKsmActive(),
-					getString(R.string.ksm_enable),
-					getString(R.string.ksm_enable_summary), getActivity());
-			root.addPreference(mEnableKsm);
+            views.add(new HeaderItem(getString(R.string.parameters)));
 
-			mPagesToScan = prefHelper.setPreference(
-					getString(R.string.ksm_pages_to_scan), String
-							.valueOf(kernelsamepagemergingHelper
-									.getPagesToScan()), getActivity());
-			root.addPreference(mPagesToScan);
+            mEnableKsm = new CheckBoxView();
+            mEnableKsm.setChecked(kernelsamepagemergingHelper.isKsmActive());
+            mEnableKsm.setTitle(getString(R.string.ksm_enable));
+            mEnableKsm.setSummary(getString(R.string.ksm_enable_summary));
+            mEnableKsm.setOnCheckBoxListener(KernelSamepageMerging.this);
+            views.add(mEnableKsm);
 
-			mSleepMilliseconds = prefHelper.setPreference(
-					getString(R.string.ksm_sleep_milliseconds),
-					kernelsamepagemergingHelper.getSleepMilliseconds()
-							+ getString(R.string.ms), getActivity());
-			root.addPreference(mSleepMilliseconds);
-		}
-	};
+            mPagesToScanValues = new String[1025];
+            for (int i = 0; i < mPagesToScanValues.length; i++)
+                mPagesToScanValues[i] = String.valueOf(i);
+            mPagesToScan = new SeekBarView(mPagesToScanValues);
+            mPagesToScan.setTitle(getString(R.string.ksm_pages_to_scan));
+            mPagesToScan.setItem(String.valueOf(kernelsamepagemergingHelper
+                    .getPagesToScan()));
+            mPagesToScan.setOnSeekBarListener(KernelSamepageMerging.this);
+            views.add(mPagesToScan);
 
-	private final Runnable run2 = new Runnable() {
-		@Override
-		public void run() {
-			for (int i = 0; i < KSM_INFOS.length; i++)
-				mInfos[i].setSummary(String.valueOf(kernelsamepagemergingHelper
-						.getInfos(i)));
+            mSleepMillisecondsValues = new String[5001];
+            for (int i = 0; i < mSleepMillisecondsValues.length; i++)
+                mSleepMillisecondsValues[i] = i + getString(R.string.ms);
+            mSleepMilliseconds = new SeekBarView(mSleepMillisecondsValues);
+            mSleepMilliseconds
+                    .setTitle(getString(R.string.ksm_sleep_milliseconds));
+            mSleepMilliseconds.setItem(kernelsamepagemergingHelper
+                    .getSleepMilliseconds() + getString(R.string.ms));
+            mSleepMilliseconds.setOnSeekBarListener(KernelSamepageMerging.this);
+            views.add(mSleepMilliseconds);
 
-			hand.postDelayed(run2, 1000);
-		}
-	};
+            list.setAdapter(new GenericAdapter(getActivity(), views));
+        }
+    };
 
-	@Override
-	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-			final Preference preference) {
+    @Override
+    public void onClick(CheckBoxView checkBoxView, boolean checked) {
+        if (checkBoxView == mEnableKsm)
+            mCommandControl.runCommand(checked ? "1" : "0", KSM_RUN,
+                    CommandType.GENERIC, -1, getActivity());
+    };
 
-		if (preference == mEnableKsm)
-			mCommandControl.runGeneric(KSM_RUN, mEnableKsm.isChecked() ? "1"
-					: "0", -1, getActivity());
+    @Override
+    public void onStop(SeekBarView seekBarView, int item) {
+        if (seekBarView == mPagesToScan)
+            mCommandControl.runCommand(mPagesToScanValues[item],
+                    KSM_PAGES_TO_SCAN, CommandType.GENERIC, -1, getActivity());
 
-		if (preference == mPagesToScan) {
-			String[] values = new String[1025];
-			for (int i = 0; i < values.length; i++)
-				values[i] = String.valueOf(i);
+        if (seekBarView == mSleepMilliseconds)
+            mCommandControl.runCommand(mSleepMillisecondsValues[item].replace(
+                    getString(R.string.ms), ""), KSM_SLEEP_MILLISECONDS,
+                    CommandType.GENERIC, -1, getActivity());
+    }
 
-			mDialog.showSeekBarDialog(values, values, preference.getSummary()
-					.toString(), new DialogReturn() {
-				@Override
-				public void dialogReturn(String value) {
-					mCommandControl.runGeneric(KSM_PAGES_TO_SCAN, value, -1,
-							getActivity());
-					preference.setSummary(value + getString(R.string.value));
-				}
-			}, getActivity());
-		}
+    private final Runnable run2 = new Runnable() {
+        @Override
+        public void run() {
+            for (int i = 0; i < KSM_INFOS.length; i++)
+                mInfos[i].setSummary(String.valueOf(kernelsamepagemergingHelper
+                        .getInfos(i)));
 
-		if (preference == mSleepMilliseconds) {
-			String[] modifiedvalues = new String[5001];
-			for (int i = 0; i < modifiedvalues.length; i++)
-				modifiedvalues[i] = i + getString(R.string.ms);
+            hand.postDelayed(run2, 1000);
+        }
+    };
 
-			String[] values = new String[5001];
-			for (int i = 0; i < values.length; i++)
-				values[i] = String.valueOf(i);
+    @Override
+    public void onDestroy() {
+        hand.removeCallbacks(run2);
+        super.onDestroy();
+    }
 
-			mDialog.showSeekBarDialog(modifiedvalues, values, preference
-					.getSummary().toString(), new DialogReturn() {
-				@Override
-				public void dialogReturn(String value) {
-					mCommandControl.runGeneric(KSM_SLEEP_MILLISECONDS, value,
-							-1, getActivity());
-					preference.setSummary(value);
-				}
-			}, getActivity());
-		}
-
-		return true;
-	}
-
-	@Override
-	public void onDestroy() {
-		hand.removeCallbacks(run2);
-		super.onDestroy();
-	};
 }
